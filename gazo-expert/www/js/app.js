@@ -331,7 +331,7 @@
       const ok = a === q.answer;
       const termIds = [...new Set((q.terms || []).map((r) => resolve(r)).filter(Boolean))];
       const unresolved = (q.terms || []).filter((r) => !resolve(r));
-      fb = `<div class="verdict ${ok ? 'ok' : 'ng'}">${ok ? '◯ 正解' : '× 不正解'}　<span class="sub">正答：${LBL[q.answer]}</span></div>
+      fb = `<div class="verdict ${ok ? 'ok' : 'ng'}">${ok ? '◯ 正解' : a === -1 ? '？ わからない' : '× 不正解'}　<span class="sub">正答：${LBL[q.answer]}</span></div>
         <div class="explain">${md(q.explain || '', true)}</div>
         ${termIds.length || unresolved.length ? `<div class="chips"><div class="sub" style="margin-bottom:4px">関連用語（タップで辞書）</div>${termIds.map((id) => `<button class="chip" data-term="${id}"><span class="dot ${tStatus(id)}" style="display:inline-block;margin-right:5px;vertical-align:middle"></span>${esc(TERM[id].term)}</button>`).join('')}${unresolved.map((n) => `<button class="chip" data-search="${esc(n)}">🔍${esc(n)}</button>`).join('')}</div>` : ''}`;
     }
@@ -348,6 +348,7 @@
     // アクションバー
     let bar = '';
     if (ex) bar = `<button class="btn ghost" data-act="prev" ${SES.i === 0 ? 'disabled' : ''}>← 前</button><button class="btn" data-act="exnext">${SES.i === SES.queue.length - 1 ? '採点する' : '次 →'}</button>`;
+    else if (a === null) bar = `<button class="btn ghost" data-act="dunno">わからない（解説を見る）</button>`;
     else if (a !== null) bar = a === q.answer ? `<button class="btn warn" data-act="next:unsure">たまたま／あやふや</button><button class="btn ok" data-act="next:sure">確信あり → 次</button>` : `<button class="btn" data-act="next:wrong">次へ →</button>`;
     if (bar) { const d = document.createElement('div'); d.className = 'actionbar'; d.innerHTML = `<div class="in">${bar}</div>`; $('main').appendChild(d); }
     if (ex) tickTimer();
@@ -550,6 +551,7 @@
     else if (act === 'resume') { location.hash = '#/quiz'; }
     else if (act === 'quit') { if (SES && SES.results.length) { SES.queue = SES.queue.slice(0, SES.i); SES.cur = null; viewQuiz(); } else { SES = null; location.hash = '#/home'; } }
     else if (act && act.startsWith('next:')) next(act.slice(5));
+    else if (act === 'dunno') choose(-1);
     else if (act === 'prev') { if (SES.i > 0) { SES.i--; const r = SES.results[SES.i]; SES.cur = r ? r.q : null; SES.sel = r ? r.a : null; viewQuiz(); } }
     else if (act === 'exnext') { if (!SES.results[SES.i]) SES.results[SES.i] = { ref: SES.queue[SES.i], q: SES.cur, a: null, ok: false }; if (SES.i >= SES.queue.length - 1) { if (confirm('採点しますか？')) finishExam(); return; } SES.i++; const r = SES.results[SES.i]; SES.cur = r ? r.q : null; SES.sel = r ? r.a : null; viewQuiz(); }
     else if (act === 'export') { $('#bk').value = JSON.stringify(S); $('#bk').select(); try { navigator.clipboard.writeText($('#bk').value); toast('コピーしました'); } catch (e) {} }
