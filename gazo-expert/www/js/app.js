@@ -14,7 +14,7 @@
   const CAT = Object.fromEntries(D.cats.map((c) => [c.id, c]));
   const TERM = Object.fromEntries(D.terms.map((t) => [t.id, t]));
   const QS = D.questions; const QMAP = Object.fromEntries(QS.map((q) => [q.id, q]));
-  const norm = (s) => String(s || '').normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60)).replace(/[\s・･\-‐ー—（）()「」『』、,.。:：/]/g, '');
+  const norm = (s) => String(s || '').normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60)).replace(/[\s・･\-‐–ー—（）()「」『』、,.。:：/]/g, '');
   const NAME = new Map();
   const addName = (n, id, force) => { const k = norm(n); if (k.length >= 2 && (force || !NAME.has(k))) NAME.set(k, id); };
   for (const t of D.terms) {
@@ -304,6 +304,7 @@
       queue = shuffle(ts).sort((a, b) => pr(a) - pr(b)).slice(0, n).map((t) => ({ k: Math.random() < 0.5 ? 't2d' : 'd2t', id: t.id })); title = '用語カード';
     }
     else if (kind.startsWith('term:')) { const id = kind.slice(5); const qs = QS.filter((q) => (q.terms || []).some((r) => resolve(r) === id)); queue = [{ k: 't2d', id }, { k: 'd2t', id }, ...shuffle(qs).slice(0, 8).map((q) => ({ k: 'q', id: q.id }))]; title = TERM[id].term; }
+    else if (kind.startsWith('one:')) { queue = [{ k: 'q', id: kind.slice(4) }]; title = '1問'; }
     if (!queue.length) return toast('出題できる問題がありません');
     SES = { kind, title, queue, i: 0, results: [], exam, deadline: exam ? now() + 80 * MIN : 0, cur: null, answered: null, requeued: {} };
     location.hash = '#/quiz'; if (location.hash === '#/quiz') route();
@@ -520,6 +521,7 @@
       case 'settings': return viewSettings();
       case 'quiz': return viewQuiz();
       case 'review': return viewReview(+seg[1]);
+      case 'q': return start('one:' + decodeURIComponent(seg[1] || ''));
       default: return viewHome();
     }
   }

@@ -12,16 +12,23 @@ const read = (dir) => fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.e
   try { const a = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); return Array.isArray(a) ? a : []; } catch (e) { console.error('JSON ERROR', f, e.message); return []; }
 }) : [];
 let terms = read(path.join(root, 'content/terms')), qs = read(path.join(root, 'content/questions'));
+const ALIAS = {
+  'tone-false-contour': ['擬似輪郭'], 'filter-canny': ['Canny法', 'キャニーのエッジ検出'], 'cam-distortion': ['樽型歪み', '樽型歪曲', '糸巻き型歪曲', 'たる型歪曲', '糸巻き型歪み'],
+  'detect-scale-space': ['スケールスペース'], 'recog-pca': ['KL変換', 'カルーネン・レーベ変換'], 'color-hsv': ['HSV色空間', 'HSV表色系'], 'color-lab': ['L*a*b*表色系', 'CIELAB'],
+  'color-display-gamma': ['ガンマ特性'], 'detect-cascade': ['カスケード識別器'], 'recog-kmeans': ['k平均法'], 'geo-scaling': ['画像の縮小', '画像の拡大'],
+  'cam-fisheye': ['全方位カメラ'], 'tone-pseudo-color': ['フォールスカラー'], 'cam-mtf': ['周波数特性'], 'ip-typeface': ['アウトラインフォント'],
+};
 const errs = [];
 const tid = new Set(); terms = terms.filter((t) => { if (!t.id || !t.term || !t.short) { errs.push('term missing field ' + (t.id || t.term)); return false; } if (tid.has(t.id)) { errs.push('dup term ' + t.id); return false; } tid.add(t.id); return true; });
+terms.forEach((t) => { if (ALIAS[t.id]) t.aliases = [...(t.aliases || []), ...ALIAS[t.id]]; });
 const qid = new Set(); qs = qs.filter((q) => {
   if (!q.id || !q.stem || !Array.isArray(q.choices) || q.choices.length < 2) { errs.push('q bad ' + q.id); return false; }
   if (!(Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.choices.length)) { errs.push('q answer ' + q.id); return false; }
   if (qid.has(q.id)) { errs.push('dup q ' + q.id); return false; } qid.add(q.id); return true;
 });
 // 参照解決の簡易チェック
-const norm = (s) => String(s || '').normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60)).replace(/[\s・･\-‐ー—（）()「」『』、,.。:：/]/g, '');
-const names = new Map(); terms.forEach((t) => { names.set(norm(t.term), t.id); names.set(norm(t.term.replace(/[（(][^）)]*[）)]/g, '')), t.id); (t.term.match(/[（(]([^）)]*)[）)]/g) || []).forEach((m) => names.set(norm(m.slice(1, -1)), t.id)); if (t.en) names.set(norm(t.en), t.id); });
+const norm = (s) => String(s || '').normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60)).replace(/[\s・･\-‐–ー—（）()「」『』、,.。:：/]/g, '');
+const names = new Map(); terms.forEach((t) => { names.set(norm(t.term), t.id); names.set(norm(t.term.replace(/[（(][^）)]*[）)]/g, '')), t.id); (t.term.match(/[（(]([^）)]*)[）)]/g) || []).forEach((m) => names.set(norm(m.slice(1, -1)), t.id)); if (t.en) names.set(norm(t.en), t.id); (t.aliases || []).forEach((a) => names.set(norm(a), t.id)); });
 const res = (r) => tid.has(r) || names.has(norm(r)) || [...names.keys()].some((n) => n.length >= 3 && (n.includes(norm(r)) || norm(r).includes(n)));
 let unres = new Map(); const bump = (r) => unres.set(r, (unres.get(r) || 0) + 1);
 terms.forEach((t) => (t.related || []).forEach((r) => !res(r) && bump(r)));
