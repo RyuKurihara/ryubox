@@ -1,0 +1,1206 @@
+[
+ {
+  "id": "detect-template-matching",
+  "term": "テンプレートマッチング",
+  "reading": "てんぷれーとまっちんぐ",
+  "en": "template matching",
+  "cat": "detect",
+  "short": "テンプレート画像を入力画像上で動かし、最も似た位置を探す手法",
+  "def": "検出したい対象の見本となる小画像（テンプレート）を入力画像上で1画素ずつずらしながら重ね合わせ、各位置でテンプレートと重なる部分画像との類似度（または相違度）を計算し、類似度が最大（相違度が最小）となる位置を対象の位置とする手法。類似度の尺度として SSD、SAD、NCC、ZNCC などがある。単純で汎用的だが、全探索の計算量は「探索位置数×テンプレート画素数」と大きく、残差逐次検定法（SSDA）や粗密探索で高速化する。また、対象の回転・拡大縮小・変形や見え方の変化に弱く、それらに対応するには複数のテンプレートを用意するか、局所特徴量を用いる。",
+  "points": [
+   "類似度最大（相違度最小）の位置を検出する",
+   "全探索の計算量が大きい→SSDA、粗密探索で高速化",
+   "回転・スケール変化に弱い",
+   "明るさ変化には ZNCC が頑健"
+  ],
+  "history": "1960〜70年代から使われている最も基本的な照合法。高速化の SSDA は Barnea と Silverman（1972）。",
+  "related": [
+   "detect-ssd",
+   "detect-sad",
+   "detect-ncc",
+   "detect-zncc",
+   "detect-ssda",
+   "detect-coarse-to-fine"
+  ]
+ },
+ {
+  "id": "detect-similarity-measure",
+  "term": "類似度と相違度",
+  "reading": "るいじどとそういど",
+  "en": "similarity / dissimilarity measure",
+  "cat": "detect",
+  "short": "2つの画像の似ている度合い（類似度）と異なる度合い（相違度）の尺度",
+  "def": "テンプレートマッチングで用いる評価尺度は、値が大きいほど似ていることを表す類似度（NCC、ZNCC、相互相関など）と、値が小さいほど似ていることを表す相違度（SSD、SAD など、距離の一種）に分けられる。完全に一致すると、SSD・SAD は0、NCC・ZNCC は1となる。計算コストは SAD < SSD < NCC < ZNCC の順に大きくなる傾向があり、明るさ変化への頑健性は ZNCC が最も高い。用途に応じて精度と速度のバランスで選ぶ。",
+  "points": [
+   "相違度（SSD, SAD）は最小値の位置、類似度（NCC, ZNCC）は最大値の位置を探す",
+   "完全一致で SSD=SAD=0、NCC=ZNCC=1",
+   "明るさ変化への頑健性: ZNCC（ゲイン・オフセット）＞ NCC（ゲインのみ）＞ SSD・SAD"
+  ],
+  "related": [
+   "detect-ssd",
+   "detect-sad",
+   "detect-ncc",
+   "detect-zncc",
+   "detect-template-matching"
+  ]
+ },
+ {
+  "id": "detect-ssd",
+  "term": "SSD",
+  "reading": "えすえすでぃー",
+  "en": "Sum of Squared Differences",
+  "cat": "detect",
+  "short": "画素値の差の二乗和。小さいほど似ている相違度",
+  "def": "Sum of Squared Differences の略。テンプレート T と、入力画像の重なる部分 I の対応する画素どうしの差の二乗をすべての画素について合計した値 R = ΣΣ (I(i,j) − T(i,j))²。完全に一致すると0となり、値が小さいほど似ている。差を二乗するため、大きな差（外れ値）を強く評価する。展開すると ΣI² − 2ΣIT + ΣT² となり、ΣI² がほぼ一定とみなせるなら相互相関 ΣIT の最大化と等価になる。明るさが一様に変化（全画素に一定値を加える・定数倍する）すると値が大きく変わるため、照明変化に弱い。",
+  "points": [
+   "R_SSD = ΣΣ (I − T)²、0で完全一致",
+   "外れ値（大きな差）の影響を強く受ける",
+   "明るさの変化（オフセット・ゲイン）に弱い",
+   "展開すると相互相関項 −2ΣIT を含む"
+  ],
+  "formula": "R_SSD = Σ_j Σ_i ( I(i,j) − T(i,j) )²",
+  "confuse": "SAD は絶対値の和で計算が軽く外れ値の影響が小さい。SSD は二乗和。",
+  "related": [
+   "detect-sad",
+   "detect-ncc",
+   "detect-zncc",
+   "detect-template-matching",
+   "detect-similarity-measure"
+  ]
+ },
+ {
+  "id": "detect-sad",
+  "term": "SAD",
+  "reading": "えすえーでぃー",
+  "en": "Sum of Absolute Differences",
+  "cat": "detect",
+  "short": "画素値の差の絶対値の和。計算が最も軽い相違度",
+  "def": "Sum of Absolute Differences の略。テンプレートと部分画像の対応する画素の差の絶対値の総和 R = ΣΣ |I(i,j) − T(i,j)|。完全に一致すると0となり、値が小さいほど似ている。乗算が不要で計算コストが最も小さく、ハードウェア実装や動画像符号化の動きベクトル探索（ブロックマッチング）で広く用いられる。SSD に比べて大きな差（外れ値）の影響を受けにくい。SSD と同様、明るさが一様に変化すると値が大きく変化する。",
+  "points": [
+   "R_SAD = ΣΣ |I − T|、0で完全一致",
+   "乗算不要で最も高速",
+   "SSD より外れ値の影響が小さい",
+   "明るさ変化に弱い（SSD と同様）"
+  ],
+  "formula": "R_SAD = Σ_j Σ_i | I(i,j) − T(i,j) |",
+  "related": [
+   "detect-ssd",
+   "detect-ssda",
+   "detect-template-matching",
+   "ブロックマッチング"
+  ]
+ },
+ {
+  "id": "detect-ncc",
+  "term": "NCC（正規化相互相関）",
+  "reading": "えぬしーしー（せいきかそうごそうかん）",
+  "en": "Normalized Cross-Correlation",
+  "cat": "detect",
+  "short": "画素値ベクトルの内積をノルムで正規化した類似度（コサイン類似度）",
+  "def": "Normalized Cross-Correlation の略。R = ΣIT / sqrt(ΣI² · ΣT²) で定義され、部分画像とテンプレートの画素値を並べたベクトルのなす角の余弦（コサイン類似度）に相当する。画素値が非負なら0〜1の値をとり、1で完全一致（比例関係）。画像の明るさが定数倍（ゲイン変化、I' = aI）になっても値は変わらないが、一定値の加算（オフセット変化、I' = I + b）には値が変化する。",
+  "points": [
+   "R_NCC = ΣIT / √(ΣI²·ΣT²)（ベクトルのコサイン）",
+   "明るさの定数倍（コントラストの変化）に不変",
+   "一定値の加算（オフセット）には不変でない→ZNCC",
+   "1に近いほど似ている"
+  ],
+  "formula": "R_NCC = ΣΣ I T / sqrt( ΣΣ I² · ΣΣ T² )",
+  "confuse": "ZNCC は平均を引いてから正規化するのでオフセットにも不変。NCC は平均を引かない。",
+  "related": [
+   "detect-zncc",
+   "detect-ssd",
+   "detect-template-matching",
+   "detect-similarity-measure"
+  ]
+ },
+ {
+  "id": "detect-zncc",
+  "term": "ZNCC（零平均正規化相互相関）",
+  "reading": "ぜっとえぬしーしー",
+  "en": "Zero-mean Normalized Cross-Correlation",
+  "cat": "detect",
+  "short": "平均を引いてから正規化した相互相関。明るさの線形変化に不変",
+  "def": "Zero-mean Normalized Cross-Correlation の略。部分画像とテンプレートからそれぞれの平均値 Ī, T̄ を引いてから正規化相互相関をとる。R = Σ(I−Ī)(T−T̄) / sqrt(Σ(I−Ī)² · Σ(T−T̄)²) で、統計学のピアソンの相関係数と同じ形であり、−1〜1 の値をとる。明るさが I' = aI + b（a>0）のように線形に変化しても値が変わらないので、照明の変化（明るさの一様な変化とコントラストの変化）に最も頑健である。−1 は濃淡が反転したパターンを意味する。計算量は最も大きいが、ΣI, ΣI² を積分画像で求めるなどして高速化できる。",
+  "points": [
+   "平均を引いて正規化（＝相関係数）、−1〜1",
+   "I' = aI + b（a>0）の明るさ変化に不変",
+   "濃淡反転で −1",
+   "計算コストは SAD/SSD/NCC より大きい"
+  ],
+  "formula": "R_ZNCC = Σ(I − Ī)(T − T̄) / sqrt( Σ(I − Ī)² · Σ(T − T̄)² )",
+  "confuse": "a<0（ネガポジ反転）だと符号が反転して −1 になる。",
+  "related": [
+   "detect-ncc",
+   "detect-ssd",
+   "detect-template-matching",
+   "detect-integral-image",
+   "detect-invariance"
+  ]
+ },
+ {
+  "id": "detect-ssda",
+  "term": "残差逐次検定法（SSDA）",
+  "reading": "ざんさちくじけんていほう",
+  "en": "Sequential Similarity Detection Algorithm",
+  "cat": "detect",
+  "short": "SAD の累積途中でしきい値を超えたら計算を打ち切る高速化法",
+  "def": "Sequential Similarity Detection Algorithm の略。各探索位置でテンプレート画素との差の絶対値（残差）を1画素ずつ累積していき、その累積値があらかじめ決めたしきい値（あるいはそれまでに得られた最小の相違度）を超えた時点で、その位置は一致しないと判断して計算を打ち切り、次の位置に移る。不一致の位置では少数の画素の計算で打ち切られるため、全体の計算量が大幅に減る。しきい値として「それまでの最小値」を用いれば、全探索と同じ最良位置が得られる。",
+  "points": [
+   "相違度（SAD）の累積がしきい値を超えたら打ち切り",
+   "しきい値にそれまでの最小値を使えば、全探索と同じ結果",
+   "類似度型（NCC など）にはそのままでは適用しにくい"
+  ],
+  "history": "Barnea と Silverman が1972年に IEEE Transactions on Computers の論文「A class of algorithms for fast digital image registration」で提案した。",
+  "year": 1972,
+  "related": [
+   "detect-sad",
+   "detect-template-matching",
+   "detect-coarse-to-fine"
+  ]
+ },
+ {
+  "id": "detect-pyramid",
+  "term": "画像ピラミッド",
+  "reading": "がぞうぴらみっど",
+  "en": "image pyramid",
+  "cat": "detect",
+  "short": "解像度を段階的に1/2ずつ下げた画像の階層構造",
+  "def": "元の画像を最下層とし、平滑化（ガウシアンフィルタなど）してから縦横1/2に縮小（ダウンサンプリング）する操作を繰り返して作った、解像度の異なる画像の集合。ピラミッドのように上の層ほど小さくなる。ガウシアンピラミッド、隣接層の差をとったラプラシアンピラミッドがある。縮小前に平滑化するのはエイリアシングを防ぐためである。粗密探索、マルチスケールの特徴検出、画像合成（ブレンディング）、オプティカルフローの推定などに用いられる。",
+  "points": [
+   "平滑化→1/2縮小を繰り返す（平滑化はエイリアシング防止）",
+   "ガウシアンピラミッドとラプラシアンピラミッド",
+   "全層の画素数の合計は元画像の約4/3倍"
+  ],
+  "history": "Burt と Adelson（1983）がラプラシアンピラミッドを提案し、画像符号化や画像合成に応用した。",
+  "year": 1983,
+  "related": [
+   "detect-coarse-to-fine",
+   "detect-scale-space",
+   "ラプラシアンピラミッド"
+  ]
+ },
+ {
+  "id": "detect-coarse-to-fine",
+  "term": "粗密探索",
+  "reading": "そみつたんさく",
+  "en": "coarse-to-fine search",
+  "cat": "detect",
+  "short": "低解像度で大まかに探し、高解像度でその近傍だけを精密に探す手法",
+  "def": "画像ピラミッドを用い、まず解像度の低い（縮小した）画像と縮小したテンプレートで全探索を行って大まかな位置を求め、次の高解像度の層ではその位置の近傍（対応する座標の周囲数画素）だけを探索して位置を修正する、という処理を最高解像度まで繰り返すテンプレートマッチングの高速化手法。1/2に縮小すると探索位置数とテンプレート画素数がともに1/4になるので、粗い層の全探索は非常に高速である。ただし、低解像度で細部が失われるため、粗い層で誤った候補を選ぶと正解を見逃す危険がある（複数候補を残して対策する）。",
+  "points": [
+   "低解像度で全探索→高解像度では近傍のみ探索",
+   "1/2縮小で探索位置・テンプレート画素がそれぞれ1/4",
+   "粗い層で誤ると回復できない（複数候補を残す）"
+  ],
+  "related": [
+   "detect-pyramid",
+   "detect-template-matching",
+   "detect-ssda"
+  ]
+ },
+ {
+  "id": "detect-subpixel",
+  "term": "サブピクセル推定",
+  "reading": "さぶぴくせるすいてい",
+  "en": "sub-pixel estimation",
+  "cat": "detect",
+  "short": "類似度の離散値に曲線を当てはめ、画素間隔より細かい位置を求めること",
+  "def": "テンプレートマッチングで得られる類似度（相違度）は画素単位の離散値なので、最良位置も1画素単位でしか得られない。そこで、最良位置とその両隣の3点の評価値に放物線（2次関数）を当てはめ、その頂点の位置を求めることで1画素未満の精度で位置を推定する。最良位置の評価値を R(0)、両隣を R(−1), R(1) とすると、放物線フィッティングによるずれは d = (R(−1) − R(1)) / (2(R(−1) − 2R(0) + R(1)))。SAD には等角直線フィッティングが適するとされる。x方向・y方向に独立に行うことが多い。",
+  "points": [
+   "3点（最良位置と両隣）にパラボラを当てはめて頂点を求める",
+   "d = (R−1 − R+1) / (2(R−1 − 2R0 + R+1))",
+   "SSD・相関にはパラボラ、SAD には等角直線フィッティングが適する"
+  ],
+  "formula": "d = ( R(−1) − R(1) ) / ( 2( R(−1) − 2R(0) + R(1) ) )",
+  "related": [
+   "detect-template-matching",
+   "detect-poc"
+  ]
+ },
+ {
+  "id": "detect-poc",
+  "term": "位相限定相関法",
+  "reading": "いそうげんていそうかんほう",
+  "en": "phase-only correlation (POC)",
+  "cat": "detect",
+  "short": "フーリエ変換の位相成分だけで相関をとり、位置ずれを高精度に求める方法",
+  "def": "2つの画像をフーリエ変換し、その相互パワースペクトル F·G* を振幅で割って正規化（振幅を1にして位相のみを残す）してから逆フーリエ変換すると、両画像が平行移動の関係にあれば、ずれ量の位置に鋭いデルタ関数状のピークが現れる。このピーク位置から平行移動量を求める。ピークが鋭いため位置ずれの判別能力が高く、サブピクセル精度の推定が可能で、明るさ変化にも頑健である。回転・拡大縮小には、振幅スペクトルを対数極座標変換してから適用する方法（回転不変位相限定相関）で対応できる。",
+  "points": [
+   "相互パワースペクトルを振幅で正規化（位相のみ）して逆変換",
+   "平行移動量の位置に鋭いピーク",
+   "サブピクセル精度が得られ、明るさ変化に頑健",
+   "対数極座標変換と組み合わせて回転・スケールにも対応"
+  ],
+  "formula": "r = F⁻¹[ F(u,v) G*(u,v) / |F(u,v) G*(u,v)| ]",
+  "history": "Kuglin と Hines（1975）が位相相関（phase correlation）による画像の位置合わせを示した。日本では青木・小林らが高精度化し、指紋照合やステレオ計測に応用した。",
+  "year": 1975,
+  "related": [
+   "detect-subpixel",
+   "detect-template-matching",
+   "フーリエ変換"
+  ]
+ },
+ {
+  "id": "detect-chamfer",
+  "term": "チャンファーマッチング",
+  "reading": "ちゃんふぁーまっちんぐ",
+  "en": "chamfer matching",
+  "cat": "detect",
+  "short": "エッジ画像の距離変換を用いて、輪郭形状のテンプレートを照合する手法",
+  "def": "入力画像のエッジ画像に距離変換を施し、各画素から最も近いエッジまでの距離を求めておく。輪郭（エッジ点の集合）からなるテンプレートを距離変換画像上に重ね、テンプレートのエッジ点位置の距離値の平均（または二乗平均）を評価値として、それが最小となる位置を探す。エッジの位置が多少ずれていても評価値が滑らかに変化するので、濃淡のテンプレートマッチングより照明変化に強く、探索の最適化もしやすい。",
+  "points": [
+   "入力エッジ画像の距離変換を利用",
+   "テンプレートのエッジ点での距離値の平均が最小の位置を探す",
+   "形状（輪郭）ベースの照合で、明るさ変化に強い"
+  ],
+  "history": "Barrow ら（1977）が提案し、Borgefors（1988）が階層的チャンファーマッチングへ発展させた。",
+  "year": 1977,
+  "related": [
+   "距離変換",
+   "detect-template-matching",
+   "detect-generalized-hough"
+  ]
+ },
+ {
+  "id": "detect-hough",
+  "term": "ハフ変換",
+  "reading": "はふへんかん",
+  "en": "Hough transform",
+  "cat": "detect",
+  "short": "画像中の点をパラメータ空間へ投票し、直線や円などの図形を検出する手法",
+  "def": "検出したい図形をパラメータで表し（直線なら (ρ, θ)、円なら中心と半径 (a, b, r)）、画像中の各特徴点（エッジ点）について、その点を通りうるすべての図形のパラメータに投票する。パラメータ空間を離散化した投票用の配列（アキュムレータ）で得票数が多いセル（ピーク）が、多くの点が乗っている図形に対応する。点の欠落や途切れ、ノイズ、ほかの図形との重なりに強い一方、パラメータの数が増えると投票空間の次元が増え、メモリと計算量が急増する。",
+  "points": [
+   "画像空間の点→パラメータ空間の曲線（曲面）への投票",
+   "投票空間のピーク＝検出された図形",
+   "途切れ・ノイズ・遮蔽に強い",
+   "パラメータ数が増えるとメモリ・計算量が指数的に増大"
+  ],
+  "history": "Paul Hough が1962年に泡箱写真の飛跡検出のための装置として米国特許（US 3,069,654）を取得した。当初は傾きと切片による表現で、Duda と Hart（1972）が無限大の問題を避けるために ρ–θ による直線表現を導入し、現在の形になった。",
+  "year": 1962,
+  "confuse": "RANSAC はランダムに選んだ最小限の点でモデルを仮定しサポート数で評価する。ハフ変換は全点がパラメータ空間に投票する。",
+  "related": [
+   "detect-hough-line",
+   "detect-hough-circle",
+   "detect-generalized-hough",
+   "detect-accumulator",
+   "detect-ransac"
+  ]
+ },
+ {
+  "id": "detect-hough-line",
+  "term": "直線のハフ変換",
+  "reading": "ちょくせんのはふへんかん",
+  "en": "Hough transform for lines",
+  "cat": "detect",
+  "short": "直線を ρ = x cosθ + y sinθ で表し、各点が (θ,ρ) 空間の正弦曲線に投票する",
+  "def": "直線を、原点から直線へ下ろした垂線の長さ ρ と、垂線が x 軸となす角 θ を用いて ρ = x cosθ + y sinθ と表す。画像上の1点 (x0, y0) を通る直線の集合は、θ–ρ 平面上の曲線 ρ = x0 cosθ + y0 sinθ = √(x0²+y0²) sin(θ+α) という正弦曲線になる。同一直線上の点に対応する正弦曲線は θ–ρ 平面上の1点で交わるので、交点（投票数のピーク）の (θ, ρ) が求める直線を表す。θ を 0〜π（ρ は負も許す）とすれば全ての直線を表せる。傾きと切片 (a, b) による表現（y = ax + b の点が直線 b = −xa + y に対応）では垂直な直線で a が無限大になるため、ρ–θ 表現が使われる。",
+  "points": [
+   "ρ = x cosθ + y sinθ（ρ: 原点からの距離、θ: 法線の角度）",
+   "画像の1点 → θ–ρ 平面の正弦曲線",
+   "画像の1直線 → θ–ρ 平面の1点（曲線群の交点）",
+   "θ–ρ 平面の1点 → 画像の1直線、 a–b 表現は垂直線で発散"
+  ],
+  "formula": "ρ = x cosθ + y sinθ",
+  "history": "Duda と Hart（1972）、Communications of the ACM「Use of the Hough transformation to detect lines and curves in pictures」で ρ–θ 表現が導入された。",
+  "year": 1972,
+  "related": [
+   "detect-hough",
+   "detect-accumulator",
+   "detect-hough-circle"
+  ]
+ },
+ {
+  "id": "detect-hough-circle",
+  "term": "円のハフ変換",
+  "reading": "えんのはふへんかん",
+  "en": "Hough transform for circles",
+  "cat": "detect",
+  "short": "円を中心(a,b)と半径rの3パラメータで表して投票する円検出",
+  "def": "円を (x − a)² + (y − b)² = r² と表すと、パラメータは中心 (a, b) と半径 r の3つであり、投票空間は3次元となる。画像の1点 (x0, y0) は、パラメータ空間 (a, b, r) では頂点がその点にある円錐面に対応し、半径 r を固定すれば (a, b) 平面上の半径 r の円になる。半径が既知なら2次元の投票で済む。エッジの勾配方向を利用すると、中心は勾配方向の直線上にあることから、投票を直線上（半径固定なら2点）に限定でき、計算量を大きく減らせる。",
+  "points": [
+   "パラメータは (a, b, r) の3つ→3次元投票空間",
+   "1点は (a,b,r) 空間の円錐面、r固定で (a,b) 平面の円",
+   "勾配方向を使うと投票範囲を限定して高速化できる"
+  ],
+  "formula": "(x − a)² + (y − b)² = r²",
+  "related": [
+   "detect-hough",
+   "detect-hough-line",
+   "detect-generalized-hough"
+  ]
+ },
+ {
+  "id": "detect-accumulator",
+  "term": "投票空間（アキュムレータ）",
+  "reading": "とうひょうくうかん",
+  "en": "accumulator array / voting space",
+  "cat": "detect",
+  "short": "パラメータ空間を離散化し、各セルの得票数を数える配列",
+  "def": "ハフ変換などで、図形のパラメータ空間を有限のセルに離散化して用意する2次元・3次元の配列。各特徴点から対応するパラメータのセルに1票（あるいは勾配強度などの重み）ずつ加算し、得票数の局所的な最大値（ピーク）を検出する。セルの大きさ（量子化の細かさ）は、細かすぎると票が分散してピークがぼやけ、粗すぎると精度が落ちるというトレードオフがある。ピーク検出では、近傍のセルより大きいものだけを残す非最大値抑制を行う。",
+  "points": [
+   "パラメータ空間の離散化（量子化幅のトレードオフ）",
+   "ピーク＝図形の候補、非最大値抑制で選ぶ",
+   "次元が増えるとメモリが急増"
+  ],
+  "related": [
+   "detect-hough",
+   "detect-hough-line",
+   "detect-nms"
+  ]
+ },
+ {
+  "id": "detect-generalized-hough",
+  "term": "一般化ハフ変換",
+  "reading": "いっぱんかはふへんかん",
+  "en": "generalized Hough transform",
+  "cat": "detect",
+  "short": "Rテーブルを用いて、解析的に表せない任意形状を検出するハフ変換",
+  "def": "直線や円のように式で表せない任意の形状を検出するためのハフ変換の拡張。前処理として、モデル形状の輪郭上の各点について、エッジの勾配方向 φ をキーとして、その点から形状の基準点（参照点）へのベクトル r を表（Rテーブル）に登録しておく。検出時には、入力画像の各エッジ点の勾配方向 φ で Rテーブルを引き、登録されたベクトルを加えた位置（基準点の候補）に投票する。得票のピークが形状の基準点の位置となる。回転や拡大縮小も考慮すると投票空間は4次元（位置2＋回転＋スケール）になる。",
+  "points": [
+   "Rテーブル: 勾配方向→参照点へのベクトルの対応表",
+   "エッジ点が参照点の候補位置に投票",
+   "回転・スケールを含めると4次元の投票空間"
+  ],
+  "history": "Ballard が1981年に Pattern Recognition 誌の論文「Generalizing the Hough transform to detect arbitrary shapes」で提案した。",
+  "year": 1981,
+  "related": [
+   "detect-hough",
+   "detect-hough-circle",
+   "detect-chamfer"
+  ]
+ },
+ {
+  "id": "detect-ransac",
+  "term": "RANSAC",
+  "reading": "らんさっく",
+  "en": "RANdom SAmple Consensus",
+  "cat": "detect",
+  "short": "ランダムに選んだ最小限のデータでモデルを推定し、外れ値に頑健に当てはめる手法",
+  "def": "RANdom SAmple Consensus の略。(1)データからモデルを決めるのに必要な最小数の点（直線なら2点、ホモグラフィなら4組の対応点、基礎行列なら7〜8組）をランダムに選び、(2)そのモデルを計算し、(3)モデルとの誤差が許容値以内の点（インライア）を数える。これを多数回繰り返し、インライア数が最大のモデルを選び、最後にそのインライア全体で最小二乗法などにより再推定する。外れ値（アウトライア）が半分以上含まれていても正しいモデルを推定できる。必要な試行回数 N は、インライア率 w、最小サンプル数 s、成功確率 p に対して N = log(1−p) / log(1−w^s) で見積もれる。",
+  "points": [
+   "最小サンプル→モデル推定→インライア数で評価、を反復",
+   "外れ値を多く含むデータに頑健（最小二乗法は外れ値に弱い）",
+   "試行回数 N = log(1−p)/log(1−w^s)",
+   "ホモグラフィ推定（4組）や基礎行列推定に多用"
+  ],
+  "formula": "N = log(1 − p) / log(1 − w^s)",
+  "history": "Fischler と Bolles が1981年に Communications of the ACM の論文「Random Sample Consensus: A Paradigm for Model Fitting with Applications to Image Analysis and Automated Cartography」で、カメラ位置推定（位置決め問題）を例に提案した。",
+  "year": 1981,
+  "confuse": "LMedS は残差の中央値を最小化し、しきい値が不要だが外れ値率50%未満が前提。RANSAC はインライア判定のしきい値が必要。",
+  "related": [
+   "detect-lmeds",
+   "detect-hough",
+   "detect-local-feature-matching",
+   "ホモグラフィ"
+  ]
+ },
+ {
+  "id": "detect-lmeds",
+  "term": "LMedS 推定",
+  "reading": "えるめっどえすすいてい",
+  "en": "Least Median of Squares",
+  "cat": "detect",
+  "short": "残差の二乗の中央値を最小にするロバスト推定",
+  "def": "Least Median of Squares の略。最小二乗法が残差の二乗の和を最小化するのに対し、残差の二乗の中央値を最小化するモデルを求める。実際には RANSAC と同様にランダムサンプリングでモデル候補を作り、各候補の残差の中央値で評価する。インライア判定のしきい値が不要という利点があるが、中央値を使うため外れ値の割合が50%未満であることが前提となる（崩壊点50%）。",
+  "points": [
+   "残差二乗の中央値を最小化",
+   "しきい値不要（RANSAC との違い）",
+   "外れ値率が50%以上だと破綻"
+  ],
+  "history": "Rousseeuw が1984年に提案したロバスト回帰の手法。",
+  "year": 1984,
+  "related": [
+   "detect-ransac",
+   "M推定"
+  ]
+ },
+ {
+  "id": "detect-feature-point",
+  "term": "特徴点",
+  "reading": "とくちょうてん",
+  "en": "feature point / keypoint / interest point",
+  "cat": "detect",
+  "short": "コーナーなど、周囲と区別しやすく位置を一意に決めやすい点",
+  "def": "キーポイント、注目点（interest point）とも呼ぶ。画像中で、どの方向にずらしても見え方が大きく変わり、位置を一意に特定しやすい点のこと。平坦な領域はどこも似ているので位置が決まらず、直線状のエッジはエッジ方向にずらしても見え方が変わらない（開口問題）が、コーナーや孤立したブロブ（斑点）は位置を一意に決められる。特徴点の検出（detector: Harris, FAST, DoG など）と、その周囲の見え方を数値ベクトルで表す特徴記述（descriptor: SIFT, SURF, BRIEF, ORB など）を組み合わせ、画像間の対応付け、画像の貼り合わせ（パノラマ）、物体認識、3次元復元、追跡などに用いる。",
+  "points": [
+   "平坦部×、エッジ△（開口問題）、コーナー○",
+   "検出器（detector）と記述子（descriptor）の2段階",
+   "再現性（同じ点が繰り返し検出されること）が重要"
+  ],
+  "related": [
+   "detect-corner",
+   "detect-harris",
+   "detect-sift",
+   "detect-local-feature-matching",
+   "開口問題"
+  ]
+ },
+ {
+  "id": "detect-corner",
+  "term": "コーナー検出",
+  "reading": "こーなーけんしゅつ",
+  "en": "corner detection",
+  "cat": "detect",
+  "short": "2方向以上に強い濃淡変化がある点（角）を検出する処理",
+  "def": "画像中の角（コーナー）、すなわち2つ以上の異なる方向に大きな濃淡変化をもつ点を検出する処理。代表的な手法として、窓をずらしたときの SSD の変化を調べる Moravec 法、その考えを微分と構造テンソル（自己相関行列）の固有値で解析的に定式化した Harris 法、最小固有値を用いる Shi–Tomasi 法（KLT）、周囲の円周上の画素の明暗だけで高速に判定する FAST がある。ほかに、輪郭の曲率の極大点を用いる方法もある。",
+  "points": [
+   "2方向以上に大きな変化がある点",
+   "Moravec→Harris→Shi–Tomasi、高速な FAST",
+   "Harris/Shi–Tomasi は構造テンソルの固有値で判定"
+  ],
+  "related": [
+   "detect-moravec",
+   "detect-harris",
+   "detect-shi-tomasi",
+   "detect-fast",
+   "detect-feature-point",
+   "region-curvature"
+  ]
+ },
+ {
+  "id": "detect-moravec",
+  "term": "Moravec のコーナー検出",
+  "reading": "もらべっくのこーなーけんしゅつ",
+  "en": "Moravec corner detector",
+  "cat": "detect",
+  "short": "窓を8方向にずらしたSSDの最小値をコーナーらしさとする検出法",
+  "def": "注目画素を中心とする小さな窓を、上下左右と斜めの8方向（あるいは4方向）に1画素ずらしたときの、元の窓とのSSD（濃淡の差の二乗和）をそれぞれ計算し、その最小値をコーナーらしさ（コーナー応答）とする。平坦部ではどの方向にずらしてもSSDが小さく、エッジではエッジに沿った方向のSSDが小さいので最小値は小さくなり、コーナーではどの方向でもSSDが大きいので最小値が大きくなる。離散的な方向しか調べないため応答が異方的（回転に対して不変でない）で、ノイズや孤立点、エッジにも反応しやすいという欠点がある。",
+  "points": [
+   "8方向（離散的）にずらしたSSDの最小値を応答とする",
+   "応答が方向に依存し回転不変でない",
+   "Harris が微分と2次形式で改良"
+  ],
+  "history": "Moravec が1977年頃から研究し、1980年のスタンフォード大学の博士論文（移動ロボットの障害物回避）で発表した注目点検出器（interest operator）。",
+  "year": 1980,
+  "related": [
+   "detect-harris",
+   "detect-corner"
+  ]
+ },
+ {
+  "id": "detect-structure-tensor",
+  "term": "構造テンソル（自己相関行列）",
+  "reading": "こうぞうてんそる",
+  "en": "structure tensor / second moment matrix",
+  "cat": "detect",
+  "short": "窓内の勾配の積 Ix², IxIy, Iy² の和からなる2×2行列",
+  "def": "窓 W 内の画素の x 方向と y 方向の微分 Ix, Iy を用いて M = Σ_W w(x,y) [[Ix², IxIy],[IxIy, Iy²]] と定義される2×2の対称行列（w はガウス窓などの重み）。窓を (u, v) だけずらしたときの SSD の変化は、テイラー展開により近似的に [u v] M [u v]^T と表される。M の2つの固有値 λ1, λ2 は、窓内の主要な2方向の濃淡変化の大きさを表し、両方とも小さい→平坦、一方だけ大きい→エッジ、両方とも大きい→コーナー と判定できる。Harris 法、Shi–Tomasi 法、Lucas–Kanade 法の基礎となる。",
+  "points": [
+   "M = Σ w [[Ix², IxIy],[IxIy, Iy²]]",
+   "SSDの変化 ≈ [u v] M [u v]^T",
+   "λ1, λ2 ともに大→コーナー、片方のみ大→エッジ、ともに小→平坦"
+  ],
+  "formula": "M = Σ w(x,y) [ Ix²  IxIy ; IxIy  Iy² ]",
+  "related": [
+   "detect-harris",
+   "detect-shi-tomasi",
+   "Lucas-Kanade法"
+  ]
+ },
+ {
+  "id": "detect-harris",
+  "term": "Harris のコーナー検出",
+  "reading": "はりすのこーなーけんしゅつ",
+  "en": "Harris corner detector",
+  "cat": "detect",
+  "short": "構造テンソルMから R = det M − k(trace M)² でコーナーを判定する手法",
+  "def": "Moravec 法を改良し、窓をずらしたときの SSD の変化を微分（構造テンソル M）で表して全方向について解析的に評価する。固有値を直接計算せず、R = det M − k (trace M)² = λ1λ2 − k(λ1 + λ2)²（k は 0.04〜0.06 程度）をコーナー応答とし、R が大きな正の値ならコーナー、負で絶対値が大きいならエッジ、絶対値が小さいなら平坦部と判定する。R のしきい値処理と非最大値抑制で特徴点を得る。回転に不変（固有値は回転で変わらない）で、明るさの一定値加算にも不変だが、スケール（拡大縮小）には不変でない。",
+  "points": [
+   "R = det M − k(trace M)²、k ≈ 0.04〜0.06",
+   "R ≫ 0: コーナー、R ≪ 0: エッジ、|R| 小: 平坦",
+   "回転に不変、スケール変化には不変でない",
+   "固有値計算を避けて det と trace で済ませる"
+  ],
+  "formula": "R = det(M) − k (tr M)² = λ1 λ2 − k (λ1 + λ2)²",
+  "history": "Chris Harris と Mike Stephens が1988年の Alvey Vision Conference の論文「A Combined Corner and Edge Detector」で発表した。スケール不変に拡張した Harris–Laplace は Mikolajczyk と Schmid（2001, 2004）。",
+  "year": 1988,
+  "confuse": "Shi–Tomasi は min(λ1, λ2) を応答とする。Harris は det と trace の組合せ。",
+  "related": [
+   "detect-structure-tensor",
+   "detect-moravec",
+   "detect-shi-tomasi",
+   "detect-corner",
+   "detect-invariance"
+  ]
+ },
+ {
+  "id": "detect-shi-tomasi",
+  "term": "Shi–Tomasi のコーナー検出",
+  "reading": "しーとまじのこーなーけんしゅつ",
+  "en": "Shi-Tomasi (Good Features to Track)",
+  "cat": "detect",
+  "short": "構造テンソルの小さい方の固有値 min(λ1,λ2) を応答とするコーナー検出",
+  "def": "構造テンソル M の2つの固有値のうち小さい方 min(λ1, λ2) がしきい値より大きい点を特徴点とする。小さい方の固有値が大きいことは、どの方向にも濃淡変化があり、追跡（Lucas–Kanade 法で M の逆行列を使う）が安定することを意味する。Harris の応答関数よりも、追跡に適した点が選ばれるとされ、KLT トラッカーで使われる。OpenCV の goodFeaturesToTrack に実装されている。",
+  "points": [
+   "応答 = min(λ1, λ2)",
+   "追跡（KLT）に適した点を選ぶ",
+   "Good Features to Track とも呼ばれる"
+  ],
+  "history": "Jianbo Shi と Carlo Tomasi が1994年の CVPR 論文「Good Features to Track」で提案した。",
+  "year": 1994,
+  "related": [
+   "detect-harris",
+   "detect-structure-tensor",
+   "KLTトラッカー"
+  ]
+ },
+ {
+  "id": "detect-fast",
+  "term": "FAST",
+  "reading": "ふぁすと",
+  "en": "Features from Accelerated Segment Test",
+  "cat": "detect",
+  "short": "注目画素周囲の円周16画素の明暗比較だけでコーナーを判定する高速検出器",
+  "def": "Features from Accelerated Segment Test の略。注目画素 p を中心とする半径3の円周上の16画素について、p の輝度より一定値 t 以上明るい画素、または t 以上暗い画素が、円周上で連続して n 個以上（n=9 や 12 など）並んでいれば p をコーナーとする。まず上下左右の4画素だけを先に調べて候補を絞る高速判定（n=12の場合）や、決定木による学習で判定順序を最適化することで非常に高速に動作し、リアルタイム処理に向く。スケールや方向の情報を持たず、応答の強さを別途計算して非最大値抑制を行う。ORB の特徴点検出に使われている。",
+  "points": [
+   "半径3の円周16画素で、連続 n 個が明るい（または暗い）ならコーナー",
+   "微分を使わず比較のみで非常に高速",
+   "決定木（機械学習）で判定を高速化",
+   "スケール・方向は持たない（ORB では別途付与）"
+  ],
+  "history": "Edward Rosten と Tom Drummond が2005年（ICCV）と2006年（ECCV「Machine learning for high-speed corner detection」）に発表した。",
+  "year": 2006,
+  "related": [
+   "detect-orb",
+   "detect-corner",
+   "detect-harris"
+  ]
+ },
+ {
+  "id": "detect-scale-space",
+  "term": "スケール空間",
+  "reading": "すけーるくうかん",
+  "en": "scale space",
+  "cat": "detect",
+  "short": "画像を様々な σ のガウシアンで平滑化した画像群 L(x,y,σ) による多重スケール表現",
+  "def": "画像 I(x,y) を標準偏差 σ のガウス関数 G(x,y,σ) で畳み込んだ L(x,y,σ) = G * I を、σ を連続的に変化させて並べた3次元の表現。σ が大きいほど細かな構造が消え、大まかな構造だけが残る。σ を大きくしても新たな極値（構造）が生じないという性質を満たす平滑化核はガウス関数に限られる（スケール空間の公理）。スケールで正規化した微分（σ² ∇²L など）の極値を σ 方向にも探すことで、対象の大きさに応じた特徴的なスケール（特性スケール）を自動選択でき、拡大縮小に不変な特徴点検出（SIFT など）の基礎となっている。",
+  "points": [
+   "L(x,y,σ) = G(x,y,σ) * I(x,y)",
+   "核はガウス関数（新しい構造を生まない唯一の線形核）",
+   "スケール正規化微分の極値で特性スケールを選択",
+   "SIFT の DoG 極値検出の基礎"
+  ],
+  "history": "Witkin（1983）が「Scale-space filtering」で提唱し、Koenderink（1984）がガウス核の必然性を示した。Lindeberg（1994, 1998）がスケール選択の理論を体系化した。",
+  "year": 1983,
+  "related": [
+   "detect-log-blob",
+   "detect-dog",
+   "detect-sift",
+   "detect-pyramid",
+   "ガウシアンフィルタ"
+  ]
+ },
+ {
+  "id": "detect-log-blob",
+  "term": "LoG によるブロブ検出",
+  "reading": "えるおーじーによるぶろぶけんしゅつ",
+  "en": "blob detection with Laplacian of Gaussian",
+  "cat": "detect",
+  "short": "スケール正規化ラプラシアン σ²∇²G の極値で、斑点状の構造とその大きさを検出",
+  "def": "LoG（Laplacian of Gaussian）は、ガウシアンで平滑化した画像のラプラシアンをとるフィルタで、メキシカンハットのような形をしている。半径 r の円形のブロブ（斑点）に対して、σ = r/√2 のときに応答の絶対値が最大となる。ただしラプラシアンの応答は σ の増加とともに小さくなるため、σ² を掛けたスケール正規化ラプラシアン σ²∇²G を用いて、位置 (x,y) と σ の3次元空間で極値をとる点をブロブとして検出する。こうしてブロブの位置と大きさ（特性スケール）が同時に得られる。",
+  "points": [
+   "スケール正規化 σ²∇²G を用いる",
+   "(x, y, σ) の3次元で極値を探す",
+   "円形ブロブでは σ = r/√2 で応答最大",
+   "DoG で近似できる（SIFT）"
+  ],
+  "history": "Lindeberg（1994, 1998）によるスケール選択の理論で体系化された。LoG 自体はエッジ検出の Marr–Hildreth（1980）で知られる。",
+  "related": [
+   "detect-dog",
+   "detect-scale-space",
+   "LoGフィルタ"
+  ]
+ },
+ {
+  "id": "detect-dog",
+  "term": "DoG",
+  "reading": "でぃーおーじー",
+  "en": "Difference of Gaussians",
+  "cat": "detect",
+  "short": "σの異なる2つのガウシアン平滑化画像の差。スケール正規化LoGの近似",
+  "def": "Difference of Gaussians の略。σ と kσ（k>1）のガウシアンで平滑化した画像の差 D(x,y,σ) = L(x,y,kσ) − L(x,y,σ)。熱拡散方程式の関係から、DoG は (k − 1)σ²∇²G、すなわちスケール正規化 LoG の定数倍で近似される。ガウシアン平滑化画像を作っておけば差をとるだけで得られるため計算が軽い。SIFT では、オクターブごとに σ を k 倍ずつ大きくした平滑化画像の DoG を作り、ある DoG 画素が同じスケールの8近傍と上下のスケールの各9画素、計26画素のすべてより大きい（または小さい）とき極値としてキーポイント候補とする。",
+  "points": [
+   "D = L(kσ) − L(σ) ≈ (k−1) σ² ∇²G * I",
+   "スケール正規化 LoG の近似で計算が軽い",
+   "SIFT では 26 近傍（同スケール8＋上下各9）との比較で極値検出",
+   "帯域通過フィルタの性質をもつ"
+  ],
+  "formula": "D(x,y,σ) = (G(x,y,kσ) − G(x,y,σ)) * I(x,y) ≈ (k−1) σ² ∇²G * I",
+  "related": [
+   "detect-sift",
+   "detect-log-blob",
+   "detect-scale-space",
+   "detect-keypoint-localization"
+  ]
+ },
+ {
+  "id": "detect-sift",
+  "term": "SIFT",
+  "reading": "しふと",
+  "en": "Scale-Invariant Feature Transform",
+  "cat": "detect",
+  "short": "DoG極値で検出し、勾配方向ヒストグラムの128次元で記述するスケール・回転不変な局所特徴",
+  "def": "Scale-Invariant Feature Transform の略。(1)スケール空間での極値検出: DoG 画像の (x, y, σ) 空間での極値を候補点とする。(2)キーポイントのローカライズ: 2次関数の当てはめでサブピクセル・サブスケールの位置を求め、低コントラストの点とエッジ上の点（ヘッセ行列の固有値比で判定）を除去する。(3)方向の割当: 周囲の勾配方向ヒストグラム（36ビン）のピークから主方向（オリエンテーション）を決める。(4)特徴量の記述: 主方向に合わせて回転した周囲の領域を 4×4 のブロックに分け、各ブロックで8方向の勾配ヒストグラムを作り、4×4×8 = 128 次元のベクトルとし、正規化する。平行移動・回転・拡大縮小に不変で、明るさの変化にも頑健であり、視点のある程度の変化にも強い。",
+  "points": [
+   "4段階: 極値検出→ローカライズ→方向の割当→特徴量記述",
+   "DoG 極値（26近傍）でスケールと位置を決定",
+   "主方向は36ビンの勾配方向ヒストグラムのピーク",
+   "4×4ブロック×8方向＝128次元、ベクトル正規化で照明に頑健"
+  ],
+  "history": "David Lowe が1999年の ICCV 論文「Object recognition from local scale-invariant features」で発表し、2004年に International Journal of Computer Vision 論文「Distinctive Image Features from Scale-Invariant Keypoints」で完成させた。米国で特許が取られていたが2020年に失効し、OpenCV の標準モジュールに移された。",
+  "year": 2004,
+  "confuse": "SURF はボックスフィルタと積分画像でヘッセ行列式を近似して高速化（記述子は64次元）。SIFT は DoG と勾配ヒストグラム（128次元）。",
+  "related": [
+   "detect-dog",
+   "detect-sift-orientation",
+   "detect-sift-descriptor",
+   "detect-keypoint-localization",
+   "detect-surf",
+   "detect-ratio-test",
+   "detect-scale-space"
+  ]
+ },
+ {
+  "id": "detect-keypoint-localization",
+  "term": "キーポイントのローカライズ",
+  "reading": "きーぽいんとのろーからいず",
+  "en": "keypoint localization",
+  "cat": "detect",
+  "short": "SIFTでサブピクセル位置を求め、低コントラスト点とエッジ上の点を除く処理",
+  "def": "SIFT の第2段階。DoG の極値として得られた候補点の周囲で D(x,y,σ) をテイラー展開（2次関数で近似）し、極値の位置をサブピクセル・サブスケールの精度で求める。その極値での |D| が小さい（例: 0.03 未満）点はコントラストが低くノイズに弱いので除去する。また、DoG はエッジに沿って強く反応するため、2×2 ヘッセ行列 H の固有値の比を調べ、比が大きい（片方向の曲率だけが大きいエッジ上の点）ものを除去する。固有値を直接求めず、Tr(H)²/Det(H) < (r+1)²/r（r=10 など）で判定する。",
+  "points": [
+   "2次関数（テイラー展開）でサブピクセル位置を推定",
+   "低コントラストの候補を除去",
+   "ヘッセ行列の固有値比（Tr²/Det）でエッジ上の点を除去（r=10程度）"
+  ],
+  "formula": "Tr(H)² / Det(H) < (r + 1)² / r",
+  "related": [
+   "detect-sift",
+   "detect-dog",
+   "ヘッセ行列"
+  ]
+ },
+ {
+  "id": "detect-sift-orientation",
+  "term": "方向の割当（オリエンテーション）",
+  "reading": "ほうこうのわりあて",
+  "en": "orientation assignment",
+  "cat": "detect",
+  "short": "特徴点周囲の勾配方向ヒストグラムのピークから主方向を決め、回転不変性を得る処理",
+  "def": "SIFT の第3段階。キーポイントのスケールに応じた平滑化画像上で、周囲の画素の勾配の大きさと方向を求め、勾配強度とガウス窓で重み付けした勾配方向ヒストグラム（10°刻みの36ビン）を作る。そのピークの方向を主方向（オリエンテーション）とする。ピークの80%以上の値をもつ別のピークがあれば、その方向をもつキーポイントも別に作る。記述子を計算する際に、この主方向が基準（0°）となるよう領域を回転させることで、回転に不変な特徴量となる。",
+  "points": [
+   "36ビン（10°刻み）の勾配方向ヒストグラム",
+   "最大ピークを主方向、80%以上のピークがあれば複数の方向を割当",
+   "主方向を基準に記述することで回転不変"
+  ],
+  "related": [
+   "detect-sift",
+   "detect-sift-descriptor",
+   "detect-orb"
+  ]
+ },
+ {
+  "id": "detect-sift-descriptor",
+  "term": "SIFT 特徴量（128次元記述子）",
+  "reading": "しふととくちょうりょう",
+  "en": "SIFT descriptor",
+  "cat": "detect",
+  "short": "主方向に合わせた周囲を4×4に分け、各8方向の勾配ヒストグラムを並べた128次元ベクトル",
+  "def": "SIFT の第4段階。キーポイントの周囲の領域（スケールに比例した大きさ）を主方向に合わせて回転し、4×4 = 16 のブロックに分割する。各ブロック内の勾配を8方向（45°刻み）のヒストグラムにまとめ（ガウス窓と3線形補間で重み付け）、16×8 = 128 次元のベクトルとする。ベクトルを長さ1に正規化してコントラスト（ゲイン）変化の影響を除き、大きな勾配の影響を抑えるため各要素を0.2で頭打ち（クリッピング）して再正規化する。勾配を使うので明るさのオフセット変化に、正規化でゲイン変化に頑健になる。",
+  "points": [
+   "4×4ブロック × 8方向 = 128次元",
+   "正規化→0.2でクリップ→再正規化（照明変化への頑健性）",
+   "勾配（差分）を使うのでオフセット変化に不変"
+  ],
+  "related": [
+   "detect-sift",
+   "detect-sift-orientation",
+   "detect-hog",
+   "detect-local-feature-matching"
+  ]
+ },
+ {
+  "id": "detect-surf",
+  "term": "SURF",
+  "reading": "さーふ",
+  "en": "Speeded-Up Robust Features",
+  "cat": "detect",
+  "short": "積分画像とボックスフィルタでヘッセ行列式を近似した、SIFTより高速な局所特徴",
+  "def": "Speeded-Up Robust Features の略。特徴点の検出には、ヘッセ行列の行列式（det H）を2次微分のガウシアンを近似したボックスフィルタで計算し、その極値を用いる（Fast-Hessian 検出器）。ボックスフィルタは積分画像により、フィルタサイズによらず一定の計算量で計算できるため、画像を縮小する代わりにフィルタサイズを大きくしてスケール空間を構成する。方向は Haar ウェーブレット応答から求め、記述子は周囲を 4×4 に分割した各ブロックで Haar ウェーブレット応答の Σdx、Σdy、Σ|dx|、Σ|dy| の4値を並べた 4×4×4 = 64 次元とする。SIFT と同様にスケール・回転に不変で、より高速である。",
+  "points": [
+   "ヘッセ行列式（det H）の極値で検出",
+   "ボックスフィルタ＋積分画像で高速（フィルタサイズを変えてスケール空間）",
+   "記述子は 4×4×4 = 64 次元（Σdx, Σdy, Σ|dx|, Σ|dy|）",
+   "スケール・回転に不変"
+  ],
+  "history": "Herbert Bay、Tinne Tuytelaars、Luc Van Gool が2006年の ECCV で発表し、2008年に Computer Vision and Image Understanding 誌に詳細版を掲載した。",
+  "year": 2006,
+  "related": [
+   "detect-sift",
+   "detect-integral-image",
+   "detect-haar-like",
+   "ヘッセ行列"
+  ]
+ },
+ {
+  "id": "detect-binary-descriptor",
+  "term": "バイナリ特徴量",
+  "reading": "ばいなりとくちょうりょう",
+  "en": "binary descriptor",
+  "cat": "detect",
+  "short": "画素の明暗比較の結果を0/1で並べたビット列の局所特徴記述子",
+  "def": "特徴点周囲の画素対の輝度を比較し、その大小関係を0/1で表したビット列を特徴ベクトルとする記述子の総称。BRIEF、ORB、BRISK、FREAK、AKAZE（M-LDB）などがある。記述子の計算が比較のみで高速で、メモリも少なく（256ビット＝32バイトなど）、照合はハミング距離（XOR と popcount の CPU 命令）で非常に高速に行える。そのためスマートフォンなどの組込み機器やリアルタイム処理（SLAM など）で広く使われる。一方で、実数ベクトルの SIFT などに比べると識別性能がやや劣る場合がある。",
+  "points": [
+   "画素対の明暗比較の結果を並べたビット列",
+   "照合はハミング距離（XOR＋ビット数え）で高速",
+   "メモリが少なく組込み・リアルタイム向き"
+  ],
+  "related": [
+   "detect-brief",
+   "detect-orb",
+   "detect-hamming",
+   "detect-akaze"
+  ]
+ },
+ {
+  "id": "detect-brief",
+  "term": "BRIEF",
+  "reading": "ぶりーふ",
+  "en": "Binary Robust Independent Elementary Features",
+  "cat": "detect",
+  "short": "平滑化した周辺のランダムな画素対の明暗比較を並べたバイナリ記述子",
+  "def": "Binary Robust Independent Elementary Features の略。特徴点の周囲のパッチを平滑化してノイズの影響を抑えたうえで、あらかじめ（ガウス分布などで）ランダムに選んでおいた n 組（128, 256, 512 など）の画素対 (p, q) について、I(p) < I(q) なら1、そうでなければ0とするテストを行い、その結果を並べたビット列を記述子とする。計算と照合（ハミング距離）が非常に高速である。ただし、パッチの向きを考慮しないので回転に不変でなく、スケール変化にも対応しない。これらは ORB（方向付き BRIEF）などで改良された。",
+  "points": [
+   "ランダムな画素対の明暗比較→ビット列（例: 256ビット）",
+   "事前に平滑化してノイズに対処",
+   "回転・スケールに不変でない",
+   "照合はハミング距離"
+  ],
+  "history": "Calonder、Lepetit、Strecha、Fua が2010年の ECCV で発表した。",
+  "year": 2010,
+  "related": [
+   "detect-orb",
+   "detect-hamming",
+   "detect-binary-descriptor"
+  ]
+ },
+ {
+  "id": "detect-orb",
+  "term": "ORB",
+  "reading": "おーぶ",
+  "en": "Oriented FAST and Rotated BRIEF",
+  "cat": "detect",
+  "short": "FASTに方向を付け、BRIEFを回転に対応させたバイナリ局所特徴",
+  "def": "Oriented FAST and Rotated BRIEF の略。特徴点検出には画像ピラミッドの各層で FAST を適用し、Harris の応答で上位の点を選ぶ。各点の方向は、パッチの輝度の重心（intensity centroid）へ中心から向かうベクトルの角度 θ = atan2(m01, m10) で与える（oFAST）。記述子は、この方向に合わせて画素対のパターンを回転させた BRIEF（steered BRIEF）で、さらに相関が小さく分散の大きい画素対を学習で選んだ rBRIEF（256ビット）を用いる。回転に不変で、ピラミッドにより一定のスケール変化にも対応し、SIFT や SURF より大幅に高速で、特許の制約もない。照合にはハミング距離を用いる。",
+  "points": [
+   "oFAST（FAST＋輝度重心による方向）＋ rBRIEF（回転対応 BRIEF）",
+   "方向 θ = atan2(m01, m10)（輝度重心法）",
+   "256ビットのバイナリ記述子、ハミング距離で照合",
+   "画像ピラミッドでスケール変化に対応、特許フリー"
+  ],
+  "formula": "θ = atan2(m01, m10)",
+  "history": "Rublee、Rabaud、Konolige、Bradski（Willow Garage）が2011年の ICCV 論文「ORB: an efficient alternative to SIFT or SURF」で発表した。ORB-SLAM（2015）などで広く使われる。",
+  "year": 2011,
+  "related": [
+   "detect-fast",
+   "detect-brief",
+   "detect-hamming",
+   "detect-sift",
+   "detect-binary-descriptor"
+  ]
+ },
+ {
+  "id": "detect-akaze",
+  "term": "KAZE / AKAZE",
+  "reading": "かぜ／えーかぜ",
+  "en": "KAZE / Accelerated-KAZE",
+  "cat": "detect",
+  "short": "非線形拡散によるスケール空間を用いた局所特徴（AKAZEは高速版でバイナリ記述子）",
+  "def": "SIFT や SURF がガウシアン（線形拡散）でスケール空間を作るため、エッジや物体の境界までぼけてしまうのに対し、KAZE はエッジを保存する非線形拡散フィルタでスケール空間を構成し、ヘッセ行列式の極値で特徴点を検出する。AKAZE（Accelerated-KAZE）は、非線形スケール空間の計算を高速な数値解法（FED）で行い、記述子にバイナリの M-LDB を用いることで高速化したものである。回転・スケールに不変。",
+  "points": [
+   "非線形拡散でエッジを保存したスケール空間",
+   "ヘッセ行列式の極値で検出",
+   "AKAZE は高速化版、記述子はバイナリ（M-LDB）"
+  ],
+  "history": "Alcantarilla、Bartoli、Davison が KAZE を2012年（ECCV）、Alcantarilla らが AKAZE を2013年（BMVC）に発表した。",
+  "year": 2012,
+  "related": [
+   "detect-sift",
+   "detect-surf",
+   "detect-binary-descriptor",
+   "detect-scale-space"
+  ]
+ },
+ {
+  "id": "detect-hamming",
+  "term": "ハミング距離",
+  "reading": "はみんぐきょり",
+  "en": "Hamming distance",
+  "cat": "detect",
+  "short": "2つのビット列で異なるビットの数",
+  "def": "同じ長さの2つの符号（ビット列）で、対応する位置のビットが異なる箇所の数。2つのビット列の排他的論理和（XOR）をとり、1のビットの数を数える（popcount）ことで計算でき、専用のCPU命令により非常に高速である。BRIEF、ORB などのバイナリ特徴量の照合に用いられる。例えば 10110 と 11100 のハミング距離は2である。実数ベクトルのユークリッド距離の計算に比べ、桁違いに高速に照合できる。",
+  "points": [
+   "異なるビットの数＝ XOR の popcount",
+   "バイナリ記述子（BRIEF, ORB, BRISK, AKAZE）の照合に使う",
+   "ユークリッド距離より高速"
+  ],
+  "history": "Richard Hamming が1950年に誤り検出・訂正符号の論文で導入した。",
+  "year": 1950,
+  "related": [
+   "detect-brief",
+   "detect-orb",
+   "detect-binary-descriptor",
+   "detect-local-feature-matching"
+  ]
+ },
+ {
+  "id": "detect-hog",
+  "term": "HOG 特徴量",
+  "reading": "ほぐとくちょうりょう",
+  "en": "Histograms of Oriented Gradients",
+  "cat": "detect",
+  "short": "セルごとの勾配方向ヒストグラムをブロック単位で正規化して並べた特徴",
+  "def": "Histograms of Oriented Gradients の略。検出窓（人物検出では 64×128 画素）を 8×8 画素のセルに分け、各セルで勾配方向（0〜180°の符号なし方向を9ビン）のヒストグラムを勾配強度で重み付けして作る。次に 2×2 セルのブロックごとにヒストグラムを連結して正規化（L2ノルムなど）し、ブロックを1セルずつ重ねながらずらして得たすべてのベクトルを連結する。64×128 窓では 7×15 ブロック × 36 次元 = 3780 次元となる。局所的な形状（輪郭の向き）を表し、ブロック正規化により照明やコントラストの変化に頑健、セル単位の集計により小さな位置ずれや変形にも頑健である。線形SVMと組み合わせた歩行者検出で有名になった。回転には不変でない。",
+  "points": [
+   "セル（8×8）ごとの勾配方向ヒストグラム（9方向、0〜180°）",
+   "ブロック（2×2セル）単位の正規化で照明変化に頑健、ブロックは重複させる",
+   "64×128 窓で 3780 次元",
+   "線形SVMによる歩行者検出、回転には不変でない"
+  ],
+  "history": "Navneet Dalal と Bill Triggs が2005年の CVPR 論文「Histograms of Oriented Gradients for Human Detection」で提案した。",
+  "year": 2005,
+  "confuse": "SIFT 記述子も勾配方向ヒストグラムだが、特徴点ごとに主方向とスケールを正規化する。HOG は検出窓全体を密に（グリッド上で）記述し、方向の正規化はしない。",
+  "related": [
+   "detect-sift-descriptor",
+   "detect-sliding-window",
+   "detect-haar-like",
+   "SVM"
+  ]
+ },
+ {
+  "id": "detect-haar-like",
+  "term": "Haar-like 特徴",
+  "reading": "はーるらいくとくちょう",
+  "en": "Haar-like features",
+  "cat": "detect",
+  "short": "隣接する白と黒の矩形領域の画素値の和の差で表す特徴",
+  "def": "隣接する複数の矩形領域（白領域と黒領域）について、白領域内の画素値の和から黒領域内の画素値の和を引いた値を特徴量とする。2矩形（縦・横のエッジ）、3矩形（線）、4矩形（斜め）などの型があり、位置と大きさを変えることで膨大な数の特徴が作れる。例えば顔では、目の領域は頬より暗い、眉間は両目より明るいといった明暗の関係を表せる。積分画像を使えば、矩形の大きさに関係なく1つの矩形の和を4回の参照で計算でき、きわめて高速に評価できる。名前は Haar ウェーブレットの基底に形が似ていることに由来する。",
+  "points": [
+   "白矩形の和 − 黒矩形の和",
+   "2矩形・3矩形・4矩形などの型",
+   "積分画像で高速に計算（矩形1つにつき4点参照）",
+   "Viola–Jones 顔検出で AdaBoost により選択"
+  ],
+  "history": "Papageorgiou、Oren、Poggio（1998）が Haar ウェーブレットを物体検出に用い、Viola と Jones（2001）が矩形特徴として整理して顔検出に用いた。Lienhart と Maydt（2002）は45°回転した特徴を追加した。",
+  "year": 2001,
+  "related": [
+   "detect-integral-image",
+   "detect-viola-jones",
+   "detect-adaboost"
+  ]
+ },
+ {
+  "id": "detect-integral-image",
+  "term": "積分画像",
+  "reading": "せきぶんがぞう",
+  "en": "integral image / summed-area table",
+  "cat": "detect",
+  "short": "原点から各画素までの矩形領域の画素値の和を格納した画像",
+  "def": "各画素 (x, y) に、原点 (0,0) からその画素までの矩形内の画素値の総和 S(x, y) = Σ_{x'≤x, y'≤y} I(x', y') を格納した画像。漸化式により元画像を1回走査するだけで作成できる。作成後は、任意の矩形領域の画素値の和を、矩形の四隅の値 A（左上の外側）、B（右上）、C（左下）、D（右下）から D − B − C + A の4回の参照と3回の加減算で、矩形の大きさによらず一定時間で求められる。Haar-like 特徴、SURF のボックスフィルタ、ZNCC の平均・分散の計算、平均値フィルタの高速化などに用いられる。画素値の二乗の積分画像も作れば局所分散も高速に求まる。",
+  "points": [
+   "S(x,y) = 原点から (x,y) までの矩形の和",
+   "任意の矩形和 = D − B − C + A（4回参照、サイズに依存しない）",
+   "1回の走査で作成できる",
+   "Haar-like、SURF、平均・分散の高速計算に利用"
+  ],
+  "formula": "S(x,y) = I(x,y) + S(x−1,y) + S(x,y−1) − S(x−1,y−1)",
+  "history": "コンピュータグラフィックスのテクスチャマッピング用に Crow（1984）が summed-area table として提案し、Viola と Jones（2001）が「integral image」の名で物体検出に用いて広まった。",
+  "year": 1984,
+  "related": [
+   "detect-haar-like",
+   "detect-viola-jones",
+   "detect-surf",
+   "detect-zncc"
+  ]
+ },
+ {
+  "id": "detect-adaboost",
+  "term": "AdaBoost",
+  "reading": "えいだぶーすと",
+  "en": "Adaptive Boosting",
+  "cat": "detect",
+  "short": "誤識別したサンプルの重みを上げながら弱識別器を逐次学習し、重み付き多数決で強識別器を作る",
+  "def": "Adaptive Boosting の略。少し偶然よりましな程度の弱識別器を、逐次的に学習して組み合わせるブースティングの代表的手法。各回で、重み付き誤り率が最小となる弱識別器を選び、その誤り率から信頼度 α を計算する。次の回では、誤識別したサンプルの重みを増やし、正しく識別したサンプルの重みを減らすことで、難しいサンプルに集中して学習させる。最終的な強識別器は、弱識別器の出力の α による重み付き多数決とする。Viola–Jones 法では、1つの Haar-like 特徴としきい値からなる弱識別器を使うことで、AdaBoost が膨大な特徴の中から有効なものを選択する特徴選択の役割も果たす。",
+  "points": [
+   "誤識別サンプルの重みを増やして次の弱識別器を学習",
+   "強識別器 = 弱識別器の重み付き多数決",
+   "Viola–Jones では特徴選択も兼ねる"
+  ],
+  "history": "Freund と Schapire が1995年（論文誌は1997年）に提案し、2003年にゲーデル賞を受賞した。",
+  "year": 1995,
+  "related": [
+   "detect-viola-jones",
+   "detect-cascade",
+   "detect-haar-like",
+   "ブースティング"
+  ]
+ },
+ {
+  "id": "detect-cascade",
+  "term": "カスケード型識別器",
+  "reading": "かすけーどがたしきべつき",
+  "en": "attentional cascade",
+  "cat": "detect",
+  "short": "簡単な識別器から順に並べ、明らかな非対象を早い段階で棄却する多段構造",
+  "def": "複数の強識別器を直列に並べ、各段で「対象でない」と判定された窓はその時点で棄却し、通過した窓だけを次の段へ送る構造。前段ほど少数の特徴からなる簡単な識別器にして、検出率がほぼ100%になる（見逃しが極めて少ない）ようにしきい値を設定しつつ、背景の大半を早い段階で棄却する。画像中の探索窓のほとんどは背景なので、平均の計算量が大幅に減る。全体の検出率と誤検出率は各段の値の積となる（例: 各段で検出率0.99・誤検出率0.3を10段なら、検出率約0.90、誤検出率約6×10⁻⁶）。",
+  "points": [
+   "前段ほど簡単、非対象を早期に棄却して高速化",
+   "各段は高検出率（見逃しが少ない）に設定",
+   "全体の検出率・誤検出率は各段の積"
+  ],
+  "history": "Viola と Jones（2001）が顔検出で導入した。",
+  "year": 2001,
+  "related": [
+   "detect-viola-jones",
+   "detect-adaboost",
+   "detect-sliding-window"
+  ]
+ },
+ {
+  "id": "detect-viola-jones",
+  "term": "Viola–Jones 法",
+  "reading": "びおらじょーんずほう",
+  "en": "Viola-Jones object detection",
+  "cat": "detect",
+  "short": "Haar-like特徴・積分画像・AdaBoost・カスケードによる高速な顔検出法",
+  "def": "(1) Haar-like 特徴を (2) 積分画像で高速に計算し、(3) AdaBoost で膨大な特徴の中から識別に有効なものを選んで強識別器を作り、(4) それらをカスケード構造に並べて背景を早期に棄却する、という4つの要素を組み合わせた物体（顔）検出法。24×24 画素の基本検出窓を画像上で位置と大きさを変えながら走査（スライディングウィンドウ）し、各窓が顔かどうかを判定する。当時の一般的なPCで実時間の顔検出を初めて実現し、デジタルカメラの顔検出機能などに広く使われた。正面顔に強く、横顔や大きな回転には弱い。",
+  "points": [
+   "Haar-like 特徴＋積分画像＋AdaBoost＋カスケード の4要素",
+   "24×24 画素の検出窓を多重スケールで走査",
+   "実時間の顔検出を初めて実現",
+   "正面顔向き。回転・横顔には弱い"
+  ],
+  "history": "Paul Viola と Michael Jones が2001年の CVPR 論文「Rapid Object Detection using a Boosted Cascade of Simple Features」で発表し、2004年に IJCV 誌に「Robust Real-Time Face Detection」を掲載した。2001年版では 24×24 窓の矩形特徴の総数は18万以上とされている。",
+  "year": 2001,
+  "related": [
+   "detect-haar-like",
+   "detect-integral-image",
+   "detect-adaboost",
+   "detect-cascade",
+   "detect-sliding-window"
+  ]
+ },
+ {
+  "id": "detect-sliding-window",
+  "term": "スライディングウィンドウ",
+  "reading": "すらいでぃんぐういんどう",
+  "en": "sliding window",
+  "cat": "detect",
+  "short": "固定サイズの窓を画像上で位置と大きさを変えて走査し、窓ごとに識別する検出方式",
+  "def": "一定の大きさの検出窓を画像上で少しずつずらしながら走査し、窓内の画像が対象かどうかを識別器で判定する物体検出の方式。対象の大きさの変化には、画像を段階的に縮小した画像ピラミッドの各層で走査する（または窓を拡大する）ことで対応する。評価する窓の数が膨大になるため、カスケードによる早期棄却などで高速化する。同じ対象の周囲で複数の窓が反応するので、最後に非最大値抑制で重複を除く。Viola–Jones 法、HOG＋SVM などで使われた。",
+  "points": [
+   "窓を位置とスケールを変えて全探索",
+   "スケール変化には画像ピラミッドで対応",
+   "重複検出は非最大値抑制で統合"
+  ],
+  "related": [
+   "detect-viola-jones",
+   "detect-hog",
+   "detect-nms",
+   "detect-pyramid"
+  ]
+ },
+ {
+  "id": "detect-nms",
+  "term": "非最大値抑制",
+  "reading": "ひさいだいちよくせい",
+  "en": "non-maximum suppression (NMS)",
+  "cat": "detect",
+  "short": "近傍で最大の応答だけを残し、それ以外を除去する処理",
+  "def": "検出器の応答が局所的に最大となる位置だけを残し、その周囲の値を抑制（除去）する処理。特徴点検出（Harris の応答の局所最大）、ハフ変換の投票空間のピーク検出、Canny 法のエッジの細線化（勾配方向に沿った局所最大）、物体検出での重複した検出枠の統合（スコアが最大の枠と重なり率 IoU の大きい枠を除く）などで用いられる。",
+  "points": [
+   "近傍内で最大値のみ残す",
+   "特徴点・ハフ空間のピーク・Canny のエッジ細線化に利用",
+   "物体検出では IoU に基づいて重複枠を除く"
+  ],
+  "related": [
+   "detect-harris",
+   "detect-accumulator",
+   "detect-sliding-window",
+   "Canny法"
+  ]
+ },
+ {
+  "id": "detect-lbp",
+  "term": "LBP",
+  "reading": "えるびーぴー",
+  "en": "Local Binary Pattern",
+  "cat": "detect",
+  "short": "中心画素と近傍画素の大小を2値化して並べた局所パターンの特徴",
+  "def": "Local Binary Pattern の略。注目画素の値をしきい値として、周囲の8近傍画素（一般には半径 R の円周上の P 点）が中心以上なら1、未満なら0とし、それらのビットを決まった順に並べて2進数（3×3 なら 0〜255 の値）とする。領域内でこの LBP 値のヒストグラムを作り、テクスチャ特徴量とする。中心との大小関係だけを使うので、明るさの単調な変化（一定値の加算や定数倍）に不変である。ビット列の 0→1、1→0 の変化が2回以下のパターンを uniform パターンとして区別すると、8近傍では 58 種＋その他1種の 59 ビンのヒストグラムになる。ビット列を巡回シフトした最小値を用いると回転に不変になる。顔認識（Ahonen ら 2006）にも用いられた。",
+  "points": [
+   "中心画素との大小比較で8ビット（0〜255）",
+   "明るさの単調変化（オフセット・ゲイン）に不変",
+   "uniform パターン（遷移2回以下）: 8近傍で58種＋その他＝59ビン",
+   "巡回シフトの最小値で回転不変化"
+  ],
+  "history": "Ojala、Pietikäinen、Harwood が1994年（ICPR）・1996年（Pattern Recognition）に提案し、Ojala、Pietikäinen、Mäenpää（2002, TPAMI）が多重解像度・回転不変・uniform パターンに拡張した。",
+  "year": 1996,
+  "related": [
+   "region-texture",
+   "region-glcm",
+   "detect-invariance",
+   "detect-binary-descriptor"
+  ]
+ },
+ {
+  "id": "detect-local-feature-matching",
+  "term": "局所特徴量マッチング",
+  "reading": "きょくしょとくちょうりょうまっちんぐ",
+  "en": "local feature matching",
+  "cat": "detect",
+  "short": "2画像の特徴点を記述子の距離で対応付ける処理",
+  "def": "2枚の画像から検出した特徴点について、記述子どうしの距離（SIFT・SURF などの実数ベクトルはユークリッド距離、BRIEF・ORB などのバイナリ記述子はハミング距離）を計算し、最も距離の近いものを対応点とする。全探索のほか、k-d 木や近似最近傍探索（FLANN など）で高速化する。誤対応を減らすために、距離比テスト、相互チェック（双方向で最近傍になるものだけを残す）、RANSAC による幾何学的整合性の検証（ホモグラフィや基礎行列に合うものだけを残す）を組み合わせる。パノラマ合成、物体認識、3次元復元（SfM）などに用いる。",
+  "points": [
+   "実数記述子→ユークリッド距離、バイナリ記述子→ハミング距離",
+   "誤対応除去: 距離比テスト、相互チェック、RANSAC",
+   "近似最近傍探索（k-d 木、FLANN）で高速化"
+  ],
+  "related": [
+   "detect-ratio-test",
+   "detect-cross-check",
+   "detect-ransac",
+   "detect-hamming",
+   "detect-sift"
+  ]
+ },
+ {
+  "id": "detect-ratio-test",
+  "term": "距離比テスト",
+  "reading": "きょりひてすと",
+  "en": "ratio test (Lowe's ratio test)",
+  "cat": "detect",
+  "short": "最近傍と第2近傍の距離の比がしきい値未満の対応だけを採用する方法",
+  "def": "ある特徴点の記述子に対し、相手画像の中で最も近い記述子までの距離 d1 と、2番目に近い記述子までの距離 d2 を求め、d1/d2 がしきい値（例: 0.8）より小さい場合だけ対応として採用する方法。最近傍と第2近傍がほぼ同じ距離にある場合は、繰り返しパターンなどで紛らわしく、誤対応の可能性が高いので捨てる。単純に距離 d1 のしきい値で判定するより、正しい対応と誤対応をよく分離できる。",
+  "points": [
+   "d1/d2 < しきい値（Lowe は 0.8）なら採用",
+   "最近傍と第2近傍が近い（紛らわしい）対応を除外",
+   "絶対距離のしきい値より有効"
+  ],
+  "history": "Lowe（2004）が SIFT の論文で提案し、比 0.8 で誤対応の90%を除去し正しい対応の除去は5%未満であると報告した。",
+  "year": 2004,
+  "related": [
+   "detect-local-feature-matching",
+   "detect-cross-check",
+   "detect-sift"
+  ]
+ },
+ {
+  "id": "detect-cross-check",
+  "term": "相互チェック（クロスチェック）",
+  "reading": "そうごちぇっく",
+  "en": "cross check / mutual nearest neighbor",
+  "cat": "detect",
+  "short": "両方向の最近傍探索で互いに最近傍となる対応だけを残す方法",
+  "def": "画像Aの特徴点 a に対する画像Bの最近傍が b であり、かつ b に対する画像Aの最近傍が a であるとき（相互最近傍）にだけ、(a, b) を対応として採用する誤対応の除去法。一方向の最近傍探索では、Bの1つの点に Aの複数の点が対応するなどの誤りが生じるが、双方向で確認することでそれを防ぐ。距離比テストと並んでよく使われる。",
+  "points": [
+   "A→B と B→A の両方で最近傍となる組だけ採用",
+   "多対一の誤対応を防ぐ"
+  ],
+  "related": [
+   "detect-ratio-test",
+   "detect-local-feature-matching"
+  ]
+ },
+ {
+  "id": "detect-bovw",
+  "term": "Bag of Visual Words",
+  "reading": "ばっぐおぶびじゅあるわーず",
+  "en": "Bag of Visual Words (BoVW)",
+  "cat": "detect",
+  "short": "局所特徴をクラスタリングした視覚単語の出現頻度ヒストグラムで画像を表す手法",
+  "def": "Bag of Features、Bag of Keypoints とも呼ぶ。文書を単語の出現頻度で表す Bag of Words の考え方を画像に適用したもの。(1)学習画像から多数の局所特徴量（SIFT など）を抽出し、(2) k-means などでクラスタリングして、各クラスタ中心を視覚単語（visual word）とする辞書（コードブック）を作る。(3)画像中の各局所特徴を最も近い視覚単語に割り当て（ベクトル量子化）、(4)視覚単語の出現頻度のヒストグラムを画像の特徴ベクトルとして、SVM などで分類したり、類似画像検索に用いたりする。特徴点の位置関係（空間情報）は失われるため、画像を分割して各部分のヒストグラムを連結する空間ピラミッドマッチング（Lazebnik ら 2006）などで補う。",
+  "points": [
+   "局所特徴→ k-means で視覚単語（コードブック）→出現頻度ヒストグラム",
+   "各特徴を最近傍の視覚単語に量子化（ベクトル量子化）",
+   "空間的な位置関係が失われる→空間ピラミッドで補う",
+   "一般物体認識・画像検索に用いられた"
+  ],
+  "history": "Sivic と Zisserman（2003, 動画検索「Video Google」）と Csurka ら（2004, 画像分類「Visual categorization with bags of keypoints」）によって導入された。改良版に Fisher Vector、VLAD がある。",
+  "year": 2003,
+  "related": [
+   "detect-sift",
+   "region-kmeans",
+   "ベクトル量子化",
+   "SVM"
+  ]
+ },
+ {
+  "id": "detect-asm",
+  "term": "アクティブ形状モデル",
+  "reading": "あくてぃぶけいじょうもでる",
+  "en": "Active Shape Model (ASM)",
+  "cat": "detect",
+  "short": "対応点（ランドマーク）の統計的な形状モデル（PCA）に制約して輪郭を当てはめる手法",
+  "def": "Active Shape Model の略。学習画像に対象の輪郭上の対応する点（ランドマーク）を手動で与え、プロクラステス解析で位置・回転・大きさをそろえたうえで、ランドマーク座標を並べたベクトルを主成分分析（PCA）し、平均形状と少数の主要な変形モード（固有ベクトル）で形状を表す点分布モデル（PDM）を作る。新しい画像では、各ランドマークの法線方向でエッジなどの濃淡プロファイルに最もよく合う位置を探して点を動かし、その形状を PDM の範囲内（主成分の係数を ±3√λ 程度に制限）に投影する、という操作を反復して対象に当てはめる。統計的な形状の制約があるため、ノイズや遮蔽があってももっともらしい形が得られる。顔の特徴点検出や医用画像の臓器の輪郭抽出に用いられる。",
+  "points": [
+   "ランドマーク座標を PCA した点分布モデル（PDM）",
+   "平均形状＋主要な変形モードで形を表現",
+   "局所探索→形状モデルへの射影を反復",
+   "スネークと違い、学習した統計的形状の制約がある"
+  ],
+  "formula": "x ≈ x̄ + P b （x̄: 平均形状, P: 固有ベクトル, b: 形状パラメータ）",
+  "history": "Cootes、Taylor、Cooper、Graham が1995年に Computer Vision and Image Understanding 誌の論文「Active Shape Models—Their Training and Application」で発表した。テクスチャ（見え）も統計モデル化した AAM（Active Appearance Model）は Cootes、Edwards、Taylor（1998）。",
+  "year": 1995,
+  "confuse": "動的輪郭モデル（スネーク）は滑らかさの一般的な拘束しかもたないが、ASM は学習データから得た対象固有の形状変化の統計を拘束に用いる。",
+  "related": [
+   "detect-aam",
+   "region-snake",
+   "主成分分析"
+  ]
+ },
+ {
+  "id": "detect-aam",
+  "term": "アクティブ外観モデル",
+  "reading": "あくてぃぶがいかんもでる",
+  "en": "Active Appearance Model (AAM)",
+  "cat": "detect",
+  "short": "形状とテクスチャ（見え）を統合した統計モデルを画像に当てはめる手法",
+  "def": "Active Appearance Model の略。ASM の形状モデル（ランドマークの PCA）に加え、平均形状に正規化した領域内の濃淡（テクスチャ）も PCA でモデル化し、形状とテクスチャを統合した見えのモデルを作る。モデルが生成する画像と入力画像との差（残差）が最小になるようにパラメータを最適化して当てはめる。残差とパラメータ更新量の関係を事前に学習しておくことで高速に収束させる。顔の表情解析、医用画像解析などに用いられる。",
+  "points": [
+   "形状＋テクスチャの統計モデル",
+   "モデル生成画像と入力の残差を最小化",
+   "ASM の拡張"
+  ],
+  "history": "Cootes、Edwards、Taylor が1998年の ECCV で発表した。",
+  "year": 1998,
+  "related": [
+   "detect-asm",
+   "主成分分析"
+  ]
+ },
+ {
+  "id": "detect-invariance",
+  "term": "特徴量の不変性",
+  "reading": "とくちょうりょうのふへんせい",
+  "en": "invariance of features",
+  "cat": "detect",
+  "short": "平行移動・回転・拡大縮小・照明変化などに対して特徴量の値が変わらない性質",
+  "def": "画像の変換に対して特徴量の値が変化しない性質を不変性という。代表的な手法の不変性は次のとおり。SSD・SAD: 照明変化に不変でない。NCC: ゲイン（定数倍）に不変。ZNCC: ゲインとオフセット（aI+b）に不変。Harris: 回転とオフセットに不変、スケールに不変でない。FAST: スケール・方向をもたない。SIFT・SURF: 平行移動・回転・スケールに不変、照明変化に頑健。BRIEF: 回転に不変でない。ORB: 回転に不変、ピラミッドでスケール変化に対応。HOG: 照明変化に頑健、回転に不変でない。LBP: 単調な明るさ変化に不変。Hu モーメント: 平行移動・回転・スケールに不変。円形度: 平行移動・回転・スケールに不変。不変性を高めると識別力が下がるトレードオフがあり、用途に応じて必要十分な不変性を選ぶ。",
+  "points": [
+   "ZNCC: aI+b に不変／NCC: aI のみ／SSD・SAD: どちらも不変でない",
+   "Harris: 回転不変・スケール非不変、SIFT/SURF: 回転・スケール不変",
+   "BRIEF: 回転非不変 → ORB: 回転不変",
+   "不変性と識別力はトレードオフ"
+  ],
+  "related": [
+   "detect-zncc",
+   "detect-harris",
+   "detect-sift",
+   "detect-orb",
+   "detect-lbp",
+   "region-hu-moments",
+   "region-circularity"
+  ]
+ }
+]
