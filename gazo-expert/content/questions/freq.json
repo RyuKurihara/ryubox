@@ -1,0 +1,1352 @@
+[
+ {
+  "id": "freq-q001",
+  "cat": "freq",
+  "style": "figure",
+  "lead": "以下の問題では、振幅スペクトルは直流成分が中央に来るよう象限を入れ替えて表示し、明るい点ほど振幅が大きいものとする。画像とスペクトルの縦横の向きは一致させて表示している。",
+  "stem": "図の画像は、濃淡が水平方向に正弦波状に変化する縦縞である。この画像の2次元フーリエ振幅スペクトルとして最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq001_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='62.5' y2='50' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq001_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>",
+   "caption": "入力画像（縦縞）"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='78.8' cy='50' r='3' fill='#fff'/><circle cx='21.2' cy='50' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='50' cy='21.2' r='3' fill='#fff'/><circle cx='50' cy='78.8' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='70.4' cy='29.6' r='3' fill='#fff'/><circle cx='29.6' cy='70.4' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='29.6' cy='29.6' r='3' fill='#fff'/><circle cx='70.4' cy='70.4' r='3' fill='#fff'/></svg>"
+    }
+   }
+  ],
+  "answer": 0,
+  "explain": "縞模様のスペクトルは、直流成分のほかに「縞に垂直な方向（濃淡が変化する方向）」に原点対称な2点として現れる。縦縞は水平方向に濃淡が変化するので、点は水平軸（u軸）上に並ぶ図が正解。縦軸上に点が並ぶ図は横縞のスペクトル、斜め方向に並ぶ図は斜め縞のスペクトルであり誤り。「縞と同じ向きに点が並ぶ」と誤解しやすいので注意。",
+  "terms": [
+   "freq-stripe-spectrum",
+   "freq-spatial-frequency",
+   "freq-dft-2d"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q002",
+  "cat": "freq",
+  "style": "figure",
+  "lead": "以下の問題では、振幅スペクトルは直流成分が中央に来るよう象限を入れ替えて表示し、明るい点ほど振幅が大きいものとする。画像とスペクトルの縦横の向きは一致させて表示している。",
+  "stem": "図の画像A・Bはいずれも横縞で、Bの縞の周期はAの約0.4倍（細かい）である。画像Bの振幅スペクトルとして最も適切なものを選べ。ただし選択肢はAのスペクトルと同じ縮尺で描いてある。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq002a_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='50' y2='25' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq002a_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>",
+    "caption": "画像A（周期が長い）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq002b_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='50' y2='40' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq002b_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>",
+    "caption": "画像B（周期が短い）"
+   }
+  ],
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='50' cy='35.6' r='3' fill='#fff'/><circle cx='50' cy='64.4' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='86' cy='50' r='3' fill='#fff'/><circle cx='14' cy='50' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='64.4' cy='50' r='3' fill='#fff'/><circle cx='35.6' cy='50' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='50' cy='14' r='3' fill='#fff'/><circle cx='50' cy='86' r='3' fill='#fff'/></svg>"
+    }
+   }
+  ],
+  "answer": 3,
+  "explain": "横縞は垂直方向に濃淡が変化するので、スペクトルの点は縦軸（v軸）上に並ぶ。また原点からの距離は空間周波数（周期の逆数）に比例するため、周期が約0.4倍のBでは点が約2.5倍遠くなる。よって縦軸上で中心から遠い位置に点がある図が正解。縦軸上で中心に近い図は粗い横縞（画像A）のスペクトル、横軸上の図は縦縞のスペクトルであり誤り。",
+  "terms": [
+   "freq-stripe-spectrum",
+   "freq-scaling",
+   "freq-spatial-frequency"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q003",
+  "cat": "freq",
+  "style": "figure",
+  "lead": "以下の問題では、振幅スペクトルは直流成分が中央に来るよう象限を入れ替えて表示し、明るい点ほど振幅が大きいものとする。画像とスペクトルの縦横の向きは一致させて表示している。",
+  "stem": "図の画像は、左上から右下へ向かう方向（＼方向）に縞が伸びる斜め縞である。この画像の振幅スペクトルとして最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq003_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='58.8' y2='41.2' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq003_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>",
+   "caption": "入力画像（＼方向に伸びる縞）"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='29.6' cy='29.6' r='3' fill='#fff'/><circle cx='70.4' cy='70.4' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='78.8' cy='50' r='3' fill='#fff'/><circle cx='21.2' cy='50' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='70.4' cy='29.6' r='3' fill='#fff'/><circle cx='29.6' cy='70.4' r='3' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='50' cy='21.2' r='3' fill='#fff'/><circle cx='50' cy='78.8' r='3' fill='#fff'/></svg>"
+    }
+   }
+  ],
+  "answer": 2,
+  "explain": "縞が＼方向に伸びているとき、濃淡が変化する方向はそれに垂直な／方向（右上−左下）である。スペクトルの点は縞に垂直な方向に並ぶので、右上と左下に点がある図が正解。縞と同じ＼方向に点が並ぶ図は、縞が／方向に伸びる画像のスペクトルであり誤り。水平軸・垂直軸上の図はそれぞれ縦縞・横縞のスペクトルである。",
+  "terms": [
+   "freq-stripe-spectrum",
+   "freq-rotation"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q004",
+  "cat": "freq",
+  "style": "figure",
+  "lead": "以下の問題では、振幅スペクトルは直流成分が中央に来るよう象限を入れ替えて表示し、明るい点ほど振幅が大きいものとする。画像とスペクトルの縦横の向きは一致させて表示している。",
+  "stem": "図の振幅スペクトルをもつ画像として最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='50' cy='21.2' r='3' fill='#fff'/><circle cx='50' cy='78.8' r='3' fill='#fff'/></svg>",
+   "caption": "振幅スペクトル"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq004b_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='62.5' y2='50' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq004b_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq004a_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='50' y2='37.5' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq004a_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq004c_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='58.8' y2='41.2' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq004c_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq004d_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='62.5' y2='50' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient><linearGradient id='fq004d_1' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='50' y2='37.5' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq004d_0)'/><rect x='0' y='0' width='100' height='100' fill='url(#fq004d_1)' opacity='0.5'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "スペクトルの点が縦軸上に原点対称に並んでいるので、垂直方向に濃淡が変化する成分、すなわち横縞である。縦縞なら点は横軸上、斜め縞なら斜め方向、縦縞と横縞を重ねた格子状の画像なら縦軸上と横軸上の両方に計4点が現れる。",
+  "terms": [
+   "freq-stripe-spectrum",
+   "freq-dft-2d"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q005",
+  "cat": "freq",
+  "style": "figure",
+  "lead": "以下の問題では、振幅スペクトルは直流成分が中央に来るよう象限を入れ替えて表示し、明るい点ほど振幅が大きいものとする。画像とスペクトルの縦横の向きは一致させて表示している。",
+  "stem": "図の振幅スペクトル（直流のほか、縦軸上と横軸上に原点対称な点の組がある）をもつ画像として最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='78.8' cy='50' r='3' fill='#fff'/><circle cx='21.2' cy='50' r='3' fill='#fff'/><circle cx='50' cy='21.2' r='3' fill='#fff'/><circle cx='50' cy='78.8' r='3' fill='#fff'/></svg>",
+   "caption": "振幅スペクトル"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq005a_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='62.5' y2='50' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient><linearGradient id='fq005a_1' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='50' y2='37.5' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq005a_0)'/><rect x='0' y='0' width='100' height='100' fill='url(#fq005a_1)' opacity='0.5'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq005b_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='58.8' y2='41.2' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient><linearGradient id='fq005b_1' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='41.2' y2='41.2' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq005b_0)'/><rect x='0' y='0' width='100' height='100' fill='url(#fq005b_1)' opacity='0.5'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq005c_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='62.5' y2='50' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq005c_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='fq005d_0' gradientUnits='userSpaceOnUse' x1='50' y1='50' x2='50' y2='37.5' spreadMethod='repeat'><stop offset='0' stop-color='#000'/><stop offset='0.5' stop-color='#fff'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect x='0' y='0' width='100' height='100' fill='url(#fq005d_0)'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>"
+    }
+   }
+  ],
+  "answer": 0,
+  "explain": "フーリエ変換は線形なので、2つの縞を重ねた画像のスペクトルは、それぞれの縞のスペクトルの和になる。横軸上の点の組は縦縞、縦軸上の点の組は横縞に対応するため、縦縞と横縞を重ねた格子状の画像が正解。斜めの格子（＼と／の縞の重ね合わせ）なら点は斜め方向に4点並ぶ。縦縞のみ・横縞のみの画像では点の組は1組だけである。",
+  "terms": [
+   "freq-stripe-spectrum",
+   "freq-fourier-transform"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q006",
+  "cat": "freq",
+  "style": "text",
+  "stem": "縦縞の画像を、画像中心を軸として反時計回りに30°回転させた。回転後の画像の振幅スペクトルについて、最も適切なものを選べ。",
+  "choices": [
+   "横軸上にあった2点が、原点を中心に時計回りに30°回転した位置に移る",
+   "横軸上にあった2点が縦軸上に移る",
+   "振幅スペクトルは変化せず、位相スペクトルだけが変化する",
+   "2点の原点からの距離が cos30° 倍に縮む",
+   "横軸上にあった原点対称な2点が、原点を中心に反時計回りに30°回転した位置に移る"
+  ],
+  "answer": 4,
+  "explain": "2次元フーリエ変換には「空間で角度θ回転すると、スペクトルも同じ向きに同じ角度θだけ回転する」という性質がある。縦縞のスペクトルの2点は横軸上にあるので、反時計回りに30°回転した位置に移る。逆向きに回るわけではない。縦軸上に移るのは90°回転した場合。振幅が変化せず位相だけが変わるのは平行移動の性質であり、回転では振幅スペクトルも回転する。縞の周期は回転で変わらないので原点からの距離も変わらない。",
+  "terms": [
+   "freq-rotation",
+   "freq-stripe-spectrum",
+   "freq-shift-theorem"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q007",
+  "cat": "freq",
+  "style": "text",
+  "stem": "画像を平行移動したときの2次元フーリエ変換の変化に関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "位相スペクトルは変化せず、振幅スペクトルが移動量に比例して平行移動する",
+   "振幅スペクトルも位相スペクトルも、移動量と同じだけ平行移動する",
+   "振幅スペクトルは変化せず、位相スペクトルに周波数に比例した変化が加わる",
+   "直流成分だけが移動量に比例して変化する",
+   "振幅スペクトルが移動方向と垂直な方向に回転する"
+  ],
+  "answer": 2,
+  "explain": "シフト定理により f(x−x0, y−y0) ⇔ F(u,v)exp{−j2π(ux0/M+vy0/N)} である。掛かる因子の絶対値は1なので振幅スペクトルは不変で、位相に周波数 (u,v) に比例する線形の変化が加わる。スペクトル自体が平行移動するのは、空間領域で複素正弦波を掛けた（変調した）場合である。直流成分 F(0,0)=Σf は移動では変わらない。回転は画像を回転させた場合の性質。",
+  "terms": [
+   "freq-shift-theorem",
+   "freq-amplitude-spectrum",
+   "freq-phase-spectrum"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q008",
+  "cat": "freq",
+  "style": "text",
+  "stem": "画像Aの振幅スペクトルと画像Bの位相スペクトルを組み合わせて逆フーリエ変換した。得られる画像として最も適切なものを選べ。",
+  "choices": [
+   "画像Bの輪郭や構造がよくわかる、Bに似た画像",
+   "画像Aの輪郭や構造がよくわかる、Aに似た画像",
+   "AとBを平均した（半透明に重ねた）ような画像",
+   "一様な灰色の画像",
+   "Aを左右反転した画像"
+  ],
+  "answer": 0,
+  "explain": "画像の構造（エッジや輪郭の位置）は主に位相スペクトルが担っている。そのため、振幅と位相を入れ替えて合成すると、位相を提供した画像Bに似た画像が得られる（Oppenheim と Lim による「位相の重要性」の実験）。振幅スペクトルは各周波数成分の強さだけを表し、自然画像どうしでは似た形（低周波ほど大きい）をしているため、見た目への影響は小さい。線形な重ね合わせではないので平均画像にはならない。",
+  "terms": [
+   "freq-phase-spectrum",
+   "freq-amplitude-spectrum",
+   "freq-poc"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q009",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "図の 3×3 画像 f(x,y) の2次元DFTを F(u,v)=Σ_x Σ_y f(x,y) exp{−j2π(ux/3+vy/3)} と定義する。直流成分 F(0,0) の値を選べ。",
+  "figure": {
+   "type": "grid",
+   "data": [
+    [
+     10,
+     20,
+     30
+    ],
+    [
+     40,
+     50,
+     60
+    ],
+    [
+     70,
+     80,
+     90
+    ]
+   ],
+   "max": 100,
+   "values": true,
+   "caption": "f(x,y)"
+  },
+  "choices": [
+   "50",
+   "0",
+   "90",
+   "450",
+   "4050"
+  ],
+  "answer": 3,
+  "explain": "u=v=0 では指数関数が1になるので、F(0,0)=Σf(x,y)＝画素値の総和である。10+20+…+90=450。50 は平均値で、順変換に 1/MN を付ける定義の場合の値。0 はハイパスフィルタ後のような平均0の画像の場合。90 は最大値、4050 は総和に画素数9を掛けた誤り。",
+  "terms": [
+   "freq-dc-component",
+   "freq-dft-2d"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q010",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "長さ4の1次元信号 f(n)=[0, 1, 0, −1]（n=0,1,2,3）の DFT を F(k)=Σ_{n=0}^{3} f(n)exp(−j2πkn/4) で計算した結果として正しいものを選べ。ただし j は虚数単位とする。",
+  "choices": [
+   "F=[0, 2j, 0, −2j]",
+   "F=[0, −2j, 0, 2j]",
+   "F=[0, 2, 0, 2]",
+   "F=[0, −2, 0, 2]",
+   "F=[2, 0, −2, 0]"
+  ],
+  "answer": 1,
+  "explain": "exp(−j2πk·n/4) は k=1 のとき n=1 で −j、n=3 で j となる。F(0)=0+1+0−1=0。F(1)=1·(−j)+(−1)·(j)=−2j。F(2)=1·(−1)+(−1)·(−1)=0。F(3)=1·(j)+(−1)·(−j)=2j。よって [0, −2j, 0, 2j]。実数信号なので F(3)=F*(1) の共役対称になっていることも確認できる。符号を逆にした [0, 2j, 0, −2j] は逆変換の核を用いた誤り。[0, 2, 0, 2] は振幅スペクトル |F(k)| であり F そのものではない。f(n)=sin(πn/2) なので、純虚数の成分だけが現れる。",
+  "terms": [
+   "freq-dft",
+   "freq-periodicity"
+  ],
+  "level": 3
+ },
+ {
+  "id": "freq-q011",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "1次元信号 f(n)=[2, 1, 2, 1]（n=0,1,2,3）の DFT（F(k)=Σf(n)exp(−j2πkn/4)）の振幅スペクトル |F(k)|（k=0,1,2,3）として正しいものを選べ。",
+  "choices": [
+   "[1.5, 0, 0.5, 0]",
+   "[6, 2, 0, 2]",
+   "[6, 0, 0, 0]",
+   "[2, 1, 2, 1]",
+   "[6, 0, 2, 0]"
+  ],
+  "answer": 4,
+  "explain": "F(0)=2+1+2+1=6（直流）。F(1)=2+1·(−j)+2·(−1)+1·(j)=0。F(2)=2−1+2−1=2（k=N/2 はナイキスト周波数で、周期2の振動成分）。F(3)=2+1·(j)+2·(−1)+1·(−j)=0。よって [6, 0, 2, 0]。この信号は「平均1.5＋周期2の振動」なので、直流と k=2 だけに値をもつ。[1.5, 0, 0.5, 0] は 1/N を掛けた値で、定義と異なる。[6, 2, 0, 2] は周期4の成分があると誤った場合。",
+  "terms": [
+   "freq-dft",
+   "freq-nyquist",
+   "freq-dc-component"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q012",
+  "cat": "freq",
+  "style": "fill",
+  "stem": "画素ピッチ 0.02 mm、水平方向 512 画素の画像に対して水平方向に DFT を行う。周波数分解能（隣り合う周波数成分の間隔）は（a）であり、表現できる最高の周波数（ナイキスト周波数）は（b）である。（a）（b）の組合せとして正しいものを選べ。",
+  "choices": [
+   "a: 約0.098 cycles/mm, b: 50 cycles/mm",
+   "a: 0.02 cycles/mm, b: 25 cycles/mm",
+   "a: 約0.098 cycles/mm, b: 25 cycles/mm",
+   "a: 512 cycles/mm, b: 256 cycles/mm",
+   "a: 約0.195 cycles/mm, b: 12.5 cycles/mm"
+  ],
+  "answer": 2,
+  "explain": "周波数分解能は Δu=1/(NΔx)=1/(512×0.02 mm)=1/10.24≈0.098 cycles/mm（観測長の逆数）。ナイキスト周波数は 1/(2Δx)=1/0.04=25 cycles/mm で、k=N/2=256 番目の成分 256×0.098≈25 とも一致する。50 cycles/mm は標本化周波数 1/Δx であり、ナイキスト周波数はその半分。0.02 は画素ピッチそのもの。",
+  "terms": [
+   "freq-freq-resolution",
+   "freq-nyquist",
+   "freq-sampling-theorem"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q013",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "画素ピッチが 5 μm の撮像素子で撮影する。撮像素子面上で正しく標本化できる縞の最高の空間周波数（ナイキスト周波数）として正しいものを選べ。",
+  "choices": [
+   "100 cycles/mm",
+   "200 cycles/mm",
+   "50 cycles/mm",
+   "400 cycles/mm",
+   "10 cycles/mm"
+  ],
+  "answer": 0,
+  "explain": "標本化周波数は 1/Δx=1/0.005 mm=200 cycles/mm であり、ナイキスト周波数はその半分の 100 cycles/mm である（白黒1組が2画素＝10 μm の周期）。200 cycles/mm は標本化周波数で、これを上限とするのは誤り。50 cycles/mm は周期4画素に相当する。",
+  "terms": [
+   "freq-nyquist",
+   "freq-sampling-theorem",
+   "標本化"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q014",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "水平方向に 0.7 cycles/pixel の正弦波状の縞模様を、1画素間隔（標本化周波数 1 cycle/pixel）で標本化した。標本化後の画像に現れる縞の見かけの空間周波数として正しいものを選べ。",
+  "choices": [
+   "0.7 cycles/pixel",
+   "0.35 cycles/pixel",
+   "1.7 cycles/pixel",
+   "0.3 cycles/pixel",
+   "0.5 cycles/pixel"
+  ],
+  "answer": 3,
+  "explain": "ナイキスト周波数 0.5 cycles/pixel を超える 0.7 cycles/pixel の成分は、ナイキスト周波数を軸に折り返され |0.7−1|=0.3 cycles/pixel の低周波の縞として現れる（エイリアシング）。標本化した後では本来の 0.7 と区別できないため、0.7 のまま観測されるという選択肢は誤り。0.35 は単に半分にした誤り、0.5 はナイキスト周波数そのものである。",
+  "terms": [
+   "freq-aliasing",
+   "freq-nyquist",
+   "freq-sampling-theorem"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q015",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "N=1024 点の1次元 DFT を直接計算すると複素乗算は約 N² 回必要である。基数2の FFT を用いた場合の複素乗算回数を約 (N/2)log₂N 回とすると、直接計算に対する比はおよそいくらか。",
+  "choices": [
+   "約1/10",
+   "約1/200",
+   "約1/2",
+   "約1/1000",
+   "約1/100000"
+  ],
+  "answer": 1,
+  "explain": "直接計算は 1024²=1,048,576 回、FFT は (1024/2)×log₂1024=512×10=5,120 回であり、比は 5,120/1,048,576≈1/205、すなわち約1/200 となる。N が大きいほど比は小さくなり、N=4096 なら約1/680 になる。FFT の結果は DFT と全く同じ（近似ではない）点にも注意。",
+  "terms": [
+   "freq-fft",
+   "freq-dft"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q016",
+  "cat": "freq",
+  "style": "fill",
+  "stem": "空間領域における2つの関数の畳み込みは、周波数領域ではそれぞれのフーリエ変換の（a）に対応する。ただし DFT を用いて計算する場合に成り立つのは（b）畳み込みであるため、通常の畳み込みと同じ結果を得るには、画像とカーネルを（c）してから変換する必要がある。",
+  "choices": [
+   "a: 和, b: 巡回（循環）, c: ゼロ詰めで拡張",
+   "a: 積, b: 線形, c: 窓関数を乗算",
+   "a: 畳み込み, b: 巡回（循環）, c: 対数変換",
+   "a: 商, b: 線形, c: 象限入れ替え",
+   "a: 積, b: 巡回（循環）, c: ゼロ詰めで拡張"
+  ],
+  "answer": 4,
+  "explain": "畳み込み定理により f*h ⇔ F·H（積）である。DFT は信号を周期的に繰り返すものとみなすため、DFT の積が表すのは巡回畳み込みであり、端の画素が反対側の画素と混ざる。画像サイズ M、カーネルサイズ K のとき、M+K−1 以上にゼロ詰めすれば巡回畳み込みが線形（通常の）畳み込みと一致する。窓関数はスペクトル漏れ対策、象限入れ替えは表示のための操作であり、この目的とは異なる。",
+  "terms": [
+   "freq-convolution-theorem",
+   "freq-periodicity",
+   "freq-dft"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q017",
+  "cat": "freq",
+  "style": "text",
+  "stem": "2次元 DFT の振幅スペクトルを、直流成分が画像の中央に来るように表示したい。DFT を計算する前に画像 f(x,y) に施す処理として正しいものを選べ。",
+  "choices": [
+   "各画素値の対数をとる",
+   "画像を上下・左右に反転する",
+   "各画素値に (−1)^(x+y) を掛ける",
+   "画像の周囲を元の2倍の大きさまでゼロ詰めする",
+   "各画素値から平均値を引く"
+  ],
+  "answer": 2,
+  "explain": "f(x,y)(−1)^(x+y) の DFT は F(u−M/2, v−N/2) となり（(−1)^(x+y)=exp{jπ(x+y)} による変調）、スペクトルが縦横に半分ずつずれて直流が中央に来る。これは DFT 後に象限を入れ替える（fftshift）のと等価である。対数はスペクトルの表示の際に振幅に適用するもので、画像に適用するとホモモルフィック処理になる。反転では直流は中央に移らない。ゼロ詰めは周波数の格子を細かくするだけ。平均値を引くと直流成分が0になるだけである。",
+  "terms": [
+   "freq-shift",
+   "freq-shift-theorem",
+   "freq-dft-2d"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q018",
+  "cat": "freq",
+  "style": "text",
+  "stem": "理想ローパスフィルタを画像に適用すると、エッジの周囲に波紋状の縞（リンギング）が生じる。その理由として最も適切なものを選べ。",
+  "choices": [
+   "周波数特性が遮断周波数で不連続に変化するため、空間領域のインパルス応答が sinc 関数状に正負に振動するから",
+   "遮断周波数より高い成分がナイキスト周波数で折り返されるから",
+   "フィルタの周波数特性が複素数で、位相がずれるから",
+   "直流成分が除去され、画像の平均値が0になるから",
+   "DFT の計算で丸め誤差が蓄積するから"
+  ],
+  "answer": 0,
+  "explain": "理想フィルタの周波数特性は1と0の間で不連続に切り替わる矩形であり、その逆フーリエ変換（インパルス応答）は sinc 関数（2次元の円形なら J1 を含む関数）で、中心の周りに振動するサイドローブをもつ。エッジとこの応答を畳み込むと、行き過ぎと振動（ギブズ現象）が縞として現れる。折り返しはエイリアシングの説明であり誤り。理想フィルタは実数・対称で位相を変えない。ローパスでは直流は保存される。丸め誤差は原因ではない。",
+  "terms": [
+   "freq-ideal-filter",
+   "freq-ringing",
+   "freq-sinc"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q019",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "2次のバターワースローパスフィルタ H(u,v)=1/{1+(D(u,v)/D0)^{2n}}（n=2、遮断周波数 D0=20）において、原点からの距離 D=40 の周波数成分に対する利得として最も近いものを選べ。",
+  "choices": [
+   "0.5",
+   "0.2",
+   "0.25",
+   "約0.059",
+   "約0.941"
+  ],
+  "answer": 3,
+  "explain": "D/D0=2、2n=4 より (D/D0)^{2n}=2⁴=16、H=1/(1+16)=1/17≈0.059 となる。0.5 は D=D0 のときの値。0.2 は 1/(1+4)（n=1）と誤った値。約0.941 はハイパス（1−H）の値である。次数 n を大きくすると、遮断周波数より外側での減衰が急峻になる。",
+  "terms": [
+   "freq-butterworth",
+   "freq-lowpass"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q020",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "ガウシアンハイパスフィルタ H(u,v)=1−exp{−D(u,v)²/(2D0²)} において、D=D0 となる周波数成分に対する利得として最も近いものを選べ。",
+  "choices": [
+   "約0.61",
+   "約0.39",
+   "0.5",
+   "約0.37",
+   "約0.63"
+  ],
+  "answer": 1,
+  "explain": "D=D0 のとき exp(−1/2)≈0.607 であり、ハイパスの利得は 1−0.607≈0.393 となる。約0.61 はガウシアンローパスの D=D0 における値。0.5 はバターワースフィルタの D=D0 における値。約0.37 は exp(−1)、約0.63 は 1−exp(−1) で、指数の 1/2 を忘れた誤りである。",
+  "terms": [
+   "freq-gaussian-filter",
+   "freq-highpass"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q021",
+  "cat": "freq",
+  "style": "figure",
+  "stem": "図の入力画像（黒地に白い正方形）に、ガウシアンローパスフィルタを周波数領域で適用した。出力画像として最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><rect x='30' y='30' width='40' height='40' fill='#fff'/></svg>",
+   "caption": "入力画像"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><defs><filter id='fq021b' x='-50%' y='-50%' width='200%' height='200%'><feGaussianBlur stdDeviation='5'/></filter></defs><rect width='100' height='100' fill='#000'/><rect x='30' y='30' width='40' height='40' fill='#fff' filter='url(#fq021b)'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><rect x='30' y='30' width='40' height='40' fill='none' stroke='#fff' stroke-width='3'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#fff'/><rect x='30' y='30' width='40' height='40' fill='#000'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><rect x='30' y='30' width='40' height='40' fill='#fff'/></svg>"
+    }
+   }
+  ],
+  "answer": 0,
+  "explain": "ローパスフィルタは高周波成分（エッジや細部）を減衰させるため、正方形の輪郭がぼけた画像になる。輪郭だけが残る画像はハイパスフィルタ（またはエッジ抽出）の結果、白黒反転した画像は階調反転の結果、入力と変わらない画像は全域通過の場合である。ガウシアン型なのでリンギングは生じない。",
+  "terms": [
+   "freq-lowpass",
+   "freq-gaussian-filter",
+   "freq-highpass"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q022",
+  "cat": "freq",
+  "style": "text",
+  "stem": "周波数領域におけるハイパスフィルタ処理に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "対応するローパスフィルタの周波数特性を H_LP とすると、H_HP=1−H_LP として構成できる",
+   "画像中の平坦な領域は、出力ではほぼ0の値となる",
+   "出力画像の平均値は、入力画像の平均値と等しく保たれる",
+   "エッジや細かいテクスチャとともにノイズも強調されやすい",
+   "理想ハイパスフィルタでは、エッジの周囲にリンギングが生じる"
+  ],
+  "answer": 2,
+  "explain": "ハイパスフィルタは直流成分 F(0,0) を0にするため、出力画像の平均値は0になり、入力の平均値は保たれない（表示するにはオフセットを加えるか絶対値をとる）。平均値（明るさ）を保ちたい場合は直流を残す高域強調フィルタを用いる。他の記述はいずれも正しい。",
+  "terms": [
+   "freq-highpass",
+   "freq-dc-component",
+   "freq-high-emphasis"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q023",
+  "cat": "freq",
+  "style": "figure",
+  "stem": "中心化した周波数平面上で、白を通過（利得1）、黒を遮断（利得0）として理想フィルタの周波数特性を表した。バンドパスフィルタを表すものを選べ。",
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#fff'/><circle cx='50' cy='50' r='36' fill='#000'/><circle cx='50' cy='50' r='16' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><circle cx='50' cy='50' r='22' fill='#fff'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><circle cx='50' cy='50' r='36' fill='#fff'/><circle cx='50' cy='50' r='16' fill='#000'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#fff'/><circle cx='50' cy='50' r='22' fill='#000'/></svg>"
+    }
+   }
+  ],
+  "answer": 2,
+  "explain": "バンドパスフィルタは D1≤D≤D2 の帯域だけを通過させるので、中心（直流・低周波）と外側（高周波）が黒く、円環だけが白い図が正解。円環だけが黒い図はバンドストップフィルタ、中央の円だけが白い図はローパスフィルタ、中央の円だけが黒い図はハイパスフィルタである。",
+  "terms": [
+   "freq-bandpass",
+   "freq-bandstop",
+   "freq-lowpass",
+   "freq-highpass"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q024",
+  "cat": "freq",
+  "style": "figure",
+  "stem": "スキャンした画像に細かい斜めの干渉縞が重畳していた。この画像の振幅スペクトル（中心化表示）を見ると、図のように中心付近の画像本来の成分とは別に、孤立した明るい点の組が現れていた。画像本来の情報をできるだけ損なわずに干渉縞を除去する処理として最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><circle cx='50' cy='50' r='14' fill='#555'/><circle cx='50' cy='50' r='8' fill='#999'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='74' cy='36' r='3' fill='#fff'/><circle cx='26' cy='64' r='3' fill='#fff'/></svg>",
+   "caption": "劣化画像の振幅スペクトル"
+  },
+  "choices": [
+   "孤立した点より内側の周波数だけを通す理想ローパスフィルタを適用する",
+   "孤立した点の位置を含む円環全体を遮断するバンドストップフィルタを適用する",
+   "ハイパスフィルタを適用して低周波成分を除去する",
+   "孤立した点とその原点対称の位置の近傍だけを遮断するノッチフィルタを適用する",
+   "ヒストグラム平坦化でコントラストを均一にする"
+  ],
+  "answer": 3,
+  "explain": "周期的な干渉縞は、スペクトル上の特定の位置に孤立した点（原点対称な組）として現れる。その点の近傍だけを遮断するノッチフィルタを使えば、他の周波数成分はそのまま残るので、画像本来の情報の損失が最小になる。点は必ず原点対称の組で除去する。理想ローパスでは点より外側の画像本来の高周波（細部）もすべて失われ、リンギングも生じる。円環全体のバンドストップでも同じ帯域の他の方向の成分が失われる。ハイパスは縞を残して画像本体を消してしまう。ヒストグラム平坦化では周期ノイズは除去できない。",
+  "terms": [
+   "freq-notch",
+   "freq-bandstop",
+   "freq-periodicity"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q025",
+  "cat": "freq",
+  "style": "text",
+  "stem": "2次元 DFT の前に画像にハニング窓などの窓関数を掛ける主な目的として、最も適切なものを選べ。",
+  "choices": [
+   "周波数分解能を高め、近接した2つの周波数成分を分離しやすくするため",
+   "画像の端の不連続によって生じるスペクトル漏れ（軸上の十字状の線など）を軽減するため",
+   "画像サイズを2のべき乗にして FFT を適用できるようにするため",
+   "直流成分をスペクトルの中央に移動させるため",
+   "エイリアシングによる折り返し成分を除去するため"
+  ],
+  "answer": 1,
+  "explain": "DFT は画像が周期的に繰り返されると仮定するため、上下端・左右端の値の差が継ぎ目の不連続となり、スペクトルの軸上に十字状の線などの漏れが生じる。窓関数で端を滑らかに0に近づけるとこれが軽減される。ただし窓関数はメインローブを広げるため、周波数分解能はむしろ低下する。2のべき乗化はゼロ詰め、直流の中央への移動は象限入れ替えの役割。エイリアシングは標本化の段階で生じるもので、標本化後に窓関数で除去することはできない。",
+  "terms": [
+   "freq-window",
+   "freq-leakage",
+   "freq-periodicity"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q026",
+  "cat": "freq",
+  "style": "text",
+  "stem": "離散コサイン変換（DCT）に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "信号を偶対称に拡張したものの DFT と関係づけられるため、ブロック境界での不連続が生じにくい",
+   "相関の強い信号に対して、カルーネン・レーベ変換（KL変換）に近いエネルギー集中性をもつ",
+   "JPEG では 8×8 画素のブロックごとに2次元 DCT が用いられる",
+   "N. Ahmed らが1974年に提案した",
+   "実数の画像に対する DCT 係数は、一般に複素数となる"
+  ],
+  "answer": 4,
+  "explain": "DCT は余弦関数のみを基底とする実数の変換であり、実数の画像に対する係数は実数である。複素数の係数をもつのは DFT。DCT（DCT-II）は信号を偶対称に折り返して拡張したものの DFT と等価で、境界の不連続による漏れが少なく、低周波へのエネルギー集中性が高い（KL変換に近い）。JPEG は 8×8 ブロックの DCT を用いる。Ahmed、Natarajan、Rao による1974年の提案である。",
+  "terms": [
+   "freq-dct",
+   "freq-leakage",
+   "JPEG"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q027",
+  "cat": "freq",
+  "style": "text",
+  "stem": "8×8 画素のブロックに2次元 DCT を施した結果に関する記述として、正しいものを選べ。",
+  "choices": [
+   "64個の係数が得られ、中央の係数が DC 係数で、外側ほど高い周波数に対応する",
+   "32個の実数係数と32個の虚数係数が得られる",
+   "64個の係数が得られ、左上の係数がブロックの平均値に比例する DC 係数で、右・下へ行くほど水平・垂直方向の高い周波数に対応する",
+   "128個の係数が得られ、半分は冗長なので符号化では捨てられる",
+   "64個の係数が得られ、右下の係数が DC 係数である"
+  ],
+  "answer": 2,
+  "explain": "N×N ブロックの2次元 DCT は N² 個（8×8 なら64個）の実数係数を与える。(0,0) にあたる左上が DC 係数（ブロック平均に比例）、u（右方向）が大きいほど水平方向、v（下方向）が大きいほど垂直方向の高周波の基底に対応する。JPEG ではジグザグスキャンで低周波から順に並べる。中央に直流が来るのは中心化した DFT スペクトルの表示である。DCT は実数変換なので虚数係数はなく、係数の数は画素数と同じで冗長性もない。",
+  "terms": [
+   "freq-dct",
+   "freq-dc-component",
+   "JPEG"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q028",
+  "cat": "freq",
+  "style": "figure",
+  "stem": "図は、画像に2次元離散ウェーブレット変換を2段階適用した結果の係数の一般的な配置を示している（右方向が水平方向の高域、下方向が垂直方向の高域に対応する配置）。1段目の分解で得られた「水平方向に高域・垂直方向に低域」の成分で、画像中の縦方向のエッジ（縦線）に強く反応するサブバンドはどれか。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 200' width='200' height='200' xmlns='http://www.w3.org/2000/svg'><rect x='10' y='10' width='180' height='180' fill='#fff' stroke='#000' stroke-width='1.5'/><line x1='100' y1='10' x2='100' y2='190' stroke='#000' stroke-width='1.5'/><line x1='10' y1='100' x2='190' y2='100' stroke='#000' stroke-width='1.5'/><line x1='55' y1='10' x2='55' y2='100' stroke='#000'/><line x1='10' y1='55' x2='100' y2='55' stroke='#000'/><text x='32' y='37' font-size='13' text-anchor='middle'>P</text><text x='77' y='37' font-size='13' text-anchor='middle'>Q</text><text x='32' y='82' font-size='13' text-anchor='middle'>R</text><text x='77' y='82' font-size='13' text-anchor='middle'>S</text><text x='145' y='59' font-size='14' text-anchor='middle'>T</text><text x='55' y='149' font-size='14' text-anchor='middle'>U</text><text x='145' y='149' font-size='14' text-anchor='middle'>V</text></svg>",
+   "caption": "2段階のウェーブレット分解の係数配置"
+  },
+  "choices": [
+   "T",
+   "U",
+   "V",
+   "P",
+   "Q"
+  ],
+  "answer": 0,
+  "explain": "1段目の分解で4つのサブバンド（各1/4の大きさ）が得られ、左上の LL 成分がさらに2段目で P（LL2）・Q・R・S に分解される。1段目の高域サブバンドは右上 T（水平高域・垂直低域）、左下 U（水平低域・垂直高域）、右下 V（両方向高域）である。水平方向の濃淡変化は縦エッジで生じるため、縦エッジに反応するのは T。U は横エッジ、V は斜めエッジに反応する。P は2段目の LL（縮小近似画像）、Q は2段目の水平高域成分である。なお LH・HL の文字の割り当ては文献によって流儀が異なるため、方向の意味で覚えるのが安全である。",
+  "terms": [
+   "freq-subband",
+   "freq-wavelet",
+   "freq-mra"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q029",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "1次元信号 [4, 2, 6, 6, 1, 3, 5, 5] に対し、隣り合う2つの値 (a, b) の組ごとに、低域成分 L=(a+b)/2、高域成分 H=(a−b)/2 とするハールウェーブレット変換を1段適用した。L と H の組合せとして正しいものを選べ。",
+  "choices": [
+   "L=[3, 6, 2, 5], H=[−1, 0, 1, 0]",
+   "L=[6, 12, 4, 10], H=[2, 0, −2, 0]",
+   "L=[3, 4, 3.5, 2], H=[1, 0, −1, 0]",
+   "L=[3, 6, 2, 5], H=[1, 0, −1, 0]",
+   "L=[1, 0, −1, 0], H=[3, 6, 2, 5]"
+  ],
+  "answer": 3,
+  "explain": "組は (4,2)(6,6)(1,3)(5,5)。L はそれぞれの平均で [3, 6, 2, 5]、H は (a−b)/2 で [(4−2)/2, 0, (1−3)/2, 0]=[1, 0, −1, 0]。H の符号を逆にしたものは (b−a)/2 とした誤り。[6, 12, …] は 1/2 を掛け忘れた和と差。[3, 4, 3.5, 2] は組の取り方を誤ったもの。なお a=L+H、b=L−H で完全に元に戻せる（例: 3+1=4, 3−1=2）。平坦な部分（6,6 や 5,5）では高域成分が0になり、圧縮に有利である。",
+  "terms": [
+   "freq-haar",
+   "freq-wavelet"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q030",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "2×2 画素ブロック [[8, 4], [6, 2]]（上段 8, 4、下段 6, 2）に、平均を低域成分とする2次元ハールウェーブレット変換を適用した。LL 成分（水平・垂直とも低域）の値として正しいものを選べ。",
+  "choices": [
+   "20",
+   "5",
+   "10",
+   "2",
+   "4"
+  ],
+  "answer": 1,
+  "explain": "平均を低域とする定義では、LL は4画素の平均 (8+4+6+2)/4=5 となる。20 は総和、10 は正規直交（1/√2 を2回掛けて 1/2 倍）の定義での値 20/2 であり、問題の定義とは異なる。水平方向の差分成分は {(8−4)+(6−2)}/4=2、垂直方向の差分成分は {(8+4)−(6+2)}/4=1 である。",
+  "terms": [
+   "freq-haar",
+   "freq-subband"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q031",
+  "cat": "freq",
+  "style": "fill",
+  "stem": "512×512 画素の画像に2次元離散ウェーブレット変換を3段階適用した（各段で LL 成分のみをさらに分解する）。最終的な LL 成分の大きさは（a）であり、全サブバンドの係数の総数は（b）。",
+  "choices": [
+   "a: 64×64 画素, b: 元画像の画素数の約4/3倍になる",
+   "a: 128×128 画素, b: 元画像の画素数と等しい",
+   "a: 170×170 画素, b: 元画像の画素数の3倍になる",
+   "a: 8×8 画素, b: 元画像の画素数の約1/3になる",
+   "a: 64×64 画素, b: 元画像の画素数と等しい"
+  ],
+  "answer": 4,
+  "explain": "1段ごとに LL は縦横1/2になるので、512→256→128→64 で 64×64。離散ウェーブレット変換（臨界サンプリング）では各段で4つのサブバンドの合計が分解前と同じ大きさになるため、係数の総数は元の画素数（262,144）と等しい。約4/3倍になるのはガウシアン／ラプラシアンピラミッドのような冗長な表現の場合である。",
+  "terms": [
+   "freq-mra",
+   "freq-subband",
+   "freq-image-pyramid"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q032",
+  "cat": "freq",
+  "style": "text",
+  "stem": "ガボールフィルタに関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "周波数特性が遮断周波数で1から0に不連続に変化する、方向性のないローパスフィルタである",
+   "画素値の大小関係のみを利用する非線形フィルタで、インパルスノイズの除去に適する",
+   "ガウス関数と正弦波の積で表され、特定の方向と空間周波数に選択的に反応するバンドパスフィルタとして働く",
+   "インパルス応答が無限に広がる正弦波であり、空間的な位置の情報をもたない",
+   "画像の照明成分と反射成分を対数変換により分離するフィルタである"
+  ],
+  "answer": 2,
+  "explain": "ガボールフィルタはガウス包絡線と正弦波搬送波の積で、空間的に局在しつつ、方向 θ と波長 λ で決まる周波数成分に選択的に反応する（周波数領域では搬送波の周波数位置を中心とするガウス関数）。V1 単純型細胞の受容野モデルとして知られ、テクスチャ解析や虹彩・顔認識に使われる。不連続な特性は理想フィルタ、大小関係の利用はメディアンフィルタ、無限に広がる正弦波はフーリエ基底、照明・反射の分離はホモモルフィックフィルタの説明である。",
+  "terms": [
+   "freq-gabor",
+   "freq-bandpass",
+   "freq-homomorphic"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q033",
+  "cat": "freq",
+  "style": "text",
+  "stem": "窓付きフーリエ変換（ガボール変換）とウェーブレット変換の違いに関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "ガボール変換は解析する周波数によらず窓の幅が一定であるが、ウェーブレット変換は高い周波数ほど短い（細かい）基底で解析する",
+   "ガボール変換は高い周波数ほど窓が短くなるが、ウェーブレット変換は窓の幅が一定である",
+   "どちらも無限に広がる正弦波を基底とするため、位置の情報は得られない",
+   "ウェーブレット変換は周波数の情報を失い、位置の情報のみを与える",
+   "ガボール変換は実数の基底、ウェーブレット変換は必ず複素数の基底を用いる"
+  ],
+  "answer": 0,
+  "explain": "窓付きフーリエ変換は一定幅の窓で切り出して周波数解析するため、時間（空間）と周波数の分解能が全周波数で一定である。ウェーブレット変換はマザーウェーブレットを伸縮させるので、高周波では短い基底で位置を細かく、低周波では長い基底で周波数を細かく解析できる（多重解像度）。どちらも局在した基底をもつので位置の情報が得られる。ウェーブレットは位置と周波数（スケール）の両方の情報をもつ。ハールのような実数ウェーブレットも多い。",
+  "terms": [
+   "freq-gabor",
+   "freq-wavelet",
+   "freq-mra"
+  ],
+  "level": 3
+ },
+ {
+  "id": "freq-q034",
+  "cat": "freq",
+  "style": "calc",
+  "stem": "512×512 画素の原画像を最下層とし、縦横1/2の縮小を繰り返して4層（512×512, 256×256, 128×128, 64×64）のガウシアンピラミッドを作った。全層の画素数の合計として正しいものを選べ。",
+  "choices": [
+   "524,288",
+   "327,680",
+   "262,144",
+   "348,160",
+   "1,048,576"
+  ],
+  "answer": 3,
+  "explain": "262,144＋65,536＋16,384＋4,096＝348,160 画素であり、原画像の約1.33倍となる。層を無限に重ねても 1+1/4+1/16+…=4/3 倍を超えない。524,288 は2倍、262,144 は原画像のみ、327,680 は 1.25 倍で誤り。",
+  "terms": [
+   "freq-gaussian-pyramid",
+   "freq-image-pyramid"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q035",
+  "cat": "freq",
+  "style": "text",
+  "stem": "ラプラシアンピラミッドに関する記述として、誤っているものを選べ。",
+  "choices": [
+   "ガウシアンピラミッドの各層から、1つ上の層を拡大した画像を引いた差分画像で構成される",
+   "全層の画素数の合計は原画像と等しく、冗長性のない表現である",
+   "各層は特定の周波数帯の成分を含むバンドパス画像とみなせる",
+   "最上層から順に拡大して差分を加えていくと、原画像を完全に再構成できる",
+   "周波数帯ごとに合成する多重解像度ブレンディングによる画像合成に用いられる"
+  ],
+  "answer": 1,
+  "explain": "ラプラシアンピラミッドは各層の大きさがガウシアンピラミッドと同じなので、総画素数は原画像の約4/3倍となり冗長である。画素数が原画像と等しいのは離散ウェーブレット変換による多重解像度分解である。その他の記述は正しい（Burt と Adelson、1983年）。",
+  "terms": [
+   "freq-laplacian-pyramid",
+   "freq-gaussian-pyramid",
+   "freq-mra"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q036",
+  "cat": "freq",
+  "style": "text",
+  "stem": "位相限定相関法（POC）に関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "2画像の振幅スペクトルの差の二乗和を最小にする平行移動量を探索する手法である",
+   "振幅スペクトルのみを用いるため、画像の明るさの変化に弱い",
+   "相関のピークがなだらかなため、サブピクセル精度の推定には向かない",
+   "空間領域でテンプレートを1画素ずつずらして差分絶対値和を計算する手法である",
+   "2画像の DFT から求めたクロスパワースペクトルを振幅で正規化して逆 DFT すると、平行移動量の位置に鋭いピークが現れる"
+  ],
+  "answer": 4,
+  "explain": "POC は R=F·G*/|F·G*| のように振幅を1に正規化して位相だけを残し、逆 DFT する。平行移動の関係にある画像では、シフト定理により R は線形位相となり、逆変換は移動量の位置にデルタ関数状の鋭いピークをもつ。振幅を使わないため明るさやコントラストの変化に強く、ピーク近傍の関数当てはめでサブピクセル精度も得られる。振幅スペクトルは平行移動で変化しないので、振幅だけでは移動量を求められない。差分絶対値和（SAD）は空間領域のテンプレートマッチングである。",
+  "terms": [
+   "freq-poc",
+   "freq-shift-theorem",
+   "freq-phase-spectrum"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q037",
+  "cat": "freq",
+  "style": "text",
+  "stem": "位相限定相関法を、平行移動だけでなく回転と拡大縮小を含む2画像の位置合わせに拡張する方法として、最も適切なものを選べ。",
+  "choices": [
+   "各画像の位相スペクトルを直交座標のまま平均し、そのピーク位置から回転角を求める",
+   "各画像にハイパスフィルタを掛けてから、空間領域で正規化相互相関を求める",
+   "各画像の振幅スペクトルを対数極座標に変換し、その画像どうしに位相限定相関法を適用して回転角と倍率を求める",
+   "各画像の直流成分の比から倍率を、直流成分の位相差から回転角を求める",
+   "各画像をウェーブレット分解し、LL 成分の画素数の比から倍率と回転角を求める"
+  ],
+  "answer": 2,
+  "explain": "振幅スペクトルは平行移動に不変で、画像の回転はスペクトルの同じ角度の回転、拡大は逆数倍の縮小として現れる。振幅スペクトルを対数極座標 (log ρ, θ) に変換すると、回転は θ 方向、拡大縮小は log ρ 方向の平行移動になるため、位相限定相関法で回転角と倍率を推定できる（フーリエ・メリン変換の考え方）。その後、補正した画像で再度 POC を行い平行移動量を求める。他の選択肢はいずれも回転・倍率を正しく推定できない。",
+  "terms": [
+   "freq-poc",
+   "freq-rotation",
+   "freq-scaling"
+  ],
+  "level": 3
+ },
+ {
+  "id": "freq-q038",
+  "cat": "freq",
+  "style": "fill",
+  "stem": "ホモモルフィックフィルタでは、画像 f を照明成分 i と反射成分 r の積 f=i·r と考え、まず（a）をとって両成分の和に変換する。次にフーリエ変換し、緩やかに変化する（b）成分に対応する低周波の利得を1より小さく、高周波の利得を1より大きくするフィルタを掛け、逆変換した後に（c）をとって元に戻す。",
+  "choices": [
+   "a: 対数, b: 照明, c: 指数関数",
+   "a: 対数, b: 反射, c: 指数関数",
+   "a: 指数関数, b: 照明, c: 対数",
+   "a: 2乗, b: 照明, c: 平方根",
+   "a: 対数, b: 照明, c: 逆数"
+  ],
+  "answer": 0,
+  "explain": "積 i·r は対数をとると ln i + ln r の和になり、線形フィルタで分離できる。照明成分はゆっくり変化するので低周波、反射成分（物体の模様・エッジ）は高周波に多く含まれるため、低周波を抑え高周波を強調する高域強調型のフィルタで照明むらを圧縮しつつ細部を強調する。最後に指数関数で対数の逆変換を行う。反射成分は高周波側なので b を反射とするのは誤り。",
+  "terms": [
+   "freq-homomorphic",
+   "freq-high-emphasis"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q039",
+  "cat": "freq",
+  "style": "text",
+  "stem": "一般的な自然画像の振幅スペクトル（パワースペクトル）の性質に関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "全周波数でほぼ一定の大きさをもつ（白色）",
+   "高周波成分ほど大きく、直流成分が最も小さい",
+   "ナイキスト周波数付近に最大値をもつ",
+   "直流・低周波成分が非常に大きく、高周波になるほどおおむね周波数のべき乗に反比例して小さくなる（パワーは概ね 1/f² ）",
+   "特定の1つの周波数にのみ値をもつ"
+  ],
+  "answer": 3,
+  "explain": "自然画像は隣接画素間の相関が強く、エネルギーの大部分が直流・低周波成分に集中し、パワースペクトルは周波数 f に対しておおむね 1/f² で減衰することが知られている。このためスペクトルの表示には対数変換が不可欠である。全周波数で一定なのは白色ノイズの性質。特定の1周波数のみに値をもつのは単一の正弦波縞である。",
+  "terms": [
+   "freq-power-spectrum",
+   "freq-amplitude-spectrum"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q040",
+  "cat": "freq",
+  "style": "text",
+  "stem": "フーリエ解析の歴史に関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "J. フーリエは電気通信の研究の中で、1949年に標本化定理を証明した",
+   "J. フーリエは熱伝導の研究の中で三角級数による関数の表現を考え、1822年に『熱の解析的理論』を刊行した",
+   "J. フーリエは1965年に FFT のアルゴリズムを発表した",
+   "J. フーリエは光学レンズの結像の研究から、1946年に光学伝達関数を定義した",
+   "J. フーリエは画像圧縮のために、1974年に余弦変換を提案した"
+  ],
+  "answer": 1,
+  "explain": "フーリエは熱伝導方程式の研究で、任意の関数を三角関数の級数で表せると考え、1807年にフランス学士院へ論文を提出、1822年に『熱の解析的理論』として刊行した。標本化定理の定式化は Shannon（1949年）、FFT は Cooley と Tukey（1965年）、DCT は Ahmed ら（1974年）。1946年は Gabor が「Theory of communication」を発表した年である。",
+  "terms": [
+   "freq-fourier-series",
+   "freq-fourier-transform"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q041",
+  "cat": "freq",
+  "style": "combo",
+  "stem": "次の人物・年・業績の組合せのうち、正しいものの組合せを選べ。\nA. Cooley と Tukey — 1965年 — 高速フーリエ変換\nB. Ahmed、Natarajan、Rao — 1974年 — 離散コサイン変換\nC. Haar — 1989年 — 多重解像度解析\nD. Gabor — 1946年 — 時間と周波数の両方で局在する信号表現",
+  "choices": [
+   "A, B, C",
+   "A, C, D",
+   "B, C, D",
+   "A, B, C, D",
+   "A, B, D"
+  ],
+  "answer": 4,
+  "explain": "A・B・D は正しい。C は誤りで、Haar の直交関数系は1909年の学位論文（1910年出版）に由来し、多重解像度解析は S. Mallat が1989年に確立したものである。",
+  "terms": [
+   "freq-fft",
+   "freq-dct",
+   "freq-haar",
+   "freq-mra",
+   "freq-gabor"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q042",
+  "cat": "freq",
+  "style": "term2def",
+  "stem": "「スペクトル漏れ（リーケージ）」の説明として最も適切なものを選べ。",
+  "choices": [
+   "標本化周波数の1/2を超える周波数成分が、低い周波数の成分として現れる現象",
+   "高周波成分を急峻に遮断したとき、エッジ付近に波紋状の振動が現れる現象",
+   "有限長で切り出した信号の DFT において、端の不連続などにより本来の周波数以外の成分にエネルギーが広がって現れる現象",
+   "画像を平行移動したとき、位相スペクトルに線形な変化が加わる現象",
+   "量子化ビット数が少ないとき、滑らかな濃淡変化が階段状になる現象"
+  ],
+  "answer": 2,
+  "explain": "スペクトル漏れは、信号を有限長で切り出す（矩形窓を掛ける）ことでスペクトルが sinc 関数と畳み込まれ、エネルギーが周囲の周波数に広がる現象。窓関数で軽減できる。折り返しはエイリアシング、エッジの振動はリンギング、位相の線形変化はシフト定理、階段状の濃淡は疑似輪郭の説明である。",
+  "terms": [
+   "freq-leakage",
+   "freq-window",
+   "freq-aliasing",
+   "freq-ringing"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q043",
+  "cat": "freq",
+  "style": "def2term",
+  "stem": "「2枚の画像のフーリエ変換について、クロスパワースペクトルをその絶対値で割って位相成分のみを取り出し、逆フーリエ変換して得られる相関関数のピークから、画像間の平行移動量と類似度を求める手法」を何というか。",
+  "choices": [
+   "位相限定相関法",
+   "正規化相互相関",
+   "ホモモルフィックフィルタリング",
+   "ウィーナーフィルタ",
+   "ハフ変換"
+  ],
+  "answer": 0,
+  "explain": "記述は位相限定相関法（POC）の定義である。正規化相互相関は空間領域で輝度値の相関を正規化して求める類似度で、位相のみを用いるわけではない。ホモモルフィックフィルタは照明と反射の分離、ウィーナーフィルタは平均二乗誤差最小の復元フィルタ、ハフ変換は直線などの図形検出の手法である。",
+  "terms": [
+   "freq-poc",
+   "正規化相互相関"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q044",
+  "cat": "freq",
+  "style": "text",
+  "stem": "N×N 画素の画像の2次元 DFT の計算に関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "2次元 DFT は分離可能ではないため、必ず N⁴ 回程度の乗算を伴う直接計算が必要である",
+   "各行について1次元 DFT を行い、その結果の各列については逆 DFT を行う必要がある",
+   "各行の1次元 DFT の結果を足し合わせれば2次元 DFT が得られる",
+   "各行について1次元 DFT を行い、その結果の各列について1次元 DFT を行えば2次元 DFT が得られる",
+   "行方向と列方向の1次元 DFT は、必ず行方向を先に行わなければ結果が異なる"
+  ],
+  "answer": 3,
+  "explain": "2次元 DFT の核 exp{−j2π(ux+vy)/N} は x と y の項の積に分解できる（分離可能）ので、行方向の1次元 DFT → 列方向の1次元 DFT で計算でき、順序を入れ替えても結果は同じである。直接計算の N⁴ 回は 2N³ 回となり、1次元 FFT を用いればさらに N² log N のオーダーに減る。列方向も順変換を行う必要があり、行の結果の単純な和では2次元 DFT にならない。",
+  "terms": [
+   "freq-separability",
+   "freq-dft-2d",
+   "freq-fft"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q045",
+  "cat": "freq",
+  "style": "text",
+  "stem": "実数値の画像 f(x,y) の2次元 DFT F(u,v) について成り立つ性質として、正しいものを選べ。",
+  "choices": [
+   "F(u,v) はすべて実数となり、位相スペクトルは常に0である",
+   "F(−u,−v)=F*(u,v) が成り立ち、振幅スペクトルは原点に関して点対称になる",
+   "振幅スペクトルは u 軸に関して線対称になるが、原点対称にはならない",
+   "F(−u,−v)=−F(u,v) が成り立ち、振幅スペクトルは原点で0になる",
+   "振幅スペクトルは画像の内容によらず常に同心円状になる"
+  ],
+  "answer": 1,
+  "explain": "実数信号の DFT は共役対称 F(−u,−v)=F*(u,v) をもつため、|F| は原点対称、位相は符号反転の対称になる。1つの正弦波縞のスペクトルが原点を挟んだ2点として現れるのはこのためである。F が実数になるのは f が実数かつ偶対称の場合に限られる。u 軸に関する線対称は一般には成り立たない。",
+  "terms": [
+   "freq-periodicity",
+   "freq-amplitude-spectrum",
+   "freq-stripe-spectrum"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q046",
+  "cat": "freq",
+  "style": "text",
+  "stem": "ある縞模様の画像を、縞の周期が2倍になるように拡大した（画像サイズは変えずに中央部分を切り出したものとする）。拡大後の画像の振幅スペクトルの点の位置について、最も適切なものを選べ。",
+  "choices": [
+   "点の方向は変わらず、原点からの距離が2倍になる",
+   "点が原点を中心に90°回転する",
+   "点の方向も距離も変わらず、明るさだけが変わる",
+   "点の方向は変わらず、原点からの距離が1/4になる",
+   "点の方向は変わらず、原点からの距離が1/2になる"
+  ],
+  "answer": 4,
+  "explain": "フーリエ変換の相似の性質により、空間で a 倍に拡大すると周波数軸は 1/a 倍に縮む。縞の周期が2倍になると空間周波数は1/2になるので、点の原点からの距離は1/2になる。縞の向きは変わらないので点の方向も変わらない。距離が2倍になるのは縞が細かくなった（縮小した）場合である。",
+  "terms": [
+   "freq-scaling",
+   "freq-stripe-spectrum"
+  ],
+  "level": 1
+ },
+ {
+  "id": "freq-q047",
+  "cat": "freq",
+  "style": "text",
+  "stem": "空間領域のガウシアンフィルタと、それに対応する周波数領域の特性に関する記述として、正しいものを選べ。",
+  "choices": [
+   "空間領域の標準偏差 σ を大きくするほど、周波数特性のガウス関数の幅も広くなる",
+   "ガウス関数のフーリエ変換は sinc 関数になるため、リンギングが生じる",
+   "空間領域の標準偏差 σ を大きくする（強くぼかす）ほど、周波数特性のガウス関数の幅は狭くなる",
+   "空間領域の σ と周波数特性の幅は無関係である",
+   "空間領域のガウシアンフィルタは、周波数領域ではハイパスフィルタになる"
+  ],
+  "answer": 2,
+  "explain": "ガウス関数のフーリエ変換はガウス関数であり、空間の標準偏差 σ と周波数領域の標準偏差は反比例する（σ_u=1/(2πσ)）。強くぼかすフィルタほど通過帯域が狭いローパスフィルタになる。sinc 関数になるのは矩形関数であり、ガウシアンでは振動がないためリンギングは生じない。",
+  "terms": [
+   "freq-gaussian-filter",
+   "freq-scaling",
+   "ガウシアンフィルタ"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q048",
+  "cat": "freq",
+  "style": "combo",
+  "stem": "周波数領域のローパスフィルタに関する次の記述のうち、正しいものの組合せを選べ。\nA. 理想ローパスフィルタでは、遮断周波数を低くするほどリンギングが目立つ。\nB. バターワースローパスフィルタは、次数を大きくするほど遮断特性が急峻になり、リンギングが生じやすくなる。\nC. ガウシアンローパスフィルタは、遮断周波数 D0 において利得がちょうど0.5になる。\nD. ガウシアンローパスフィルタのインパルス応答は負の値をもたないので、リンギングが生じない。",
+  "choices": [
+   "A, B, D",
+   "A, B, C",
+   "B, C, D",
+   "A, C, D",
+   "A, D"
+  ],
+  "answer": 0,
+  "explain": "A：遮断周波数が低いほどインパルス応答の振動の周期が長く（縞が太く）なり、リンギングが目立つ。正しい。B：正しい。C：誤り。ガウシアンの D=D0 での利得は exp(−1/2)≈0.607 であり、0.5 になるのはバターワースフィルタ。D：ガウス関数のフーリエ変換もガウス関数で振動しないので正しい。",
+  "terms": [
+   "freq-ideal-filter",
+   "freq-butterworth",
+   "freq-gaussian-filter",
+   "freq-ringing"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q049",
+  "cat": "freq",
+  "style": "text",
+  "stem": "自然画像の2次元 DFT の振幅スペクトルを表示すると、画像の内容とは関係なく、直流成分を通る水平・垂直の軸上に明るい十字状の線が現れることが多い。その主な原因として最も適切なものを選べ。",
+  "choices": [
+   "撮像素子の画素が正方格子状に並んでいるため、格子の周期に対応する成分が現れるから",
+   "量子化誤差が水平・垂直方向にのみ生じるから",
+   "FFT が行方向と列方向に分けて計算されることによる丸め誤差が蓄積するから",
+   "DFT は画像を周期的に繰り返すとみなすため、画像の上下端・左右端の画素値の差が不連続として高周波成分を生むから",
+   "象限入れ替えを行うと、つなぎ目に明るい線が生じるから"
+  ],
+  "answer": 3,
+  "explain": "DFT の周期性の仮定により、画像の右端と左端、上端と下端が隣り合うものとみなされる。両端の値が異なると継ぎ目に段差（垂直・水平方向のエッジ）ができ、その成分が u 軸・v 軸上に十字状の線として現れる（スペクトル漏れ）。窓関数や鏡像拡張で軽減できる。画素格子の周期はナイキスト周波数の外側に相当し、十字線の原因ではない。分離計算や象限入れ替えは結果を変えない。",
+  "terms": [
+   "freq-leakage",
+   "freq-periodicity",
+   "freq-window"
+  ],
+  "level": 3
+ },
+ {
+  "id": "freq-q050",
+  "cat": "freq",
+  "style": "fill",
+  "stem": "高域強調フィルタは、ハイパスフィルタの周波数特性 H_HP を用いて H_HE=a+b·H_HP（a>0, b>0）と表される。定数 a を加えることで（a）が保存されるため、出力画像の明るさが保たれる。これは空間領域の（b）と同様の効果をもつ。",
+  "choices": [
+   "a: 最高周波数成分, b: アンシャープマスキング",
+   "a: 直流成分, b: アンシャープマスキング",
+   "a: 直流成分, b: メディアンフィルタ",
+   "a: 位相スペクトル, b: ラベリング",
+   "a: ナイキスト周波数成分, b: 平均化フィルタ"
+  ],
+  "answer": 1,
+  "explain": "ハイパスフィルタは H_HP(0,0)=0 なので直流成分（平均輝度）が失われるが、定数 a を加えると H_HE(0,0)=a>0 となり、直流・低周波成分が残る。原画像に高周波成分を強調して加える処理であり、空間領域のアンシャープマスキング（原画像＋k×(原画像−平滑化画像)）と同じ効果をもつ。メディアンフィルタはノイズ除去、平均化フィルタは平滑化である。",
+  "terms": [
+   "freq-high-emphasis",
+   "freq-highpass",
+   "freq-dc-component",
+   "アンシャープマスキング"
+  ],
+  "level": 2
+ },
+ {
+  "id": "freq-q051",
+  "cat": "freq",
+  "style": "figure",
+  "lead": "以下の問題では、振幅スペクトルは直流成分が中央に来るよう象限を入れ替えて表示し、明るい点ほど振幅が大きいものとする。画像とスペクトルの縦横の向きは一致させて表示している。",
+  "stem": "図の画像は、白と黒が同じ幅で交互に並ぶ鋭い縦縞（方形波状の縞）である。この画像の振幅スペクトルとして最も適切なものを選べ。ただし d は基本周波数の点の原点からの距離を表す。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#fff'/><rect x='0' y='0' width='12.5' height='100' fill='#000'/><rect x='25' y='0' width='12.5' height='100' fill='#000'/><rect x='50' y='0' width='12.5' height='100' fill='#000'/><rect x='75' y='0' width='12.5' height='100' fill='#000'/><rect x='0.5' y='0.5' width='99' height='99' fill='none' stroke='#888'/></svg>",
+   "caption": "方形波状の縦縞"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='64.4' cy='50' r='3' fill='#fff'/><circle cx='35.6' cy='50' r='3' fill='#fff'/></svg>",
+     "caption": "横軸上に d のみ"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='64.4' cy='50' r='3' fill='#fff'/><circle cx='35.6' cy='50' r='3' fill='#fff'/><circle cx='78.8' cy='50' r='3' fill='#fff'/><circle cx='21.2' cy='50' r='3' fill='#fff'/><circle cx='93.2' cy='50' r='3' fill='#fff'/><circle cx='6.8' cy='50' r='3' fill='#fff'/></svg>",
+     "caption": "横軸上に d, 2d, 3d"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='64.4' cy='50' r='3' fill='#fff'/><circle cx='35.6' cy='50' r='3' fill='#fff'/><circle cx='93.2' cy='50' r='3' fill='#fff'/><circle cx='6.8' cy='50' r='3' fill='#fff'/></svg>",
+     "caption": "横軸上に d, 3d"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 100 100' width='100' height='100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='#000'/><line x1='50' y1='3' x2='50' y2='97' stroke='#333' stroke-width='0.6'/><line x1='3' y1='50' x2='97' y2='50' stroke='#333' stroke-width='0.6'/><circle cx='50' cy='50' r='4' fill='#fff'/><circle cx='50' cy='35.6' r='3' fill='#fff'/><circle cx='50' cy='64.4' r='3' fill='#fff'/><circle cx='50' cy='6.8' r='3' fill='#fff'/><circle cx='50' cy='93.2' r='3' fill='#fff'/></svg>",
+     "caption": "縦軸上に d, 3d"
+    }
+   }
+  ],
+  "answer": 2,
+  "explain": "縦縞なので点は横軸上に並ぶ。デューティ比50%の方形波は、フーリエ級数展開すると基本周波数の奇数倍（1, 3, 5, …倍）の成分のみを含み、振幅は次数に反比例して小さくなる。よって横軸上の d と 3d（さらに外側に 5d, …）に点が現れる図が正解（5d は表示範囲外）。d のみの図は正弦波状の縞の場合。偶数倍 2d の成分は50%デューティの方形波には含まれない。縦軸上の図は横縞の場合である。",
+  "terms": [
+   "freq-stripe-spectrum",
+   "freq-fourier-series"
+  ],
+  "level": 3
+ },
+ {
+  "id": "freq-q052",
+  "cat": "freq",
+  "style": "text",
+  "stem": "画像を1/2に縮小する際、単純に1画素おきに間引くと細かい縞模様の部分に元の画像にはないモアレが生じることがある。これを防ぐ方法とその理由の組合せとして、最も適切なものを選べ。",
+  "choices": [
+   "間引く前にハイパスフィルタを掛ける。縮小で失われるエッジをあらかじめ強調するため",
+   "間引いた後にローパスフィルタを掛ける。折り返された成分を後から取り除くため",
+   "間引く前にローパスフィルタを掛ける。縮小後のナイキスト周波数を超える成分が折り返されるのを防ぐため",
+   "間引く前に窓関数を掛ける。画像の端の不連続を取り除くため",
+   "間引いた後にヒストグラム平坦化を行う。モアレのコントラストを下げるため"
+  ],
+  "answer": 2,
+  "explain": "1/2 に間引くと標本化周波数が半分になり、ナイキスト周波数も半分になる。それを超える成分は折り返されて偽の低周波の縞（モアレ）になるため、間引く前にローパスフィルタで帯域制限する（アンチエイリアシング）。ガウシアンピラミッドで平滑化してから間引くのと同じ理由である。いったん折り返された成分は本来の低周波成分と区別できないため、間引いた後のフィルタでは除去できない。",
+  "terms": [
+   "freq-aliasing",
+   "freq-sampling-theorem",
+   "freq-gaussian-pyramid"
+  ],
+  "level": 2
+ }
+]

@@ -1,0 +1,1497 @@
+[
+ {
+  "id": "geo-q001",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。図の行列Aで、破線の図形（Fの字）を変換した結果として正しいものを選べ。（各選択肢の破線は変換前の図形）",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     0,
+     -1,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "label": "A ="
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,118.0 127.0,118.0 127.0,136.0 145.0,136.0 145.0,118.0 154.0,118.0 154.0,154.0 172.0,154.0 172.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,82.0 127.0,82.0 127.0,64.0 145.0,64.0 145.0,82.0 154.0,82.0 154.0,46.0 172.0,46.0 172.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,82.0 73.0,82.0 73.0,64.0 55.0,64.0 55.0,82.0 46.0,82.0 46.0,46.0 28.0,46.0 28.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 82.0,100.0 82.0,73.0 64.0,73.0 64.0,55.0 82.0,55.0 82.0,46.0 46.0,46.0 46.0,28.0 100.0,28.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   }
+  ],
+  "answer": 2,
+  "explain": "A=[0 −1; 1 0] は (x,y)→(−y,x) で、原点まわりの反時計回り90°回転（cos90°=0, sin90°=1）。Fの縦棒（x∈[0,1], y∈[0,4]）は x∈[−4,0] の横向きになり、上の横棒はy>0側に来る。ア は時計回り90°回転（A=[0 1; −1 0]）、イ は直線y=xに関する鏡映（行列式−1で向きが裏返る）、エ はy軸に関する鏡映（左右反転）。",
+  "terms": [
+   "geo-rotation",
+   "geo-reflection"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q002",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。図の行列Aで破線のFの字を変換した結果を選べ。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     -1,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "label": "A ="
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 118.0,100.0 118.0,127.0 136.0,127.0 136.0,145.0 118.0,145.0 118.0,154.0 154.0,154.0 154.0,172.0 100.0,172.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 82.0,100.0 82.0,73.0 64.0,73.0 64.0,55.0 82.0,55.0 82.0,46.0 46.0,46.0 46.0,28.0 100.0,28.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 82.0,100.0 82.0,127.0 64.0,127.0 64.0,145.0 82.0,145.0 82.0,154.0 46.0,154.0 46.0,172.0 100.0,172.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,82.0 73.0,82.0 73.0,64.0 55.0,64.0 55.0,82.0 46.0,82.0 46.0,46.0 28.0,46.0 28.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "A=[−1 0; 0 1] は x の符号のみを反転する、y軸に関する鏡映（左右反転）。Fは左右が反転し、横棒が左向きになる。ア はx軸に関する鏡映（上下反転、[1 0; 0 −1]）、ウ は180°回転（[−1 0; 0 −1]、上下左右とも反転し、文字の向きは保たれたまま逆さになる）、エ は90°回転。鏡映は行列式が−1で図形の裏表が反転し、回転では作れない点がポイント。",
+  "terms": [
+   "geo-reflection",
+   "geo-rotation"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q003",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。図の行列Aで破線のFの字を変換した結果を選べ。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     1,
+     0.5,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "label": "A ="
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 118.0,91.0 118.0,64.0 136.0,55.0 136.0,37.0 118.0,46.0 118.0,37.0 154.0,19.0 154.0,1.0 100.0,28.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 118.0,100.0 104.5,73.0 122.5,73.0 113.5,55.0 95.5,55.0 91.0,46.0 127.0,46.0 118.0,28.0 64.0,28.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 127.0,100.0 127.0,73.0 154.0,73.0 154.0,55.0 127.0,55.0 127.0,46.0 181.0,46.0 181.0,28.0 100.0,28.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 118.0,100.0 131.5,73.0 149.5,73.0 158.5,55.0 140.5,55.0 145.0,46.0 181.0,46.0 190.0,28.0 136.0,28.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   }
+  ],
+  "answer": 3,
+  "explain": "A は x'=x+0.5y, y'=y のx方向のせん断（スキュー）。yが大きいほど右へずれるので、Fは右に傾いた斜体のようになる（高さ4の頂部は2だけ右へ移動）。ア はy方向のせん断（y'=0.5x+y、右ほど上へずれる）、イ は係数−0.5で左に傾く、ウ はx方向の1.5倍拡大。せん断は行列式1で面積を保存し、平行性も保存するが角度は変わる。",
+  "terms": [
+   "geo-skew",
+   "geo-affine"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q004",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。破線のFの字に対し、「まず原点まわりに反時計回りに90°回転し、次にx方向に+2平行移動する」変換を行った。結果として正しいものを選べ。",
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='25.0' y1='190.0' x2='25.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='175.0' x2='190.0' y2='175.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='40.0' y1='190.0' x2='40.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='160.0' x2='190.0' y2='160.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='70.0' y1='190.0' x2='70.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='130.0' x2='190.0' y2='130.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='85.0' y1='190.0' x2='85.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='115.0' x2='190.0' y2='115.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='115.0' y1='190.0' x2='115.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='85.0' x2='190.0' y2='85.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='130.0' y1='190.0' x2='130.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='70.0' x2='190.0' y2='70.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='160.0' y1='190.0' x2='160.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='40.0' x2='190.0' y2='40.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='175.0' y1='190.0' x2='175.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='25.0' x2='190.0' y2='25.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='37' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='163' font-size='9' fill='#777'>-4</text><text x='67' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='133' font-size='9' fill='#777'>-2</text><text x='127' y='111' font-size='9' fill='#777'>2</text><text x='102' y='73' font-size='9' fill='#777'>2</text><text x='157' y='111' font-size='9' fill='#777'>4</text><text x='102' y='43' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 115.0,100.0 115.0,77.5 130.0,77.5 130.0,62.5 115.0,62.5 115.0,55.0 145.0,55.0 145.0,40.0 100.0,40.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,70.0 100.0,55.0 77.5,55.0 77.5,40.0 62.5,40.0 62.5,55.0 55.0,55.0 55.0,25.0 40.0,25.0 40.0,70.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='25.0' y1='190.0' x2='25.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='175.0' x2='190.0' y2='175.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='40.0' y1='190.0' x2='40.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='160.0' x2='190.0' y2='160.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='70.0' y1='190.0' x2='70.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='130.0' x2='190.0' y2='130.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='85.0' y1='190.0' x2='85.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='115.0' x2='190.0' y2='115.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='115.0' y1='190.0' x2='115.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='85.0' x2='190.0' y2='85.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='130.0' y1='190.0' x2='130.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='70.0' x2='190.0' y2='70.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='160.0' y1='190.0' x2='160.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='40.0' x2='190.0' y2='40.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='175.0' y1='190.0' x2='175.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='25.0' x2='190.0' y2='25.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='37' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='163' font-size='9' fill='#777'>-4</text><text x='67' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='133' font-size='9' fill='#777'>-2</text><text x='127' y='111' font-size='9' fill='#777'>2</text><text x='102' y='73' font-size='9' fill='#777'>2</text><text x='157' y='111' font-size='9' fill='#777'>4</text><text x='102' y='43' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 115.0,100.0 115.0,77.5 130.0,77.5 130.0,62.5 115.0,62.5 115.0,55.0 145.0,55.0 145.0,40.0 100.0,40.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,85.0 77.5,85.0 77.5,70.0 62.5,70.0 62.5,85.0 55.0,85.0 55.0,55.0 40.0,55.0 40.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='25.0' y1='190.0' x2='25.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='175.0' x2='190.0' y2='175.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='40.0' y1='190.0' x2='40.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='160.0' x2='190.0' y2='160.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='70.0' y1='190.0' x2='70.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='130.0' x2='190.0' y2='130.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='85.0' y1='190.0' x2='85.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='115.0' x2='190.0' y2='115.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='115.0' y1='190.0' x2='115.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='85.0' x2='190.0' y2='85.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='130.0' y1='190.0' x2='130.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='70.0' x2='190.0' y2='70.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='160.0' y1='190.0' x2='160.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='40.0' x2='190.0' y2='40.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='175.0' y1='190.0' x2='175.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='25.0' x2='190.0' y2='25.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='37' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='163' font-size='9' fill='#777'>-4</text><text x='67' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='133' font-size='9' fill='#777'>-2</text><text x='127' y='111' font-size='9' fill='#777'>2</text><text x='102' y='73' font-size='9' fill='#777'>2</text><text x='157' y='111' font-size='9' fill='#777'>4</text><text x='102' y='43' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 115.0,100.0 115.0,77.5 130.0,77.5 130.0,62.5 115.0,62.5 115.0,55.0 145.0,55.0 145.0,40.0 100.0,40.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='130.0,100.0 130.0,85.0 107.5,85.0 107.5,70.0 92.5,70.0 92.5,85.0 85.0,85.0 85.0,55.0 70.0,55.0 70.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='25.0' y1='190.0' x2='25.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='175.0' x2='190.0' y2='175.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='40.0' y1='190.0' x2='40.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='160.0' x2='190.0' y2='160.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='70.0' y1='190.0' x2='70.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='130.0' x2='190.0' y2='130.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='85.0' y1='190.0' x2='85.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='115.0' x2='190.0' y2='115.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='115.0' y1='190.0' x2='115.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='85.0' x2='190.0' y2='85.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='130.0' y1='190.0' x2='130.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='70.0' x2='190.0' y2='70.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='160.0' y1='190.0' x2='160.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='40.0' x2='190.0' y2='40.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='175.0' y1='190.0' x2='175.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='25.0' x2='190.0' y2='25.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='37' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='163' font-size='9' fill='#777'>-4</text><text x='67' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='133' font-size='9' fill='#777'>-2</text><text x='127' y='111' font-size='9' fill='#777'>2</text><text x='102' y='73' font-size='9' fill='#777'>2</text><text x='157' y='111' font-size='9' fill='#777'>4</text><text x='102' y='43' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 115.0,100.0 115.0,77.5 130.0,77.5 130.0,62.5 115.0,62.5 115.0,55.0 145.0,55.0 145.0,40.0 100.0,40.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,70.0 100.0,55.0 77.5,55.0 77.5,40.0 62.5,40.0 62.5,55.0 55.0,55.0 55.0,25.0 40.0,25.0 40.0,70.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   }
+  ],
+  "answer": 2,
+  "explain": "合成行列は後から適用する平行移動を左に掛けて M=T(2,0)·R(90°)。回転でFは x∈[−4,0], y∈[0,3] の位置に横倒しになり、その後右へ2移動して x∈[−2,2] となる。ア は順序を逆にした R(90°)·T(2,0)（先に右へ2移動してから回転するため、移動量自体も回転されて上方向に2ずれる）。イ は回転のみ、エ はy方向に+2移動した場合。行列の積は非可換で順序により結果が変わる。",
+  "terms": [
+   "geo-composite",
+   "geo-rotation",
+   "geo-translation"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q005",
+  "cat": "geo",
+  "style": "text",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。点を原点まわりに角度θ回転させ、その後(tx, ty)だけ平行移動する変換の同次座標行列として正しいものを選べ。ただし c=cosθ, s=sinθ とする。",
+  "choices": [
+   "[c −s tx; s c ty; 0 0 1]",
+   "[c −s c·tx−s·ty; s c s·tx+c·ty; 0 0 1]",
+   "[c s tx; −s c ty; 0 0 1]",
+   "[c −s 0; s c 0; tx ty 1]"
+  ],
+  "answer": 0,
+  "explain": "M=T(tx,ty)·R(θ) を計算すると、左上2×2に回転行列、右列にそのまま(tx,ty)が入る。イ は R(θ)·T(tx,ty)（先に平行移動してから回転）で、平行移動ベクトルも回転される。ウ は−θの回転（逆回転）。エ は行ベクトル表記 p'=pM 用の形で、列ベクトル表記 p'=Mp では誤り。",
+  "terms": [
+   "geo-composite",
+   "geo-homogeneous"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q006",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。点を原点基準でx方向に2倍・y方向に3倍拡大し、その後(1, 2)だけ平行移動する。この合成変換の行列を選べ。",
+  "choices": [
+   "[2 0 2; 0 3 6; 0 0 1]",
+   "[2 0 1; 0 3 2; 0 0 1]",
+   "[2 0 0.5; 0 3 0.667; 0 0 1]",
+   "[3 0 1; 0 4 2; 0 0 1]"
+  ],
+  "answer": 1,
+  "explain": "M=T(1,2)·S(2,3)=[2 0 1; 0 3 2; 0 0 1]。例えば点(1,1)は拡大で(2,3)、平行移動で(3,5)となり、行列でも 2·1+1=3, 3·1+2=5 と一致する。ア は S·T（先に平行移動してから拡大、平行移動量も2倍・3倍される）。ウ は平行移動量を拡大率で割った誤り、エ は拡大率に1を足した誤り。",
+  "terms": [
+   "geo-composite",
+   "geo-scaling"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q007",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。点(4, 1)を、点(2, 1)を中心に反時計回りに90°回転した点の座標を選べ。",
+  "choices": [
+   "(−1, 4)",
+   "(2, 3)",
+   "(2, −1)",
+   "(0, 2)",
+   "(1, 5)"
+  ],
+  "answer": 1,
+  "explain": "M=T(2,1)·R(90°)·T(−2,−1)。中心を原点に移すと(2,0)、90°回転で(0,2)、元に戻して(2,3)。ア は原点まわりに回転した結果(−1,4)。ウ は時計回りに回転した結果。エ は最後の T(2,1)（元に戻す平行移動）を忘れた値、オ は最初の T(−2,−1) を忘れて原点まわりに回してから(2,1)移動した値。任意点まわりの回転は「原点へ移動→回転→戻す」。",
+  "terms": [
+   "geo-rotation-about-point",
+   "geo-composite"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q008",
+  "cat": "geo",
+  "style": "combo",
+  "stem": "2次元の幾何学的変換とその自由度（独立なパラメータ数）の組合せとして正しいものを選べ。",
+  "choices": [
+   "ユークリッド変換:3, 相似変換:4, アフィン変換:6, 射影変換:8",
+   "ユークリッド変換:2, 相似変換:3, アフィン変換:6, 射影変換:9",
+   "ユークリッド変換:3, 相似変換:5, アフィン変換:6, 射影変換:8",
+   "ユークリッド変換:3, 相似変換:4, アフィン変換:8, 射影変換:9"
+  ],
+  "answer": 0,
+  "explain": "ユークリッド（剛体）変換は回転θと平行移動tx,tyの3。相似変換は等方スケールsが加わり4。アフィン変換はa〜fの6。射影変換は3×3行列の9要素だがスケールが不定なので8。イ の2は平行移動のみ、9は射影変換のスケール不定性を無視した値。ウ の5、エ の8（アフィン）は誤り。必要な対応点数は自由度÷2で、相似2点・アフィン3点・射影4点。",
+  "terms": [
+   "geo-euclidean",
+   "geo-similarity",
+   "geo-affine",
+   "geo-projective"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q009",
+  "cat": "geo",
+  "style": "text",
+  "stem": "アフィン変換では常に保存されるが、射影変換では一般に保存されない性質を選べ。",
+  "choices": [
+   "直線性（直線が直線に写る）",
+   "同一直線上の4点の複比",
+   "平行性（平行な直線が平行な直線に写る）",
+   "角度",
+   "長さ"
+  ],
+  "answer": 2,
+  "explain": "平行性はアフィン変換で保存されるが、射影変換では平行線が消失点で交わるように写るため保存されない。ア の直線性とイ の複比は射影変換でも保存される（アフィンでも当然保存）。エ の角度とオ の長さはアフィン変換でも保存されない（角度は相似以下、長さはユークリッド変換で保存）。",
+  "terms": [
+   "geo-invariants",
+   "geo-affine",
+   "geo-projective",
+   "geo-cross-ratio"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q010",
+  "cat": "geo",
+  "style": "text",
+  "stem": "幾何学的変換で保存される性質に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "ユークリッド変換では、2点間の距離と角度が保存される。",
+   "相似変換では、角度と長さの比が保存される。",
+   "相似変換では、図形の面積が保存される。",
+   "アフィン変換では、平行な線分の長さの比が保存される。",
+   "射影変換では、直線は直線に写る。"
+  ],
+  "answer": 2,
+  "explain": "相似変換は等方的な拡大縮小を含むので、倍率sに対して面積はs²倍になり保存されない（面積を保存するのはユークリッド変換や行列式1の変換）。他の記述は正しい。アフィン変換は長さそのものは保存しないが、平行な線分どうしの長さの比や面積比は保存する。射影変換も直線性は保存する。",
+  "terms": [
+   "geo-invariants",
+   "geo-similarity"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q011",
+  "cat": "geo",
+  "style": "fill",
+  "stem": "射影変換は3×3の行列Hで表されるが、Hを定数倍しても同じ変換を表すため、自由度は（a）である。1組の対応点から（b）本の方程式が得られるので、Hを求めるには、どの3点も同一直線上にない（c）組以上の対応点が必要である。",
+  "choices": [
+   "a: 9, b: 2, c: 5",
+   "a: 8, b: 2, c: 4",
+   "a: 8, b: 1, c: 8",
+   "a: 6, b: 2, c: 3"
+  ],
+  "answer": 1,
+  "explain": "Hの9要素からスケール不定の1を引いて自由度8。対応点1組（x,y）→（x',y'）でx'とy'の2式が得られるので、8÷2=4組が必要。エ はアフィン変換（自由度6、3組）の値。4点のうち3点が同一直線上にあると方程式が退化して解が定まらない。",
+  "terms": [
+   "geo-projective",
+   "geo-dlt"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q012",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "同次座標を用いた射影変換の行列Hが図のように与えられている。点(1, 1)の変換後の座標(x', y')を選べ。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     2,
+     0,
+     1
+    ],
+    [
+     0,
+     2,
+     0
+    ],
+    [
+     0,
+     1,
+     1
+    ]
+   ],
+   "label": "H ="
+  },
+  "choices": [
+   "(3, 2)",
+   "(1.5, 1)",
+   "(3, 4)",
+   "(1, 0.5)"
+  ],
+  "answer": 1,
+  "explain": "H(1,1,1)ᵀ=(2·1+0+1, 0+2·1+0, 0+1·1+1)=(3,2,2)。第3成分で割って (3/2, 2/2)=(1.5, 1)。ア は第3成分で割り忘れた誤り。射影変換は第3成分（分母）がx,yに依存するため、必ず同次座標の正規化（割り算）が必要。",
+  "terms": [
+   "geo-projective",
+   "geo-homogeneous"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q013",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "座標系は画像座標（原点左上、x軸右向き、y軸下向き）とする。図の4画素の値が f(0,0)=10, f(1,0)=30, f(0,1)=50, f(1,1)=90 である（f(x,y)、左上が(0,0)）。位置(x, y)=(0.25, 0.5) の値を双線形補間で求めよ。",
+  "figure": {
+   "type": "grid",
+   "data": [
+    [
+     10,
+     30
+    ],
+    [
+     50,
+     90
+    ]
+   ],
+   "max": 100,
+   "values": true,
+   "caption": "上段 y=0、下段 y=1／左列 x=0、右列 x=1"
+  },
+  "choices": [
+   "32.5",
+   "37.5",
+   "45",
+   "15",
+   "60"
+  ],
+  "answer": 1,
+  "explain": "まずx方向に補間：上段 10+0.25×(30−10)=15、下段 50+0.25×(90−50)=60。次にy方向：15+0.5×(60−15)=37.5。式 (1−α)(1−β)f00+α(1−β)f10+(1−α)βf01+αβf11 でも 0.375×10+0.125×30+0.375×50+0.125×90=37.5。ア はαとβを取り違えた値（x=0.5, y=0.25）、ウ は4画素の単純平均、エ・オ は片方の行だけを補間した値。",
+  "terms": [
+   "geo-bilinear"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q014",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "座標系は画像座標（原点左上、x軸右向き、y軸下向き）とする。逆変換によって、出力画素に対応する入力画像上の位置が (x, y)=(1.3, 2.6) と求まった。図の入力画像（f(x,y)、左上が(0,0)）から最近傍補間で求めた出力値を選べ。",
+  "figure": {
+   "type": "grid",
+   "data": [
+    [
+     12,
+     40,
+     75,
+     90
+    ],
+    [
+     20,
+     55,
+     80,
+     120
+    ],
+    [
+     35,
+     60,
+     100,
+     150
+    ],
+    [
+     50,
+     70,
+     130,
+     200
+    ]
+   ],
+   "max": 255,
+   "values": true
+  },
+  "choices": [
+   "60",
+   "70",
+   "100",
+   "35",
+   "130"
+  ],
+  "answer": 1,
+  "explain": "最近傍補間では座標を四捨五入して (round(1.3), round(2.6))=(1, 3) の画素を使う。x=1は左から2列目、y=3は上から4行目なので値は70。ア は (1,2)（yを切り捨てた誤り）、ウ は (2,2)、エ は (0,2)、オ は (2,3) の画素値。行列表記f[行][列]とf(x,y)の対応（x=列、y=行）に注意。",
+  "terms": [
+   "geo-nearest",
+   "geo-inverse-mapping"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q015",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "1次元の信号で、位置 x=0,1,2,3 の画素値がそれぞれ 10, 20, 30, 60 である。位置 x=1.5 の値を、補間関数 h(t)=|t|³−2|t|²+1（|t|≤1）、−|t|³+5|t|²−8|t|+4（1<|t|≤2）、0（2<|t|）を用いた3次補間で求めよ。",
+  "choices": [
+   "25",
+   "22.5",
+   "23.75",
+   "20",
+   "30"
+  ],
+  "answer": 1,
+  "explain": "各画素までの距離は 1.5, 0.5, 0.5, 1.5。h(0.5)=0.125−0.5+1=0.625、h(1.5)=−3.375+11.25−12+4=−0.125。値は −0.125×10+0.625×20+0.625×30−0.125×60=−1.25+12.5+18.75−7.5=22.5。ア は線形補間（20と30の平均）。外側の60が大きいため負の重み−0.125により値が引き下げられている。ウ はKeysのa=−0.5の核（h(0.5)=0.5625, h(1.5)=−0.0625）で計算した値で、この問題の補間関数とは異なる。エ・オ は最近傍。",
+  "terms": [
+   "geo-bicubic",
+   "geo-bilinear"
+  ],
+  "level": 3
+ },
+ {
+  "id": "geo-q016",
+  "cat": "geo",
+  "style": "text",
+  "stem": "双3次補間（バイキュービック補間）に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "補間位置の周囲4×4＝16画素を用いる。",
+   "補間関数はsinc関数を区分的な3次多項式で近似したものである。",
+   "補間関数は整数位置で0、原点で1となるため、元の格子点の値はそのまま保たれる。",
+   "補間関数の重みは常に非負であるため、出力値は周囲画素の最小値と最大値の範囲内に必ず収まる。",
+   "双線形補間に比べてエッジがぼけにくい。"
+  ],
+  "answer": 3,
+  "explain": "双3次補間の核は 1<|t|<2 の範囲で負の値をとるため、エッジ付近でオーバーシュート/アンダーシュートが生じ、出力が周囲画素の範囲外（0未満や255超）になることがある。そのためクリッピングが必要。値域内に必ず収まるのは最近傍補間や双線形補間（重みが非負）である。他の記述は正しい。",
+  "terms": [
+   "geo-bicubic"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q017",
+  "cat": "geo",
+  "style": "text",
+  "stem": "画像を拡大・回転するとき、入力画像の各画素の変換後の位置を計算して出力画像に書き込む方法（順変換）ではなく、出力画像の各画素について逆変換で入力画像上の位置を求める方法が一般に用いられる。その主な理由として最も適切なものを選べ。",
+  "choices": [
+   "逆変換の方が行列の計算量が少ないから。",
+   "順変換では、出力画像に値が書き込まれない画素（穴）が生じるから。",
+   "順変換では、変換後の座標が必ず整数になり補間ができないから。",
+   "逆変換を用いると補間が不要になるから。"
+  ],
+  "answer": 1,
+  "explain": "順変換で変換後の実数座標を丸めて書き込むと、拡大や回転では入力画素がどこにも対応しない出力画素（穴、抜け）ができ、縮小では重複書き込みが起こる。逆変換なら出力画素ごとに必ず1つの値が決まる。ア：計算量はほぼ同じ。ウ：変換後の座標は一般に実数。エ：逆変換で得た入力位置は一般に非整数なので補間が必要。",
+  "terms": [
+   "geo-inverse-mapping",
+   "geo-forward-mapping"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q018",
+  "cat": "geo",
+  "style": "text",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。画像を原点まわりに30°回転する。逆変換方式で出力画像の画素位置 p' に対応する入力画像上の位置 p を求める式として正しいものを選べ。R(θ) は角度θの回転行列とする。",
+  "choices": [
+   "p = R(30°) p'",
+   "p = R(−30°) p'",
+   "p = R(60°) p'",
+   "p = R(30°)ᵀ R(30°) p'"
+  ],
+  "answer": 1,
+  "explain": "p'=R(30°)p の逆は p=R(30°)⁻¹p'=R(−30°)p'（回転行列の逆行列は転置で、−θの回転）。ア は順変換の式。ウ は根拠のない角度。エ は R(30°)ᵀR(30°)=I なので p=p' となり回転しない。",
+  "terms": [
+   "geo-inverse-mapping",
+   "geo-rotation"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q019",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。画像を原点基準でx方向に2倍、y方向に4倍に拡大する。逆変換方式で、出力画像の画素(5, 6)に対応する入力画像上の位置を選べ。",
+  "choices": [
+   "(10, 24)",
+   "(2.5, 1.5)",
+   "(2.5, 3)",
+   "(1.25, 3)"
+  ],
+  "answer": 1,
+  "explain": "拡大 x'=2x, y'=4y の逆変換は x=x'/2, y=y'/4。よって(5/2, 6/4)=(2.5, 1.5)。この非整数位置の画素値は補間で求める。ア は順変換を適用した値。ウ・エ は倍率をx,yで取り違えた/一方だけ誤った値。",
+  "terms": [
+   "geo-inverse-mapping",
+   "geo-scaling"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q020",
+  "cat": "geo",
+  "style": "text",
+  "stem": "細かい縞模様を含む画像を1/4に縮小したところ、元画像にない粗い縞（モアレ）が現れた。対策として最も適切なものを選べ。",
+  "choices": [
+   "縮小後の画像に鮮鋭化フィルタをかける。",
+   "縮小前に低域通過フィルタ（平滑化）をかけてから再標本化する。",
+   "最近傍補間で4画素ごとに1画素を間引く。",
+   "縮小前にエッジ強調を行い、縞を強調しておく。"
+  ],
+  "answer": 1,
+  "explain": "縮小は標本化間隔を広げることに相当し、新しいナイキスト周波数を超える高周波成分が折り返してエイリアシング（モアレ）となる。縮小前に高周波を除去するプリフィルタ（ガウシアン等）や面積平均法が有効。ア：発生したエイリアシングは後処理では除去できない。ウ：単純な間引きこそエイリアシングの原因。エ：高周波を強めると悪化する。",
+  "terms": [
+   "geo-antialias-downscale",
+   "geo-area-average",
+   "エイリアシング"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q021",
+  "cat": "geo",
+  "style": "def2term",
+  "stem": "sinc関数に、幅を a 倍に引き伸ばしたsinc関数を窓関数として掛けた核 L(x)=sinc(x)·sinc(x/a)（|x|<a）を用いる補間法を選べ。",
+  "choices": [
+   "双3次補間",
+   "Lanczos補間",
+   "双線形補間",
+   "スプライン補間",
+   "最近傍補間"
+  ],
+  "answer": 1,
+  "explain": "Lanczos補間の説明。a=2なら4×4画素、a=3なら6×6画素を用いる。ア の双3次補間はsincを区分3次多項式で近似した核、ウ の双線形は三角形の核、オ の最近傍は矩形の核。エ のスプライン補間は区分多項式を滑らかに接続する補間で、窓付きsincではない。",
+  "terms": [
+   "geo-lanczos",
+   "geo-bicubic"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q022",
+  "cat": "geo",
+  "style": "fill",
+  "stem": "2次元画像の補間で、注目位置の値を決めるのに参照する画素数は、最近傍補間で（a）画素、双線形補間で（b）画素、双3次補間で（c）画素である。",
+  "choices": [
+   "a: 1, b: 4, c: 16",
+   "a: 1, b: 4, c: 9",
+   "a: 4, b: 9, c: 16",
+   "a: 1, b: 8, c: 27"
+  ],
+  "answer": 0,
+  "explain": "最近傍は最も近い1画素、双線形は周囲2×2=4画素、双3次は4×4=16画素。イ の9（3×3）や エ の8・27（3次元の場合の2³・3³）は誤り。参照画素が多いほど画質は向上するが計算量が増える。",
+  "terms": [
+   "geo-nearest",
+   "geo-bilinear",
+   "geo-bicubic"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q023",
+  "cat": "geo",
+  "style": "text",
+  "stem": "同次座標 (6, −4, 2) が表す2次元の点を選べ。",
+  "choices": [
+   "(6, −4)",
+   "(3, −2)",
+   "(12, −8)",
+   "(3, −2, 1) とは別の点"
+  ],
+  "answer": 1,
+  "explain": "同次座標(X,Y,W)はW≠0のとき(X/W, Y/W)を表すので(6/2, −4/2)=(3,−2)。同次座標は定数倍しても同じ点を表すので(3,−2,1)と(6,−4,2)は同一点であり、エ は誤り。ア はWで割り忘れ、ウ は掛けてしまった誤り。",
+  "terms": [
+   "geo-homogeneous"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q024",
+  "cat": "geo",
+  "style": "text",
+  "stem": "次の同次座標行列のうち、鏡映を含まないユークリッド変換（剛体変換）を表すものを選べ。",
+  "choices": [
+   "[1.2 −1.6 3; 1.6 1.2 1; 0 0 1]",
+   "[0.6 −0.8 3; 0.8 0.6 1; 0 0 1]",
+   "[0.6 0.8 3; 0.8 −0.6 1; 0 0 1]",
+   "[1 0.5 3; 0 1 1; 0 0 1]",
+   "[1 0 3; 0 2 1; 0 0 1]"
+  ],
+  "answer": 1,
+  "explain": "左上2×2が回転行列（cosθ=0.6, sinθ=0.8、0.6²+0.8²=1、行列式+1）のものが剛体変換。ア は 1.2²+1.6²=4 で2倍の拡大を含む相似変換。ウ は列が直交し長さも保つが行列式が−0.36−0.64=−1で鏡映を含む。エ はせん断、オ は非等方スケールでアフィン変換。",
+  "terms": [
+   "geo-euclidean",
+   "geo-similarity",
+   "geo-reflection"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q025",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "頂点が(0,0), (3,0), (0,2)の三角形（面積3）を、図のアフィン変換で変換した。変換後の三角形の面積を選べ。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     2,
+     1,
+     5
+    ],
+    [
+     1,
+     3,
+     -2
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "label": "A ="
+  },
+  "choices": [
+   "3",
+   "5",
+   "15",
+   "30",
+   "18"
+  ],
+  "answer": 2,
+  "explain": "アフィン変換による面積の拡大率は線形部分の行列式の絶対値 |2·3−1·1|=5。平行移動成分(5,−2)は面積に影響しない。よって3×5=15。実際に頂点は(5,−2), (11,1), (7,4)となり、外積の半分 |6·6−3·2|/2=15 と一致する。イ は拡大率だけ、エ は三角形の面積の1/2を掛け忘れた値、オ は対角成分の積2×3=6を拡大率と誤った値。",
+  "terms": [
+   "geo-affine",
+   "geo-invariants"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q026",
+  "cat": "geo",
+  "style": "text",
+  "stem": "特徴点に基づく画像の位置合わせ（レジストレーション）の一般的な処理手順として、最も適切なものを選べ。",
+  "choices": [
+   "特徴点検出 → 特徴量による対応付け → 変換パラメータの推定（ロバスト推定） → 画像の変換・再標本化",
+   "画像の変換・再標本化 → 特徴点検出 → 対応付け → 変換パラメータの推定",
+   "変換パラメータの推定 → 特徴点検出 → 対応付け → 再標本化",
+   "対応付け → 特徴点検出 → 再標本化 → 変換パラメータの推定"
+  ],
+  "answer": 0,
+  "explain": "まずコーナーやSIFTなどの特徴点を検出し、特徴量の類似度で対応付ける。誤対応を含むのでRANSACなどのロバスト推定で変換（アフィン、射影など）を求め、最後に逆写像と補間で画像を変換して重ね合わせる。変換は推定された後でしか適用できないため、他の順序は成り立たない。",
+  "terms": [
+   "geo-registration",
+   "geo-dlt",
+   "RANSAC"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q027",
+  "cat": "geo",
+  "style": "text",
+  "stem": "複数の画像を射影変換で継ぎ合わせてパノラマ画像を作成する。画像間の関係が射影変換（ホモグラフィ）で厳密に表せない場合を選べ。",
+  "choices": [
+   "壁に貼られたポスター（平面）を、異なる位置・向きから撮影した場合",
+   "三脚上でカメラを光学中心（レンズの主点）まわりに回転させて、奥行きのある風景を撮影した場合",
+   "近景と遠景を含む奥行きのある風景を、カメラを横に平行移動させながら撮影した場合",
+   "十分遠方の風景を、手持ちでほぼ同じ位置から向きを変えて撮影した場合"
+  ],
+  "answer": 2,
+  "explain": "光学中心が移動すると視差が生じ、近景と遠景で見かけの移動量が異なるため、画像全体を1つのホモグラフィで表せず、合成するとゴースト（二重像）が出る。ア：対象が平面なら視点によらずホモグラフィで表せる。イ：光学中心まわりの純粋な回転では奥行きによらずホモグラフィで表せる。エ：遠方の風景では視差が無視でき、近似的に成立する。",
+  "terms": [
+   "geo-mosaicing",
+   "geo-projective"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q028",
+  "cat": "geo",
+  "style": "fill",
+  "stem": "レンズの半径方向歪みのうち、画像の周辺部で直線が外側へ膨らむように曲がる歪みを（a）歪みといい、広角レンズで生じやすい。逆に内側へへこむ歪みを（b）歪みといい、望遠レンズで生じやすい。歪みの係数は（c）によって推定し、補正画像は逆写像と補間で生成する。",
+  "choices": [
+   "a: 糸巻き型, b: 樽型, c: カメラキャリブレーション",
+   "a: 樽型, b: 糸巻き型, c: カメラキャリブレーション",
+   "a: 樽型, b: 糸巻き型, c: ヒストグラム平坦化",
+   "a: 台形, b: 樽型, c: 判別分析法"
+  ],
+  "answer": 1,
+  "explain": "周辺で像が中心側に縮む（直線が外へ膨らむ）のが樽型歪み、周辺で像が外側に引き伸ばされる（直線が内へへこむ）のが糸巻き型歪み。係数はチェッカーボード等を撮影するカメラキャリブレーションで推定する。台形の歪みは透視（あおり）による射影的な歪みで、レンズの半径方向歪みとは別物。",
+  "terms": [
+   "geo-lens-distortion",
+   "カメラキャリブレーション"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q029",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。破線の正方形にある変換を施した結果が実線の図形である。アフィン変換では得ることができない図形を選べ。",
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='32.5' y1='190.0' x2='32.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='167.5' x2='190.0' y2='167.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='77.5' y1='190.0' x2='77.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='122.5' x2='190.0' y2='122.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='122.5' y1='190.0' x2='122.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='77.5' x2='190.0' y2='77.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='167.5' y1='190.0' x2='167.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='32.5' x2='190.0' y2='32.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='52' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='148' font-size='9' fill='#777'>-2</text><text x='142' y='111' font-size='9' fill='#777'>2</text><text x='102' y='58' font-size='9' fill='#777'>2</text><polygon points='100.0,100.0 145.0,100.0 145.0,55.0 100.0,55.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 145.0,100.0 167.5,55.0 122.5,55.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='32.5' y1='190.0' x2='32.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='167.5' x2='190.0' y2='167.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='77.5' y1='190.0' x2='77.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='122.5' x2='190.0' y2='122.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='122.5' y1='190.0' x2='122.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='77.5' x2='190.0' y2='77.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='167.5' y1='190.0' x2='167.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='32.5' x2='190.0' y2='32.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='52' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='148' font-size='9' fill='#777'>-2</text><text x='142' y='111' font-size='9' fill='#777'>2</text><text x='102' y='58' font-size='9' fill='#777'>2</text><polygon points='100.0,100.0 145.0,100.0 145.0,55.0 100.0,55.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='122.5,100.0 154.3,68.2 122.5,36.4 90.7,68.2' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='32.5' y1='190.0' x2='32.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='167.5' x2='190.0' y2='167.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='77.5' y1='190.0' x2='77.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='122.5' x2='190.0' y2='122.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='122.5' y1='190.0' x2='122.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='77.5' x2='190.0' y2='77.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='167.5' y1='190.0' x2='167.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='32.5' x2='190.0' y2='32.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='52' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='148' font-size='9' fill='#777'>-2</text><text x='142' y='111' font-size='9' fill='#777'>2</text><text x='102' y='58' font-size='9' fill='#777'>2</text><polygon points='100.0,100.0 145.0,100.0 145.0,55.0 100.0,55.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='77.5,100.0 167.5,100.0 145.0,55.0 100.0,55.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='32.5' y1='190.0' x2='32.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='167.5' x2='190.0' y2='167.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='55.0' y1='190.0' x2='55.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='145.0' x2='190.0' y2='145.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='77.5' y1='190.0' x2='77.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='122.5' x2='190.0' y2='122.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='122.5' y1='190.0' x2='122.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='77.5' x2='190.0' y2='77.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='145.0' y1='190.0' x2='145.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='55.0' x2='190.0' y2='55.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='167.5' y1='190.0' x2='167.5' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='32.5' x2='190.0' y2='32.5' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='52' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='148' font-size='9' fill='#777'>-2</text><text x='142' y='111' font-size='9' fill='#777'>2</text><text x='102' y='58' font-size='9' fill='#777'>2</text><polygon points='100.0,100.0 145.0,100.0 145.0,55.0 100.0,55.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='77.5,100.0 145.0,100.0 145.0,66.3 77.5,66.3' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   }
+  ],
+  "answer": 2,
+  "explain": "アフィン変換は平行性を保存するため、正方形は必ず平行四辺形（長方形・菱形・正方形を含む）に写る。ウ は上底と下底の長さが異なる台形で、左右の辺が平行でないため、アフィン変換では得られず射影変換が必要（斜めから撮った文書の形）。ア はせん断、イ は回転＋平行移動、エ は非等方的な拡大縮小＋平行移動で、いずれもアフィン変換。",
+  "terms": [
+   "geo-affine",
+   "geo-projective",
+   "geo-perspective-correction"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q030",
+  "cat": "geo",
+  "style": "text",
+  "stem": "2枚の顔画像A, Bの間を滑らかに変化させるモーフィングの処理として、最も適切なものを選べ。",
+  "choices": [
+   "AとBの画素値を (1−t)A+tB として混合するだけでよい。",
+   "対応する特徴点（線）の中間位置を求め、A, Bをそれぞれその中間形状にワーピングしてから、(1−t):t の比率で混合する。",
+   "AをBにアフィン変換1つで重ね合わせたあと、差分画像を求める。",
+   "A, Bをそれぞれ2値化し、論理積をとる。"
+  ],
+  "answer": 1,
+  "explain": "モーフィングは「形状の変形（ワーピング）」と「色の混合（クロスディゾルブ）」の組合せ。中間時刻tでの特徴の位置を補間し、両画像をその形にワーピングしてから混合する。ア の単純なクロスディゾルブでは目や口の位置がずれて二重像になる。ウ の大域的なアフィン変換だけでは顔の局所的な形の違いを吸収できない。エ は無関係な処理。",
+  "terms": [
+   "geo-morphing",
+   "geo-warping",
+   "geo-cross-dissolve"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q031",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "前景画素値F=200、背景画素値B=100、前景の不透明度α=0.3のとき、αブレンディング I=αF+(1−α)B の合成結果を選べ。",
+  "choices": [
+   "130",
+   "170",
+   "150",
+   "90",
+   "60"
+  ],
+  "answer": 0,
+  "explain": "I=0.3×200+0.7×100=60+70=130。イ はαと1−αを逆にした値（0.7×200+0.3×100）。ウ はα=0.5、エ は差の計算等の誤り、オ は前景成分だけの値。αが小さいほど背景に近くなる。",
+  "terms": [
+   "geo-alpha-blending"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q032",
+  "cat": "geo",
+  "style": "text",
+  "stem": "クロマキー合成に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "被写体を青や緑など一様な色の背景の前で撮影する。",
+   "背景色には、人の肌の色に含まれにくい色が選ばれる。",
+   "背景色が被写体の輪郭に映り込む色かぶり（スピル）の除去が必要になることがある。",
+   "被写体が背景と同じ色の服を着ていても、色の判定には輝度だけを用いるので抜けることはない。",
+   "境界部分に中間的なαを与えると、合成の境目が自然になる。"
+  ],
+  "answer": 3,
+  "explain": "クロマキーは色相・色差（クロマ）に基づいて背景色の画素を透明にする手法なので、被写体に背景と同じ色が含まれるとその部分も抜けて背景が透けてしまう。輝度だけで判定するのはルミナンスキーであり、記述は誤り。他は正しい。",
+  "terms": [
+   "geo-chroma-key",
+   "geo-alpha-blending"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q033",
+  "cat": "geo",
+  "style": "text",
+  "stem": "ポアソン画像合成（シームレス合成）の説明として、最も適切なものを選べ。",
+  "choices": [
+   "合成領域内では貼り付ける画像の勾配を保ち、境界では背景画像の値に一致するように、ポアソン方程式を解いて画素値を求める。",
+   "貼り付ける画像と背景画像を、ラプラシアンピラミッドの各階層で異なる幅で混合する。",
+   "貼り付ける画像の画素値をそのまま背景にコピーし、境界にだけ平滑化フィルタをかける。",
+   "背景画像と貼り付ける画像の差が最小となる継ぎ目を動的計画法で求める。"
+  ],
+  "answer": 0,
+  "explain": "ポアソン画像合成（Pérezら, 2003）は、勾配場を保存しつつディリクレ境界条件で背景と一致させる変分問題で、Δf=div∇g（ポアソン方程式）を解く。結果として模様は保たれ、色調が周囲になじむ。イ はマルチバンドブレンディング、ウ は単純なコピーと境界ぼかし、エ はシーム探索。",
+  "terms": [
+   "geo-poisson-blending",
+   "geo-multiband-blending",
+   "geo-seam"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q034",
+  "cat": "geo",
+  "style": "text",
+  "stem": "マルチバンドブレンディングに関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "画像をガウシアンピラミッドに分解し、最も粗い階層だけを合成する。",
+   "画像をラプラシアンピラミッドで周波数帯に分け、低周波成分は広い遷移幅で、高周波成分は狭い遷移幅で混合してから再構成する。",
+   "全ての周波数成分を同じ幅の遷移領域で線形に混合する。",
+   "画像の勾配場を保存したまま境界条件を満たすポアソン方程式を解く。"
+  ],
+  "answer": 1,
+  "explain": "Burt と Adelson（1983）の方法。各画像のラプラシアンピラミッドを、マスクのガウシアンピラミッドで重み付けして階層ごとに合成し、足し合わせて再構成する。これにより低周波の段差（明るさの差）はなだらかに、高周波はゴーストなく合成できる。ウ は単純なαブレンディング（継ぎ目の段差かゴーストが残る）、エ はポアソン画像合成。",
+  "terms": [
+   "geo-multiband-blending",
+   "ラプラシアンピラミッド"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q035",
+  "cat": "geo",
+  "style": "text",
+  "stem": "画像の中心を基準に対数極座標変換 (x, y)→(log r, θ) を行う。元画像を中心まわりに回転し、さらに中心を基準に拡大した場合、変換後の画像ではどのような変化として現れるか。",
+  "choices": [
+   "回転も拡大もθ方向の平行移動になる。",
+   "回転はθ方向の平行移動、拡大はlog r方向の平行移動になる。",
+   "回転はlog r方向の平行移動、拡大はθ方向の拡大縮小になる。",
+   "回転も拡大も、変換後の画像には全く影響しない。"
+  ],
+  "answer": 1,
+  "explain": "回転θ0 は θ→θ+θ0（θ方向の平行移動）、倍率sの拡大は r→sr、すなわち log r→log r+log s（log r方向の平行移動）となる。このため回転・スケールの推定を平行移動の推定（位相限定相関など）に帰着でき、振幅スペクトルに適用したものがフーリエ・メリン変換。エ：不変になるわけではなく、平行移動として現れる。",
+  "terms": [
+   "geo-log-polar",
+   "geo-polar",
+   "位相限定相関法"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q036",
+  "cat": "geo",
+  "style": "text",
+  "stem": "極座標変換（画像を中心からの距離rと角度θの直交座標に展開する変換）の応用例として、最も適切なものを選べ。",
+  "choices": [
+   "円筒形のボトルの側面を撮影した画像の透視歪みを補正する。",
+   "虹彩（円環状の領域）を帯状に展開して照合しやすくする。",
+   "画像を1/2に縮小する際のエイリアシングを防ぐ。",
+   "2値画像の連結成分にラベルを付ける。"
+  ],
+  "answer": 1,
+  "explain": "円環状の虹彩を中心まわりに展開すると長方形の帯となり、瞳孔の拡縮や回転（θ方向の平行移動）を扱いやすくなる。円形部品の外周検査や時計の文字盤の読み取りなども同様。ア：円筒面の展開は円筒座標への投影で、画像中心まわりの極座標展開とは異なる。ウ・エ は無関係。",
+  "terms": [
+   "geo-polar"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q037",
+  "cat": "geo",
+  "style": "text",
+  "stem": "座標系は画像座標（原点左上、x軸右向き、y軸下向き）とする。回転行列 R(θ)=[cosθ −sinθ; sinθ cosθ] を用いて θ=+30° の回転を画像に施すと、ディスプレイ上ではどのように見えるか。",
+  "choices": [
+   "原点まわりに反時計回りに30°回転して見える。",
+   "原点まわりに時計回りに30°回転して見える。",
+   "画像中心まわりに反時計回りに30°回転して見える。",
+   "左右反転して見える。"
+  ],
+  "answer": 1,
+  "explain": "数学座標（y軸上向き）ではθ>0が反時計回りだが、画像座標はy軸が下向きなので、同じ式は画面上では時計回りの回転として見える。回転の中心は座標原点（左上の画素）であり、画像中心まわりに回すには T(c)R T(−c) の合成が必要（ウ は誤り）。",
+  "terms": [
+   "geo-image-coordinate",
+   "geo-rotation",
+   "geo-rotation-about-point"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q038",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "図のアフィン変換Aの逆変換を表す行列を選べ。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     2,
+     0,
+     4
+    ],
+    [
+     0,
+     2,
+     -2
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "label": "A ="
+  },
+  "choices": [
+   "[0.5 0 −4; 0 0.5 2; 0 0 1]",
+   "[0.5 0 −2; 0 0.5 1; 0 0 1]",
+   "[−2 0 −4; 0 −2 2; 0 0 1]",
+   "[0.5 0 2; 0 0.5 −1; 0 0 1]"
+  ],
+  "answer": 1,
+  "explain": "A は「2倍拡大してから(4,−2)平行移動」なので、逆は「(−4,2)平行移動してから1/2倍」：S(0.5)·T(−4,2)=[0.5 0 −2; 0 0.5 1; 0 0 1]。検算すると A·A⁻¹=I。ア は T(−4,2)·S(0.5)、すなわち「縮小してから平行移動」と順序を取り違えた誤り（平行移動量が1/2倍されていない）。エ は符号の誤り。ウ は符号反転しただけで逆行列ではない。",
+  "terms": [
+   "geo-affine",
+   "geo-inverse-mapping",
+   "geo-composite"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q039",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "一直線上に4点A, B, C, Dがこの順に並び、数直線上の座標がそれぞれ0, 1, 2, 4である。複比を (A,B;C,D)=(AC·BD)/(BC·AD) で定義するとき、その値を選べ。また、この値はこの直線を射影変換で写した後も保存される。",
+  "choices": [
+   "1.5",
+   "0.75",
+   "2",
+   "1",
+   "3"
+  ],
+  "answer": 0,
+  "explain": "AC=2, BD=3, BC=1, AD=4 なので (2×3)/(1×4)=1.5。射影変換では長さも長さの比（単比）も変わるが、同一直線上4点の複比は保存される。他の選択肢は線分の長さの取り違えによる誤り。",
+  "terms": [
+   "geo-cross-ratio",
+   "geo-projective"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q040",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。破線のFの字が、ある変換で実線の図形に写った。この変換の行列を選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 118.0,100.0 118.0,73.0 136.0,73.0 136.0,55.0 118.0,55.0 118.0,46.0 154.0,46.0 154.0,28.0 100.0,28.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='136.0,100.0 154.0,100.0 154.0,127.0 172.0,127.0 172.0,145.0 154.0,145.0 154.0,154.0 190.0,154.0 190.0,172.0 136.0,172.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+  },
+  "choices": [
+   "[1 0 2; 0 −1 0; 0 0 1]",
+   "[−1 0 2; 0 1 0; 0 0 1]",
+   "[1 0 0; 0 −1 2; 0 0 1]",
+   "[1 0 2; 0 1 0; 0 0 1]"
+  ],
+  "answer": 0,
+  "explain": "実線のFは上下が反転して y∈[−4,0] にあり（横棒が下側）、x方向に2だけ右へずれている。これは x軸に関する鏡映 y'=−y と平行移動 x'=x+2 で [1 0 2; 0 −1 0; 0 0 1]。イ は左右反転＋平行移動、ウ は上下反転してy方向に2移動、エ は平行移動のみ。",
+  "terms": [
+   "geo-reflection",
+   "geo-translation"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q041",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。図の行列Aで、破線の直角三角形を変換した結果を選べ。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "label": "A ="
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,46.0 64.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 46.0,100.0 100.0,64.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,154.0 136.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 100.0,46.0 136.0,100.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   }
+  ],
+  "answer": 3,
+  "explain": "A=[0 1; 1 0] は x と y を入れ替える、直線y=xに関する鏡映。頂点(3,0)は(0,3)へ、(0,2)は(2,0)へ移り、三角形は第1象限に残る。ア は反時計回り90°回転（(3,0)→(0,3)、(0,2)→(−2,0)）、イ はy軸鏡映、ウ は時計回り90°回転。y=x鏡映と90°回転は1頂点が同じ位置に来るので、もう1頂点で見分ける。",
+  "terms": [
+   "geo-reflection",
+   "geo-rotation"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q042",
+  "cat": "geo",
+  "style": "text",
+  "stem": "射影変換によって常に保存される性質を選べ。",
+  "choices": [
+   "平行性",
+   "角度",
+   "直線性（直線は直線に写る）",
+   "線分の長さの比",
+   "円は円に写る性質"
+  ],
+  "answer": 2,
+  "explain": "射影変換は直線を直線に写す（共線性を保つ）。また同一直線上4点の複比も保存される。平行線は消失点で交わるように写るので平行性は保存されず（ア）、角度・長さの比も変わる（イ・エ）。円は一般に楕円などの円錐曲線に写る（オ）。",
+  "terms": [
+   "geo-projective",
+   "geo-invariants"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q043",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "図の射影変換Hで、x軸方向の無限遠点（同次座標(1, 0, 0)）が写る点を求めよ。この点はx軸に平行な直線群が変換後に交わる消失点となる。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0
+    ],
+    [
+     0.5,
+     0,
+     1
+    ]
+   ],
+   "label": "H ="
+  },
+  "choices": [
+   "(1, 0)",
+   "(2, 0)",
+   "(0.5, 0)",
+   "無限遠点のまま"
+  ],
+  "answer": 1,
+  "explain": "H(1,0,0)ᵀ=(1, 0, 0.5)。第3成分が0でないので有限の点 (1/0.5, 0/0.5)=(2, 0) に写る。h31≠0 の射影変換では無限遠点が有限の点（消失点）に写り、平行線が交わる。アフィン変換（3行目が(0,0,1)）では第3成分が0のままなので無限遠点は無限遠点に写り、平行性が保たれる（エ はアフィン変換の場合）。",
+  "terms": [
+   "geo-projective",
+   "geo-homogeneous",
+   "消失点"
+  ],
+  "level": 3
+ },
+ {
+  "id": "geo-q044",
+  "cat": "geo",
+  "style": "fill",
+  "stem": "射影変換行列をDLT法で推定する。h33=1とおくと未知数は（a）個で、対応点1組から2本の線形方程式が得られる。対応点が5組以上あるときは（b）で解を求め、誤対応が含まれる場合は（c）などのロバスト推定を併用する。",
+  "choices": [
+   "a: 8, b: 最小二乗法, c: RANSAC",
+   "a: 9, b: 最小二乗法, c: 判別分析法",
+   "a: 6, b: ニュートン法, c: RANSAC",
+   "a: 8, b: 判別分析法, c: Hough変換"
+  ],
+  "answer": 0,
+  "explain": "h33=1で未知数8個、4組で決まり、それ以上の過剰な組は最小二乗法（SVD）で解く。誤対応（外れ値）があると最小二乗解が大きくずれるため、ランダムに4組を選んで仮説を立て、一致する対応点が最多のものを採るRANSACを使う。判別分析法は2値化のしきい値決定法で無関係。",
+  "terms": [
+   "geo-dlt",
+   "geo-projective",
+   "RANSAC"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q045",
+  "cat": "geo",
+  "style": "text",
+  "stem": "双線形補間に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "周囲2×2の4画素の値を、補間位置からの距離に応じて線形に重み付けする。",
+   "4つの重みの和は常に1である。",
+   "x方向に補間してからy方向に補間する場合と、y方向に補間してからx方向に補間する場合とで、結果が異なる。",
+   "最近傍補間よりジャギーが目立ちにくいが、画像がややぼける。",
+   "出力値は周囲4画素の最小値と最大値の範囲内に収まる。"
+  ],
+  "answer": 2,
+  "explain": "双線形補間の重み (1−α)(1−β), α(1−β), (1−α)β, αβ は x方向とy方向の積の形（分離可能）なので、補間の順序を入れ替えても結果は同じになる。他の記述は正しい。重みが非負で和が1の凸結合なので、出力は4画素の範囲内に収まる。",
+  "terms": [
+   "geo-bilinear"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q046",
+  "cat": "geo",
+  "style": "text",
+  "stem": "各画素に物体の番号（ラベル値1, 2, 3, …）が格納されたラベル画像を回転させたい。補間方法として最も適切なものを選べ。",
+  "choices": [
+   "最近傍補間",
+   "双線形補間",
+   "双3次補間",
+   "Lanczos補間"
+  ],
+  "answer": 0,
+  "explain": "ラベル値は数値の大小に意味がない名義的な値なので、補間で中間値を作ると存在しないラベル（例：1と3の間の2）が生じてしまう。最近傍補間は元画像に存在する値しか出力しないため、ラベル画像・2値画像・インデックスカラー画像の変換に適する。他の方法は画素値を加重平均するため不適切。",
+  "terms": [
+   "geo-nearest",
+   "ラベリング"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q047",
+  "cat": "geo",
+  "style": "text",
+  "stem": "座標系は画像座標（原点左上、x軸右向き、y軸下向き）とする。幅W・高さHの画像を、画像中心 c=(cx, cy) まわりに角度θ回転させる合成変換の行列Mとして正しいものを選べ。T(tx,ty) は平行移動、R(θ) は回転の行列で、点は列ベクトルとして M を左から掛ける。",
+  "choices": [
+   "M = R(θ)·T(cx, cy)",
+   "M = T(−cx, −cy)·R(θ)·T(cx, cy)",
+   "M = T(cx, cy)·R(θ)·T(−cx, −cy)",
+   "M = T(cx, cy)·T(−cx, −cy)·R(θ)"
+  ],
+  "answer": 2,
+  "explain": "右から順に作用する：T(−cx,−cy)で中心を原点に移す→R(θ)で回転→T(cx,cy)で戻す。イ は順序が逆で、点を先に+cだけ移してから回転し−cで戻すため、中心は不動にならない（点−cまわりの回転になる）。エ は T(c)T(−c)=I なので原点（左上）まわりの回転と同じ。ア は回転中心が定まらない。",
+  "terms": [
+   "geo-rotation-about-point",
+   "geo-composite"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q048",
+  "cat": "geo",
+  "style": "text",
+  "stem": "次の変換の組のうち、適用する順序を入れ替えても結果が常に同じになる（可換な）ものを選べ。いずれも原点を基準とする。",
+  "choices": [
+   "原点まわりの回転と、平行移動",
+   "平行移動と、拡大縮小",
+   "原点まわりの回転と、別の角度の原点まわりの回転",
+   "原点まわりの回転と、x方向だけの拡大（非等方スケーリング）",
+   "x方向のせん断と、y方向のせん断"
+  ],
+  "answer": 2,
+  "explain": "原点まわりの回転どうしは R(α)R(β)=R(α+β)=R(β)R(α) で可換。ア・イ は平行移動ベクトルが回転・拡大されるかどうかで結果が変わる。エ は回転後に横に伸ばすか伸ばしてから回すかで形が変わる（等方スケーリングなら可換）。オ もせん断行列の積は一般に非可換（[1 a;0 1][1 0;b 1]≠[1 0;b 1][1 a;0 1]）。",
+  "terms": [
+   "geo-composite"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q049",
+  "cat": "geo",
+  "style": "figure",
+  "stem": "座標系は数学座標（x軸右向き・y軸上向き、原点O）とし、点は列ベクトル(x, y, 1)ᵀで表して p' = A p とする。破線の直角三角形（頂点(0,0), (3,0), (0,2)）を、点(1, 0)を中心に1.5倍に拡大した結果を選べ。",
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='100.0,100.0 181.0,100.0 100.0,46.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='91.0,100.0 172.0,100.0 91.0,46.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='109.0,100.0 190.0,100.0 109.0,46.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><line x1='10.0' y1='190.0' x2='10.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='190.0' x2='190.0' y2='190.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='28.0' y1='190.0' x2='28.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='172.0' x2='190.0' y2='172.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='46.0' y1='190.0' x2='46.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='154.0' x2='190.0' y2='154.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='64.0' y1='190.0' x2='64.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='136.0' x2='190.0' y2='136.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='82.0' y1='190.0' x2='82.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='118.0' x2='190.0' y2='118.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='118.0' y1='190.0' x2='118.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='82.0' x2='190.0' y2='82.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='136.0' y1='190.0' x2='136.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='64.0' x2='190.0' y2='64.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='154.0' y1='190.0' x2='154.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='46.0' x2='190.0' y2='46.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='172.0' y1='190.0' x2='172.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='28.0' x2='190.0' y2='28.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='190.0' y1='190.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='10.0' x2='190.0' y2='10.0' stroke='#e5e5e5' stroke-width='0.6'/><line x1='10.0' y1='100.0' x2='190.0' y2='100.0' stroke='#555' stroke-width='1'/><line x1='100.0' y1='190.0' x2='100.0' y2='10.0' stroke='#555' stroke-width='1'/><text x='182' y='96' font-size='11'>x</text><text x='104' y='20' font-size='11'>y</text><text x='91' y='111' font-size='10'>O</text><text x='25' y='111' font-size='9' fill='#777'>-4</text><text x='102' y='175' font-size='9' fill='#777'>-4</text><text x='61' y='111' font-size='9' fill='#777'>-2</text><text x='102' y='139' font-size='9' fill='#777'>-2</text><text x='133' y='111' font-size='9' fill='#777'>2</text><text x='102' y='67' font-size='9' fill='#777'>2</text><text x='169' y='111' font-size='9' fill='#777'>4</text><text x='102' y='31' font-size='9' fill='#777'>4</text><polygon points='100.0,100.0 154.0,100.0 100.0,64.0' fill='none' stroke='#999' stroke-dasharray='3,2' stroke-width='1'/><polygon points='118.0,100.0 199.0,100.0 118.0,46.0' fill='#4a90d9' fill-opacity='0.55' stroke='#1f5fa8' stroke-width='1.2'/></svg>"
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "M=T(1,0)·S(1.5)·T(−1,0)。中心(1,0)は不動で、(0,0)→(−0.5,0)、(3,0)→(4,0)、(0,2)→(−0.5,3)。ア は原点中心の拡大（(0,0)が不動）、ウ は点(−1,0)中心の拡大（順序を逆にした誤り）、エ は原点中心で拡大してから(1,0)移動したもの。",
+  "terms": [
+   "geo-composite",
+   "geo-scaling",
+   "geo-rotation-about-point"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q050",
+  "cat": "geo",
+  "style": "text",
+  "stem": "同じ場所を撮影した可視光画像と熱画像、あるいはCT画像とMRI画像のように、画素値の性質が大きく異なる画像どうしを位置合わせするときの類似度として最も適切なものを選べ。",
+  "choices": [
+   "差の二乗和（SSD）",
+   "差の絶対値和（SAD）",
+   "相互情報量",
+   "画素値の平均の差"
+  ],
+  "answer": 2,
+  "explain": "異なるモダリティでは同じ部位でも画素値の大小関係が一致しないため、値の一致を前提とするSSD・SADや、線形関係を前提とする相関は適さない。相互情報量は2画像の画素値の同時分布の統計的依存性を測るので、値の対応が非線形でも位置が合ったときに最大となる。",
+  "terms": [
+   "geo-registration",
+   "相互情報量"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q051",
+  "cat": "geo",
+  "style": "fill",
+  "stem": "アフィン変換は x'=ax+by+c, y'=dx+ey+f で表され、パラメータは（a）個である。このため、同一直線上にない（b）組の対応点からパラメータが一意に決まる。また、変換による面積の拡大率は（c）で与えられる。",
+  "choices": [
+   "a: 6, b: 3, c: |ae−bd|",
+   "a: 6, b: 2, c: a·e",
+   "a: 4, b: 2, c: |ae−bd|",
+   "a: 8, b: 4, c: a+e"
+  ],
+  "answer": 0,
+  "explain": "a〜fの6パラメータで、1組の対応点から2式なので3組で決まる（3点が同一直線上だと決まらない）。面積の拡大率は線形部分の行列式の絶対値 |ae−bd|。イ の a·e は対角成分だけでせん断や回転を考慮していない。ウ は相似変換（4）、エ は射影変換（8・4組）の値。",
+  "terms": [
+   "geo-affine",
+   "geo-mesh-warping"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q052",
+  "cat": "geo",
+  "style": "text",
+  "stem": "次の3×3同次座標行列のうち、アフィン変換ではなく射影変換でなければ表せないものを選べ。",
+  "choices": [
+   "[1 2 3; 4 5 6; 0 0 1]",
+   "[2 0 0; 0 2 0; 0 0 2]",
+   "[1 0 5; 0 1 −3; 0 0 1]",
+   "[1 0 0; 0 1 0; 0.1 0.2 1]"
+  ],
+  "answer": 3,
+  "explain": "アフィン変換は3行目が(0,0,1)（またはその定数倍）の行列。エ は3行目に0.1, 0.2があり、分母が x,y に依存する射影変換。イ は全体が2倍されているが同次座標では定数倍は同じ変換なので恒等変換（アフィン）に等しい。ア は一般のアフィン、ウ は平行移動。",
+  "terms": [
+   "geo-projective",
+   "geo-affine",
+   "geo-homogeneous"
+  ],
+  "level": 2
+ },
+ {
+  "id": "geo-q053",
+  "cat": "geo",
+  "style": "calc",
+  "stem": "図の4×4画像を、面積平均法で1/2に縮小した（2×2の各ブロックの平均を出力とする）。縮小画像の右下の画素値を選べ。",
+  "figure": {
+   "type": "grid",
+   "data": [
+    [
+     10,
+     30,
+     50,
+     70
+    ],
+    [
+     20,
+     40,
+     60,
+     80
+    ],
+    [
+     100,
+     120,
+     0,
+     40
+    ],
+    [
+     140,
+     160,
+     80,
+     120
+    ]
+   ],
+   "max": 255,
+   "values": true
+  },
+  "choices": [
+   "0",
+   "60",
+   "120",
+   "65",
+   "130"
+  ],
+  "answer": 1,
+  "explain": "右下のブロックは 0, 40, 80, 120 で、平均 (0+40+80+120)/4=60。ア は単純な間引き（ブロック左上の画素）による値で、エイリアシングを生じやすい。ウ はブロックの最大値、エ は右上のブロック、オ は左下のブロックの平均。面積平均は低域通過フィルタとして働き、縮小時のエイリアシングを抑える。",
+  "terms": [
+   "geo-area-average",
+   "geo-antialias-downscale"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q054",
+  "cat": "geo",
+  "style": "text",
+  "stem": "斜め上から撮影した書類の画像を、真上から撮影したような長方形の画像に補正したい。最も適切な方法を選べ。",
+  "choices": [
+   "書類の4隅の座標と補正後の長方形の4隅の座標の対応から射影変換を求め、逆写像と補間で画像を生成する。",
+   "書類の3隅の対応からアフィン変換を求めて変換する。",
+   "書類の領域に対してヒストグラム平坦化を行う。",
+   "画像全体を中心まわりに回転させる。"
+  ],
+  "answer": 0,
+  "explain": "平面を斜めから撮影したときの歪み（透視歪み）は射影変換で表されるため、4点対応からホモグラフィを推定して補正する。イ のアフィン変換は平行性を保つので、台形に写った書類を長方形に戻すことはできない（3隅は合っても4隅目が合わない）。ウ は濃淡の補正、エ は回転だけで台形の歪みを補正できない。",
+  "terms": [
+   "geo-perspective-correction",
+   "geo-projective",
+   "geo-dlt"
+  ],
+  "level": 1
+ },
+ {
+  "id": "geo-q055",
+  "cat": "geo",
+  "style": "text",
+  "stem": "パノラマ合成で、重なり領域を単純に一定幅のαブレンディングで混合したところ、継ぎ目に二重像（ゴースト）が生じた。この問題の原因・対策として適切でないものを選べ。",
+  "choices": [
+   "撮影中に移動した人物や、視差による位置ずれが原因となりうる。",
+   "両画像の差が小さい経路を継ぎ目（シーム）として求め、その線で画像を切り替える。",
+   "マルチバンドブレンディングを用いて、高周波成分は狭い幅で混合する。",
+   "ブレンディングの遷移幅をできるだけ広くすれば、ゴーストは必ず消える。"
+  ],
+  "answer": 3,
+  "explain": "遷移幅を広くすると明るさの段差は目立たなくなるが、位置ずれした高周波成分が広い範囲で重なるためゴーストはむしろ広がる。ゴーストには、シーム探索で重なりを避ける、マルチバンドブレンディングで高周波を狭い幅で切り替える、などが有効。ア は正しい原因の説明。",
+  "terms": [
+   "geo-mosaicing",
+   "geo-seam",
+   "geo-multiband-blending",
+   "geo-alpha-blending"
+  ],
+  "level": 2
+ }
+]
