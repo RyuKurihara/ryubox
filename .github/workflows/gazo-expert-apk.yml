@@ -1,0 +1,54 @@
+name: gazo-expert APK
+
+on:
+  push:
+    paths:
+      - 'gazo-expert/**'
+      - '.github/workflows/gazo-expert-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gazo-expert
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Install & build web data
+        run: |
+          npm ci
+          node tools/build.mjs
+          sed -i "s/__BUILD__/${GITHUB_RUN_NUMBER}/" www/sw.js
+          npx cap sync android
+      - name: Build APK
+        working-directory: gazo-expert/android
+        run: |
+          sed -i "s/versionCode 1$/versionCode ${GITHUB_RUN_NUMBER}/; s/versionName \"1.0\"/versionName \"1.0.${GITHUB_RUN_NUMBER}\"/" app/build.gradle
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/gazo-expert-latest.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gazo-expert-apk
+          path: gazo-expert-latest.apk
+      - name: Publish to release "gazo-expert-latest"
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete gazo-expert-latest -y --cleanup-tag || true
+          gh release create gazo-expert-latest gazo-expert-latest.apk \
+            --target "${GITHUB_SHA}" --prerelease \
+            --title "画像処理エキスパート特訓 APK (build ${GITHUB_RUN_NUMBER})" \
+            --notes "スマホでこのページを開き gazo-expert-latest.apk をダウンロード→インストール。上書き更新しても学習記録は保持されます。"

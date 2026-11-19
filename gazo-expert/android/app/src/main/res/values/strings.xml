@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">画像処理特訓</string>
+    <string name="title_activity_main">画像処理特訓</string>
+    <string name="package_name">jp.ryubox.gazoexpert</string>
+    <string name="custom_url_scheme">jp.ryubox.gazoexpert</string>
+</resources>

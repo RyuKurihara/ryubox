@@ -1,0 +1,9 @@
+{
+  "appId": "jp.ryubox.gazoexpert",
+  "appName": "画像処理特訓",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false,
+    "adjustMarginsForEdgeToEdge": "auto"
+  }
+}
