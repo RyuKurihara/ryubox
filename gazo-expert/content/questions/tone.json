@@ -1,0 +1,1673 @@
+[
+ {
+  "id": "tone-q001",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "8ビット濃淡画像（図）に線形濃度変換 g = 2f − 100 を施した。0〜255の範囲外となった値はクリッピング（飽和処理）するものとする。出力画像として正しいものを選べ。",
+  "figure": {
+   "type": "grid",
+   "data": [
+    [
+     30,
+     60,
+     90
+    ],
+    [
+     120,
+     150,
+     200
+    ]
+   ],
+   "max": 255,
+   "values": true,
+   "caption": "入力画像"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       65,
+       80,
+       95
+      ],
+      [
+       110,
+       125,
+       150
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       0,
+       20,
+       80
+      ],
+      [
+       140,
+       200,
+       255
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       216,
+       20,
+       80
+      ],
+      [
+       140,
+       200,
+       44
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       0,
+       10,
+       40
+      ],
+      [
+       70,
+       100,
+       150
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "各画素に g=2f−100 を計算すると −40, 20, 80, 140, 200, 300 となる。範囲外の −40 は0に、300 は255にクリッピングされ、[[0,20,80],[140,200,255]] が正解。−40→216、300→44 となっている画像は、クリッピングせず256で割った余り（オーバーフローの折り返し）をとった誤り。[[0,10,40],[70,100,150]] は g=f−50（傾き1）であり、コントラストは変わらない。[[65,80,95],[110,125,150]] は g=f/2+50 で、傾き0.5のためコントラストが低下する。",
+  "terms": [
+   "tone-linear",
+   "tone-clipping"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q002",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "図のトーンカーブを8ビット濃淡画像に適用したときの効果として、最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 67.6,160.0 142.9,10.0 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text><circle cx='67.6' cy='160.0' r='2.5' fill='#36c'/><text x='70.6' y='172.0' font-size='10' fill='#36c'>64</text><circle cx='142.9' cy='10.0' r='2.5' fill='#36c'/><text x='145.9' y='22.0' font-size='10' fill='#36c'></text></svg>"
+  },
+  "choices": [
+   "入力64〜192の範囲が0〜255に引き伸ばされ、その範囲のコントラストが約2倍になる。64以下は0、192以上は255に飽和する",
+   "入力64〜192の範囲のコントラストが約1/2に圧縮され、全体に眠い画像になる",
+   "明暗が反転し、ネガ画像になる",
+   "中間調だけが明るくなり、0と255は変化しない"
+  ],
+  "answer": 0,
+  "explain": "折れ線の中央区間は (64,0) から (192,255) を結び、傾きは 255/128≈2 である。傾きが1より大きい区間ではコントラストが強調されるので、64〜192の濃度差が約2倍に広がる。傾き0の両端区間ではそれぞれ0と255に飽和（クリッピング）し、その範囲の階調差は失われる。コントラスト圧縮は傾き<1の場合、ネガ化は右下がりの直線、両端固定で中間調が明るくなるのはガンマ変換（上に凸）の特徴であり、いずれも図に当てはまらない。",
+  "terms": [
+   "tone-piecewise",
+   "tone-contrast-stretch",
+   "tone-clipping"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q003",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "8ビット濃淡画像のネガポジ反転（g = 255 − f）を表すトーンカーブはどれか。",
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 105.0,10.0 180.0,160.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 32.9,159.9 35.9,159.8 38.8,159.5 41.8,159.1 44.7,158.6 47.6,157.9 50.6,157.2 53.5,156.3 56.5,155.3 59.4,154.2 62.4,153.0 65.3,151.7 68.2,150.3 71.2,148.7 74.1,147.0 77.1,145.2 80.0,143.3 82.9,141.3 85.9,139.2 88.8,136.9 91.8,134.6 94.7,132.1 97.6,129.5 100.6,126.8 103.5,124.0 106.5,121.0 109.4,118.0 112.4,114.8 115.3,111.5 118.2,108.1 121.2,104.6 124.1,100.9 127.1,97.2 130.0,93.3 132.9,89.4 135.9,85.3 138.8,81.0 141.8,76.7 144.7,72.3 147.6,67.7 150.6,63.1 153.5,58.3 156.5,53.4 159.4,48.4 162.4,43.2 165.3,38.0 168.2,32.6 171.2,27.1 174.1,21.5 177.1,15.8 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,122.4 180.0,47.1' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,10.0 180.0,160.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   }
+  ],
+  "answer": 3,
+  "explain": "ネガポジ反転は g=255−f で、(0,255) と (255,0) を結ぶ傾き −1 の直線になる。山形に折り返すカーブは一部の範囲だけ反転するソラリゼーション、下に膨らむ曲線は中間調を暗くするガンマ変換、(0,64)〜(255,192) の直線は傾き0.5のコントラスト低下であり、いずれも全域の明暗反転ではない。",
+  "terms": [
+   "tone-negative",
+   "tone-tone-curve"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q004",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "8ビット濃淡画像にガンマ変換 g = 255 (f/255)^(1/γ) を γ = 2 で施した。入力値 f = 64 の画素の出力値に最も近いものを選べ（小数点以下は四捨五入）。",
+  "choices": [
+   "32",
+   "191",
+   "128",
+   "16"
+  ],
+  "answer": 2,
+  "explain": "g=255×(64/255)^(1/2)=255×√0.2510≈255×0.5010≈127.75 で、四捨五入して128。γ=2 で指数 1/γ=0.5 となり中間調が明るくなる。16 は指数を γ=2 として (64/255)²×255≈16.06 と計算した誤り（暗くなる方向）。32 は単に64を2で割った値、191 は 255−64 でネガポジ反転の結果である。",
+  "terms": [
+   "tone-gamma"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q005",
+  "cat": "tone",
+  "style": "text",
+  "stem": "ガンマ変換 g = 255 (f/255)^(1/γ)（8ビット）に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "もともとはCRTディスプレイの入力電圧と輝度の非線形な関係を補正するために用いられた",
+   "γ > 1 のとき、トーンカーブは対角線より下に膨らみ、画像全体が暗くなる",
+   "γ の値によらず、入力0は0に、入力255は255に変換される",
+   "γ > 1 のとき、暗部の傾きが1より大きくなり、暗部のコントラストが強調される"
+  ],
+  "answer": 1,
+  "explain": "この式では γ>1 で指数 1/γ<1 となり、(f/255)^(1/γ)≥f/255 なのでトーンカーブは対角線より上に膨らみ、画像は明るくなる。したがって「下に膨らみ暗くなる」は誤り。0^(1/γ)=0、1^(1/γ)=1 なので両端は固定される。上に凸の曲線は原点付近の傾きが大きいため暗部のコントラストが上がる（明部は傾き<1で圧縮）。CRTの輝度が電圧のべき乗（約2.2乗）に比例する特性の補正が起源である。",
+  "terms": [
+   "tone-gamma",
+   "tone-tone-curve"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q006",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "図のトーンカーブ（実線、破線は対角線）を適用したときの効果として、最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 32.9,159.8 35.9,159.5 38.8,159.2 41.8,158.8 44.7,158.3 47.6,157.8 50.6,157.1 53.5,156.3 56.5,155.3 59.4,154.1 62.4,152.6 65.3,151.0 68.2,149.0 71.2,146.6 74.1,143.8 77.1,140.6 80.0,136.9 82.9,132.6 85.9,127.8 88.8,122.4 91.8,116.5 94.7,110.1 97.6,103.3 100.6,96.1 103.5,88.7 106.5,81.3 109.4,73.9 112.4,66.7 115.3,59.9 118.2,53.5 121.2,47.6 124.1,42.2 127.1,37.4 130.0,33.1 132.9,29.4 135.9,26.2 138.8,23.4 141.8,21.0 144.7,19.0 147.6,17.4 150.6,15.9 153.5,14.7 156.5,13.7 159.4,12.9 162.4,12.2 165.3,11.7 168.2,11.2 171.2,10.8 174.1,10.5 177.1,10.2 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+  },
+  "choices": [
+   "中間調のコントラストが強調され、暗部と明部の階調は圧縮される",
+   "中間調のコントラストが低下し、暗部と明部の階調が強調される",
+   "画像全体が均一に明るくなり、コントラストは変化しない",
+   "一部の濃度範囲で明暗が反転する"
+  ],
+  "answer": 0,
+  "explain": "S字のトーンカーブは中間付近の傾きが1より大きく、両端付近の傾きが1より小さい。傾き>1の中間調ではコントラストが強調され、傾き<1の暗部・明部では階調が圧縮される（暗部はより暗く、明部はより明るく）。中間調のコントラストを下げるのは逆S字、全体が均一に明るくなるのは傾き1で上に平行移動した直線（g=f+b）、明暗の反転は非単調なソラリゼーションの特徴である。",
+  "terms": [
+   "tone-s-curve",
+   "tone-tone-curve"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q007",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "図のトーンカーブによる処理の名称として、最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 105.0,10.0 180.0,160.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+  },
+  "choices": [
+   "ポスタリゼーション",
+   "ネガポジ反転",
+   "ヒストグラム平坦化",
+   "閾値処理",
+   "ソラリゼーション"
+  ],
+  "answer": 4,
+  "explain": "入力が中央（約128）を超えると出力が減少に転じる山形の非単調なトーンカーブで、明るい部分だけ明暗が反転する。これはソラリゼーションの典型である。ポスタリゼーションは階段状、ネガポジ反転は全域で右下がりの直線、閾値処理は1段の階段（ステップ関数）である。ヒストグラム平坦化の変換関数は累積ヒストグラムなので必ず単調増加となり、山形にはならない。",
+  "terms": [
+   "tone-solarization",
+   "tone-tone-curve"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q008",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "図のトーンカーブを適用した画像に関する記述として、最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 67.6,160.0 67.6,110.0 105.3,110.0 105.3,60.0 142.9,60.0 142.9,10.0 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+  },
+  "choices": [
+   "ヒストグラムがほぼ平坦になる",
+   "明るい部分だけが反転し、独特の効果が得られる",
+   "濃度が4段階に減り、なめらかなグラデーション部分に帯状の境界（疑似輪郭）が現れる",
+   "全体のコントラストが均一に強調され、細部がくっきりする"
+  ],
+  "answer": 2,
+  "explain": "階段状のトーンカーブはポスタリゼーションで、出力は 0, 85, 170, 255 の4値に限られる。各段の内部では傾き0のため濃淡差が消え、なめらかな濃度変化が帯状の領域に分かれ、段の境目に疑似輪郭が生じる。全体のコントラスト強調は傾き>1の直線、ヒストグラムの平坦化は累積ヒストグラムによる変換、一部の反転はソラリゼーションの効果であり、いずれも当てはまらない。ヒストグラムは4本の線に集中する。",
+  "terms": [
+   "tone-posterization",
+   "tone-false-contour"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q009",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "閾値128で2値化（f ≥ 128 なら255、それ以外は0）する処理を表すトーンカーブはどれか。",
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 32.9,159.8 35.9,159.5 38.8,159.2 41.8,158.8 44.7,158.3 47.6,157.8 50.6,157.1 53.5,156.3 56.5,155.3 59.4,154.1 62.4,152.6 65.3,151.0 68.2,149.0 71.2,146.6 74.1,143.8 77.1,140.6 80.0,136.9 82.9,132.6 85.9,127.8 88.8,122.4 91.8,116.5 94.7,110.1 97.6,103.3 100.6,96.1 103.5,88.7 106.5,81.3 109.4,73.9 112.4,66.7 115.3,59.9 118.2,53.5 121.2,47.6 124.1,42.2 127.1,37.4 130.0,33.1 132.9,29.4 135.9,26.2 138.8,23.4 141.8,21.0 144.7,19.0 147.6,17.4 150.6,15.9 153.5,14.7 156.5,13.7 159.4,12.9 162.4,12.2 165.3,11.7 168.2,11.2 171.2,10.8 174.1,10.5 177.1,10.2 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 105.3,160.0 105.3,10.0 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 67.6,160.0 67.6,110.0 105.3,110.0 105.3,60.0 142.9,60.0 142.9,10.0 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 67.6,160.0 142.9,10.0 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "閾値処理は、f=128 で出力が0から255へ垂直に立ち上がる1段のステップ関数となる。4段の階段はポスタリゼーション、64〜192を斜めに結ぶ折れ線はコントラスト伸張、なめらかなS字はS字トーンカーブであり、いずれも2値ではなく中間の出力値を持つ。",
+  "terms": [
+   "tone-threshold",
+   "tone-tone-curve"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q010",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "図は3ビット（濃度値0〜7）の4×4画像である。変換式 g = round( 7 × C(f) / 16 )（C(f) は濃度 f の累積度数、round は四捨五入）によりヒストグラム平坦化を行ったとき、入力値 1, 2, 3, 6 の出力値の組合せとして正しいものを選べ。",
+  "figure": {
+   "type": "grid",
+   "data": [
+    [
+     1,
+     1,
+     2,
+     2
+    ],
+    [
+     1,
+     2,
+     2,
+     3
+    ],
+    [
+     2,
+     2,
+     3,
+     3
+    ],
+    [
+     1,
+     2,
+     3,
+     6
+    ]
+   ],
+   "max": 7,
+   "values": true,
+   "caption": "入力画像（3ビット）"
+  },
+  "choices": [
+   "1→2, 2→5, 3→7, 6→7",
+   "1→0, 2→1, 3→3, 6→7",
+   "1→4, 2→11, 3→15, 6→16",
+   "1→2, 2→4, 3→6, 6→7"
+  ],
+  "answer": 0,
+  "explain": "度数は 1:4個, 2:7個, 3:4個, 6:1個。累積度数は C(1)=4, C(2)=11, C(3)=15, C(6)=16。g=7C/16 は 1.75, 4.8125, 6.5625, 7 となり、四捨五入して 2, 5, 7, 7。度数の多い濃度2の前後が大きく引き離されている（2→5）ことに注目。『1→0, 2→1, 3→3, 6→7』は最小1・最大6を0〜7に線形に引き伸ばしたコントラスト伸張の結果、『1→4, 2→11…』は累積度数そのもので正規化を忘れた誤り、『1→2, 2→4, 3→6, 6→7』は計算の誤りである。3と6がともに7になるように、離散画像では異なる入力が同じ出力になることがあり、完全には平坦にならない。",
+  "terms": [
+   "tone-hist-eq",
+   "tone-cumulative-histogram"
+  ],
+  "level": 3
+ },
+ {
+  "id": "tone-q011",
+  "cat": "tone",
+  "style": "text",
+  "stem": "ヒストグラム平坦化に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "変換関数には正規化した累積ヒストグラムが用いられ、単調増加となる",
+   "度数が大きい濃度範囲ほど変換関数の傾きが大きく、その範囲のコントラストが強調される",
+   "離散的なディジタル画像では、通常の変換だけでは出力ヒストグラムは完全には平坦にならない",
+   "ヒストグラム平坦化は線形変換なので、元のヒストグラムの形状は保たれ、横に引き伸ばされるだけである"
+  ],
+  "answer": 3,
+  "explain": "ヒストグラム平坦化は累積ヒストグラムを変換関数とする非線形変換であり、ヒストグラムの形状そのものを一様分布に近づける。形状を保ったまま引き伸ばすのは線形のコントラスト伸張なので、最初の記述が誤り。変換関数の傾きは（正規化）度数に比例するため、度数の多い範囲が引き伸ばされる。同じ濃度の画素は同じ値に写るので、離散画像では完全には平坦にならない。",
+  "terms": [
+   "tone-hist-eq",
+   "tone-contrast-stretch"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q012",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "濃度値が50〜150の範囲にしか分布していない8ビット画像に対し、最小値50を0、最大値150を255に写す線形のコントラスト伸張を行った。入力値90の画素の出力値を選べ。",
+  "choices": [
+   "90",
+   "153",
+   "128",
+   "40",
+   "102"
+  ],
+  "answer": 4,
+  "explain": "g=255(f−fmin)/(fmax−fmin)=255×(90−50)/(150−50)=255×0.4=102。90 は変換前のまま、153 は 255×0.6（fmax 側からの比率を用いた誤り）、128 は中央値に写るとした誤り（中央は100である）、40 は f−fmin のみで正規化していない値。",
+  "terms": [
+   "tone-contrast-stretch",
+   "tone-linear"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q013",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "平均 100、標準偏差 20 の濃淡画像に g = 1.5f + 10 の線形変換を施した（クリッピングは生じないものとする）。変換後の平均と標準偏差の組合せとして正しいものを選べ。",
+  "choices": [
+   "平均160、標準偏差45",
+   "平均110、標準偏差20",
+   "平均160、標準偏差30",
+   "平均160、標準偏差40",
+   "平均150、標準偏差30"
+  ],
+  "answer": 2,
+  "explain": "g=af+b のとき、平均は aμ+b=1.5×100+10=160、標準偏差は |a|σ=1.5×20=30（分散は a²σ²=2.25×400=900）。定数 b は平均を移動させるだけで、ばらつき（標準偏差・分散）には影響しない。標準偏差40は b を加えた誤り、平均150は b を忘れた誤り、標準偏差45は分散の倍率と混同した誤り、平均110・標準偏差20 は傾きを無視した誤りである。",
+  "terms": [
+   "tone-statistics",
+   "tone-linear"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q014",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "図の2×4画素の画像の濃度値の平均・分散・標準偏差の組合せとして正しいものを選べ（分散は画素数で割る定義とする）。",
+  "figure": {
+   "type": "grid",
+   "data": [
+    [
+     2,
+     4,
+     4,
+     4
+    ],
+    [
+     5,
+     5,
+     7,
+     9
+    ]
+   ],
+   "max": 9,
+   "values": true,
+   "caption": "濃度値"
+  },
+  "choices": [
+   "平均5、分散4、標準偏差2",
+   "平均5、分散2、標準偏差√2",
+   "平均4.5、分散4、標準偏差2",
+   "平均5、分散32、標準偏差√32"
+  ],
+  "answer": 0,
+  "explain": "平均は (2+4+4+4+5+5+7+9)/8=40/8=5。偏差の2乗は 9,1,1,1,0,0,4,16 で合計32、分散は 32/8=4、標準偏差は √4=2。『分散32』は画素数で割り忘れた誤り、『平均4.5』は中央値（4と5の平均）と混同した誤り、『分散2』は標準偏差と分散を取り違えている。",
+  "terms": [
+   "tone-statistics",
+   "tone-histogram"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q015",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "静止した被写体を同じ条件で複数回撮影し、各画素で加算平均してノイズを低減したい。各画像のノイズは平均0、標準偏差8の互いに独立なランダムノイズとする。平均画像のノイズの標準偏差を2以下にするために最低限必要な撮影枚数を選べ。",
+  "choices": [
+   "4枚",
+   "8枚",
+   "64枚",
+   "16枚"
+  ],
+  "answer": 3,
+  "explain": "独立なノイズを N 枚平均すると、ノイズの分散は σ²/N、標準偏差は σ/√N になる。8/√N ≤ 2 より √N ≥ 4、N ≥ 16。4枚では 8/2=4、8枚では 8/√8≈2.83 で不十分。64枚は分散を基準に 64/N≤1 などと考えた過大な値（標準偏差は1になる）。加算平均は空間的な平滑化と違い、静止シーンであればエッジをぼかさない。",
+  "terms": [
+   "tone-averaging",
+   "filter-gaussian-noise"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q016",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "2枚の8ビット画像 f1, f2 をアルファブレンディング g = α f1 + (1 − α) f2 で合成する。α = 0.25、ある画素で f1 = 200、f2 = 40 のとき、出力値を選べ。",
+  "choices": [
+   "120",
+   "50",
+   "80",
+   "160"
+  ],
+  "answer": 2,
+  "explain": "g=0.25×200+0.75×40=50+30=80。160 は α と (1−α) を逆にした値（0.75×200+0.25×40）、120 は単純平均（α=0.5）、50 は f2 の項を忘れた値。重みの和が1なので結果は必ず f1 と f2 の間に入る。",
+  "terms": [
+   "tone-alpha-blend",
+   "tone-image-arith"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q017",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "背景画像 B と現在の画像 F（図）の差分の絶対値 |F − B| を求め、閾値30以上を1、それ以外を0として変化領域を抽出した。結果の2値画像を選べ。",
+  "figures": [
+   {
+    "type": "grid",
+    "data": [
+     [
+      52,
+      50,
+      50
+     ],
+     [
+      50,
+      50,
+      52
+     ],
+     [
+      51,
+      50,
+      49
+     ]
+    ],
+    "max": 255,
+    "values": true,
+    "caption": "背景画像 B"
+   },
+   {
+    "type": "grid",
+    "data": [
+     [
+      50,
+      52,
+      50
+     ],
+     [
+      51,
+      120,
+      118
+     ],
+     [
+      50,
+      119,
+      121
+     ]
+    ],
+    "max": 255,
+    "values": true,
+    "caption": "現在の画像 F"
+   }
+  ],
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       1,
+       1,
+       1
+      ],
+      [
+       1,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ],
+     "max": 1,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       1,
+       1
+      ],
+      [
+       0,
+       1,
+       1
+      ]
+     ],
+     "max": 1,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       1,
+       1,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ],
+     "max": 1,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       1,
+       1
+      ],
+      [
+       0,
+       1,
+       0
+      ]
+     ],
+     "max": 1,
+     "values": true
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "差分の絶対値は [[2,2,0],[1,70,66],[1,69,72]] となり、閾値30以上の右下2×2の4画素だけが1になる。左上側が1になっている画像は変化のない部分と変化部分を取り違えた（閾値未満を1にした）もの、右下が欠けている画像は 121−49=72 などの計算を誤ったものである。わずかな差（1〜2）はノイズや照明の揺らぎによるもので、閾値処理によって除去される。",
+  "terms": [
+   "tone-difference",
+   "tone-threshold"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q018",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "濃淡画像 f とマスク画像 m（1が抽出領域）の画素ごとの積 g = f × m を求めた。出力画像を選べ。",
+  "figures": [
+   {
+    "type": "grid",
+    "data": [
+     [
+      10,
+      20,
+      30
+     ],
+     [
+      40,
+      50,
+      60
+     ],
+     [
+      70,
+      80,
+      90
+     ]
+    ],
+    "max": 255,
+    "values": true,
+    "caption": "濃淡画像 f"
+   },
+   {
+    "type": "grid",
+    "data": [
+     [
+      0,
+      1,
+      0
+     ],
+     [
+      1,
+      1,
+      1
+     ],
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "max": 1,
+    "values": true,
+    "caption": "マスク m"
+   }
+  ],
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       0,
+       20,
+       0
+      ],
+      [
+       40,
+       50,
+       60
+      ],
+      [
+       0,
+       80,
+       0
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       10,
+       0,
+       30
+      ],
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       70,
+       0,
+       90
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       0,
+       255,
+       0
+      ],
+      [
+       255,
+       255,
+       255
+      ],
+      [
+       0,
+       255,
+       0
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       10,
+       20,
+       30
+      ],
+      [
+       40,
+       50,
+       60
+      ],
+      [
+       70,
+       80,
+       90
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   }
+  ],
+  "answer": 0,
+  "explain": "マスクとの積では、m=1 の画素は f の値がそのまま残り、m=0 の画素は0になる。十字形に 20,40,50,60,80 が残る画像が正解。四隅だけが残る画像は反転したマスク（1−m）との積、十字形が255になっている画像はマスクを255倍して表示したもの（濃淡情報が失われている）、元画像のままはマスクを無視したもの。反転マスクとの積と別画像の積を足せば、2画像の切り貼り合成ができる。",
+  "terms": [
+   "tone-logical",
+   "tone-image-arith"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q019",
+  "cat": "tone",
+  "style": "fill",
+  "stem": "Floyd–Steinberg の誤差拡散法では、左上から右へ走査し、注目画素で生じた量子化誤差 e を周囲の未処理画素に分配する。右隣に（a）、左下に（b）、真下に（c）、右下に（d）の割合で分配する。（a）〜（d）の組合せとして正しいものを選べ。",
+  "figure": {
+   "type": "table",
+   "head": [
+    "",
+    "左",
+    "中",
+    "右"
+   ],
+   "rows": [
+    [
+     "現在の行",
+     "（処理済み）",
+     "注目画素 e",
+     "（a）"
+    ],
+    [
+     "次の行",
+     "（b）",
+     "（c）",
+     "（d）"
+    ]
+   ]
+  },
+  "choices": [
+   "a: 5/16, b: 3/16, c: 7/16, d: 1/16",
+   "a: 7/16, b: 1/16, c: 5/16, d: 3/16",
+   "a: 1/4, b: 1/4, c: 1/4, d: 1/4",
+   "a: 7/16, b: 3/16, c: 5/16, d: 1/16"
+  ],
+  "answer": 3,
+  "explain": "Floyd–Steinberg の重みは、右 7/16、左下 3/16、下 5/16、右下 1/16 で、合計は16/16=1（誤差が全て受け渡される）。最も近い右隣に最大の重みを与え、斜め下は小さくしている。下と右を入れ替えたもの、斜めの重みを入れ替えたもの、均等配分はいずれも Floyd–Steinberg の係数ではない。走査済みの画素（左や上）には分配しない点も重要。",
+  "terms": [
+   "tone-floyd-steinberg",
+   "tone-error-diffusion"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q020",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "8ビット画像を閾値128（f ≥ 128 なら255、それ以外は0）で2値化しながら、Floyd–Steinberg の誤差拡散を行う。注目画素の値が100、その右隣の画素の元の値が90のとき、誤差を受け取った後の右隣の画素の値と、その画素の出力値の組合せとして正しいものを選べ（右隣は他から誤差を受け取らないものとする）。",
+  "choices": [
+   "108.75、出力0",
+   "46.25、出力0",
+   "133.75、出力255",
+   "121.25、出力0"
+  ],
+  "answer": 2,
+  "explain": "注目画素100は閾値未満なので出力0、誤差 e=100−0=100。右隣には 7/16×100=43.75 が加わり、90+43.75=133.75 ≥ 128 なので出力は255。121.25 は真下の重み 5/16、108.75 は左下の重み 3/16 を用いた誤り。46.25 は誤差の符号を逆（出力−入力）にした誤り。誤差拡散により、暗めの画素が続く領域でも一定割合で白画素が現れ、平均濃度が保たれる。",
+  "terms": [
+   "tone-error-diffusion",
+   "tone-floyd-steinberg"
+  ],
+  "level": 3
+ },
+ {
+  "id": "tone-q021",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "2×2のベイヤー型ディザ行列 [[0,2],[3,1]] を閾値 T = 64k + 32（k は行列の要素）に換算した閾値行列を用いて、組織的ディザ法で2値化する（f ≥ T なら255、それ以外は0）。濃度値がすべて170の2×2画像を処理した結果を選べ。",
+  "figure": {
+   "type": "matrix",
+   "data": [
+    [
+     32,
+     160
+    ],
+    [
+     224,
+     96
+    ]
+   ],
+   "label": "閾値行列 T ="
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       0,
+       0
+      ],
+      [
+       255,
+       0
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       255,
+       255
+      ],
+      [
+       0,
+       255
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       255,
+       255
+      ],
+      [
+       255,
+       255
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "grid",
+     "data": [
+      [
+       255,
+       0
+      ],
+      [
+       0,
+       255
+      ]
+     ],
+     "max": 255,
+     "values": true
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "閾値行列は [[32,160],[224,96]]。170 は 32, 160, 96 以上なので255、224 未満なので左下だけ0となり、[[255,255],[0,255]]（白3個）が正解。4画素中3画素が白で、平均 191 程度の明るさとして知覚される。全て255は固定閾値128で2値化した結果で中間調が失われる。[[255,0],[0,255]] は入力が100〜159程度の場合、[[0,0],[255,0]] は白黒を逆に判定した誤り。",
+  "terms": [
+   "tone-ordered-dither",
+   "tone-bayer"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q022",
+  "cat": "tone",
+  "style": "fill",
+  "stem": "4×4のベイヤー型ディザ行列は次の通りである。空欄（a）（b）に入る値の組合せとして正しいものを選べ。\n[[0, 8, 2, 10], [12, 4, 14, 6], [3, （a）, 1, 9], [15, 7, （b）, 5]]",
+  "choices": [
+   "a: 11, b: 13",
+   "a: 13, b: 11",
+   "a: 5, b: 13",
+   "a: 11, b: 3"
+  ],
+  "answer": 0,
+  "explain": "4×4ベイヤー行列は [[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]]。2×2の基本行列 [[0,2],[3,1]] を4倍し、それぞれに [[0,2],[3,1]] の各値を加える再帰構造をもつ（例えば左下2×2ブロックは 3+[[0,8],[12,4]]=[[3,11],[15,7]]、右下は 1+[[0,8],[12,4]]=[[1,9],[13,5]]）。0〜15の各値は一度ずつ現れるので、すでに使われている5や3は入らない。",
+  "terms": [
+   "tone-bayer",
+   "tone-ordered-dither"
+  ],
+  "level": 3
+ },
+ {
+  "id": "tone-q023",
+  "cat": "tone",
+  "style": "text",
+  "stem": "ディザ法に関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "組織的ディザ法は量子化誤差を周囲の画素に分配するため、逐次処理が必要である",
+   "誤差拡散法は閾値行列を画像に周期的に敷き詰めるため、周期的な模様が現れやすい",
+   "4×4のディザ行列を用いた組織的ディザ法で表現できる濃淡の段階数は16段階である",
+   "濃度パターン法では入力1画素を n×n 画素のパターンに置き換えるため出力画像のサイズは n 倍になるが、組織的ディザ法では入力と出力の画素が1対1に対応する"
+  ],
+  "answer": 3,
+  "explain": "濃度パターン法は1画素を濃度に応じた n×n の2値パターンに置き換えるので画像が縦横 n 倍に拡大する。組織的ディザ法は各画素を位置に応じた閾値と比較するだけで、画像サイズは変わらない。誤差を周囲に分配するのは誤差拡散法、閾値行列を周期的に敷き詰めるのは組織的ディザ法で、説明が逆になっている。4×4行列では黒画素数0〜16の17段階を表現できる。",
+  "terms": [
+   "tone-density-pattern",
+   "tone-ordered-dither",
+   "tone-error-diffusion"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q024",
+  "cat": "tone",
+  "style": "text",
+  "stem": "8ビットの濃淡画像の量子化レベル数を16階調に減らしたところ、空のなめらかなグラデーション部分に本来存在しない等高線状の模様が現れた。この現象の名称と対策の組合せとして、最も適切なものを選べ。",
+  "choices": [
+   "エイリアシング、ローパスフィルタを掛けてから標本化する",
+   "リンギング、カーネルの係数を見直す",
+   "疑似輪郭、ディザ（誤差拡散）を用いて量子化する",
+   "モアレ、標本化間隔を細かくする"
+  ],
+  "answer": 2,
+  "explain": "量子化レベル数（階調数）の不足により、なめらかな濃度変化が段状になって見える現象は疑似輪郭である。ディザや誤差拡散で段差を空間的に分散させたり、量子化前に微小ノイズを加えたりすると目立ちにくくなる。モアレやエイリアシングは標本化（空間解像度）の不足による現象で、階調数とは無関係。リンギングは周波数領域での急峻な遮断や鮮鋭化によって生じる波状のアーティファクトである。",
+  "terms": [
+   "tone-false-contour",
+   "tone-gray-level-reduction",
+   "tone-dither"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q025",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "8ビット画像の下位5ビットを0にして（切り捨てて）3ビット相当に再量子化する。このとき表現される階調数と、入力値200の画素の出力値の組合せとして正しいものを選べ。",
+  "choices": [
+   "5階調、200",
+   "8階調、192",
+   "32階調、192",
+   "8階調、224"
+  ],
+  "answer": 1,
+  "explain": "上位3ビットだけが残るので 2³=8 階調。下位5ビットの切り捨ては 32 刻みへの丸め（切り捨て）で、200÷32=6.25 → 6×32=192。32階調は残りビット数を5ビットと誤解したもの、224 は 7×32 で切り上げた値。量子化ステップが32と粗くなるため、緩やかなグラデーションでは疑似輪郭が現れやすい。",
+  "terms": [
+   "tone-gray-level-reduction",
+   "tone-false-contour"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q026",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "左の図は、ある8ビット画像のヒストグラム（8区間に区切って表示）である。この画像をネガポジ反転したときのヒストグラムとして正しいものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='65.7' width='16.8' height='54.3' fill='#36c'/><rect x='50.8' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='69.5' y='52.1' width='16.8' height='67.9' fill='#36c'/><rect x='88.2' y='79.3' width='16.8' height='40.7' fill='#36c'/><rect x='107.0' y='92.9' width='16.8' height='27.1' fill='#36c'/><rect x='125.8' y='99.6' width='16.8' height='20.4' fill='#36c'/><rect x='144.5' y='106.4' width='16.8' height='13.6' fill='#36c'/><rect x='163.2' y='113.2' width='16.8' height='6.8' fill='#36c'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text><text x='108' y='11' font-size='11' text-anchor='middle'>元画像のヒストグラム</text></svg>"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='113.2' width='16.8' height='6.8' fill='#36c'/><rect x='50.8' y='106.4' width='16.8' height='13.6' fill='#36c'/><rect x='69.5' y='99.6' width='16.8' height='20.4' fill='#36c'/><rect x='88.2' y='92.9' width='16.8' height='27.1' fill='#36c'/><rect x='107.0' y='79.3' width='16.8' height='40.7' fill='#36c'/><rect x='125.8' y='52.1' width='16.8' height='67.9' fill='#36c'/><rect x='144.5' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='163.2' y='65.7' width='16.8' height='54.3' fill='#36c'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='65.7' width='16.8' height='54.3' fill='#36c'/><rect x='50.8' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='69.5' y='52.1' width='16.8' height='67.9' fill='#36c'/><rect x='88.2' y='79.3' width='16.8' height='40.7' fill='#36c'/><rect x='107.0' y='92.9' width='16.8' height='27.1' fill='#36c'/><rect x='125.8' y='99.6' width='16.8' height='20.4' fill='#36c'/><rect x='144.5' y='106.4' width='16.8' height='13.6' fill='#36c'/><rect x='163.2' y='113.2' width='16.8' height='6.8' fill='#36c'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='50.8' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='69.5' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='88.2' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='107.0' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='125.8' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='144.5' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='163.2' y='25.0' width='16.8' height='95.0' fill='#36c'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='120.0' width='16.8' height='0.0' fill='#36c'/><rect x='50.8' y='120.0' width='16.8' height='0.0' fill='#36c'/><rect x='69.5' y='65.7' width='16.8' height='54.3' fill='#36c'/><rect x='88.2' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='107.0' y='52.1' width='16.8' height='67.9' fill='#36c'/><rect x='125.8' y='79.3' width='16.8' height='40.7' fill='#36c'/><rect x='144.5' y='92.9' width='16.8' height='27.1' fill='#36c'/><rect x='163.2' y='79.3' width='16.8' height='40.7' fill='#36c'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   }
+  ],
+  "answer": 0,
+  "explain": "ネガポジ反転 g=255−f では、濃度 f の画素がすべて 255−f に移るので、ヒストグラムは左右反転する（度数の値そのものは変わらない）。元と同じヒストグラムは変換していない場合、平坦なヒストグラムはヒストグラム平坦化の理想的な結果、右へ平行移動して端で飽和しているものは g=f+b（明るさの加算＋クリッピング）の結果である。",
+  "terms": [
+   "tone-negative",
+   "tone-histogram"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q027",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "図のヒストグラムを持つ画像に、分布の最小値を0、最大値を255に写す線形のコントラスト伸張を施した。処理後のヒストグラムの概形として最も適切なものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='120.0' width='10.5' height='0.0' fill='#36c'/><rect x='44.5' y='120.0' width='10.5' height='0.0' fill='#36c'/><rect x='57.0' y='120.0' width='10.5' height='0.0' fill='#36c'/><rect x='69.5' y='88.3' width='10.5' height='31.7' fill='#36c'/><rect x='82.0' y='44.0' width='10.5' height='76.0' fill='#36c'/><rect x='94.5' y='25.0' width='10.5' height='95.0' fill='#36c'/><rect x='107.0' y='63.0' width='10.5' height='57.0' fill='#36c'/><rect x='119.5' y='101.0' width='10.5' height='19.0' fill='#36c'/><rect x='132.0' y='120.0' width='10.5' height='0.0' fill='#36c'/><rect x='144.5' y='120.0' width='10.5' height='0.0' fill='#36c'/><rect x='157.0' y='120.0' width='10.5' height='0.0' fill='#36c'/><rect x='169.5' y='120.0' width='10.5' height='0.0' fill='#36c'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text><text x='108' y='11' font-size='11' text-anchor='middle'>処理前</text></svg>"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='44.5' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='57.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='69.5' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='82.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='94.5' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='107.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='119.5' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='132.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='144.5' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='157.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='169.5' y='25.0' width='10.5' height='95.0' fill='#c63'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='44.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='57.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='69.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='82.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='94.5' y='102.4' width='10.5' height='17.6' fill='#c63'/><rect x='107.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='119.5' y='77.8' width='10.5' height='42.2' fill='#c63'/><rect x='132.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='144.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='157.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='169.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='101.0' width='10.5' height='19.0' fill='#c63'/><rect x='44.5' y='63.0' width='10.5' height='57.0' fill='#c63'/><rect x='57.0' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='69.5' y='44.0' width='10.5' height='76.0' fill='#c63'/><rect x='82.0' y='88.3' width='10.5' height='31.7' fill='#c63'/><rect x='94.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='107.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='119.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='132.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='144.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='157.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='169.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='88.3' width='10.5' height='31.7' fill='#c63'/><rect x='44.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='57.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='69.5' y='44.0' width='10.5' height='76.0' fill='#c63'/><rect x='82.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='94.5' y='25.0' width='10.5' height='95.0' fill='#c63'/><rect x='107.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='119.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='132.0' y='63.0' width='10.5' height='57.0' fill='#c63'/><rect x='144.5' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='157.0' y='120.0' width='10.5' height='0.0' fill='#c63'/><rect x='169.5' y='101.0' width='10.5' height='19.0' fill='#c63'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   }
+  ],
+  "answer": 3,
+  "explain": "線形のコントラスト伸張では各濃度値がそのまま別の濃度値に写るだけで、度数は変わらない。分布は全範囲に横に引き伸ばされるが、入力の隣り合う濃度値が出力では離れた値に写るため、間に度数0の隙間ができて櫛（くし）状になる。平坦なヒストグラムはヒストグラム平坦化の理想的な結果、さらに狭くなったものはコントラスト低下、左右反転して左に寄ったものはネガポジ反転と平行移動を伴う処理の結果であり、いずれも当てはまらない。",
+  "terms": [
+   "tone-contrast-stretch",
+   "tone-histogram"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q028",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "左の図のヒストグラムに対応する累積ヒストグラムとして正しいものを選べ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='101.0' width='16.8' height='19.0' fill='#36c'/><rect x='50.8' y='63.0' width='16.8' height='57.0' fill='#36c'/><rect x='69.5' y='25.0' width='16.8' height='95.0' fill='#36c'/><rect x='88.2' y='63.0' width='16.8' height='57.0' fill='#36c'/><rect x='107.0' y='101.0' width='16.8' height='19.0' fill='#36c'/><rect x='125.8' y='120.0' width='16.8' height='0.0' fill='#36c'/><rect x='144.5' y='120.0' width='16.8' height='0.0' fill='#36c'/><rect x='163.2' y='82.0' width='16.8' height='38.0' fill='#36c'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text><text x='108' y='11' font-size='11' text-anchor='middle'>ヒストグラム</text></svg>"
+  },
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='25.0' width='16.8' height='95.0' fill='#393'/><rect x='50.8' y='31.3' width='16.8' height='88.7' fill='#393'/><rect x='69.5' y='50.3' width='16.8' height='69.7' fill='#393'/><rect x='88.2' y='82.0' width='16.8' height='38.0' fill='#393'/><rect x='107.0' y='101.0' width='16.8' height='19.0' fill='#393'/><rect x='125.8' y='107.3' width='16.8' height='12.7' fill='#393'/><rect x='144.5' y='107.3' width='16.8' height='12.7' fill='#393'/><rect x='163.2' y='107.3' width='16.8' height='12.7' fill='#393'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='108.1' width='16.8' height='11.9' fill='#393'/><rect x='50.8' y='72.5' width='16.8' height='47.5' fill='#393'/><rect x='69.5' y='25.0' width='16.8' height='95.0' fill='#393'/><rect x='88.2' y='25.0' width='16.8' height='95.0' fill='#393'/><rect x='107.0' y='72.5' width='16.8' height='47.5' fill='#393'/><rect x='125.8' y='108.1' width='16.8' height='11.9' fill='#393'/><rect x='144.5' y='120.0' width='16.8' height='0.0' fill='#393'/><rect x='163.2' y='96.2' width='16.8' height='23.8' fill='#393'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='113.7' width='16.8' height='6.3' fill='#393'/><rect x='50.8' y='94.7' width='16.8' height='25.3' fill='#393'/><rect x='69.5' y='63.0' width='16.8' height='57.0' fill='#393'/><rect x='88.2' y='44.0' width='16.8' height='76.0' fill='#393'/><rect x='107.0' y='37.7' width='16.8' height='82.3' fill='#393'/><rect x='125.8' y='37.7' width='16.8' height='82.3' fill='#393'/><rect x='144.5' y='37.7' width='16.8' height='82.3' fill='#393'/><rect x='163.2' y='25.0' width='16.8' height='95.0' fill='#393'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 150' xmlns='http://www.w3.org/2000/svg'><line x1='30' y1='120' x2='185' y2='120' stroke='#666'/><line x1='30' y1='120' x2='30' y2='15' stroke='#666'/><rect x='32.0' y='120.0' width='16.8' height='0.0' fill='#393'/><rect x='50.8' y='120.0' width='16.8' height='0.0' fill='#393'/><rect x='69.5' y='101.0' width='16.8' height='19.0' fill='#393'/><rect x='88.2' y='101.0' width='16.8' height='19.0' fill='#393'/><rect x='107.0' y='82.0' width='16.8' height='38.0' fill='#393'/><rect x='125.8' y='63.0' width='16.8' height='57.0' fill='#393'/><rect x='144.5' y='63.0' width='16.8' height='57.0' fill='#393'/><rect x='163.2' y='25.0' width='16.8' height='95.0' fill='#393'/><text x='108' y='147' font-size='10' text-anchor='middle'>濃度値</text><text x='12' y='70' font-size='10' text-anchor='middle' transform='rotate(-90 12 70)'>度数</text></svg>"
+    }
+   }
+  ],
+  "answer": 2,
+  "explain": "累積ヒストグラムは濃度0から順に度数を足し合わせたもので、2, 8, 18, 24, 26, 26, 26, 30 と単調非減少になり、最後は総画素数30に一致する。度数0の区間では値が横ばいになる。度数を並べ替えたものは累積ではなく、右側から累積した減少するグラフは「その濃度以上の画素数」、隣同士の和をとったものは単なる移動和である。正規化した累積ヒストグラムはヒストグラム平坦化の変換関数になる。",
+  "terms": [
+   "tone-cumulative-histogram",
+   "tone-histogram",
+   "tone-hist-eq"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q029",
+  "cat": "tone",
+  "style": "fill",
+  "stem": "ヒストグラム指定では、入力画像の累積分布関数を C_in(f)、目標とするヒストグラムの累積分布関数を C_t(g) とするとき、（a）となる g を f に対応させる。すなわち、入力を一旦（b）した後、目標分布に対する（b）の（c）を施すことに相当する。",
+  "choices": [
+   "a: C_in(g) = C_t(f), b: ヒストグラム平坦化, c: 微分",
+   "a: C_in(f) = C_t(g), b: ヒストグラム平坦化, c: 逆変換",
+   "a: C_in(f) = 1 − C_t(g), b: ネガポジ反転, c: 逆変換",
+   "a: f = C_t(g), b: コントラスト伸張, c: 合成"
+  ],
+  "answer": 1,
+  "explain": "ヒストグラム指定（マッチング）は、累積分布が等しくなるように入力値と出力値を対応付ける: C_in(f)=C_t(g)、g=C_t⁻¹(C_in(f))。C_in(f) は入力を平坦化する変換であり、C_t⁻¹ は目標分布を平坦化する変換の逆変換なので、「平坦化→目標分布の平坦化の逆変換」と解釈できる。目標を一様分布にすると C_t は直線となり、ヒストグラム平坦化と一致する。",
+  "terms": [
+   "tone-hist-spec",
+   "tone-hist-eq",
+   "tone-cumulative-histogram"
+  ],
+  "level": 3
+ },
+ {
+  "id": "tone-q030",
+  "cat": "tone",
+  "style": "text",
+  "stem": "CLAHE（Contrast Limited Adaptive Histogram Equalization）に関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "局所領域のヒストグラムの度数に上限を設け、超過分を再分配してから平坦化することで、平坦な領域でのノイズの過強調を抑える",
+   "画像全体のヒストグラムを1回だけ平坦化し、その後コントラストを制限するために全体を線形に縮小する",
+   "局所領域ごとに独立に平坦化し、領域の境界では補間を行わないため、ブロック状の境界が現れやすい",
+   "度数の上限を設けることで、変換関数の傾きの最小値を保証し、コントラストを必ず強調する"
+  ],
+  "answer": 0,
+  "explain": "CLAHEは適応的ヒストグラム平坦化（AHE）の改良で、局所ヒストグラムの度数にクリップリミットを設け、超えた分を全濃度に再分配する。平坦化の変換関数の傾きは度数に比例するため、度数を制限すると傾きの最大値（コントラスト増幅率）が制限され、均一な領域でノイズが過度に強調されるAHEの欠点が抑えられる。全体を1回平坦化するのは通常のヒストグラム平坦化。CLAHEではタイルごとの変換関数を双線形補間して境界のブロック状アーティファクトを防ぐ。制限されるのは傾きの最大値であり、最小値ではない。",
+  "terms": [
+   "tone-clahe",
+   "tone-ahe",
+   "tone-hist-eq"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q031",
+  "cat": "tone",
+  "style": "text",
+  "stem": "カラー画像のコントラストをヒストグラム平坦化で改善したい。色相をなるべく変化させない方法として、最も適切なものを選べ。",
+  "choices": [
+   "R、G、Bの各成分をそれぞれ独立にヒストグラム平坦化する",
+   "R成分のヒストグラムから求めた変換関数をR成分にだけ適用する",
+   "RGB各成分に異なるガンマ値のガンマ変換を施す",
+   "RGBを輝度・色差（YCbCrなど）に変換し、輝度成分のみを平坦化してからRGBに戻す"
+  ],
+  "answer": 3,
+  "explain": "RGB各成分を独立に平坦化すると、成分ごとに異なる変換関数が適用されるため成分間の比率が崩れ、色相や色のバランスが大きく変化する。輝度（明度）成分だけを変換し、色差（色相・彩度）成分を保てば、色味を保ったままコントラストを改善できる（ただしRGBに戻したとき範囲外となる成分のクリッピングで多少ずれることはある）。R成分だけの処理や、成分ごとに異なるガンマ値の変換は色バランスを変えてしまう。",
+  "terms": [
+   "tone-color-tone",
+   "tone-hist-eq",
+   "YCbCr"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q032",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "図の折れ線型トーンカーブは (0,0)、(100,50)、(150,200)、(255,255) を直線で結んだものである。入力値120の画素の出力値を選べ。また、最もコントラストが強調される入力範囲も合わせて考えよ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 88.8,130.6 118.2,42.4 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text><circle cx='88.8' cy='130.6' r='2.5' fill='#36c'/><text x='91.8' y='142.6' font-size='10' fill='#36c'>(100,50)</text><circle cx='118.2' cy='42.4' r='2.5' fill='#36c'/><text x='121.2' y='54.4' font-size='10' fill='#36c'>(150,200)</text></svg>"
+  },
+  "choices": [
+   "144（150〜255の範囲が強調される）",
+   "80（100〜150の範囲が傾き3で強調される）",
+   "110（100〜150の範囲が傾き3で強調される）",
+   "60（0〜100の範囲が傾き0.5で強調される）"
+  ],
+  "answer": 2,
+  "explain": "120 は (100,50)〜(150,200) の区間にあり、傾きは (200−50)/(150−100)=3。g=50+3×(120−100)=110。この区間は傾き3で最もコントラストが強調される。0〜100 は傾き0.5、150〜255 は傾き 55/105≈0.52 で、いずれも圧縮される。60 は第1区間の式（0.5f）を誤って適用、80 は傾きを1.5と誤った値、144 は 1.2 倍した誤り。",
+  "terms": [
+   "tone-piecewise",
+   "tone-tone-curve"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q033",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "暗い部分の階調がつぶれ気味の画像について、暗部のコントラストを上げて見やすくしたい（明部の階調はある程度圧縮されてもよい）。最も適切なトーンカーブを選べ。",
+  "choices": [
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,10.0 180.0,160.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 32.9,139.0 35.9,130.3 38.8,123.6 41.8,118.0 44.7,113.0 47.6,108.6 50.6,104.4 53.5,100.6 56.5,97.0 59.4,93.6 62.4,90.3 65.3,87.2 68.2,84.3 71.2,81.4 74.1,78.7 77.1,76.0 80.0,73.4 82.9,70.9 85.9,68.4 88.8,66.1 91.8,63.7 94.7,61.5 97.6,59.3 100.6,57.1 103.5,55.0 106.5,52.9 109.4,50.9 112.4,48.9 115.3,46.9 118.2,45.0 121.2,43.1 124.1,41.2 127.1,39.3 130.0,37.5 132.9,35.7 135.9,34.0 138.8,32.2 141.8,30.5 144.7,28.8 147.6,27.2 150.6,25.5 153.5,23.9 156.5,22.3 159.4,20.7 162.4,19.1 165.3,17.5 168.2,16.0 171.2,14.5 174.1,13.0 177.1,11.5 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 32.9,159.9 35.9,159.8 38.8,159.5 41.8,159.1 44.7,158.6 47.6,157.9 50.6,157.2 53.5,156.3 56.5,155.3 59.4,154.2 62.4,153.0 65.3,151.7 68.2,150.3 71.2,148.7 74.1,147.0 77.1,145.2 80.0,143.3 82.9,141.3 85.9,139.2 88.8,136.9 91.8,134.6 94.7,132.1 97.6,129.5 100.6,126.8 103.5,124.0 106.5,121.0 109.4,118.0 112.4,114.8 115.3,111.5 118.2,108.1 121.2,104.6 124.1,100.9 127.1,97.2 130.0,93.3 132.9,89.4 135.9,85.3 138.8,81.0 141.8,76.7 144.7,72.3 147.6,67.7 150.6,63.1 153.5,58.3 156.5,53.4 159.4,48.4 162.4,43.2 165.3,38.0 168.2,32.6 171.2,27.1 174.1,21.5 177.1,15.8 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   },
+   {
+    "text": "",
+    "figure": {
+     "type": "svg",
+     "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 30.2,157.1 30.5,154.1 30.8,151.2 31.2,148.2 31.7,145.3 32.2,142.4 32.9,139.4 33.7,136.5 34.7,133.5 35.9,130.6 37.4,127.6 39.0,124.7 41.0,121.8 43.4,118.8 46.2,115.9 49.4,112.9 53.1,110.0 57.4,107.1 62.2,104.1 67.6,101.2 73.5,98.2 79.9,95.3 86.7,92.4 93.9,89.4 101.3,86.5 108.7,83.5 116.1,80.6 123.3,77.6 130.1,74.7 136.5,71.8 142.4,68.8 147.8,65.9 152.6,62.9 156.9,60.0 160.6,57.1 163.8,54.1 166.6,51.2 169.0,48.2 171.0,45.3 172.6,42.4 174.1,39.4 175.3,36.5 176.3,33.5 177.1,30.6 177.8,27.6 178.3,24.7 178.8,21.8 179.2,18.8 179.5,15.9 179.8,12.9 180.0,10.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text></svg>"
+    }
+   }
+  ],
+  "answer": 1,
+  "explain": "上に膨らむ曲線（g=255(f/255)^(1/γ), γ>1 のガンマ変換）は原点付近の傾きが1より大きく、暗部の濃度差を拡大して明るくする。その代わり明部の傾きは1より小さく、階調が圧縮される。下に膨らむ曲線は逆に暗部を圧縮してさらに暗くする。逆S字は中間調のコントラストを下げ、両端を強調するが全体として眠い画像になる。右下がりの直線はネガポジ反転で、明暗が逆になる。",
+  "terms": [
+   "tone-gamma",
+   "tone-tone-curve"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q034",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "3ビット画像（濃度値0〜7、総画素数100）のヒストグラムは表のとおりである。対象物は背景より明るく、画像の25%を占めることがわかっている。p-タイル法で「f ≥ t を対象」とする閾値 t を求めよ。",
+  "figure": {
+   "type": "table",
+   "head": [
+    "濃度値",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ],
+   "rows": [
+    [
+     "度数",
+     "10",
+     "20",
+     "15",
+     "10",
+     "10",
+     "10",
+     "15",
+     "10"
+    ]
+   ]
+  },
+  "choices": [
+   "t = 6",
+   "t = 5",
+   "t = 2",
+   "t = 7"
+  ],
+  "answer": 0,
+  "explain": "p-タイル法では、対象の面積比が p であることを利用し、明るい側から度数を累積して p に達する濃度を閾値とする。濃度7が10、濃度6が15で、合計25（=25%）に達するので t=6。t=7 では10%しか抽出されず、t=5 では35%になる。t=2 は暗い側から累積して25%付近に達する濃度で、対象が暗い場合の考え方と混同した誤り。",
+  "terms": [
+   "tone-threshold",
+   "tone-cumulative-histogram",
+   "p-タイル法"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q035",
+  "cat": "tone",
+  "style": "figure",
+  "stem": "入力画像に、ある画素ごとの濃淡変換を施したところ、図の出力画像が得られた。施された変換として最も適切なものを選べ。",
+  "figures": [
+   {
+    "type": "grid",
+    "data": [
+     [
+      0,
+      64
+     ],
+     [
+      128,
+      255
+     ]
+    ],
+    "max": 255,
+    "values": true,
+    "caption": "入力画像"
+   },
+   {
+    "type": "grid",
+    "data": [
+     [
+      0,
+      128
+     ],
+     [
+      181,
+      255
+     ]
+    ],
+    "max": 255,
+    "values": true,
+    "caption": "出力画像"
+   }
+  ],
+  "choices": [
+   "ネガポジ反転 g = 255 − f",
+   "ソラリゼーション",
+   "ヒストグラム平坦化",
+   "ガンマ変換 g = 255 (f/255)^(1/γ)、γ = 2",
+   "線形変換 g = 2f（255を超える値はクリッピング）"
+  ],
+  "answer": 3,
+  "explain": "0→0、255→255 と両端が固定され、64→128、128→181 と中間調が持ち上がっているので上に凸のガンマ変換である。実際、255×√(64/255)≈127.75→128、255×√(128/255)≈180.6→181。g=2f なら 128→255 と飽和するはず。ネガポジ反転なら 0→255 となる。ソラリゼーションは非単調で明るい部分が暗くなる。ヒストグラム平坦化（g=255·C(f)/N）では、4画素がすべて異なる値のこの画像の場合、0→64, 64→128, 128→191, 255→255 となり、入力0が0のまま残る出力とは一致しない。",
+  "terms": [
+   "tone-gamma",
+   "tone-tone-curve"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q036",
+  "cat": "tone",
+  "style": "text",
+  "stem": "ルックアップテーブル（LUT）に関する記述として、誤っているものを選べ。",
+  "choices": [
+   "ガンマ変換のように計算コストの高い関数でも、LUTを用いれば画素ごとに表を引くだけで高速に処理できる",
+   "疑似カラー表示では、濃度値ごとにRGBの値を格納したLUT（カラーマップ）が用いられる",
+   "3×3の平均化フィルタも、要素数256の1次元LUTを用いれば1回の表引きで実現できる",
+   "8ビット画像の任意のトーンカーブは、要素数256のLUTで表現できる"
+  ],
+  "answer": 2,
+  "explain": "1次元LUTは注目画素の値だけから出力を決める点処理を表すものであり、近傍9画素を使う平均化フィルタ（空間フィルタリング）は表現できない。したがって最初の記述が誤り。8ビット画像の点処理は、入力0〜255に対する出力を256個並べた表で完全に表せ、ガンマ変換などの重い計算も一度表を作れば表引きだけで済む。疑似カラーもLUTの代表的な応用である。",
+  "terms": [
+   "tone-lut",
+   "tone-pseudo-color",
+   "filter-spatial"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q037",
+  "cat": "tone",
+  "style": "text",
+  "stem": "疑似カラーに関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "カラー画像をディザ法によって少ない色数で表現する方法である",
+   "濃淡画像の濃度値に応じて色を割り当てて表示する方法で、人間が色の違いに敏感であることを利用して微小な濃度差を見やすくする",
+   "赤外線などRGB以外の波長帯で撮影した複数のバンド画像をR・G・Bに割り当てて表示する方法である",
+   "カラー画像の色相を保ったまま輝度だけを変換する方法である"
+  ],
+  "answer": 1,
+  "explain": "疑似カラー（pseudo-color）は1チャネルの濃淡画像にカラーマップで色を割り当てる表示法で、サーモグラフィや医用画像、標高データの可視化などに使われる。複数バンドをRGBに割り当てるのはフォールスカラー（偽カラー）で、元データが多チャネルである点が異なる。輝度だけの変換は色相を保つトーン変換、少ない色数での表現は減色・ディザである。",
+  "terms": [
+   "tone-pseudo-color",
+   "tone-lut",
+   "フォールスカラー"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q038",
+  "cat": "tone",
+  "style": "text",
+  "stem": "8ビットのカラー画像の各画素で、R・G・Bの3成分すべてに同じ値 +80 を加えて明るくした。ある画素 (R,G,B)=(220, 120, 60) の処理結果と、そのとき起こる現象の組合せとして最も適切なものを選べ（範囲外はクリッピング）。",
+  "choices": [
+   "(255, 200, 140)。R成分がクリッピングされ、成分の差が変わるため色味（色相・彩度）が変化する",
+   "(300, 200, 140)。範囲外の値もそのまま保持されるので色相は変わらない",
+   "(255, 200, 140)。全成分に同じ値を加えたので、色相も彩度も一切変化しない",
+   "(220, 200, 140)。範囲を超える成分には加算しないので色相が保たれる"
+  ],
+  "answer": 0,
+  "explain": "220+80=300 は255にクリッピングされ、(255,200,140) となる。本来 R−G=100、G−B=60 だった差が 55、60 となり、成分間の関係が崩れて色相・彩度が変化する（白とびしつつ色が浅くなる）。8ビットでは300は表現できない。クリッピングが起きなければ全成分への同一値加算は色相を大きくは変えないが、この例ではクリッピングが起きている。範囲を超える成分だけ加算しない処理は一般的ではなく、むしろ色が大きく変わる。",
+  "terms": [
+   "tone-clipping",
+   "tone-color-tone"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q039",
+  "cat": "tone",
+  "style": "text",
+  "stem": "濃度ヒストグラムに関する記述として、最も適切なものを選べ。",
+  "choices": [
+   "ヒストグラムから元の画像を一意に復元できる",
+   "画像を90°回転すると、ヒストグラムも90°回転した形になる",
+   "ヒストグラムの度数の総和は、画像中に現れる濃度値の種類数に等しい",
+   "画素の位置情報を含まないため、画素の配置が全く異なる画像でも同じヒストグラムになり得る"
+  ],
+  "answer": 3,
+  "explain": "ヒストグラムは各濃度値の画素数だけを数えたもので、どこにその画素があるかの情報は持たない。画素を並べ替えたり回転・反転したりしてもヒストグラムは変わらず、逆にヒストグラムから画像を復元することはできない。度数の総和は総画素数であって、濃度値の種類数ではない。",
+  "terms": [
+   "tone-histogram"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q040",
+  "cat": "tone",
+  "style": "combo",
+  "stem": "画素ごとの濃淡変換（トーンカーブ）に関する次の記述 A〜D のうち、正しいものの組合せを選べ。\nA. トーンカーブの傾きが1より大きい濃度範囲では、コントラストが強調される。\nB. 単調増加のトーンカーブで変換すれば、ヒストグラムの度数の並び順（濃度の大小関係）は保たれる。\nC. トーンカーブによる変換で、ぼけた画像のエッジを鋭くすることができる。\nD. ネガポジ反転を施すと、画像の濃度値の分散は小さくなる。",
+  "choices": [
+   "B と D",
+   "C と D",
+   "A と D",
+   "A と B",
+   "A と C"
+  ],
+  "answer": 3,
+  "explain": "A：傾き>1 の範囲では入力の濃度差が拡大されるので正しい。B：単調増加なら大小関係が保たれ、ヒストグラムの山の順序も保たれるので正しい。C：トーンカーブは注目画素だけで出力が決まる点処理で、近傍の値を参照しないため、エッジの空間的な鋭さ（ぼけ幅）は変えられない（鮮鋭化には空間フィルタが必要）。D：g=255−f では偏差の符号が反転するだけで、分散は変わらない。",
+  "terms": [
+   "tone-tone-curve",
+   "tone-negative",
+   "tone-statistics"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q041",
+  "cat": "tone",
+  "style": "text",
+  "stem": "8ビット画像同士の減算 g = f1 − f2 の結果を8ビット画像として表示・保存する方法に関する記述として、適切でないものを選べ。",
+  "choices": [
+   "負の値を0にクリッピングすると、f1 が f2 より明るくなった部分だけが残る",
+   "負の値は256を加えて正の値に変換すれば、差の大小関係を保ったまま表示できる",
+   "差の絶対値 |f1 − f2| をとれば、変化の大きさを0〜255で表せる",
+   "(f1 − f2)/2 + 128 とすれば、符号付きの差を0〜255の範囲に収めて表示できる"
+  ],
+  "answer": 1,
+  "explain": "負の値に256を加えると、−1 が255、−100 が156 のように、わずかに負の差が大きな正の値として表示され、差の大小関係が崩れる（オーバーフローの折り返しと同じ）。よって最初の記述が適切でない。絶対値化は変化の大きさの表示に、オフセット128を加える方法は符号付きの差の表示に用いられる（差は−255〜255なので1/2にして128を加えると0〜255に収まる）。0未満を0にクリッピングすれば f1>f2 の部分だけが残る。",
+  "terms": [
+   "tone-image-arith",
+   "tone-difference",
+   "tone-clipping"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q042",
+  "cat": "tone",
+  "style": "text",
+  "stem": "画像を小領域に分け、各領域のヒストグラムに基づいて平坦化を行う適応的ヒストグラム平坦化（AHE）の特徴として、最も適切なものを選べ。",
+  "choices": [
+   "明暗の差が大きい画像でも領域ごとに細部のコントラストを強調できるが、均一に近い領域ではノイズが過度に強調されやすい",
+   "画像全体で1つの変換関数を用いるため、領域によって効果が変わることはない",
+   "線形変換なので、ヒストグラムの形状は保たれる",
+   "局所ヒストグラムを用いるため、ノイズが自動的に除去される"
+  ],
+  "answer": 0,
+  "explain": "AHEは局所ヒストグラムに基づくため、明るい領域でも暗い領域でもそれぞれの細部のコントラストが強調される。しかし均一な領域では局所ヒストグラムが1か所に鋭く集中し、変換関数の傾きが極端に大きくなるため、わずかなノイズが大きく増幅される。この欠点を度数の上限で抑えたのがCLAHEである。AHEは場所ごとに異なる非線形変換を用い、ノイズを除去する機能はない。",
+  "terms": [
+   "tone-ahe",
+   "tone-clahe"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q043",
+  "cat": "tone",
+  "style": "combo",
+  "stem": "階調の少ない装置での中間調表現に関する次の記述 A〜D のうち、正しいものの組合せを選べ。\nA. 誤差拡散法は、組織的ディザ法に比べて周期的な模様が現れにくい。\nB. ベイヤー型のディザ行列は、黒画素ができるだけ集中するように閾値が配置された集中型（網点型）の行列である。\nC. 誤差拡散法は処理済みの画素の結果に依存するため、組織的ディザ法に比べて並列処理しにくい。\nD. 単純な固定閾値による2値化は、ディザ法に比べて中間調の再現性に優れる。",
+  "choices": [
+   "C と D",
+   "B と C",
+   "A と C",
+   "A と B",
+   "B と D"
+  ],
+  "answer": 2,
+  "explain": "A：誤差拡散法は誤差を伝搬させて局所的に平均濃度を保ち、周期的な閾値パターンを使わないので規則的な模様が出にくい（正）。B：ベイヤー型はドットを分散させる分散型で、集中型は渦巻き型・網点型（誤）。C：誤差拡散は走査順に誤差が伝わる逐次処理で並列化しにくい（正）。D：固定閾値の2値化では中間調が失われる（誤）。",
+  "terms": [
+   "tone-error-diffusion",
+   "tone-ordered-dither",
+   "tone-bayer"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q044",
+  "cat": "tone",
+  "style": "calc",
+  "stem": "トーンカーブ g = 2f（f < 128）、g = 2(255 − f)（f ≥ 128）による変換を行う（範囲外は生じない）。入力値 200 と 60 の画素の出力値の組合せとして正しいものを選べ。また、この処理の名称も考えよ。",
+  "figure": {
+   "type": "svg",
+   "svg": "<svg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'><rect x='30' y='10' width='150' height='150' fill='none' stroke='#999' stroke-width='1'/><line x1='30' y1='160' x2='180' y2='10' stroke='#ccc' stroke-dasharray='3,3'/><polyline points='30.0,160.0 105.0,10.0 180.0,160.0' fill='none' stroke='#d33' stroke-width='2.5'/><text x='27' y='176' font-size='11'>0</text><text x='168' y='176' font-size='11'>255</text><text x='4' y='14' font-size='11'>255</text><text x='100' y='184' font-size='10' text-anchor='middle'>入力 f</text><text x='12' y='95' font-size='10' text-anchor='middle' transform='rotate(-90 12 95)'>出力 g</text><circle cx='147.6' cy='95.3' r='2.5' fill='#36c'/><text x='150.6' y='107.3' font-size='10' fill='#36c'>200</text><circle cx='65.3' cy='89.4' r='2.5' fill='#36c'/><text x='68.3' y='101.4' font-size='10' fill='#36c'>60</text></svg>"
+  },
+  "choices": [
+   "200→55、60→195（ネガポジ反転）",
+   "200→110、60→60（ポスタリゼーション）",
+   "200→110、60→120（ソラリゼーション）",
+   "200→255、60→120（コントラスト強調）"
+  ],
+  "answer": 2,
+  "explain": "f=200 は f≥128 の式で 2×(255−200)=110、f=60 は f<128 の式で 2×60=120。明るい入力200が暗い110に、暗い入力60がそれより明るい120に写り、明暗が一部逆転する非単調な（山形の）トーンカーブであり、ソラリゼーションと呼ばれる。200→255 は g=2f の式をそのまま使ってクリッピングした誤り、200→55・60→195 は g=255−f（ネガポジ反転）の値である。",
+  "terms": [
+   "tone-solarization",
+   "tone-tone-curve"
+  ],
+  "level": 2
+ },
+ {
+  "id": "tone-q045",
+  "cat": "tone",
+  "style": "text",
+  "stem": "8ビット濃淡画像に4段階のポスタリゼーション（出力値 0, 85, 170, 255）を施した後のヒストグラムとして、最も適切な記述を選べ。",
+  "choices": [
+   "元のヒストグラムが左右反転する",
+   "度数を持つ濃度値は 0, 85, 170, 255 の4つだけとなり、その他の濃度の度数は0になる",
+   "全濃度にわたって度数がほぼ等しい平坦なヒストグラムになる",
+   "元のヒストグラムの形状を保ったまま、左右に引き伸ばされる"
+  ],
+  "answer": 1,
+  "explain": "ポスタリゼーションの出力は4値しかないので、ヒストグラムは4本の線（スペクトル）になる。各線の度数は、元のヒストグラムのうち対応する入力区間に含まれる画素数の合計に等しい。平坦化は一様に近い分布、伸張は形状を保った引き伸ばし（櫛状）、ネガポジ反転は左右反転を生じる処理であり、ポスタリゼーションの結果ではない。",
+  "terms": [
+   "tone-posterization",
+   "tone-histogram"
+  ],
+  "level": 1
+ },
+ {
+  "id": "tone-q046",
+  "cat": "tone",
+  "style": "text",
+  "stem": "ノイズ低減手法として、同じ静止シーンを撮影した N 枚の画像の加算平均と、1枚の画像への3×3平均化フィルタを比較した。記述として最も適切なものを選べ。",
+  "choices": [
+   "加算平均は空間的な平均を行わないためエッジや細部がぼけないが、撮影中に被写体が動くと多重像が生じる",
+   "3×3平均化フィルタは、ノイズが独立なら画像を9枚加算平均した場合と全く同じ結果になる",
+   "加算平均はノイズの分散を 1/N² に減少させる",
+   "加算平均は、ごま塩ノイズよりもガウスノイズに効果がないという欠点がある"
+  ],
+  "answer": 0,
+  "explain": "加算平均は同じ位置の画素を時間方向に平均するので、静止シーンならエッジは保たれる（被写体やカメラの動きがあるとブレや多重像）。3×3平均化フィルタは空間方向に平均するため、ノイズの分散は1/9程度に減るものの信号のエッジもぼけ、9枚の加算平均とは同じにならない。加算平均で分散は 1/N（標準偏差は1/√N）になる。加算平均はガウスノイズのような独立なランダムノイズに有効である。",
+  "terms": [
+   "tone-averaging",
+   "filter-average"
+  ],
+  "level": 2
+ }
+]
