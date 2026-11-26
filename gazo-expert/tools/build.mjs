@@ -20,6 +20,10 @@ const ALIAS = {
 };
 const errs = [];
 const tid = new Set(); terms = terms.filter((t) => { if (!t.id || !t.term || !t.short) { errs.push('term missing field ' + (t.id || t.term)); return false; } if (tid.has(t.id)) { errs.push('dup term ' + t.id); return false; } tid.add(t.id); return true; });
+// 処理イメージ（content/visual）を用語に合流
+const vis = read(path.join(root, 'content/visual')); const tmap = Object.fromEntries(terms.map((t) => [t.id, t])); let vOK = 0;
+vis.forEach((v) => { const t = tmap[v.id]; if (!t) { errs.push('visual unknown id ' + v.id); return; } t.vis = { steps: v.steps, figures: v.figures, example: v.example, code: v.code }; vOK++; });
+console.log('visual entries', vOK);
 terms.forEach((t) => { if (ALIAS[t.id]) t.aliases = [...(t.aliases || []), ...ALIAS[t.id]]; });
 const qid = new Set(); qs = qs.filter((q) => {
   if (!q.id || !q.stem || !Array.isArray(q.choices) || q.choices.length < 2) { errs.push('q bad ' + q.id); return false; }

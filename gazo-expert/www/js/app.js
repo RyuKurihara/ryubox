@@ -260,6 +260,7 @@
         <button class="mode" data-href="#/study" style="margin:0"><span class="ic">✏️</span><span><div class="t">分野別</div></span></button>
         <button class="mode" data-href="#/drill" style="margin:0"><span class="ic">🖼️</span><span><div class="t">画像ドリル</div></span></button>
         <button class="mode" data-href="#/cards" style="margin:0"><span class="ic">🃏</span><span><div class="t">用語カード</div></span></button>
+        <button class="mode" data-href="#/lab" style="margin:0"><span class="ic">🔬</span><span><div class="t">図解ラボ</div></span></button>
         <button class="mode" data-href="#/timeline" style="margin:0"><span class="ic">🕰️</span><span><div class="t">歴史年表</div></span></button>
       </div>
       <div class="card" style="margin-top:12px"><div class="sub" style="margin-bottom:6px">用語 ${D.terms.length}語の理解度</div>${stackBar(c)}${legend(c)}
@@ -435,6 +436,18 @@
     $('#dcat').addEventListener('change', (e) => { dictState.cat = e.target.value; render(); });
     $('#dst').addEventListener('change', (e) => { dictState.st = e.target.value; render(); });
   }
+  function visualHTML(t) {
+    const v = t.vis || {}; const hasLab = typeof VIZ !== 'undefined' && VIZ.has(t.id);
+    if (!hasLab && !v.steps && !v.figures && !v.code) return '';
+    let o = '<div class="vis-box">';
+    if (hasLab) o += `<div class="vz-mount" data-viz="${t.id}"></div>`;
+    if (v.steps && v.steps.length) o += `<div class="sec"><h3>🖼 処理イメージ</h3><ol class="steps">${v.steps.map((x) => `<li>${md(String(x).replace(/^[①-⑩0-9]+[.．、)]?\s*/, ''), true, t.id)}</li>`).join('')}</ol></div>`;
+    if (v.figures && v.figures.length) o += `<div class="figs">${v.figures.map((f) => figHTML(f)).join('')}</div>`;
+    if (v.example) o += `<div class="sec"><h3>🔢 数値例</h3><div class="explain">${md(v.example, true, t.id)}</div></div>`;
+    if (v.code) o += `<details class="vz-code"><summary>🧑‍💻 実装（Python）</summary><pre>${esc(v.code)}</pre></details>`;
+    return o + '</div>';
+  }
+  function mountViz(root) { if (typeof VIZ === 'undefined') return; root.querySelectorAll('.vz-mount').forEach((el) => { if (!el.dataset.done) { el.dataset.done = 1; VIZ.render(el.dataset.viz, el); } }); flushCanvas(); }
   function termBody(t) {
     const r = S.t[t.id]; const st = tStatus(t.id);
     const rel = (t.related || []).map((x) => resolve(x)).filter((x) => x && x !== t.id);
@@ -444,6 +457,7 @@
       <div style="margin-bottom:6px"><span class="pill">${esc(CAT[t.cat]?.name || '')}</span><span class="pill ${STPILL[st]}">${STLABEL[st]}</span>${r && r.n ? `<span class="sub">正解 ${r.ok}/${r.n}${r.lapse ? `・忘却 ${r.lapse}回` : ''}</span>` : ''}</div>
       <div class="sub">${esc(t.reading || '')}${t.en ? '　/　' + esc(t.en) : ''}</div>
       <p style="font-weight:700;margin:8px 0">${md(t.short)}</p>
+      ${visualHTML(t)}
       <div class="tdef sec">${String(t.def || '').split(/\n+/).map((p) => `<p>${md(p, true, t.id)}</p>`).join('')}</div>
       ${t.formula ? `<div class="sec"><h3>式</h3><div class="formula">${esc(t.formula)}</div></div>` : ''}
       ${t.points && t.points.length ? `<div class="sec"><h3>試験のポイント</h3><ul style="margin:0;padding-left:20px">${t.points.map((p) => `<li>${md(p, true, t.id)}</li>`).join('')}</ul></div>` : ''}
@@ -456,6 +470,7 @@
   function viewTerm(id) {
     const t = TERM[id]; if (!t) return (location.hash = '#/dict');
     shell(esc(t.term), termBody(t), { back: true, tab: 'dict' });
+    mountViz(app);
   }
   // 出題中でも文脈を失わずに辞書を開くボトムシート
   function openSheet(id, push = true) {
@@ -464,6 +479,7 @@
     let bg = $('.sheet-bg');
     if (!bg) { bg = document.createElement('div'); bg.className = 'sheet-bg'; bg.addEventListener('click', (e) => { if (e.target === bg) closeSheet(true); }); document.body.appendChild(bg); history.pushState({ sheet: 1 }, ''); }
     bg.innerHTML = `<div class="sheet"><div class="grab"></div><div class="sh-top">${sheetStack.length > 1 ? '<button class="icon" data-act="sheetback" style="background:none;border:0;font-size:20px">←</button>' : ''}<h2>${esc(t.term)}</h2><button class="icon" data-act="sheetclose" style="background:none;border:0;font-size:20px">✕</button></div>${termBody(t)}</div>`;
+    mountViz(bg);
     bg.querySelector('.sheet').scrollTop = 0;
   }
   function closeSheet(viaUser) { const bg = $('.sheet-bg'); if (bg) { bg.remove(); sheetStack.length = 0; if (viaUser && history.state && history.state.sheet) history.back(); } }
@@ -488,6 +504,14 @@
       ${weak.length ? `<div class="card"><b>🔴 苦手 ${weak.length}語</b><div class="chips">${weak.slice(0, 60).map((t) => `<button class="chip" data-term="${t.id}">${esc(t.term)}</button>`).join('')}</div></div>` : ''}
       <div class="card"><b>分野別（用語の理解度・タップで一覧）</b>${rows}<div style="margin-top:8px">${legend({ mastered: 1, due: 1, learning: 1, forgot: 1, weak: 1, new: 1 }).replace(/ 1</g, '<')}</div></div>
       ${gstats ? `<div class="card"><b>画像ドリル正答率</b>${gstats}</div>` : ''}`, { tab: 'progress' });
+  }
+  function viewLab() {
+    const seen = new Map();
+    VIZ.list().forEach((id) => { const t = TERM[id]; if (!t) return; const title = VIZ.V[id].title; if (!seen.has(title)) seen.set(title, []); seen.get(title).push(t); });
+    const byCat = {}; for (const [title, ts] of seen) { const c = ts[0].cat; (byCat[c] = byCat[c] || []).push([title, ts]); }
+    const vn = D.terms.filter((t) => t.vis && (t.vis.figures || t.vis.steps)).length;
+    shell('図解ラボ', `<p class="sub">ブラウザ内で実際に画素を計算して動く図解 ${seen.size}種。パラメータを動かすと結果が変わります。さらに用語 ${vn} 語に「処理イメージ・数値例・実装」が付いています（各用語ページ）。</p>` +
+      D.cats.filter((c) => byCat[c.id]).map((c) => `<div class="sec"><h3>${c.icon} ${esc(c.name)}</h3>${byCat[c.id].map(([title, ts]) => `<button class="mode" data-term="${ts[0].id}"><span class="ic">🔬</span><span><div class="t">${esc(title)}</div><div class="d">${ts.map((t) => esc(t.term)).join('・')}</div></span></button>`).join('')}</div>`).join(''), { back: true });
   }
   function viewTimeline() {
     const ts = D.terms.filter((t) => t.year).sort((a, b) => a.year - b.year);
@@ -518,6 +542,7 @@
       case 'term': return viewTerm(decodeURIComponent(seg[1] || ''));
       case 'progress': return viewProgress();
       case 'timeline': return viewTimeline();
+      case 'lab': return viewLab();
       case 'settings': return viewSettings();
       case 'quiz': return viewQuiz();
       case 'review': return viewReview(+seg[1]);
