@@ -1,1 +1,971 @@
-[]
+[
+ {
+  "id": "ip-overview",
+  "steps": [
+   "① 知的財産権は「創作を守る権利」と「営業上の標識（ブランド）を守る権利」に大別される",
+   "② 創作系：著作権（文化・登録不要）、特許権・実用新案権・意匠権（産業・特許庁へ出願）、回路配置利用権、育成者権",
+   "③ 標識系：商標権（登録が必要）、商号（会社法）、不正競争防止法による周知表示・著名表示の保護",
+   "④ 事例：画像処理ソフトを開発した会社では、ソースコード＝著作権、新しい補正アルゴリズム＝特許権、操作画面のデザイン＝意匠権（画像意匠）、製品名＝商標権、未公開の学習データ＝営業秘密（不競法）と、1つの製品に複数の権利が重なる"
+  ],
+  "example": "例：カメラアプリ「PixFix」。ロゴとアプリ名→商標権（登録から10年・更新可）、HDR合成の新手法→特許権（出願から20年）、アイコン画像→著作権（死後70年）、UI画面→意匠権（出願から25年）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 145' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='105.0' y='6' width='120' height='22' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='165.0' y='20.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>知的財産権</text><line x1='165.0' y1='28' x2='58.333333333333336' y2='46' stroke='#777' stroke-width='1'/><rect x='8.0' y='46' width='100.66666666666667' height='22' rx='4' fill='#e6f7e6' stroke='#a80' stroke-width='1'/><text x='58.333333333333336' y='60.1' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>著作権等</text><text x='58.333333333333336' y='85.0' font-size='8.5' text-anchor='middle' fill='#222'>著作権</text><text x='58.333333333333336' y='98.0' font-size='8.5' text-anchor='middle' fill='#222'>著作者人格権</text><text x='58.333333333333336' y='111.0' font-size='8.5' text-anchor='middle' fill='#222'>著作隣接権</text><text x='58.333333333333336' y='124.0' font-size='8.5' text-anchor='middle' fill='#222'>登録不要</text><line x1='165.0' y1='28' x2='165.0' y2='46' stroke='#777' stroke-width='1'/><rect x='114.66666666666666' y='46' width='100.66666666666667' height='22' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='165.0' y='60.1' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>産業財産権</text><text x='165.0' y='85.0' font-size='8.5' text-anchor='middle' fill='#222'>特許権</text><text x='165.0' y='98.0' font-size='8.5' text-anchor='middle' fill='#222'>実用新案権</text><text x='165.0' y='111.0' font-size='8.5' text-anchor='middle' fill='#222'>意匠権</text><text x='165.0' y='124.0' font-size='8.5' text-anchor='middle' fill='#222'>商標権</text><text x='165.0' y='137.0' font-size='8.5' text-anchor='middle' fill='#222'>特許庁へ出願</text><line x1='165.0' y1='28' x2='271.6666666666667' y2='46' stroke='#777' stroke-width='1'/><rect x='221.33333333333334' y='46' width='100.66666666666667' height='22' rx='4' fill='#f3e6ff' stroke='#a80' stroke-width='1'/><text x='271.6666666666667' y='60.1' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>その他</text><text x='271.6666666666667' y='85.0' font-size='8.5' text-anchor='middle' fill='#222'>不正競争防止法</text><text x='271.6666666666667' y='98.0' font-size='8.5' text-anchor='middle' fill='#222'>（営業秘密等）</text><text x='271.6666666666667' y='111.0' font-size='8.5' text-anchor='middle' fill='#222'>回路配置利用権</text><text x='271.6666666666667' y='124.0' font-size='8.5' text-anchor='middle' fill='#222'>育成者権</text></svg>",
+    "caption": "知的財産権の全体像"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='118.5' y1='48.0' x2='96.7' y2='40.1' stroke='#555' stroke-width='1.2'/><polygon points='91.1,38.0 95.7,42.9 97.8,37.2' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='211.5' y1='48.0' x2='233.3' y2='40.1' stroke='#555' stroke-width='1.2'/><polygon points='238.9,38.0 232.2,37.2 234.3,42.9' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='119.5' y1='82.0' x2='95.7' y2='90.9' stroke='#555' stroke-width='1.2'/><polygon points='90.1,93.0 96.8,93.7 94.7,88.1' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='210.5' y1='82.0' x2='234.3' y2='90.9' stroke='#555' stroke-width='1.2'/><polygon points='239.9,93.0 235.3,88.1 233.2,93.7' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='165.0' y1='82.0' x2='165.0' y2='92.0' stroke='#555' stroke-width='1.2'/><polygon points='165.0,98.0 168.0,92.0 162.0,92.0' fill='#555' stroke='#555' stroke-width='0.5'/><rect x='120' y='50' width='90' height='30' rx='4' fill='#eef3ff' stroke='#36c' stroke-width='1'/><text x='165.0' y='68.2' font-size='9' text-anchor='middle' fill='#222'>画像処理アプリ</text><rect x='5' y='10' width='90' height='26' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='50.0' y='26.1' font-size='9' text-anchor='middle' fill='#222'>コード→著作権</text><rect x='235' y='10' width='90' height='26' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='280.0' y='26.1' font-size='9' text-anchor='middle' fill='#222'>アルゴリズム→特許</text><rect x='5' y='95' width='90' height='26' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='50.0' y='111.2' font-size='9' text-anchor='middle' fill='#222'>画面→意匠</text><rect x='235' y='95' width='90' height='26' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='280.0' y='111.2' font-size='9' text-anchor='middle' fill='#222'>名前・ロゴ→商標</text><rect x='110' y='100' width='110' height='26' rx='4' fill='#f3e6ff' stroke='#a3a' stroke-width='1'/><text x='165.0' y='116.2' font-size='9' text-anchor='middle' fill='#222'>学習データ→営業秘密</text></svg>",
+    "caption": "1つの製品に複数の知的財産権が重なる例"
+   }
+  ]
+ },
+ {
+  "id": "ip-copyright-purpose",
+  "steps": [
+   "① 1条：著作物・実演・レコード・放送・有線放送に関し、著作者の権利と隣接する権利を定める",
+   "② 同時に「文化的所産の公正な利用に留意」する → 権利を守るだけでなく、利用とのバランスをとる",
+   "③ 最終目的は「文化の発展に寄与すること」。特許法の目的「産業の発達」と対比される",
+   "④ 事例：写真家の権利（複製権など）を守る一方、私的使用の複製や引用などの権利制限規定で社会の利用も認める＝この両立が1条の趣旨"
+  ],
+  "example": "例（試験の頻出対比）：著作権法＝文化の発展、特許法・実用新案法・意匠法＝産業の発達、商標法＝産業の発達＋需要者の利益保護。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='40' width='100' height='40' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='60.0' y='57.5' font-size='9' text-anchor='middle' fill='#222'>権利の保護</text><text x='60.0' y='68.8' font-size='9' text-anchor='middle' fill='#222'>（著作者・実演家等）</text><rect x='220' y='40' width='100' height='40' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='270.0' y='57.5' font-size='9' text-anchor='middle' fill='#222'>公正な利用</text><text x='270.0' y='68.8' font-size='9' text-anchor='middle' fill='#222'>（権利制限規定）</text><polygon points='165,95 150,110 180,110' fill='#888' stroke='#555' stroke-width='1'/><line x1='60' y1='95' x2='270' y2='95' stroke='#555' stroke-width='2'/><line x1='60' y1='80' x2='60.0' y2='87.0' stroke='#36c' stroke-width='1.2'/><polygon points='60,93 63.0,87.0 57.0,87.0' fill='#36c' stroke='#36c' stroke-width='0.5'/><line x1='270' y1='80' x2='270.0' y2='87.0' stroke='#a80' stroke-width='1.2'/><polygon points='270,93 273.0,87.0 267.0,87.0' fill='#a80' stroke='#a80' stroke-width='0.5'/><rect x='110' y='8' width='110' height='26' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='165.0' y='24.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>文化の発展に寄与</text><line x1='165' y1='92' x2='165.0' y2='42.0' stroke='#2a7' stroke-width='1.2'/><polygon points='165,36 162.0,42.0 168.0,42.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/></svg>",
+    "caption": "著作権法1条：権利保護と公正な利用のバランスで文化の発展を目指す"
+   },
+   {
+    "type": "table",
+    "head": [
+     "法律",
+     "目的（1条）"
+    ],
+    "rows": [
+     [
+      "著作権法",
+      "文化の発展に寄与"
+     ],
+     [
+      "特許法",
+      "産業の発達に寄与"
+     ],
+     [
+      "意匠法",
+      "産業の発達に寄与"
+     ],
+     [
+      "商標法",
+      "産業の発達＋需要者の利益保護"
+     ]
+    ],
+    "caption": "各法律の目的の比較"
+   }
+  ]
+ },
+ {
+  "id": "ip-work",
+  "steps": [
+   "① 要件1「思想又は感情」：単なる事実やデータ（気温の記録など）は除かれる",
+   "② 要件2「創作的」：作者の個性が何らか表れていればよい（高い芸術性は不要）。ありふれた表現は除かれる",
+   "③ 要件3「表現したもの」：頭の中のアイデアではなく、外部に具体的に表現されていること",
+   "④ 要件4「文芸・学術・美術・音楽の範囲」：工業製品のデザインなど実用品は原則として除かれる（応用美術の問題）"
+  ],
+  "example": "例：子どもが描いた絵 → 4要件を満たし著作物。「今日の東京の最高気温は25℃」→ 事実で×。監視カメラの自動撮影画像 → 創作性がなく原則×。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 244' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='160.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>著作物にあたるか？（2条1項1号）</text><rect x='6' y='24' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='42.3' font-size='9.5' text-anchor='middle' fill='#222'>思想又は感情を含むか</text><line x1='186' y1='39.0' x2='210.0' y2='39.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,39.0 210.0,36.0 210.0,42.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='35.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='25' width='100' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='266.0' y='42.1' font-size='9' text-anchor='middle' fill='#222'>×事実・データ</text><line x1='96.0' y1='54' x2='96.0' y2='64.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,70 99.0,64.0 93.0,64.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='66' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='70' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='88.3' font-size='9.5' text-anchor='middle' fill='#222'>創作性があるか（個性）</text><line x1='186' y1='85.0' x2='210.0' y2='85.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,85.0 210.0,82.0 210.0,88.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='81.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='71' width='100' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='266.0' y='88.2' font-size='9' text-anchor='middle' fill='#222'>×ありふれた表現</text><line x1='96.0' y1='100' x2='96.0' y2='110.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,116 99.0,110.0 93.0,110.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='112' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='116' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='134.3' font-size='9.5' text-anchor='middle' fill='#222'>具体的に表現されているか</text><line x1='186' y1='131.0' x2='210.0' y2='131.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,131.0 210.0,128.0 210.0,134.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='127.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='117' width='100' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='266.0' y='134.2' font-size='9' text-anchor='middle' fill='#222'>×アイデアのみ</text><line x1='96.0' y1='146' x2='96.0' y2='156.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,162 99.0,156.0 93.0,156.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='158' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='162' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='180.3' font-size='9.5' text-anchor='middle' fill='#222'>文芸・学術・美術・音楽の範囲か</text><line x1='186' y1='177.0' x2='210.0' y2='177.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,177.0 210.0,174.0 210.0,180.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='173.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='163' width='100' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='266.0' y='180.2' font-size='9' text-anchor='middle' fill='#222'>×実用品のみ</text><line x1='96.0' y1='192' x2='96.0' y2='202.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,208 99.0,202.0 93.0,202.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='204' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='208' width='180' height='30' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='96.0' y='226.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>著作物 ○</text></svg>",
+    "caption": "著作物の4要件チェック"
+   }
+  ]
+ },
+ {
+  "id": "ip-work-examples",
+  "steps": [
+   "① 10条1項は著作物の例を9種類挙げる（例示なので、これ以外でも要件を満たせば著作物）",
+   "② 1 言語（小説・論文・講演）、2 音楽、3 舞踊・無言劇、4 美術（絵画・漫画・彫刻）、5 建築",
+   "③ 6 地図・図形（設計図・図表・模型）、7 映画（ゲーム映像も含む）、8 写真、9 プログラム",
+   "④ 事例：画像処理の論文 → 本文は言語、掲載した写真は写真、処理結果のグラフは図形、付録のコードはプログラムの著作物と、1つの論文に複数の種類が含まれる"
+  ],
+  "example": "覚え方の例：「言・音・舞・美・建・地・映・写・プ」。事実の伝達にすぎない雑報・時事の報道は言語の著作物に該当しない（10条2項）。",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "号",
+     "種類",
+     "具体例"
+    ],
+    "rows": [
+     [
+      "1",
+      "言語",
+      "小説・論文・講演・脚本"
+     ],
+     [
+      "2",
+      "音楽",
+      "楽曲・歌詞"
+     ],
+     [
+      "3",
+      "舞踊・無言劇",
+      "振付・パントマイム"
+     ],
+     [
+      "4",
+      "美術",
+      "絵画・漫画・彫刻・書"
+     ],
+     [
+      "5",
+      "建築",
+      "芸術性のある建築物"
+     ],
+     [
+      "6",
+      "地図・図形",
+      "地図・設計図・図表・模型"
+     ],
+     [
+      "7",
+      "映画",
+      "劇場映画・アニメ・ゲーム映像"
+     ],
+     [
+      "8",
+      "写真",
+      "写真・グラビア"
+     ],
+     [
+      "9",
+      "プログラム",
+      "アプリ・OSのコード"
+     ]
+    ],
+    "caption": "10条1項の9種類（例示列挙）"
+   }
+  ]
+ },
+ {
+  "id": "ip-idea-expression",
+  "steps": [
+   "① 著作権が守るのは具体的な「表現」で、その元になったアイデア・手法・理論・画風は守らない",
+   "② 理由：アイデアまで独占させると、他の人が同じテーマで創作できなくなり文化の発展を妨げるため",
+   "③ アイデアの保護が必要なら、技術的アイデアは特許、デザインは意匠など別の制度を使う",
+   "④ 事例：「エッジを強調してから二値化する」という手法を論文で読み、自分で一から実装したコード → 手法（アイデア）を使っただけなので著作権侵害にならない。元論文のコードをそのままコピー → 表現の複製で侵害になりうる"
+  ],
+  "example": "例：「魔法学校に入学した少年の冒険」という設定（アイデア）は自由。特定の小説の文章・登場人物の具体的な描写（表現）を写すと侵害。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='25' width='140' height='40' rx='4' fill='#eee' stroke='#888' stroke-width='1'/><text x='80.0' y='42.5' font-size='9' text-anchor='middle' fill='#222'>アイデア</text><text x='80.0' y='53.8' font-size='9' text-anchor='middle' fill='#222'>（手法・設定・画風・理論）</text><text x='80' y='80' font-size='9' text-anchor='middle' fill='#c33' font-weight='bold'>著作権では保護されない</text><text x='80' y='96' font-size='8' text-anchor='middle' fill='#555'>→ 技術なら特許で保護</text><line x1='150' y1='45' x2='174.0' y2='45.0' stroke='#333' stroke-width='1.2'/><polygon points='180,45 174.0,42.0 174.0,48.0' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='180' y='25' width='140' height='40' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='250.0' y='42.5' font-size='9' text-anchor='middle' fill='#222'>表現</text><text x='250.0' y='53.8' font-size='9' text-anchor='middle' fill='#222'>（文章・コード・絵そのもの）</text><text x='250' y='80' font-size='9' text-anchor='middle' fill='#2a7' font-weight='bold'>著作権で保護される</text><text x='165' y='118' font-size='9' text-anchor='middle' fill='#36c'>同じアイデアから別の表現を作るのは自由</text></svg>",
+    "caption": "アイデアと表現の二分論"
+   }
+  ]
+ },
+ {
+  "id": "ip-unprotected",
+  "steps": [
+   "① 事実・データそのもの（日付・数値・測定結果・歴史上の出来事）は思想・感情の表現ではないので保護されない",
+   "② ありふれた表現・誰が書いても同じになる表現（短い標語、定型の挨拶文、一般的な説明図）は創作性がない",
+   "③ ただし、事実の選び方・並べ方や、事実を伝える文章の書き方に個性があれば、その部分は保護されうる",
+   "④ 事例：ある画像データセットの「画素平均値＝118.3」という数値は自由に使える。しかしそのデータセットの解説記事の文章をそのまま転載すると侵害になりうる"
+  ],
+  "example": "例：「○月○日、△△駅で列車事故、死者2名」という事実の報道（雑報）は自由（10条2項）。同じ事件を記者が詳しく描写した記事は言語の著作物。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='10' width='95' height='40' rx='4' fill='#eee' stroke='#888' stroke-width='1'/><text x='57.5' y='27.5' font-size='9' text-anchor='middle' fill='#222'>事実・データ</text><text x='57.5' y='38.8' font-size='9' text-anchor='middle' fill='#222'>例：気温25℃</text><rect x='118' y='10' width='95' height='40' rx='4' fill='#eee' stroke='#888' stroke-width='1'/><text x='165.5' y='27.5' font-size='9' text-anchor='middle' fill='#222'>ありふれた表現</text><text x='165.5' y='38.8' font-size='9' text-anchor='middle' fill='#222'>例：「ご注意」</text><rect x='226' y='10' width='95' height='40' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='273.5' y='27.5' font-size='9' text-anchor='middle' fill='#222'>個性ある記述</text><text x='273.5' y='38.8' font-size='9' text-anchor='middle' fill='#222'>例：解説記事</text><text x='110' y='70' font-size='11' text-anchor='middle' fill='#c33' font-weight='bold'>× 保護されない</text><text x='273' y='70' font-size='11' text-anchor='middle' fill='#2a7' font-weight='bold'>○ 保護</text><text x='165' y='98' font-size='9' text-anchor='middle' fill='#555'>同じ事実でも「書き方」に創作性があれば保護</text></svg>",
+    "caption": "保護されないものと保護されるもの"
+   }
+  ]
+ },
+ {
+  "id": "ip-photo-work",
+  "steps": [
+   "① 写真は、被写体の選択・構図・アングル・光線（照明）・シャッターチャンス・レンズ・現像処理などに撮影者の個性が表れれば著作物",
+   "② スナップ写真でも構図やタイミングに個性があれば保護される（保護のハードルは低い）",
+   "③ 一方、平面の絵画を正面から忠実に写しただけの写真や、証明写真機・自動監視カメラの画像は創作性が否定されやすい",
+   "④ 事例：SNSで見つけた風景写真を、自分のサイトの背景に無断で使う → 複製権・公衆送信権の侵害。同じ場所に自分で行って同じ構図で撮る → 被写体（風景）は誰のものでもなく原則OK（ただし構図の酷似で争いになった例もある：みずみずしいスイカ事件）"
+  ],
+  "example": "例：著作物性 ○：SNSの旅行写真、料理写真。×（なりにくい）：浮世絵を正面から複写した写真、駐車場の監視カメラ映像のキャプチャ。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 156' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>この写真は著作物？</text><rect x='6' y='24' width='200' height='34' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='106.0' y='38.4' font-size='9.5' text-anchor='middle' fill='#222'>撮影者が構図・光・タイミング等を選んでい</text><text x='106.0' y='50.3' font-size='9.5' text-anchor='middle' fill='#222'>るか</text><line x1='206' y1='41.0' x2='230.0' y2='41.0' stroke='#c33' stroke-width='1.2'/><polygon points='236,41.0 230.0,38.0 230.0,44.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='220' y='37.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='236' y='25' width='90' height='32' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='281.0' y='44.1' font-size='9' text-anchor='middle' fill='#222'>×自動撮影・機械的</text><line x1='106.0' y1='58' x2='106.0' y2='68.0' stroke='#2a7' stroke-width='1.2'/><polygon points='106.0,74 109.0,68.0 103.0,68.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='122.0' y='70' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='74' width='200' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='106.0' y='92.3' font-size='9.5' text-anchor='middle' fill='#222'>平面作品の単なる忠実な複写ではないか</text><line x1='206' y1='89.0' x2='230.0' y2='89.0' stroke='#c33' stroke-width='1.2'/><polygon points='236,89.0 230.0,86.0 230.0,92.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='220' y='85.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='236' y='75' width='90' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='281.0' y='92.2' font-size='9' text-anchor='middle' fill='#222'>×複写写真</text><line x1='106.0' y1='104' x2='106.0' y2='114.0' stroke='#2a7' stroke-width='1.2'/><polygon points='106.0,120 109.0,114.0 103.0,114.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='122.0' y='116' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='120' width='200' height='30' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='106.0' y='138.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>写真の著作物 ○</text></svg>",
+    "caption": "写真の著作物性の判断"
+   }
+  ]
+ },
+ {
+  "id": "ip-film-work",
+  "steps": [
+   "① 映画の著作物：影像の連続（動く映像）で表現され、物に固定されたもの。劇場映画・テレビドラマ・アニメ・CM・ゲーム映像も含む",
+   "② 「固定」が必要：ビデオ・メモリー等に記録されていること。生放送で記録しない映像は固定がない",
+   "③ 特別扱い：頒布権（26条）がある、著作権が映画製作者に帰属しやすい（29条）、保護期間は公表後70年",
+   "④ 事例：RPGゲームの映像はプレイごとに変わるが、プログラムにより一定の影像が再現されるので「映画の著作物」とされた（パックマン事件・ときめきメモリアル事件など）。ただし中古ゲームの販売は頒布権が消尽するとされた（中古ゲームソフト事件 最判2002）"
+  ],
+  "example": "例：監視カメラの自動録画映像は固定されているが創作性がないので通常は映画の著作物にならない。YouTube の自作動画は映画の著作物。",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "映画の著作物",
+     "一般の著作物"
+    ],
+    "rows": [
+     [
+      "頒布権",
+      "あり（26条）",
+      "なし（譲渡権・貸与権）"
+     ],
+     [
+      "著作権の帰属",
+      "参加約束あれば映画製作者（29条）",
+      "著作者"
+     ],
+     [
+      "保護期間",
+      "公表後70年",
+      "死後70年"
+     ]
+    ],
+    "caption": "映画の著作物の特別ルール"
+   }
+  ]
+ },
+ {
+  "id": "ip-art-work",
+  "steps": [
+   "① 美術の著作物：絵画・版画・彫刻・漫画・イラスト・書・舞台装置など、形や色で表現されたもの",
+   "② 美術工芸品（一品制作の壺・漆器など）も含まれる（2条2項）。量産品は応用美術の問題になる",
+   "③ 原作品（オリジナル）には展示権（25条）が働く。絵を買った人は所有権を持つが、著作権は画家に残る",
+   "④ 事例：Aさんが画家Bの絵を購入 → Aは絵を自宅に飾れるし、所有者として公に展示もできる（45条）。しかし絵をポスターにして販売するには B の複製権の許諾が必要"
+  ],
+  "example": "例：キャラクターのイラスト、ロゴ（デザイン性が高い場合）、書道作品は美術の著作物。所有権（物）と著作権（表現）は別。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='50' cy='30' r='7' fill='#36c' stroke='#36c' stroke-width='1'/><path d='M39,52 Q39,38 50,38 Q61,38 61,52 Z' fill='#36c'/><text x='50' y='59.5' font-size='9' text-anchor='middle' fill='#222'>画家B</text><text x='50' y='70.8' font-size='9' text-anchor='middle' fill='#222'>（著作権者）</text><circle cx='270' cy='30' r='7' fill='#a80' stroke='#a80' stroke-width='1'/><path d='M259,52 Q259,38 270,38 Q281,38 281,52 Z' fill='#a80'/><text x='270' y='59.5' font-size='9' text-anchor='middle' fill='#222'>購入者A</text><text x='270' y='70.8' font-size='9' text-anchor='middle' fill='#222'>（所有者）</text><rect x='140' y='20' width='50' height='40' rx='3' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='165' y='44' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>絵</text><line x1='80' y1='40' x2='130.0' y2='40.0' stroke='#a80' stroke-width='1.2'/><polygon points='136,40 130.0,37.0 130.0,43.0' fill='#a80' stroke='#a80' stroke-width='0.5'/><text x='108' y='33' font-size='8' text-anchor='middle' fill='#a80'>売買</text><line x1='194' y1='40' x2='246.0' y2='40.0' stroke='#a80' stroke-width='1.2'/><polygon points='252,40 246.0,37.0 246.0,43.0' fill='#a80' stroke='#a80' stroke-width='0.5'/><text x='270' y='98' font-size='8' text-anchor='middle' fill='#2a7'>飾る・展示 ○（45条）</text><text x='270' y='112' font-size='8' text-anchor='middle' fill='#c33'>ポスター販売 ×</text><text x='50' y='98' font-size='8' text-anchor='middle' fill='#36c'>著作権は画家に残る</text><text x='50' y='112' font-size='8' text-anchor='middle' fill='#36c'>（複製権・展示権 等）</text></svg>",
+    "caption": "美術の著作物：物（所有権）と著作権は別々"
+   }
+  ]
+ },
+ {
+  "id": "ip-applied-art",
+  "steps": [
+   "① 応用美術：実用品に美術を応用したもの（家具・食器・衣服・照明器具・量産フィギュア等）",
+   "② 一品制作の美術工芸品は美術の著作物に含まれる（2条2項）。量産品は原則として意匠法で保護し、著作物性は限定的に解されてきた",
+   "③ 判断の目安：実用的な機能と分離して、それ自体が美的鑑賞の対象となる美的特性を備えているか",
+   "④ 事例：幼児用椅子「TRIPP TRAPP」事件（知財高判2015）は著作物性を認めたが（侵害は否定）、多くの裁判例は量産品の著作物性を否定。確実に守るには意匠登録をする"
+  ],
+  "example": "例：ファービー人形（量産玩具）→ 著作物性否定。博多人形（一品制作的）→ 著作物性肯定（昭和48年 長崎地裁佐世保支部決定）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 152' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>この実用品デザインは著作物？</text><rect x='6' y='24' width='200' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='106.0' y='42.3' font-size='9.5' text-anchor='middle' fill='#222'>量産品か（一品制作ではない）</text><line x1='206' y1='39.0' x2='230.0' y2='39.0' stroke='#c33' stroke-width='1.2'/><polygon points='236,39.0 230.0,36.0 230.0,42.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='220' y='35.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='236' y='25' width='90' height='28' rx='4' fill='#d9f2dc' stroke='#c33' stroke-width='1'/><text x='281.0' y='36.5' font-size='9' text-anchor='middle' fill='#222'>美術工芸品として</text><text x='281.0' y='47.8' font-size='9' text-anchor='middle' fill='#222'>美術の著作物 ○</text><line x1='106.0' y1='54' x2='106.0' y2='64.0' stroke='#2a7' stroke-width='1.2'/><polygon points='106.0,70 109.0,64.0 103.0,64.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='122.0' y='66' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='70' width='200' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='106.0' y='88.3' font-size='9.5' text-anchor='middle' fill='#222'>実用機能と分離して美的鑑賞の対象となるか</text><line x1='206' y1='85.0' x2='230.0' y2='85.0' stroke='#c33' stroke-width='1.2'/><polygon points='236,85.0 230.0,82.0 230.0,88.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='220' y='81.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='236' y='71' width='90' height='28' rx='4' fill='#fff4d6' stroke='#c33' stroke-width='1'/><text x='281.0' y='82.5' font-size='9' text-anchor='middle' fill='#222'>意匠法で保護</text><text x='281.0' y='93.8' font-size='9' text-anchor='middle' fill='#222'>（要登録）</text><line x1='106.0' y1='100' x2='106.0' y2='110.0' stroke='#2a7' stroke-width='1.2'/><polygon points='106.0,116 109.0,110.0 103.0,110.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='122.0' y='112' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='116' width='200' height='30' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='106.0' y='134.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>著作物 ○（例外的）</text></svg>",
+    "caption": "応用美術の判断：量産品の著作物性は限定的"
+   }
+  ]
+ },
+ {
+  "id": "ip-architecture-work",
+  "steps": [
+   "① 建築の著作物：建築物そのもの（設計図は図形の著作物）。宮殿・寺院・記念碑的な建物など、建築芸術といえるもの",
+   "② 一般的な住宅・ビルは機能や経済性で形が決まるため、通常は建築の著作物にならない（グルニエ・ダイン事件）",
+   "③ 建築の著作物の複製＝同じ建物を建てること。写真や絵に描くことは46条で原則自由",
+   "④ 建物の所有者は、増改築など実用上必要な改変をしても同一性保持権の侵害にならない（20条2項2号）"
+  ],
+  "example": "例：観光地の有名な美術館の外観をスマホで撮影しSNSに投稿 → 46条で自由。同じ設計の美術館を別の場所に建築 → 複製権侵害になりうる。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><polygon points='30,70 70,30 110,70' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><rect x='40' y='70' width='60' height='30' rx='3' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='70' y='108' font-size='9' text-anchor='middle' fill='#2a7'>記念碑的建築 → ○</text><polygon points='150,70 180,45 210,70' fill='#eee' stroke='#888' stroke-width='1'/><rect x='155' y='70' width='50' height='30' rx='3' fill='#eee' stroke='#888' stroke-width='1'/><text x='180' y='108' font-size='9' text-anchor='middle' fill='#c33'>一般住宅 → ×</text><text x='275' y='40' font-size='9' text-anchor='middle' fill='#2a7'>写真・絵画 ○（46条）</text><text x='275' y='58' font-size='9' text-anchor='middle' fill='#c33'>同じ建物を建てる ×</text><text x='275' y='76' font-size='9' text-anchor='middle' fill='#2a7'>所有者の増改築 ○</text></svg>",
+    "caption": "建築の著作物の範囲と利用"
+   }
+  ]
+ },
+ {
+  "id": "ip-map-figure-work",
+  "steps": [
+   "① 地図：何を載せるか（取捨選択）、記号・色分けの表現方法に創作性があれば著作物",
+   "② 図形：設計図・図表・グラフ・模型など、学術的な性質をもつ図形（10条1項6号）",
+   "③ 地形そのもの・データ（緯度経度）は事実なので保護されない。ありふれた棒グラフも創作性が低い",
+   "④ 事例：観光パンフレットの手描き地図を自社チラシにスキャンして転載 → 複製権侵害の可能性。地図アプリの画面をキャプチャして配布も同様。自分で現地のデータから描き直すのは自由"
+  ],
+  "example": "例：住宅地図（記載事項の選択に創作性が低いとして著作物性を限定的に解した判例あり）、精密な機械の設計図（図形の著作物。ただし図面通りに機械を作るのは複製ではない）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 100' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='15' width='140' height='30' rx='4' fill='#eee' stroke='#888' stroke-width='1'/><text x='80.0' y='33.1' font-size='9' text-anchor='middle' fill='#222'>地形・道路の位置</text><text x='80' y='60' font-size='9' text-anchor='middle' fill='#c33'>事実 → 自由</text><rect x='180' y='15' width='140' height='30' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='250.0' y='33.1' font-size='9' text-anchor='middle' fill='#222'>取捨選択・記号・色分け</text><text x='250' y='60' font-size='9' text-anchor='middle' fill='#2a7'>創作性 → 保護</text><text x='165' y='88' font-size='8.5' text-anchor='middle' fill='#555'>設計図の図面は保護されても、図面通りに作った製品は別問題</text></svg>",
+    "caption": "地図・図形の著作物で保護される部分"
+   }
+  ]
+ },
+ {
+  "id": "ip-program-work",
+  "steps": [
+   "① プログラム：電子計算機を機能させて結果を得るための指令の組合せとして表現されたもの（ソースコード・オブジェクトコードとも保護）",
+   "② 保護されないもの（10条3項）：プログラム言語（Python 等）、規約（通信プロトコル・ファイル形式）、解法（アルゴリズム）",
+   "③ 指令の書き方・組合せに選択の幅があり個性が出れば保護される。短く誰が書いても同じになるコードは保護されにくい",
+   "④ 事例：OSSのエッジ検出関数のコードを丸ごとコピーして自社製品に組み込む → ライセンス違反なら複製権侵害。論文のアルゴリズム（解法）を理解して自分でゼロから書く → 自由（特許があれば別）"
+  ],
+  "example": "例：バグ修正・移植のための改変、バックアップ用の複製は、所有者が必要な限度で許される（47条の3）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='10' width='95' height='36' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='57.5' y='25.5' font-size='9' text-anchor='middle' fill='#222'>ソースコード</text><text x='57.5' y='36.8' font-size='9' text-anchor='middle' fill='#222'>（指令の組合せ）</text><rect x='118' y='10' width='95' height='36' rx='4' fill='#eee' stroke='#888' stroke-width='1'/><text x='165.5' y='25.5' font-size='9' text-anchor='middle' fill='#222'>アルゴリズム</text><text x='165.5' y='36.8' font-size='9' text-anchor='middle' fill='#222'>（解法）</text><rect x='226' y='10' width='95' height='36' rx='4' fill='#eee' stroke='#888' stroke-width='1'/><text x='273.5' y='25.5' font-size='9' text-anchor='middle' fill='#222'>言語・規約</text><text x='273.5' y='36.8' font-size='9' text-anchor='middle' fill='#222'>（Python・JPEG形式）</text><text x='57' y='62' font-size='9' text-anchor='middle' fill='#2a7' font-weight='bold'>○ 著作権で保護</text><text x='220' y='62' font-size='9' text-anchor='middle' fill='#c33' font-weight='bold'>× 保護されない（10条3項）</text><text x='165' y='85' font-size='9' text-anchor='middle' fill='#555'>アルゴリズムは特許で保護できる場合がある</text><text x='165' y='100' font-size='9' text-anchor='middle' fill='#555'>所有者のバックアップ・修正は47条の3で可</text></svg>",
+    "caption": "プログラムの著作物で保護される範囲"
+   }
+  ]
+ },
+ {
+  "id": "ip-derivative-work",
+  "steps": [
+   "① 既存の著作物（原著作物）を翻訳・編曲・変形・脚色・映画化などして、新たな創作性を加えた著作物",
+   "② 二次的著作物の作者は、自分が加えた創作部分について著作権を持つ",
+   "③ 原著作者は二次的著作物の利用についても同じ種類の権利を持つ（28条）→ 利用には原作者と二次創作者の両方の許諾が必要",
+   "④ 事例：小説（作家A）→ 映画化（映画会社B、Aの翻案権の許諾が必要）→ 映画のDVD化には A と B の両方の許諾が必要"
+  ],
+  "example": "例：英語の論文を日本語に翻訳（翻訳）、クラシック曲をジャズに（編曲）、写真をもとに油絵を描く（変形）、漫画をアニメ化（翻案）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='89.0' y1='57.0' x2='116.0' y2='57.0' stroke='#555' stroke-width='1.2'/><polygon points='122.0,57.0 116.0,54.0 116.0,60.0' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='208.0' y1='57.0' x2='235.0' y2='57.0' stroke='#555' stroke-width='1.2'/><polygon points='241.0,57.0 235.0,54.0 235.0,60.0' fill='#555' stroke='#555' stroke-width='0.5'/><rect x='5' y='40' width='82' height='34' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='46.0' y='54.5' font-size='9' text-anchor='middle' fill='#222'>原著作物</text><text x='46.0' y='65.8' font-size='9' text-anchor='middle' fill='#222'>小説（作家A）</text><rect x='124' y='40' width='82' height='34' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='165.0' y='54.5' font-size='9' text-anchor='middle' fill='#222'>二次的著作物</text><text x='165.0' y='65.8' font-size='9' text-anchor='middle' fill='#222'>映画（会社B）</text><rect x='243' y='40' width='82' height='34' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='284.0' y='54.5' font-size='9' text-anchor='middle' fill='#222'>DVD化・配信</text><text x='284.0' y='65.8' font-size='9' text-anchor='middle' fill='#222'>（利用者C）</text><text x='105.5' y='49.7' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>翻案</text><text x='105.5' y='60.3' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>(27条)</text><text x='224.5' y='55.0' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>Bの許諾</text><line x1='55' y1='78' x2='264.0' y2='79.9' stroke='#c33' stroke-width='1.2' stroke-dasharray='4 3'/><polygon points='270,80 264.0,76.9 264.0,82.9' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='165' y='108' font-size='9' text-anchor='middle' fill='#c33' font-weight='bold'>Aの許諾も必要（28条）</text></svg>",
+    "caption": "二次的著作物の利用には原作者の許諾も必要"
+   }
+  ]
+ },
+ {
+  "id": "ip-compilation-work",
+  "steps": [
+   "① 編集物（百科事典・新聞・詩集・写真集・論文集など）で、素材の選択又は配列に創作性があるもの（12条）",
+   "② 保護されるのは「選び方・並べ方」。個々の素材（記事・写真）の著作権とは別に成立する",
+   "③ 素材が著作物でなくてもよい（電話番号・事実の選択・配列でも可）。ただし五十音順に全部並べただけでは創作性なし",
+   "④ 事例：画像処理の名作論文20本を独自の観点で選び章立てして出した論文集 → 編集著作物。その章立て・選択を真似て別の論文集を作ると侵害の可能性。各論文の著作権は各著者に残る"
+  ],
+  "example": "例：職業別電話帳（タウンページ）の職業分類は創作性ありとされ編集著作物（タウンページ事件）。五十音順の電話帳（ハローページ）は×。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='20' width='18' height='26' rx='3' fill='#eee' stroke='#888' stroke-width='1'/><rect x='32' y='20' width='18' height='26' rx='3' fill='#eee' stroke='#888' stroke-width='1'/><rect x='54' y='20' width='18' height='26' rx='3' fill='#eee' stroke='#888' stroke-width='1'/><rect x='76' y='20' width='18' height='26' rx='3' fill='#eee' stroke='#888' stroke-width='1'/><rect x='98' y='20' width='18' height='26' rx='3' fill='#eee' stroke='#888' stroke-width='1'/><rect x='120' y='20' width='18' height='26' rx='3' fill='#eee' stroke='#888' stroke-width='1'/><text x='75' y='60' font-size='9' text-anchor='middle' fill='#222'>多数の素材</text><line x1='145' y1='33' x2='169.0' y2='33.0' stroke='#333' stroke-width='1.2'/><polygon points='175,33 169.0,30.0 169.0,36.0' fill='#333' stroke='#333' stroke-width='0.5'/><text x='160' y='26' font-size='8' text-anchor='middle' fill='#a3a'>選択・配列</text><rect x='185' y='10' width='130' height='50' rx='3' fill='#fff4d6' stroke='#a80' stroke-width='1'/><rect x='195' y='22' width='18' height='26' rx='3' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><rect x='217' y='22' width='18' height='26' rx='3' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><rect x='239' y='22' width='18' height='26' rx='3' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='290' y='38' font-size='11' text-anchor='middle' fill='#222'>…</text><text x='250' y='76' font-size='9' text-anchor='middle' fill='#a80' font-weight='bold'>編集著作物（選び方に創作性）</text><text x='165' y='98' font-size='9' text-anchor='middle' fill='#555'>個々の素材の著作権とは別に成立する</text></svg>",
+    "caption": "編集著作物：素材の選択・配列の創作性を保護"
+   }
+  ]
+ },
+ {
+  "id": "ip-database-work",
+  "steps": [
+   "① データベース：論文・数値・画像などの情報を、コンピュータで検索できるよう体系的に構成したもの",
+   "② 情報の選択又は体系的な構成（項目の立て方・分類体系・データ構造）に創作性があれば著作物（12条の2）",
+   "③ 個々のデータ（事実）は保護されない。網羅的に全部集めただけのものは創作性がなく保護されにくい（ただし不法行為責任が認められた例：翼システム事件）",
+   "④ 事例：画像認識用データセットで、独自の分類体系（クラス階層）とアノテーション項目を設計したもの → データベースの著作物になりうる。限定提供データとして不正競争防止法で守る方法もある"
+  ],
+  "example": "例：自動車部品の網羅的なデータベース（翼システム事件）は創作性否定、ただし丸ごとコピーは不法行為。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 121' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>データベースは保護される？</text><rect x='6' y='24' width='190' height='41' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='101.0' y='41.9' font-size='9.5' text-anchor='middle' fill='#222'>情報の選択 or 体系的構成に創作性</text><text x='101.0' y='53.8' font-size='9.5' text-anchor='middle' fill='#222'>があるか</text><line x1='196' y1='44.5' x2='220.0' y2='44.5' stroke='#c33' stroke-width='1.2'/><polygon points='226,44.5 220.0,41.5 220.0,47.5' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='210' y='40.5' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='226' y='25' width='100' height='39' rx='4' fill='#fff4d6' stroke='#c33' stroke-width='1'/><text x='276.0' y='36.4' font-size='9' text-anchor='middle' fill='#222'>著作物ではない</text><text x='276.0' y='47.6' font-size='9' text-anchor='middle' fill='#222'>→不競法・不法行為</text><text x='276.0' y='58.9' font-size='9' text-anchor='middle' fill='#222'>を検討</text><line x1='101.0' y1='65' x2='101.0' y2='75.0' stroke='#2a7' stroke-width='1.2'/><polygon points='101.0,81 104.0,75.0 98.0,75.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='117.0' y='77' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='81' width='190' height='34' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='101.0' y='101.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>データベースの著作物 ○</text></svg>",
+    "caption": "データベースの著作物の判断"
+   }
+  ]
+ },
+ {
+  "id": "ip-joint-work",
+  "steps": [
+   "① 2人以上が共同して創作し、各人の寄与を分離して個別に利用できない著作物（例：2人で議論しながら書いた1本の論文）",
+   "② 分離できるもの（作詞と作曲、文章と挿絵）は「結合著作物」で、各自が単独の著作者",
+   "③ 共有著作権の行使（利用許諾など）には全員の合意が必要。正当な理由なく合意を拒めない（65条）",
+   "④ 保護期間は最後に死亡した著作者の死後70年"
+  ],
+  "example": "例：AとBが共同で書いた技術書。Aが単独で出版社にライセンスすることはできない。Aが2030年、Bが2050年に死亡 → 保護期間は2050年の死後70年（2120年末まで）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='40' cy='20' r='7' fill='#36c' stroke='#36c' stroke-width='1'/><path d='M29,42 Q29,28 40,28 Q51,28 51,42 Z' fill='#36c'/><text x='40' y='55.1' font-size='9' text-anchor='middle' fill='#222'>A</text><circle cx='100' cy='20' r='7' fill='#a80' stroke='#a80' stroke-width='1'/><path d='M89,42 Q89,28 100,28 Q111,28 111,42 Z' fill='#a80'/><text x='100' y='55.1' font-size='9' text-anchor='middle' fill='#222'>B</text><rect x='30' y='70' width='80' height='30' rx='3' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='70' y='89' font-size='9' text-anchor='middle' fill='#222'>1本の論文</text><line x1='40' y1='55' x2='55.0' y2='64.7' stroke='#555' stroke-width='1.2'/><polygon points='60,68 56.6,62.2 53.3,67.2' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='100' y1='55' x2='85.0' y2='64.7' stroke='#555' stroke-width='1.2'/><polygon points='80,68 86.7,67.2 83.4,62.2' fill='#555' stroke='#555' stroke-width='0.5'/><text x='70' y='115' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>共同著作物（分離不可）</text><circle cx='200' cy='20' r='7' fill='#36c' stroke='#36c' stroke-width='1'/><path d='M189,42 Q189,28 200,28 Q211,28 211,42 Z' fill='#36c'/><text x='200' y='55.1' font-size='9' text-anchor='middle' fill='#222'>作詞</text><circle cx='270' cy='20' r='7' fill='#a80' stroke='#a80' stroke-width='1'/><path d='M259,42 Q259,28 270,28 Q281,28 281,42 Z' fill='#a80'/><text x='270' y='55.1' font-size='9' text-anchor='middle' fill='#222'>作曲</text><rect x='185' y='70' width='40' height='30' rx='3' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='205' y='89' font-size='9' text-anchor='middle' fill='#222'>歌詞</text><rect x='255' y='70' width='40' height='30' rx='3' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='275' y='89' font-size='9' text-anchor='middle' fill='#222'>曲</text><text x='240' y='115' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>結合著作物（分離可）</text></svg>",
+    "caption": "共同著作物と結合著作物の違い"
+   }
+  ]
+ },
+ {
+  "id": "ip-work-for-hire",
+  "steps": [
+   "① 要件：(1) 法人等の発意に基づく (2) 法人等の業務に従事する者が (3) 職務上作成する (4) 法人等の名義で公表する（プログラムは不要） (5) 契約・勤務規則に別段の定めがない",
+   "② 全部満たすと、作った従業員ではなく会社が著作者になる（著作権も著作者人格権も会社）",
+   "③ 特許の職務発明（発明者は従業員、会社は権利を取得でき従業員は相当の利益を受ける）と違い、最初から会社が著作者",
+   "④ 事例：画像処理会社の社員が業務命令で検査ソフトのコードを書いた → 会社名義で公表しなくても会社が著作者（プログラムは名義要件不要）。保護期間は公表後70年"
+  ],
+  "example": "例：社員が業務時間外に趣味で描いたイラスト → 職務上作成ではないので社員が著作者。会社の広報誌に記者名で書いた記事 → 法人名義でないので職務著作にならない場合がある。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 248' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>職務著作（15条）か？</text><rect x='6' y='24' width='190' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='101.0' y='42.3' font-size='9.5' text-anchor='middle' fill='#222'>法人等の発意に基づくか</text><line x1='196' y1='39.0' x2='220.0' y2='39.0' stroke='#c33' stroke-width='1.2'/><polygon points='226,39.0 220.0,36.0 220.0,42.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='210' y='35.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='226' y='25' width='100' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='276.0' y='42.1' font-size='9' text-anchor='middle' fill='#222'>×→従業員が著作者</text><line x1='101.0' y1='54' x2='101.0' y2='64.0' stroke='#2a7' stroke-width='1.2'/><polygon points='101.0,70 104.0,64.0 98.0,64.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='117.0' y='66' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='70' width='190' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='101.0' y='88.3' font-size='9.5' text-anchor='middle' fill='#222'>業務に従事する者が職務上作成したか</text><line x1='196' y1='85.0' x2='220.0' y2='85.0' stroke='#c33' stroke-width='1.2'/><polygon points='226,85.0 220.0,82.0 220.0,88.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='210' y='81.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='226' y='71' width='100' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='276.0' y='88.2' font-size='9' text-anchor='middle' fill='#222'>×→従業員が著作者</text><line x1='101.0' y1='100' x2='101.0' y2='110.0' stroke='#2a7' stroke-width='1.2'/><polygon points='101.0,116 104.0,110.0 98.0,110.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='117.0' y='112' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='116' width='190' height='34' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='101.0' y='130.4' font-size='9.5' text-anchor='middle' fill='#222'>法人等の名義で公表するか</text><text x='101.0' y='142.3' font-size='9.5' text-anchor='middle' fill='#222'>（プログラムは不要）</text><line x1='196' y1='133.0' x2='220.0' y2='133.0' stroke='#c33' stroke-width='1.2'/><polygon points='226,133.0 220.0,130.0 220.0,136.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='210' y='129.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='226' y='117' width='100' height='32' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='276.0' y='136.2' font-size='9' text-anchor='middle' fill='#222'>×→従業員が著作者</text><line x1='101.0' y1='150' x2='101.0' y2='160.0' stroke='#2a7' stroke-width='1.2'/><polygon points='101.0,166 104.0,160.0 98.0,160.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='117.0' y='162' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='166' width='190' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='101.0' y='184.3' font-size='9.5' text-anchor='middle' fill='#222'>契約等に別段の定めがないか</text><line x1='196' y1='181.0' x2='220.0' y2='181.0' stroke='#c33' stroke-width='1.2'/><polygon points='226,181.0 220.0,178.0 220.0,184.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='210' y='177.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='226' y='167' width='100' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='276.0' y='184.2' font-size='9' text-anchor='middle' fill='#222'>×→定めに従う</text><line x1='101.0' y1='196' x2='101.0' y2='206.0' stroke='#2a7' stroke-width='1.2'/><polygon points='101.0,212 104.0,206.0 98.0,206.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='117.0' y='208' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='212' width='190' height='30' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='101.0' y='230.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>法人等が著作者</text></svg>",
+    "caption": "職務著作の要件チェック"
+   }
+  ]
+ },
+ {
+  "id": "ip-film-ownership",
+  "steps": [
+   "① 映画の著作者：監督・撮影監督・美術監督など、全体的形成に創作的に寄与した者（16条）。原作・脚本・音楽の著作者は除かれる",
+   "② 29条：映画の著作者が映画製作者（製作に発意と責任を有する者＝映画会社）に対して製作参加を約束していれば、著作権は映画製作者に帰属",
+   "③ 著作者人格権は監督等に残る（氏名表示権など）",
+   "④ 事例：映画会社X社が企画・出資し、監督Yが参加契約して映画を制作 → 著作者は監督Y、著作権はX社。DVD化やネット配信はX社が決められる。原作者・脚本家・作曲家は自分の著作物について別に権利を持つ"
+  ],
+  "example": "例：職務著作（15条）に当たる場合（社員監督が会社名義で作った映画）はまず15条で会社が著作者になる。29条はそれ以外の場合の著作権の帰属ルール。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='198.0' y1='32.0' x2='138.0' y2='32.0' stroke='#555' stroke-width='1.2'/><polygon points='132.0,32.0 138.0,35.0 138.0,29.0' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='234.2' y1='51.0' x2='195.6' y2='79.4' stroke='#555' stroke-width='1.2'/><polygon points='190.8,83.0 197.4,81.9 193.8,77.0' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='139.2' y1='83.0' x2='100.6' y2='54.6' stroke='#a80' stroke-width='1.2'/><polygon points='95.8,51.0 98.8,57.0 102.4,52.1' fill='#a80' stroke='#a80' stroke-width='0.5'/><rect x='10' y='15' width='120' height='34' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='70.0' y='29.5' font-size='9' text-anchor='middle' fill='#222'>映画製作者 X社</text><text x='70.0' y='40.8' font-size='9' text-anchor='middle' fill='#222'>（発意と責任）</text><rect x='200' y='15' width='120' height='34' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='260.0' y='29.5' font-size='9' text-anchor='middle' fill='#222'>監督 Y</text><text x='260.0' y='40.8' font-size='9' text-anchor='middle' fill='#222'>（映画の著作者）</text><rect x='110' y='85' width='110' height='34' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='165.0' y='105.2' font-size='9' text-anchor='middle' fill='#222'>映画の著作物</text><text x='165.0' y='30.0' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>参加約束</text><text x='212.5' y='65.0' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>創作</text><text x='117.5' y='59.7' font-size='8.5' text-anchor='middle' fill='#a80' stroke='#fff' stroke-width='3' paint-order='stroke'>著作権が帰属</text><text x='117.5' y='70.3' font-size='8.5' text-anchor='middle' fill='#a80' stroke='#fff' stroke-width='3' paint-order='stroke'>(29条)</text></svg>",
+    "caption": "29条：映画の著作権は映画製作者に（人格権は監督に残る）"
+   }
+  ]
+ },
+ {
+  "id": "ip-author-presumption",
+  "steps": [
+   "① 原作品や公衆への提供時に、氏名・名称（実名）や周知の雅号・ペンネーム（変名）が著作者名として通常の方法で表示されている者は、その著作物の著作者と推定される（14条）",
+   "② 推定なので、反対の証拠（本当は別人が書いた）を示せば覆せる",
+   "③ 侵害訴訟で、原告が自分が著作者であることを一から証明する負担を軽くする役割",
+   "④ 事例：写真共有サイトに「Photo: 山田太郎」と表示された写真 → 山田太郎が著作者と推定。他人が「自分が撮った」と主張するなら、その人が証拠を出す必要がある"
+  ],
+  "example": "例：論文の著者欄、書籍の奥付の著者名、絵画のサイン、プログラムの著作権表示（© 2026 ABC Inc.）が「通常の方法」による表示の例。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><polygon points='20,15 71,15 80,24 80,85 20,85' fill='#fff' stroke='#a80' stroke-width='1'/><text x='50.0' y='40.8' font-size='8' text-anchor='middle' fill='#222'>写真</text><text x='50.0' y='50.8' font-size='8' text-anchor='middle' fill='#222'></text><text x='50.0' y='60.8' font-size='8' text-anchor='middle' fill='#222'>Photo:</text><text x='50.0' y='70.8' font-size='8' text-anchor='middle' fill='#222'>山田</text><line x1='90' y1='50' x2='124.0' y2='50.0' stroke='#333' stroke-width='1.2'/><polygon points='130,50 124.0,47.0 124.0,53.0' fill='#333' stroke='#333' stroke-width='0.5'/><text x='110' y='42' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>推定</text><circle cx='160' cy='30' r='7' fill='#36c' stroke='#36c' stroke-width='1'/><path d='M149,52 Q149,38 160,38 Q171,38 171,52 Z' fill='#36c'/><text x='160' y='65.2' font-size='9' text-anchor='middle' fill='#222'>山田＝著作者</text><rect x='215' y='20' width='110' height='50' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='270.0' y='37.4' font-size='8.5' text-anchor='middle' fill='#222'>反証があれば覆る</text><text x='270.0' y='48.0' font-size='8.5' text-anchor='middle' fill='#222'>（「本当は私が撮った」</text><text x='270.0' y='58.6' font-size='8.5' text-anchor='middle' fill='#222'>と証明）</text></svg>",
+    "caption": "著作者の推定：表示された名前の人が著作者と推定される"
+   }
+  ]
+ },
+ {
+  "id": "ip-no-formality",
+  "steps": [
+   "① 著作権は、著作物を創作した瞬間に自動的に発生する（17条2項）。登録・納本・©表示などの手続は一切不要",
+   "② 特許権・商標権など産業財産権は、特許庁への出願・審査・登録で初めて発生する（方式主義）のと対照的",
+   "③ ©マークは「権利者を示す」意味しかなく、付けなくても保護される。著作権登録（文化庁）は対抗要件・推定のための制度",
+   "④ 事例：中学生がノートに描いたイラスト、ブログ記事、自作のスマホ写真も、描いた・書いた・撮った時点で著作権が発生している"
+  ],
+  "example": "例：2026年4月1日に撮影した写真 → その日に著作権発生。保護期間は撮影者の死亡翌年1月1日から70年。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='85' y='14' font-size='10' text-anchor='middle' fill='#2a7' font-weight='bold'>著作権（無方式主義）</text><rect x='10' y='25' width='60' height='30' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='40.0' y='43.5' font-size='10' text-anchor='middle' fill='#222'>創作</text><line x1='70' y1='40' x2='94.0' y2='40.0' stroke='#2a7' stroke-width='1.2'/><polygon points='100,40 94.0,37.0 94.0,43.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><rect x='100' y='25' width='60' height='30' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='130.0' y='43.5' font-size='10' text-anchor='middle' fill='#222'>権利発生</text><text x='245' y='14' font-size='10' text-anchor='middle' fill='#a80' font-weight='bold'>特許権など（方式主義）</text><rect x='180' y='25' width='40' height='30' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='200.0' y='43.1' font-size='9' text-anchor='middle' fill='#222'>出願</text><line x1='220' y1='40' x2='226.0' y2='40.0' stroke='#a80' stroke-width='1.2'/><polygon points='232,40 226.0,37.0 226.0,43.0' fill='#a80' stroke='#a80' stroke-width='0.5'/><rect x='232' y='25' width='40' height='30' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='252.0' y='43.1' font-size='9' text-anchor='middle' fill='#222'>審査</text><line x1='272' y1='40' x2='278.0' y2='40.0' stroke='#a80' stroke-width='1.2'/><polygon points='284,40 278.0,37.0 278.0,43.0' fill='#a80' stroke='#a80' stroke-width='0.5'/><rect x='284' y='25' width='42' height='30' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='305.0' y='37.5' font-size='9' text-anchor='middle' fill='#222'>登録</text><text x='305.0' y='48.8' font-size='9' text-anchor='middle' fill='#222'>発生</text><text x='165' y='80' font-size='10' text-anchor='middle' fill='#36c' font-weight='bold'>©表示・登録がなくても著作権は守られる</text></svg>",
+    "caption": "無方式主義（著作権）と方式主義（産業財産権）"
+   }
+  ]
+ },
+ {
+  "id": "ip-berne",
+  "steps": [
+   "① 1886年スイス・ベルンで成立した著作権保護の国際条約。日本は1899年に加盟",
+   "② 内国民待遇：加盟国は、他の加盟国の国民の著作物を自国民と同じように保護する",
+   "③ 無方式主義：権利の発生に登録などの方式を要求してはならない",
+   "④ 最低保護期間：原則として死後50年以上（日本は70年）。遡及効の原則。事例：フランス人画家の絵を日本で無断複製 → 日本法（日本人の絵と同じ基準）で保護される"
+  ],
+  "example": "例：米国は長く方式主義（©表示・登録）をとっていたが、1989年にベルヌ条約に加盟して方式を不要にした。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='13' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>ベルヌ条約の原則</text><line x1='102.0' y1='52.0' x2='212.0' y2='52.0' stroke='#555' stroke-width='1.2'/><polygon points='218.0,52.0 212.0,49.0 212.0,55.0' fill='#555' stroke='#555' stroke-width='0.5'/><rect x='10' y='35' width='90' height='34' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='55.0' y='49.5' font-size='9' text-anchor='middle' fill='#222'>フランス人の</text><text x='55.0' y='60.8' font-size='9' text-anchor='middle' fill='#222'>著作物</text><rect x='220' y='35' width='100' height='34' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='270.0' y='49.5' font-size='9' text-anchor='middle' fill='#222'>日本で日本人と</text><text x='270.0' y='60.8' font-size='9' text-anchor='middle' fill='#222'>同じに保護</text><text x='160.0' y='50.0' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>内国民待遇</text></svg>",
+    "caption": "内国民待遇：外国の著作物も自国民と同じに保護"
+   },
+   {
+    "type": "table",
+    "head": [
+     "原則",
+     "内容"
+    ],
+    "rows": [
+     [
+      "内国民待遇",
+      "他の加盟国の国民を自国民と同等に保護"
+     ],
+     [
+      "無方式主義",
+      "登録・表示等を保護の条件にしない"
+     ],
+     [
+      "最低保護期間",
+      "原則 死後50年以上"
+     ],
+     [
+      "遡及効",
+      "加盟時に保護期間内の著作物も保護"
+     ]
+    ],
+    "caption": "ベルヌ条約の主な内容"
+   }
+  ]
+ },
+ {
+  "id": "ip-moral-rights",
+  "steps": [
+   "① 著作者人格権＝著作者の「こだわり・名誉」を守る権利。公表権（18条）・氏名表示権（19条）・同一性保持権（20条）の3つ",
+   "② 一身専属：譲渡できず、相続もされない。著作権（財産権）を売っても人格権は著作者に残る",
+   "③ 著作者の死後も、生きていれば人格権侵害となる行為は原則禁止（60条）。遺族が差止め等を請求できる",
+   "④ 事例：イラストレーターAが著作権をゲーム会社Bに譲渡。Bが無断でAの絵の顔を大きく描き替えて公表 → 著作権はBのものでも、Aの同一性保持権の侵害になりうる。実務では契約で「著作者人格権を行使しない」と定めることが多い"
+  ],
+  "example": "例：著作者名表示権を持つのは著作者。プログラム会社の職務著作では会社が著作者なので、人格権も会社が持つ。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 119' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='91.0' y='6' width='148' height='22' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='165.0' y='20.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>著作者人格権（譲渡不可）</text><line x1='165.0' y1='28' x2='58.333333333333336' y2='46' stroke='#777' stroke-width='1'/><rect x='8.0' y='46' width='100.66666666666667' height='22' rx='4' fill='#e6f0ff' stroke='#a80' stroke-width='1'/><text x='58.333333333333336' y='60.1' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>公表権 18条</text><text x='58.333333333333336' y='85.0' font-size='8.5' text-anchor='middle' fill='#222'>未公表作品を</text><text x='58.333333333333336' y='98.0' font-size='8.5' text-anchor='middle' fill='#222'>公表するか・</text><text x='58.333333333333336' y='111.0' font-size='8.5' text-anchor='middle' fill='#222'>いつ・どう公表</text><line x1='165.0' y1='28' x2='165.0' y2='46' stroke='#777' stroke-width='1'/><rect x='114.66666666666666' y='46' width='100.66666666666667' height='22' rx='4' fill='#e6f0ff' stroke='#a80' stroke-width='1'/><text x='165.0' y='60.1' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>氏名表示権 19条</text><text x='165.0' y='85.0' font-size='8.5' text-anchor='middle' fill='#222'>名前を出すか</text><text x='165.0' y='98.0' font-size='8.5' text-anchor='middle' fill='#222'>実名・ペンネーム</text><text x='165.0' y='111.0' font-size='8.5' text-anchor='middle' fill='#222'>を決める</text><line x1='165.0' y1='28' x2='271.6666666666667' y2='46' stroke='#777' stroke-width='1'/><rect x='221.33333333333334' y='46' width='100.66666666666667' height='22' rx='4' fill='#e6f0ff' stroke='#a80' stroke-width='1'/><text x='271.6666666666667' y='60.1' font-size='9' text-anchor='middle' fill='#222' font-weight='bold'>同一性保持権 20条</text><text x='271.6666666666667' y='85.0' font-size='8.5' text-anchor='middle' fill='#222'>意に反する改変</text><text x='271.6666666666667' y='98.0' font-size='8.5' text-anchor='middle' fill='#222'>（内容・題号）</text><text x='271.6666666666667' y='111.0' font-size='8.5' text-anchor='middle' fill='#222'>をさせない</text></svg>",
+    "caption": "著作者人格権の3つの権利"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='40' cy='25' r='7' fill='#36c' stroke='#36c' stroke-width='1'/><path d='M29,47 Q29,33 40,33 Q51,33 51,47 Z' fill='#36c'/><text x='40' y='60.1' font-size='9' text-anchor='middle' fill='#222'>著作者A</text><circle cx='290' cy='25' r='7' fill='#a80' stroke='#a80' stroke-width='1'/><path d='M279,47 Q279,33 290,33 Q301,33 301,47 Z' fill='#a80'/><text x='290' y='60.1' font-size='9' text-anchor='middle' fill='#222'>会社B</text><line x1='70' y1='30' x2='254.0' y2='30.0' stroke='#a80' stroke-width='1.2'/><polygon points='260,30 254.0,27.0 254.0,33.0' fill='#a80' stroke='#a80' stroke-width='0.5'/><text x='165' y='24' font-size='9' text-anchor='middle' fill='#a80'>著作権（財産権）を譲渡 ○</text><line x1='70' y1='55' x2='254.0' y2='55.0' stroke='#c33' stroke-width='1.2' stroke-dasharray='4 3'/><polygon points='260,55 254.0,52.0 254.0,58.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='165' y='50' font-size='9' text-anchor='middle' fill='#c33'>著作者人格権は移らない ×</text><text x='165' y='95' font-size='9' text-anchor='middle' fill='#555'>Bが無断で改変すると → Aの同一性保持権の侵害</text></svg>",
+    "caption": "著作権を譲渡しても人格権は著作者に残る"
+   }
+  ]
+ },
+ {
+  "id": "ip-right-publication",
+  "steps": [
+   "① 未公表の著作物を、公表するかしないか、いつ・どのような方法で公表するかを決める権利（18条）",
+   "② すでに公表された著作物には働かない。著作者の同意を得ずに公表されたものは「未公表」のまま",
+   "③ 同意の推定：未公表の著作物の著作権を譲渡した場合、美術・写真の原作品を譲渡した場合などは、公表に同意したものと推定される",
+   "④ 事例：作家の未発表の日記・手紙を、遺族の許可なく出版社が出版 → 公表権（死後は60条）侵害の問題。三島由紀夫の手紙事件では、手紙を公表した行為が公表権侵害とされた"
+  ],
+  "example": "例：ゼミで配った論文の草稿（限られた人にだけ配布）を、別の学生が無断でWebに掲載 → 未公表著作物を公表したとして公表権侵害になりうる。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 152' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>公表権の侵害になる？</text><rect x='6' y='24' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='42.3' font-size='9.5' text-anchor='middle' fill='#222'>その著作物は未公表か</text><line x1='186' y1='39.0' x2='210.0' y2='39.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,39.0 210.0,36.0 210.0,42.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='35.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='25' width='110' height='28' rx='4' fill='#eee' stroke='#c33' stroke-width='1'/><text x='271.0' y='36.5' font-size='9' text-anchor='middle' fill='#222'>×公表済みなら</text><text x='271.0' y='47.8' font-size='9' text-anchor='middle' fill='#222'>公表権は働かない</text><line x1='96.0' y1='54' x2='96.0' y2='64.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,70 99.0,64.0 93.0,64.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='66' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='70' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='88.3' font-size='9.5' text-anchor='middle' fill='#222'>著作者の同意なく公表したか</text><line x1='186' y1='85.0' x2='210.0' y2='85.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,85.0 210.0,82.0 210.0,88.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='81.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='71' width='110' height='28' rx='4' fill='#eee' stroke='#c33' stroke-width='1'/><text x='271.0' y='82.5' font-size='9' text-anchor='middle' fill='#222'>×同意あり・</text><text x='271.0' y='93.8' font-size='9' text-anchor='middle' fill='#222'>同意の推定あり</text><line x1='96.0' y1='100' x2='96.0' y2='110.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,116 99.0,110.0 93.0,110.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='112' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='116' width='180' height='30' rx='4' fill='#fde2e2' stroke='#2a7' stroke-width='1'/><text x='96.0' y='134.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>公表権侵害</text></svg>",
+    "caption": "公表権の判断"
+   }
+  ]
+ },
+ {
+  "id": "ip-right-attribution",
+  "steps": [
+   "① 著作物の公衆への提供・提示の際に、著作者名を表示するか否か、表示するなら実名か変名（ペンネーム）かを決める権利（19条）",
+   "② 利用者は、特に指示がなければ、著作者がすでに表示している方法で著作者名を表示すればよい",
+   "③ 例外：利用の目的・態様に照らし著作者の利益を害するおそれがなく公正な慣行に反しない場合は省略可（BGMの作曲者名など）",
+   "④ 事例：Aが「photo by あおい」のペンネームで公開した写真を、雑誌が「撮影：A山A子」と本名で掲載 → 氏名表示権の侵害。名前を消して自作のように掲載するのも侵害"
+  ],
+  "example": "例：引用する際は出所明示義務（48条）もある。論文の図を引用するときは「出典：著者名, 論文名, 年」を書く。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><polygon points='10,15 56,15 65,24 65,85 10,85' fill='#fff' stroke='#a80' stroke-width='1'/><text x='37.5' y='40.8' font-size='8' text-anchor='middle' fill='#222'>写真</text><text x='37.5' y='50.8' font-size='8' text-anchor='middle' fill='#222'></text><text x='37.5' y='60.8' font-size='8' text-anchor='middle' fill='#222'>by</text><text x='37.5' y='70.8' font-size='8' text-anchor='middle' fill='#222'>あおい</text><line x1='70' y1='50' x2='95.0' y2='33.3' stroke='#2a7' stroke-width='1.2'/><polygon points='100,30 93.3,30.8 96.7,35.8' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><line x1='70' y1='50' x2='95.0' y2='66.7' stroke='#c33' stroke-width='1.2'/><polygon points='100,70 96.7,64.2 93.3,69.2' fill='#c33' stroke='#c33' stroke-width='0.5'/><rect x='105' y='15' width='105' height='30' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='157.5' y='33.1' font-size='9' text-anchor='middle' fill='#222'>「by あおい」で掲載</text><text x='260' y='33' font-size='9' text-anchor='middle' fill='#2a7'>○ 本人の表示どおり</text><rect x='105' y='58' width='105' height='30' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='157.5' y='76.2' font-size='9' text-anchor='middle' fill='#222'>本名で掲載・名前を削除</text><text x='260' y='76' font-size='9' text-anchor='middle' fill='#c33'>× 氏名表示権侵害</text></svg>",
+    "caption": "氏名表示権：著作者が選んだ名前の出し方に従う"
+   }
+  ]
+ },
+ {
+  "id": "ip-right-integrity",
+  "steps": [
+   "① 著作物とその題号（タイトル）の同一性を保持し、著作者の意に反して変更・切除その他の改変を受けない権利（20条）",
+   "② 例外（20条2項）：教科書掲載で用字・用語を学校教育の目的上やむを得ず変える、建築物の増改築、プログラムのバグ修正・機能追加、その他やむを得ない改変",
+   "③ 画像処理と関係が深い：写真のトリミング・色調変更・合成・顔の加工は、著作者の意に反すれば侵害になりうる",
+   "④ 事例：雑誌がカメラマンの風景写真の右半分を切り取り、別の写真と合成して掲載 → 同一性保持権侵害（パロディ・モンタージュ事件 最判1980）"
+  ],
+  "example": "例：サムネイル表示のための縮小は通常「やむを得ない改変」と考えられるが、大幅なトリミングや色の変更、タイトルの変更は問題になる。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='20' width='80' height='60' rx='3' fill='#bfe3ff' stroke='#333' stroke-width='1'/><polygon points='10,80 40,40 70,80' fill='#7a7' stroke='none' stroke-width='1'/><circle cx='70' cy='35' r='8' fill='#fd0' stroke='#fd0' stroke-width='1'/><text x='50' y='95' font-size='9' text-anchor='middle' fill='#222'>元の写真</text><line x1='95' y1='50' x2='119.0' y2='50.0' stroke='#333' stroke-width='1.2'/><polygon points='125,50 119.0,47.0 119.0,53.0' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='130' y='20' width='40' height='60' rx='3' fill='#bfe3ff' stroke='#333' stroke-width='1'/><polygon points='130,80 160,40 170,55 170,80' fill='#7a7' stroke='none' stroke-width='1'/><rect x='150' y='45' width='15' height='25' rx='3' fill='#e33' stroke='none' stroke-width='1'/><text x='150' y='95' font-size='9' text-anchor='middle' fill='#222'>トリミング＋合成</text><rect x='190' y='25' width='135' height='50' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='257.5' y='47.5' font-size='9' text-anchor='middle' fill='#222'>著作者の意に反する改変</text><text x='257.5' y='58.8' font-size='9' text-anchor='middle' fill='#222'>→ 同一性保持権侵害</text><text x='255' y='98' font-size='8' text-anchor='middle' fill='#555'>例外：バグ修正・増改築・</text><text x='255' y='110' font-size='8' text-anchor='middle' fill='#555'>やむを得ない改変</text></svg>",
+    "caption": "同一性保持権：意に反する改変を禁止"
+   }
+  ]
+ },
+ {
+  "id": "ip-economic-rights",
+  "steps": [
+   "① 著作権（著作財産権）は、著作物を利用する行為ごとに分かれた権利の束（支分権）：複製・上演演奏・上映・公衆送信・口述・展示・頒布・譲渡・貸与・翻訳翻案・二次的著作物の利用",
+   "② 他人がこれらの行為をするには、原則として著作権者の許諾が必要。譲渡・相続ができる",
+   "③ 支分権に当たらない行為（本を読む、絵を見る、プログラムを実行する＝使用）は、著作権の対象外",
+   "④ 事例：他人の写真を ①印刷する＝複製権、②Webに載せる＝公衆送信権、③展示会で大画面に映す＝上映権、④写真集を売る＝譲渡権 と、行為ごとに別の権利が働く"
+  ],
+  "example": "例：買ったDVDを自宅で一人で見る → 支分権に当たらない（自由）。そのDVDを店舗で客に見せる → 上映権。",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "条",
+     "支分権",
+     "対象となる行為の例"
+    ],
+    "rows": [
+     [
+      "21",
+      "複製権",
+      "コピー・印刷・録画・保存"
+     ],
+     [
+      "22",
+      "上演権・演奏権",
+      "公の場で演じる・演奏"
+     ],
+     [
+      "22の2",
+      "上映権",
+      "スクリーン・モニタに映す"
+     ],
+     [
+      "23",
+      "公衆送信権",
+      "放送・ネット配信・アップロード"
+     ],
+     [
+      "24",
+      "口述権",
+      "朗読会"
+     ],
+     [
+      "25",
+      "展示権",
+      "美術・未発行写真の原作品の展示"
+     ],
+     [
+      "26",
+      "頒布権",
+      "映画の複製物の譲渡・貸与"
+     ],
+     [
+      "26の2",
+      "譲渡権",
+      "原作品・複製物の販売"
+     ],
+     [
+      "26の3",
+      "貸与権",
+      "レンタル（映画以外）"
+     ],
+     [
+      "27",
+      "翻訳権・翻案権等",
+      "翻訳・編曲・映画化"
+     ],
+     [
+      "28",
+      "二次的著作物の利用権",
+      "二次創作物の利用"
+     ]
+    ],
+    "caption": "著作権（財産権）の支分権一覧"
+   }
+  ]
+ },
+ {
+  "id": "ip-reproduction-right",
+  "steps": [
+   "① 複製＝印刷・写真・複写・録音・録画その他の方法で有形的に再製すること（2条1項15号）。デジタルデータの保存も複製",
+   "② 一部分でも、創作的表現が再製されていれば複製。縮小・解像度変更・形式変換（PNG→JPEG）も複製に当たる",
+   "③ 脚本の上演を録音・録画すること、建築の著作物の図面に従って建物を建てることも複製に含まれる",
+   "④ 事例：Web上の他人のイラストをダウンロードしてPCに保存 → 複製（私的使用目的なら30条で許される場合あり）。そのイラストをチラシに印刷して配布 → 複製権侵害"
+  ],
+  "example": "例：画像処理で他人の写真をリサイズ・グレースケール化して保存 → 表現の本質的特徴が残るので複製（または翻案）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 100' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='25' width='60' height='50' rx='3' fill='#bfe3ff' stroke='#333' stroke-width='1'/><text x='40' y='90' font-size='9' text-anchor='middle' fill='#222'>原画像</text><line x1='75' y1='50' x2='99.0' y2='50.0' stroke='#333' stroke-width='1.2'/><polygon points='105,50 99.0,47.0 99.0,53.0' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='110' y='15' width='40' height='30' rx='3' fill='#ddd' stroke='#333' stroke-width='1'/><text x='130' y='58' font-size='8' text-anchor='middle' fill='#222'>縮小</text><rect x='160' y='15' width='40' height='30' rx='3' fill='#999' stroke='#333' stroke-width='1'/><text x='180' y='58' font-size='8' text-anchor='middle' fill='#222'>グレー化</text><polygon points='212,10 233,10 242,19 242,48 212,48' fill='#fff' stroke='#a80' stroke-width='1'/><text x='227.0' y='34.8' font-size='8' text-anchor='middle' fill='#222'>印刷</text><rect x='255' y='15' width='40' height='30' rx='3' fill='#bfe3ff' stroke='#333' stroke-width='1' stroke-dasharray='3 2'/><text x='275' y='58' font-size='8' text-anchor='middle' fill='#222'>保存</text><text x='205' y='88' font-size='10' text-anchor='middle' fill='#c33' font-weight='bold'>いずれも「有形的な再製」＝複製</text></svg>",
+    "caption": "複製の例：形式やサイズを変えても複製になる"
+   }
+  ]
+ },
+ {
+  "id": "ip-performance-right",
+  "steps": [
+   "① 著作物を公衆に直接見せ又は聞かせることを目的として上演・演奏する権利（22条）",
+   "② 「公衆」：不特定の人、または特定でも多数の人。家族の前で歌うのは対象外",
+   "③ 録音・録画したものを再生して聞かせるのも演奏・上演に含まれる（店内BGMで CD を流す）",
+   "④ 事例：カラオケ店で客が歌う → 店が主体と評価され演奏権が及ぶ（クラブキャッツアイ事件 最判1988＝カラオケ法理）。非営利・無料・無報酬の学園祭の演奏は38条で許諾不要"
+  ],
+  "example": "例：音楽教室のレッスンで講師が弾く演奏 → 演奏権が及ぶ（生徒の演奏は及ばない、最判2022）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 198' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>許諾なしで演奏できる？（38条1項）</text><rect x='6' y='24' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='42.3' font-size='9.5' text-anchor='middle' fill='#222'>営利を目的としないか</text><line x1='186' y1='39.0' x2='210.0' y2='39.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,39.0 210.0,36.0 210.0,42.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='35.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='25' width='110' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='271.0' y='42.1' font-size='9' text-anchor='middle' fill='#222'>×演奏権の許諾が必要</text><line x1='96.0' y1='54' x2='96.0' y2='64.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,70 99.0,64.0 93.0,64.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='66' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='70' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='88.3' font-size='9.5' text-anchor='middle' fill='#222'>聴衆から料金を取らないか</text><line x1='186' y1='85.0' x2='210.0' y2='85.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,85.0 210.0,82.0 210.0,88.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='81.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='71' width='110' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='271.0' y='88.2' font-size='9' text-anchor='middle' fill='#222'>×演奏権の許諾が必要</text><line x1='96.0' y1='100' x2='96.0' y2='110.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,116 99.0,110.0 93.0,110.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='112' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='116' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='134.3' font-size='9.5' text-anchor='middle' fill='#222'>演奏者に報酬を払わないか</text><line x1='186' y1='131.0' x2='210.0' y2='131.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,131.0 210.0,128.0 210.0,134.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='127.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='117' width='110' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='271.0' y='134.2' font-size='9' text-anchor='middle' fill='#222'>×演奏権の許諾が必要</text><line x1='96.0' y1='146' x2='96.0' y2='156.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,162 99.0,156.0 93.0,156.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='158' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='162' width='180' height='30' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='96.0' y='180.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>許諾なしで演奏 ○</text></svg>",
+    "caption": "非営利・無料・無報酬の演奏の例外"
+   }
+  ]
+ },
+ {
+  "id": "ip-screening-right",
+  "steps": [
+   "① 著作物を公に上映する権利（22条の2）。上映＝映写幕その他の物に映写すること（スクリーン・ディスプレイ）",
+   "② 映画に限らず、写真・絵画・文章をプロジェクタやモニタに映すことも上映",
+   "③ ネット配信（公衆送信）を受信してそのまま大画面に映すのは、上映ではなく「伝達権」（23条2項）の問題",
+   "④ 事例：カフェで購入したDVDを店内モニタで上映 → 上映権の許諾が必要。非営利・無料の上映会は38条1項で可能（ただし映画のDVD貸出は別ルール）"
+  ],
+  "example": "例：社内研修で他人の写真をスライドに貼ってプロジェクタで映す → 複製＋上映。引用（32条）の要件を満たせば許諾不要。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 100' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='30' width='50' height='35' rx='3' fill='#555' stroke='#222' stroke-width='1'/><text x='35' y='52' font-size='10' text-anchor='middle' fill='#fff'>DVD</text><line x1='65' y1='47' x2='104.0' y2='47.0' stroke='#333' stroke-width='1.2'/><polygon points='110,47 104.0,44.0 104.0,50.0' fill='#333' stroke='#333' stroke-width='0.5'/><text x='88' y='40' font-size='8' text-anchor='middle' fill='#222'>映写</text><rect x='115' y='15' width='120' height='65' rx='3' fill='#bfe3ff' stroke='#333' stroke-width='1'/><text x='175' y='52' font-size='9' text-anchor='middle' fill='#222'>スクリーン・モニタ</text><circle cx='275' cy='30' r='7' fill='#a80' stroke='#a80' stroke-width='1'/><path d='M264,52 Q264,38 275,38 Q286,38 286,52 Z' fill='#a80'/><text x='275' y='65.2' font-size='9' text-anchor='middle' fill='#222'>客（公衆）</text><text x='165' y='95' font-size='10' text-anchor='middle' fill='#c33' font-weight='bold'>公衆に映して見せる → 上映権</text></svg>",
+    "caption": "上映権：公衆に向けて映写する行為"
+   }
+  ]
+ },
+ {
+  "id": "ip-public-transmission-right",
+  "steps": [
+   "① 公衆送信＝公衆によって直接受信されることを目的とした無線・有線の送信（放送・有線放送・自動公衆送信＝ネット配信）",
+   "② 送信可能化：サーバにアップロードして、誰かがアクセスすればいつでも送信できる状態にすること。実際に誰もアクセスしなくても権利が及ぶ",
+   "③ 同一構内の有線送信（社内LAN等）は原則として公衆送信に当たらない（プログラムは除く）",
+   "④ 事例：他人の写真を自分のブログ・SNSに投稿 → アップロードした時点で送信可能化権の侵害（閲覧数0でも）。リンクを張るだけなら原則として公衆送信には当たらない"
+  ],
+  "example": "例：YouTube にアニメを無断アップ → 複製権＋送信可能化権の侵害。オンライン授業での教材配信 → 35条（補償金制度）で可能。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='30' cy='30' r='7' fill='#36c' stroke='#36c' stroke-width='1'/><path d='M19,52 Q19,38 30,38 Q41,38 41,52 Z' fill='#36c'/><text x='30' y='65.2' font-size='9' text-anchor='middle' fill='#222'>アップ者</text><line x1='55' y1='40' x2='104.0' y2='40.0' stroke='#c33' stroke-width='1.2'/><polygon points='110,40 104.0,37.0 104.0,43.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='82' y='33' font-size='8' text-anchor='middle' fill='#c33'>アップ</text><rect x='115' y='20' width='50' height='45' rx='3' fill='#eee' stroke='#333' stroke-width='1'/><text x='140' y='46' font-size='9' text-anchor='middle' fill='#222'>サーバ</text><text x='140' y='82' font-size='8' text-anchor='middle' fill='#c33'>送信可能化（誰も見なくても）</text><line x1='170' y1='40' x2='226.4' y2='18.2' stroke='#36c' stroke-width='1.2'/><polygon points='232,16 225.3,15.4 227.5,21.0' fill='#36c' stroke='#36c' stroke-width='0.5'/><line x1='170' y1='40' x2='226.1' y2='49.0' stroke='#36c' stroke-width='1.2'/><polygon points='232,50 226.6,46.1 225.6,52.0' fill='#36c' stroke='#36c' stroke-width='0.5'/><line x1='170' y1='40' x2='227.1' y2='80.5' stroke='#36c' stroke-width='1.2'/><polygon points='232,84 228.8,78.1 225.4,83.0' fill='#36c' stroke='#36c' stroke-width='0.5'/><circle cx='250' cy='8' r='7' fill='#888' stroke='#888' stroke-width='1'/><path d='M239,30 Q239,16 250,16 Q261,16 261,30 Z' fill='#888'/><text x='250' y='42.8' font-size='8' text-anchor='middle' fill='#222'></text><circle cx='250' cy='42' r='7' fill='#888' stroke='#888' stroke-width='1'/><path d='M239,64 Q239,50 250,50 Q261,50 261,64 Z' fill='#888'/><text x='250' y='76.8' font-size='8' text-anchor='middle' fill='#222'></text><circle cx='250' cy='76' r='7' fill='#888' stroke='#888' stroke-width='1'/><path d='M239,98 Q239,84 250,84 Q261,84 261,98 Z' fill='#888'/><text x='250' y='110.8' font-size='8' text-anchor='middle' fill='#222'></text><text x='290' y='45' font-size='9' text-anchor='middle' fill='#36c'>公衆に\n送信</text></svg>",
+    "caption": "公衆送信権・送信可能化権：アップロード時点で権利が及ぶ"
+   }
+  ]
+ },
+ {
+  "id": "ip-recitation-right",
+  "steps": [
+   "① 言語の著作物を公に口述する権利（24条）。口述＝朗読その他の方法で口頭で伝達すること（実演に当たるものを除く）",
+   "② 対象は言語の著作物（小説・詩・論文など）に限られる",
+   "③ 録音した朗読の再生も口述に含まれる",
+   "④ 事例：書店のイベントで小説を朗読して入場料を取る → 口述権の許諾が必要。図書館の無料・非営利の読み聞かせ会 → 38条1項で許諾不要"
+  ],
+  "example": "例：講演会で他人の論文を長々と読み上げる → 口述権。要点を自分の言葉で紹介するだけならアイデアの利用で自由。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 202' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>朗読に許諾は必要？</text><rect x='6' y='24' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='42.3' font-size='9.5' text-anchor='middle' fill='#222'>言語の著作物（小説・詩等）か</text><line x1='186' y1='39.0' x2='210.0' y2='39.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,39.0 210.0,36.0 210.0,42.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='35.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='25' width='110' height='28' rx='4' fill='#eee' stroke='#c33' stroke-width='1'/><text x='271.0' y='36.5' font-size='9' text-anchor='middle' fill='#222'>×口述権の対象外</text><text x='271.0' y='47.8' font-size='9' text-anchor='middle' fill='#222'>（他の権利を検討）</text><line x1='96.0' y1='54' x2='96.0' y2='64.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,70 99.0,64.0 93.0,64.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='66' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='70' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='88.3' font-size='9.5' text-anchor='middle' fill='#222'>公衆に向けて朗読するか</text><line x1='186' y1='85.0' x2='210.0' y2='85.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,85.0 210.0,82.0 210.0,88.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='81.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='71' width='110' height='28' rx='4' fill='#d9f2dc' stroke='#c33' stroke-width='1'/><text x='271.0' y='82.5' font-size='9' text-anchor='middle' fill='#222'>×家族などへの朗読</text><text x='271.0' y='93.8' font-size='9' text-anchor='middle' fill='#222'>は自由</text><line x1='96.0' y1='100' x2='96.0' y2='110.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,116 99.0,110.0 93.0,110.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='112' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='116' width='180' height='34' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='130.4' font-size='9.5' text-anchor='middle' fill='#222'>営利・有料・有報酬のどれかに当たる</text><text x='96.0' y='142.3' font-size='9.5' text-anchor='middle' fill='#222'>か</text><line x1='186' y1='133.0' x2='210.0' y2='133.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,133.0 210.0,130.0 210.0,136.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='129.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='117' width='110' height='32' rx='4' fill='#d9f2dc' stroke='#c33' stroke-width='1'/><text x='271.0' y='130.5' font-size='9' text-anchor='middle' fill='#222'>×38条1項で</text><text x='271.0' y='141.8' font-size='9' text-anchor='middle' fill='#222'>許諾不要</text><line x1='96.0' y1='150' x2='96.0' y2='160.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,166 99.0,160.0 93.0,160.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='162' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='166' width='180' height='30' rx='4' fill='#fde2e2' stroke='#2a7' stroke-width='1'/><text x='96.0' y='184.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>口述権の許諾が必要</text></svg>",
+    "caption": "口述権の判断"
+   }
+  ]
+ },
+ {
+  "id": "ip-exhibition-right",
+  "steps": [
+   "① 美術の著作物の原作品、未発行の写真の著作物の原作品を、公に展示する権利（25条）",
+   "② 対象は「原作品」（オリジナル）。複製物（ポスター・画集）の展示には及ばない",
+   "③ 原作品の所有者（またはその同意を得た者）は、公に展示できる（45条1項）。ただし街頭・公園など屋外に恒常的に設置するには著作者の許諾が必要（45条2項）",
+   "④ 事例：画家Bから絵を買ったギャラリーAが、自社で展覧会を開く → 45条で許諾不要。Aがその絵を公園の屋外に常設する → Bの許諾が必要"
+  ],
+  "example": "例：写真家のプリント（未発行の原作品）を勝手に展示 → 展示権侵害。写真集から切り取ったページを飾る → 複製物なので展示権は及ばない。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 156' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>許諾なしで展示できる？</text><rect x='6' y='24' width='180' height='34' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='38.4' font-size='9.5' text-anchor='middle' fill='#222'>原作品の所有者（または同意を得た者</text><text x='96.0' y='50.3' font-size='9.5' text-anchor='middle' fill='#222'>）か</text><line x1='186' y1='41.0' x2='210.0' y2='41.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,41.0 210.0,38.0 210.0,44.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='37.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='25' width='110' height='32' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='271.0' y='44.1' font-size='9' text-anchor='middle' fill='#222'>×展示権の許諾が必要</text><line x1='96.0' y1='58' x2='96.0' y2='68.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,74 99.0,68.0 93.0,68.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='70' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='74' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='92.3' font-size='9.5' text-anchor='middle' fill='#222'>屋外に恒常的に設置するのではないか</text><line x1='186' y1='89.0' x2='210.0' y2='89.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,89.0 210.0,86.0 210.0,92.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='85.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='75' width='110' height='28' rx='4' fill='#fde2e2' stroke='#c33' stroke-width='1'/><text x='271.0' y='86.5' font-size='9' text-anchor='middle' fill='#222'>×著作者の許諾が必要</text><text x='271.0' y='97.8' font-size='9' text-anchor='middle' fill='#222'>（45条2項）</text><line x1='96.0' y1='104' x2='96.0' y2='114.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,120 99.0,114.0 93.0,114.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='116' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='120' width='180' height='30' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='96.0' y='138.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>展示 ○（45条1項）</text></svg>",
+    "caption": "展示権と所有者の展示（45条）"
+   }
+  ]
+ },
+ {
+  "id": "ip-distribution-right",
+  "steps": [
+   "① 映画の著作物の複製物を頒布（譲渡・貸与）する権利（26条）。映画の著作物だけにある強い権利",
+   "② 映画に複製されている著作物（原作・音楽など）の著作者も、映画の複製物による頒布権を持つ",
+   "③ 劇場用映画のフィルム配給を想定した権利で、配給先・期間をコントロールできる",
+   "④ 事例：中古ゲームソフト事件（最判2002）：ゲームは映画の著作物だが、公衆に提示することを目的としない家庭用ソフトは、いったん適法に譲渡されれば頒布権のうち譲渡する権利は消尽 → 中古販売は合法"
+  ],
+  "example": "例：劇場用映画のフィルムを映画館に貸す → 頒布権で管理。家庭用DVDのレンタル → 頒布権（貸与の部分）で許諾が必要。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='97.0' y1='44.9' x2='132.3' y2='34.3' stroke='#555' stroke-width='1.2'/><polygon points='138.0,32.6 131.4,31.5 133.1,37.2' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='97.0' y1='73.8' x2='132.3' y2='85.0' stroke='#555' stroke-width='1.2'/><polygon points='138.0,86.8 133.2,82.1 131.4,87.8' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='97.0' y1='58.6' x2='237.0' y2='57.4' stroke='#2a7' stroke-width='1.2' stroke-dasharray='4 3'/><polygon points='243.0,57.4 237.0,54.4 237.0,60.4' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><rect x='5' y='42' width='90' height='34' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='50.0' y='56.5' font-size='9' text-anchor='middle' fill='#222'>映画会社</text><text x='50.0' y='67.8' font-size='9' text-anchor='middle' fill='#222'>（頒布権者）</text><rect x='140' y='5' width='80' height='30' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='180.0' y='17.5' font-size='9' text-anchor='middle' fill='#222'>映画館</text><text x='180.0' y='28.8' font-size='9' text-anchor='middle' fill='#222'>（配給）</text><rect x='140' y='85' width='80' height='30' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='180.0' y='103.2' font-size='9' text-anchor='middle' fill='#222'>レンタル店</text><rect x='245' y='40' width='80' height='34' rx='4' fill='#d9f2dc' stroke='#2a7' stroke-width='1'/><text x='285.0' y='54.5' font-size='9' text-anchor='middle' fill='#222'>中古販売</text><text x='285.0' y='65.8' font-size='9' text-anchor='middle' fill='#222'>（家庭用）</text><text x='117.5' y='36.7' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>許諾</text><text x='117.5' y='78.3' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>許諾</text><text x='170.0' y='56.0' font-size='8.5' text-anchor='middle' fill='#2a7' stroke='#fff' stroke-width='3' paint-order='stroke'>消尽</text></svg>",
+    "caption": "頒布権：映画の複製物の譲渡・貸与をコントロール"
+   }
+  ]
+ },
+ {
+  "id": "ip-transfer-right",
+  "steps": [
+   "① 映画以外の著作物の原作品・複製物を公衆に譲渡（販売・配布）する権利（26条の2）",
+   "② 消尽（ファーストセール）：権利者が適法に一度譲渡した物については、その後の転売に譲渡権は及ばない",
+   "③ だから、買った本・CD・写真集を古本屋やフリマアプリで売るのは自由",
+   "④ 事例：写真家が写真集1000部を出版社経由で販売 → 購入者Aが読み終えてフリマで転売 → 消尽しているので適法。海賊版の写真集を販売 → 適法な譲渡ではないので譲渡権侵害"
+  ],
+  "example": "例：同人誌即売会で他人のイラストを無断で印刷した本を売る → 複製権＋譲渡権の侵害。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='30' cy='25' r='7' fill='#36c' stroke='#36c' stroke-width='1'/><path d='M19,47 Q19,33 30,33 Q41,33 41,47 Z' fill='#36c'/><text x='30' y='60.1' font-size='9' text-anchor='middle' fill='#222'>著作者</text><line x1='55' y1='35' x2='94.0' y2='35.0' stroke='#36c' stroke-width='1.2'/><polygon points='100,35 94.0,32.0 94.0,38.0' fill='#36c' stroke='#36c' stroke-width='0.5'/><text x='78' y='28' font-size='8' text-anchor='middle' fill='#36c'>販売</text><circle cx='125' cy='25' r='7' fill='#a80' stroke='#a80' stroke-width='1'/><path d='M114,47 Q114,33 125,33 Q136,33 136,47 Z' fill='#a80'/><text x='125' y='60.1' font-size='9' text-anchor='middle' fill='#222'>購入者A</text><line x1='150' y1='35' x2='194.0' y2='35.0' stroke='#2a7' stroke-width='1.2'/><polygon points='200,35 194.0,32.0 194.0,38.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='175' y='28' font-size='8' text-anchor='middle' fill='#2a7'>転売</text><circle cx='225' cy='25' r='7' fill='#888' stroke='#888' stroke-width='1'/><path d='M214,47 Q214,33 225,33 Q236,33 236,47 Z' fill='#888'/><text x='225' y='60.1' font-size='9' text-anchor='middle' fill='#222'>購入者B</text><text x='255' y='78' font-size='9' text-anchor='middle' fill='#2a7'>一度適法に売られた物は</text><text x='255' y='92' font-size='9' text-anchor='middle' fill='#2a7' font-weight='bold'>譲渡権が消尽 → 転売自由</text><text x='70' y='92' font-size='9' text-anchor='middle' fill='#36c'>最初の販売：譲渡権</text></svg>",
+    "caption": "譲渡権と消尽（ファーストセール・ドクトリン）"
+   }
+  ]
+ },
+ {
+  "id": "ip-rental-right",
+  "steps": [
+   "① 映画以外の著作物の複製物を公衆に貸与（レンタル）する権利（26条の3）",
+   "② 譲渡権と違い消尽しない：購入したCD・漫画でも、公衆に貸し出すには許諾が必要",
+   "③ 例外：非営利・無料の貸与（図書館の本の貸出）は38条4項で許諾不要（映画の著作物は除く）",
+   "④ 事例：レンタルコミック店 → 出版社・著作者の団体を通じて許諾と使用料が必要（2005年に書籍・雑誌への適用が開始）。友人に漫画を貸す → 「公衆」への貸与ではないので自由"
+  ],
+  "example": "例：図書館のCD貸出は非営利・無料で38条4項により可能。図書館のDVD（映画）貸出は補償金を払う別ルール（38条5項）。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 152' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='14' font-size='12' text-anchor='middle' fill='#222' font-weight='bold'>許諾なしで貸せる？</text><rect x='6' y='24' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='42.3' font-size='9.5' text-anchor='middle' fill='#222'>公衆（不特定・多数）に貸すか</text><line x1='186' y1='39.0' x2='210.0' y2='39.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,39.0 210.0,36.0 210.0,42.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='35.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='25' width='110' height='28' rx='4' fill='#d9f2dc' stroke='#c33' stroke-width='1'/><text x='271.0' y='42.1' font-size='9' text-anchor='middle' fill='#222'>友人に貸すのは自由</text><line x1='96.0' y1='54' x2='96.0' y2='64.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,70 99.0,64.0 93.0,64.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='66' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='70' width='180' height='30' rx='4' fill='#eef3ff' stroke='#3563e9' stroke-width='1'/><text x='96.0' y='88.3' font-size='9.5' text-anchor='middle' fill='#222'>営利目的 or 料金を取るか</text><line x1='186' y1='85.0' x2='210.0' y2='85.0' stroke='#c33' stroke-width='1.2'/><polygon points='216,85.0 210.0,82.0 210.0,88.0' fill='#c33' stroke='#c33' stroke-width='0.5'/><text x='200' y='81.0' font-size='8' text-anchor='middle' fill='#c33'>いいえ</text><rect x='216' y='71' width='110' height='28' rx='4' fill='#d9f2dc' stroke='#c33' stroke-width='1'/><text x='271.0' y='82.5' font-size='9' text-anchor='middle' fill='#222'>非営利・無料なら</text><text x='271.0' y='93.8' font-size='9' text-anchor='middle' fill='#222'>38条4項でOK</text><line x1='96.0' y1='100' x2='96.0' y2='110.0' stroke='#2a7' stroke-width='1.2'/><polygon points='96.0,116 99.0,110.0 93.0,110.0' fill='#2a7' stroke='#2a7' stroke-width='0.5'/><text x='112.0' y='112' font-size='8' text-anchor='middle' fill='#2a7'>はい</text><rect x='6' y='116' width='180' height='30' rx='4' fill='#fde2e2' stroke='#2a7' stroke-width='1'/><text x='96.0' y='134.5' font-size='10' text-anchor='middle' fill='#222' font-weight='bold'>貸与権の許諾が必要</text></svg>",
+    "caption": "貸与権の判断（映画以外）"
+   }
+  ]
+ },
+ {
+  "id": "ip-adaptation-right",
+  "steps": [
+   "① 著作物を翻訳・編曲・変形・脚色・映画化・その他翻案する権利（27条）",
+   "② 翻案：元の表現の本質的な特徴を維持しつつ、新たな創作を加えて別の作品にすること。元作品の特徴を直接感じ取れることが判断基準（江差追分事件 最判2001）",
+   "③ 二次的著作物を作る行為をコントロールする権利。譲渡契約で「全ての著作権を譲渡」とだけ書くと27条・28条は譲渡人に留保されたと推定される（61条2項）",
+   "④ 事例：人気漫画のキャラクターを使ってスピンオフ小説を書いて販売 → 翻案権侵害の可能性。写真を元に構図・人物配置をほぼそのままイラスト化 → 変形・翻案に当たりうる"
+  ],
+  "example": "例：英語論文の日本語訳を勝手にWebに公開 → 翻訳権＋公衆送信権。同じテーマで自分の言葉で書き直した解説 → 表現の本質的特徴が残らなければ自由。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 100' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='30' width='70' height='40' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='45.0' y='53.5' font-size='10' text-anchor='middle' fill='#222'>原作品</text><line x1='80' y1='50' x2='105.8' y2='24.2' stroke='#333' stroke-width='1.2'/><polygon points='110,20 103.6,22.1 107.9,26.4' fill='#333' stroke='#333' stroke-width='0.5'/><line x1='80' y1='50' x2='104.0' y2='50.0' stroke='#333' stroke-width='1.2'/><polygon points='110,50 104.0,47.0 104.0,53.0' fill='#333' stroke='#333' stroke-width='0.5'/><line x1='80' y1='50' x2='105.8' y2='75.8' stroke='#333' stroke-width='1.2'/><polygon points='110,80 107.9,73.6 103.6,77.9' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='115' y='8' width='85' height='22' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='157.5' y='22.0' font-size='8.5' text-anchor='middle' fill='#222'>翻訳（英→日）</text><rect x='115' y='39' width='85' height='22' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='157.5' y='53.0' font-size='8.5' text-anchor='middle' fill='#222'>編曲・変形</text><rect x='115' y='70' width='85' height='22' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='157.5' y='84.0' font-size='8.5' text-anchor='middle' fill='#222'>脚色・映画化</text><text x='265' y='40' font-size='9' text-anchor='middle' fill='#222'>本質的特徴が</text><text x='265' y='54' font-size='9' text-anchor='middle' fill='#c33' font-weight='bold'>感じ取れる → 翻案</text><text x='265' y='75' font-size='9' text-anchor='middle' fill='#2a7'>感じ取れない → 自由</text></svg>",
+    "caption": "翻訳権・翻案権等（27条）"
+   }
+  ]
+ },
+ {
+  "id": "ip-derivative-use-right",
+  "steps": [
+   "① 二次的著作物の原著作物の著作者は、その二次的著作物の利用について、二次的著作物の著作者と同一の種類の権利を専有する（28条）",
+   "② つまり二次的著作物を複製・配信するには、二次的著作者と原著作者の両方の許諾が必要",
+   "③ 原作者は二次的著作物の「原作に由来しない部分」についても権利を持つとされる（キャンディ・キャンディ事件 最判2001）",
+   "④ 事例：原作漫画（作者A）→ アニメ化（制作会社B）→ アニメのキャラ画像をグッズに使いたいC は、BだけでなくAの許諾も必要"
+  ],
+  "example": "例：外国小説（原作者A）の日本語訳（翻訳者B）を電子書籍化 → AとB両方の許諾が必要。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='60.0' y1='42.0' x2='60.0' y2='72.0' stroke='#555' stroke-width='1.2'/><polygon points='60.0,78.0 63.0,72.0 57.0,72.0' fill='#555' stroke='#555' stroke-width='0.5'/><line x1='112.0' y1='33.7' x2='212.1' y2='50.3' stroke='#36c' stroke-width='1.2'/><polygon points='218.0,51.3 212.6,47.4 211.6,53.3' fill='#36c' stroke='#36c' stroke-width='0.5'/><line x1='112.0' y1='86.3' x2='212.1' y2='69.7' stroke='#a80' stroke-width='1.2'/><polygon points='218.0,68.7 211.6,66.7 212.6,72.6' fill='#a80' stroke='#a80' stroke-width='0.5'/><rect x='10' y='10' width='100' height='30' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='60.0' y='28.1' font-size='9' text-anchor='middle' fill='#222'>原作者A（漫画）</text><rect x='10' y='80' width='100' height='30' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='60.0' y='98.2' font-size='9' text-anchor='middle' fill='#222'>Bのアニメ（二次）</text><rect x='220' y='45' width='100' height='30' rx='4' fill='#e6f7e6' stroke='#2a7' stroke-width='1'/><text x='270.0' y='63.1' font-size='9' text-anchor='middle' fill='#222'>利用者C（グッズ化）</text><text x='60.0' y='58.0' font-size='8.5' text-anchor='middle' fill='#555' stroke='#fff' stroke-width='3' paint-order='stroke'>翻案</text><text x='165.0' y='40.5' font-size='8.5' text-anchor='middle' fill='#36c' stroke='#fff' stroke-width='3' paint-order='stroke'>許諾①（28条）</text><text x='165.0' y='75.5' font-size='8.5' text-anchor='middle' fill='#a80' stroke='#fff' stroke-width='3' paint-order='stroke'>許諾②</text></svg>",
+    "caption": "28条：二次的著作物の利用には原著作者の許諾も必要"
+   }
+  ]
+ },
+ {
+  "id": "ip-neighboring-rights",
+  "steps": [
+   "① 著作物を公衆に伝える役割を担う者に与えられる権利：実演家、レコード製作者、放送事業者、有線放送事業者",
+   "② 実演家：録音・録画権、放送・有線放送権、送信可能化権、譲渡権、貸与権 ＋ 実演家人格権（氏名表示・同一性保持）",
+   "③ レコード製作者（最初に音を固定した者）：複製権・送信可能化権など。放送事業者：放送の録音録画・再放送・送信可能化権など",
+   "④ 事例：歌手が歌うCDをコピーしてネット配信 → 作詞家・作曲家の著作権 ＋ 歌手（実演家）の権利 ＋ レコード会社（レコード製作者）の権利 の三重の侵害。保護期間は実演・発行後70年（放送は50年）"
+  ],
+  "example": "例：テレビ番組を録画してネットにアップ → 番組の著作権に加え、放送事業者の送信可能化権の侵害。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='115' y='5' width='100' height='26' rx='4' fill='#e6f0ff' stroke='#36c' stroke-width='1'/><text x='165.0' y='21.1' font-size='9' text-anchor='middle' fill='#222'>楽曲（著作物）</text><text x='165' y='42' font-size='8' text-anchor='middle' fill='#36c'>作詞家・作曲家＝著作権</text><line x1='165' y1='46' x2='65.9' y2='64.9' stroke='#333' stroke-width='1.2'/><polygon points='60,66 66.5,67.8 65.3,61.9' fill='#333' stroke='#333' stroke-width='0.5'/><line x1='165' y1='46' x2='165.0' y2='60.0' stroke='#333' stroke-width='1.2'/><polygon points='165,66 168.0,60.0 162.0,60.0' fill='#333' stroke='#333' stroke-width='0.5'/><line x1='165' y1='46' x2='264.1' y2='64.9' stroke='#333' stroke-width='1.2'/><polygon points='270,66 264.7,61.9 263.5,67.8' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='10' y='68' width='100' height='26' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='60.0' y='84.2' font-size='9' text-anchor='middle' fill='#222'>歌手（実演家）</text><rect x='115' y='68' width='100' height='26' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='165.0' y='84.2' font-size='9' text-anchor='middle' fill='#222'>レコード会社</text><rect x='220' y='68' width='100' height='26' rx='4' fill='#fff4d6' stroke='#a80' stroke-width='1'/><text x='270.0' y='84.2' font-size='9' text-anchor='middle' fill='#222'>放送局</text><text x='165' y='112' font-size='10' text-anchor='middle' fill='#a80' font-weight='bold'>伝達者の権利＝著作隣接権</text><text x='165' y='126' font-size='8' text-anchor='middle' fill='#555'>（実演・発行後70年、放送後50年）</text></svg>",
+    "caption": "著作隣接権：著作物を伝える者の権利"
+   }
+  ]
+ },
+ {
+  "id": "ip-performer-moral-rights",
+  "steps": [
+   "① 実演家（歌手・俳優・演奏家・ダンサー）に認められる人格権：氏名表示権（90条の2）と同一性保持権（90条の3）",
+   "② 著作者人格権と違い「公表権」はない",
+   "③ 同一性保持権は「名誉又は声望を害する」改変に限られる（著作者の「意に反する」改変より範囲が狭い）",
+   "④ 事例：俳優の演技映像を、本人の名誉を傷つけるように編集して面白おかしく公開 → 実演家の同一性保持権侵害。歌手の名前を出さずに歌を配信 → 氏名表示権の問題（ただし省略が慣行上許される場合あり）"
+  ],
+  "example": "例：ディープフェイクで歌手の歌声を改変し名誉を害する内容にする → 実演家人格権のほか肖像権・パブリシティ権の問題にもなる。",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "著作者人格権",
+     "実演家人格権"
+    ],
+    "rows": [
+     [
+      "公表権",
+      "あり",
+      "なし"
+     ],
+     [
+      "氏名表示権",
+      "あり",
+      "あり"
+     ],
+     [
+      "同一性保持権",
+      "意に反する改変を禁止",
+      "名誉・声望を害する改変を禁止"
+     ],
+     [
+      "譲渡",
+      "不可（一身専属）",
+      "不可（一身専属）"
+     ]
+    ],
+    "caption": "著作者人格権と実演家人格権の比較"
+   }
+  ]
+ },
+ {
+  "id": "ip-term",
+  "steps": [
+   "① 原則：著作者の死後70年（51条）。計算は死亡した年の翌年1月1日から起算（暦年主義）",
+   "② 無名・変名（周知でないペンネーム）の著作物、団体名義の著作物、映画の著作物：公表後70年",
+   "③ 共同著作物：最後に死亡した著作者の死後70年",
+   "④ 事例：2000年8月10日に死亡した画家の絵 → 2001年1月1日から70年 → 2070年12月31日まで保護。2071年1月1日からパブリックドメイン"
+  ],
+  "example": "例：会社名義で2026年に公表したソフトウェア → 2027年1月1日から70年 → 2096年12月31日まで。映画（2026年公表）も同じく2096年末まで。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 92' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='13' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>保護期間の計算（暦年主義）</text><line x1='10' y1='55' x2='316.0' y2='55.0' stroke='#333' stroke-width='1.5'/><polygon points='322,55 316.0,52.0 316.0,58.0' fill='#333' stroke='#333' stroke-width='0.5'/><circle cx='38.0' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='38.0' y='34.7' font-size='8.5' text-anchor='middle' fill='#222'>死亡</text><text x='38.0' y='45.3' font-size='8.5' text-anchor='middle' fill='#222'>2000.8.10</text><text x='38.0' y='78.0' font-size='8.5' text-anchor='middle' fill='#36c'></text><circle cx='101.5' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='101.5' y='34.7' font-size='8.5' text-anchor='middle' fill='#222'>起算</text><text x='101.5' y='45.3' font-size='8.5' text-anchor='middle' fill='#222'>2001.1.1</text><text x='101.5' y='78.0' font-size='8.5' text-anchor='middle' fill='#36c'>翌年1/1から</text><circle cx='228.5' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='228.5' y='34.7' font-size='8.5' text-anchor='middle' fill='#222'>保護終了</text><text x='228.5' y='45.3' font-size='8.5' text-anchor='middle' fill='#222'>2070.12.31</text><text x='228.5' y='78.0' font-size='8.5' text-anchor='middle' fill='#36c'>70年</text><circle cx='292.0' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='292.0' y='34.7' font-size='8.5' text-anchor='middle' fill='#222'>PD</text><text x='292.0' y='45.3' font-size='8.5' text-anchor='middle' fill='#222'>2071.1.1</text><text x='292.0' y='78.0' font-size='8.5' text-anchor='middle' fill='#36c'>自由に利用</text></svg>",
+    "caption": "死後70年の数え方"
+   },
+   {
+    "type": "table",
+    "head": [
+     "著作物",
+     "保護期間"
+    ],
+    "rows": [
+     [
+      "実名の著作物（原則）",
+      "死後70年"
+     ],
+     [
+      "共同著作物",
+      "最後に死亡した者の死後70年"
+     ],
+     [
+      "無名・変名の著作物",
+      "公表後70年"
+     ],
+     [
+      "団体名義の著作物",
+      "公表後70年"
+     ],
+     [
+      "映画の著作物",
+      "公表後70年"
+     ],
+     [
+      "実演・レコード",
+      "70年（放送・有線放送は50年）"
+     ]
+    ],
+    "caption": "保護期間のまとめ"
+   }
+  ]
+ },
+ {
+  "id": "ip-term-extension-2018",
+  "steps": [
+   "① 2018年12月30日、TPP11協定の発効に合わせて、保護期間が「死後50年」から「死後70年」に延長された",
+   "② 延長の対象は、施行時点（2018年12月30日）でまだ保護期間が切れていなかった著作物。すでに切れていたものは復活しない",
+   "③ 1967年以前に死亡した著作者の作品（1967年死亡 → 2017年末で満了）はパブリックドメインのまま",
+   "④ 事例：1968年死亡の作家（藤田嗣治など）→ 旧法なら2018年末で満了の予定だったが、延長により2038年末まで保護。1965年死亡の作家（江戸川乱歩・谷崎潤一郎）→ 2015年末で満了済みなので自由"
+  ],
+  "example": "例：映画の著作物は2004年改正ですでに公表後70年に延長済み。2018年改正で実演・レコードも70年に。",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 92' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='165.0' y='13' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>2018年の延長の影響</text><line x1='10' y1='55' x2='316.0' y2='55.0' stroke='#333' stroke-width='1.5'/><polygon points='322,55 316.0,52.0 316.0,58.0' fill='#333' stroke='#333' stroke-width='0.5'/><circle cx='38.0' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='38.0' y='40.0' font-size='8.5' text-anchor='middle' fill='#222'>1967年死亡</text><text x='38.0' y='72.7' font-size='8.5' text-anchor='middle' fill='#36c'>2017末で満了</text><text x='38.0' y='83.3' font-size='8.5' text-anchor='middle' fill='#36c'>→PDのまま</text><circle cx='114.2' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='114.2' y='40.0' font-size='8.5' text-anchor='middle' fill='#222'>1968年死亡</text><text x='114.2' y='72.7' font-size='8.5' text-anchor='middle' fill='#36c'>2018末満了予定</text><text x='114.2' y='83.3' font-size='8.5' text-anchor='middle' fill='#36c'>→2038末まで</text><circle cx='203.1' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='203.1' y='40.0' font-size='8.5' text-anchor='middle' fill='#222'>2018.12.30</text><text x='203.1' y='78.0' font-size='8.5' text-anchor='middle' fill='#36c'>施行日</text><circle cx='292.0' cy='55' r='4' fill='#36c' stroke='#36c' stroke-width='1'/><text x='292.0' y='40.0' font-size='8.5' text-anchor='middle' fill='#222'>2038年末</text><text x='292.0' y='78.0' font-size='8.5' text-anchor='middle' fill='#36c'>延長後の満了</text></svg>",
+    "caption": "施行時に保護期間中だった著作物だけが延長された"
+   }
+  ]
+ }
+]

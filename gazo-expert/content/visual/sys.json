@@ -1,0 +1,1003 @@
+[
+ {
+  "id": "sys-architecture",
+  "steps": [
+   "① 入力装置: カメラ・スキャナで光を画素値に変換（撮像素子＋レンズ＋照明）",
+   "② 取込み: インタフェース（GigE・USB3・Camera Link）やフレームグラバでメモリへ転送",
+   "③ 処理装置: CPU・GPU・FPGA などで前処理→特徴抽出→判定",
+   "④ 記憶装置: フレームバッファ・主記憶・ストレージに画像と結果を保持",
+   "⑤ 出力: ディスプレイ表示、プリンタ、制御信号（PLC）、ネットワーク送信。全体のスループットは最も遅い段で決まる"
+  ],
+  "example": "5MBの画像を20fpsで撮ると100MB/s。GigE（約115MB/s）でぎりぎり、処理は1枚あたり50ms以内でないと追いつかない",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 105' width='330' height='105' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='6' y='20' width='53.6' height='50' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='32.8' y='42.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>入力</text><text x='32.8' y='53.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>カメラ</text><line x1='59.6' y1='45' x2='66.4' y2='45' stroke='#333' stroke-width='1'/><polygon points='69.6,45 66,46.7 66,43.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='69.6' y='20' width='53.6' height='50' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='96.4' y='37.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>取込み</text><text x='96.4' y='48.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>フレーム</text><text x='96.4' y='59.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>グラバ</text><line x1='123.2' y1='45' x2='130' y2='45' stroke='#333' stroke-width='1'/><polygon points='133.2,45 129.6,46.7 129.6,43.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='133.2' y='20' width='53.6' height='50' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='160' y='42.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>処理</text><text x='160' y='53.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>CPU/GPU</text><line x1='186.8' y1='45' x2='193.6' y2='45' stroke='#333' stroke-width='1'/><polygon points='196.8,45 193.2,46.7 193.2,43.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='196.8' y='20' width='53.6' height='50' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='223.6' y='37.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>記憶</text><text x='223.6' y='48.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>メモリ</text><text x='223.6' y='59.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>ストレージ</text><line x1='250.4' y1='45' x2='257.2' y2='45' stroke='#333' stroke-width='1'/><polygon points='260.4,45 256.8,46.7 256.8,43.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='260.4' y='20' width='53.6' height='50' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='287.2' y='42.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>出力</text><text x='287.2' y='53.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>表示/PLC</text><text x='165' y='95' font-size='9' fill='#333' text-anchor='middle'>通信（ネットワーク・フィールドバス）で各装置を接続</text><line x1='20' y1='82' x2='310' y2='82' stroke='#6a1b9a' stroke-width='1.2' stroke-dasharray='4 2'/></svg>",
+    "caption": "画像処理システムの基本構成：入力→処理→記憶→出力"
+   },
+   {
+    "type": "table",
+    "head": [
+     "段",
+     "外観検査ラインの例",
+     "データ量/速度の目安"
+    ],
+    "rows": [
+     [
+      "入力",
+      "GigEカメラ 2448×2048 モノクロ",
+      "5MB/枚 × 20fps = 100MB/s"
+     ],
+     [
+      "処理",
+      "PC(CPU+GPU)で欠陥検出",
+      "1枚50ms以内"
+     ],
+     [
+      "記憶",
+      "NG画像だけSSDに保存",
+      "1日数GB"
+     ],
+     [
+      "出力",
+      "OK/NGをPLCへ、モニタに表示",
+      "数ms"
+     ]
+    ],
+    "caption": "各段の性能（帯域・処理時間）がそろわないと全体が律速される"
+   }
+  ]
+ },
+ {
+  "id": "sys-frame-buffer",
+  "steps": [
+   "① 入力: 描画・処理結果の画像（画素値）",
+   "② 画素 (x, y) を番地 addr = (y × 幅 + x) × 1画素のバイト数 に書き込む（ラスタ順）",
+   "③ 表示回路がリフレッシュのたびに先頭から順に読み出し、ディスプレイへ送る",
+   "④ ダブルバッファ: 表示用と描画用の2面を用意し、描き終えたら垂直帰線期間に切り替える",
+   "⑤ 出力: 画面に表示される1フレーム。必要容量 = 幅×高さ×色深度/8 [バイト]"
+  ],
+  "example": "4×3画素・8bit: 画素(x=1, y=2) の番地 = 2×4+1 = 9 → 値64。1920×1080×24bit = 6,220,800バイト ≒ 6.2MB",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 115' width='320' height='115' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='15' y='20' width='22.3' height='22.3' fill='#000000'/><rect x='37' y='20' width='22.3' height='22.3' fill='#000000'/><rect x='59' y='20' width='22.3' height='22.3' fill='#ffffff'/><rect x='81' y='20' width='22.3' height='22.3' fill='#ffffff'/><rect x='15' y='42' width='22.3' height='22.3' fill='#000000'/><rect x='37' y='42' width='22.3' height='22.3' fill='#808080'/><rect x='59' y='42' width='22.3' height='22.3' fill='#808080'/><rect x='81' y='42' width='22.3' height='22.3' fill='#ffffff'/><rect x='15' y='64' width='22.3' height='22.3' fill='#404040'/><rect x='37' y='64' width='22.3' height='22.3' fill='#404040'/><rect x='59' y='64' width='22.3' height='22.3' fill='#c0c0c0'/><rect x='81' y='64' width='22.3' height='22.3' fill='#c0c0c0'/><rect x='15' y='20' width='88' height='66' fill='none' stroke='#888' stroke-width='0.8' rx='0'/><text x='59' y='100' font-size='9' fill='#333' text-anchor='middle'>画面（4×3画素）</text><rect x='130' y='20' width='30' height='22' fill='#000000' stroke='#888' stroke-width='0.8' rx='0'/><text x='145' y='35' font-size='9' fill='#fff' text-anchor='middle'>0</text><text x='145' y='54' font-size='8' fill='#666' text-anchor='middle'>0</text><rect x='160' y='20' width='30' height='22' fill='#000000' stroke='#888' stroke-width='0.8' rx='0'/><text x='175' y='35' font-size='9' fill='#fff' text-anchor='middle'>0</text><text x='175' y='54' font-size='8' fill='#666' text-anchor='middle'>1</text><rect x='190' y='20' width='30' height='22' fill='#ffffff' stroke='#888' stroke-width='0.8' rx='0'/><text x='205' y='35' font-size='9' fill='#000' text-anchor='middle'>255</text><text x='205' y='54' font-size='8' fill='#666' text-anchor='middle'>2</text><rect x='220' y='20' width='30' height='22' fill='#ffffff' stroke='#888' stroke-width='0.8' rx='0'/><text x='235' y='35' font-size='9' fill='#000' text-anchor='middle'>255</text><text x='235' y='54' font-size='8' fill='#666' text-anchor='middle'>3</text><rect x='250' y='20' width='30' height='22' fill='#000000' stroke='#888' stroke-width='0.8' rx='0'/><text x='265' y='35' font-size='9' fill='#fff' text-anchor='middle'>0</text><text x='265' y='54' font-size='8' fill='#666' text-anchor='middle'>4</text><rect x='280' y='20' width='30' height='22' fill='#808080' stroke='#888' stroke-width='0.8' rx='0'/><text x='295' y='35' font-size='9' fill='#000' text-anchor='middle'>128</text><text x='295' y='54' font-size='8' fill='#666' text-anchor='middle'>5</text><rect x='130' y='64' width='30' height='22' fill='#808080' stroke='#888' stroke-width='0.8' rx='0'/><text x='145' y='79' font-size='9' fill='#000' text-anchor='middle'>128</text><text x='145' y='98' font-size='8' fill='#666' text-anchor='middle'>6</text><rect x='160' y='64' width='30' height='22' fill='#ffffff' stroke='#888' stroke-width='0.8' rx='0'/><text x='175' y='79' font-size='9' fill='#000' text-anchor='middle'>255</text><text x='175' y='98' font-size='8' fill='#666' text-anchor='middle'>7</text><rect x='190' y='64' width='30' height='22' fill='#404040' stroke='#888' stroke-width='0.8' rx='0'/><text x='205' y='79' font-size='9' fill='#fff' text-anchor='middle'>64</text><text x='205' y='98' font-size='8' fill='#666' text-anchor='middle'>8</text><rect x='220' y='64' width='30' height='22' fill='#404040' stroke='#888' stroke-width='0.8' rx='0'/><text x='235' y='79' font-size='9' fill='#fff' text-anchor='middle'>64</text><text x='235' y='98' font-size='8' fill='#666' text-anchor='middle'>9</text><rect x='250' y='64' width='30' height='22' fill='#c0c0c0' stroke='#888' stroke-width='0.8' rx='0'/><text x='265' y='79' font-size='9' fill='#000' text-anchor='middle'>192</text><text x='265' y='98' font-size='8' fill='#666' text-anchor='middle'>10</text><rect x='280' y='64' width='30' height='22' fill='#c0c0c0' stroke='#888' stroke-width='0.8' rx='0'/><text x='295' y='79' font-size='9' fill='#000' text-anchor='middle'>192</text><text x='295' y='98' font-size='8' fill='#666' text-anchor='middle'>11</text><text x='220' y='108' font-size='9' fill='#333' text-anchor='middle'>メモリ（番地 = y×幅 + x）</text><line x1='108' y1='50' x2='122.5' y2='41.9' stroke='#333' stroke-width='1'/><polygon points='126,40 123.1,44.1 121,40.3' fill='#333' stroke='#333' stroke-width='0.5'/></svg>",
+    "caption": "フレームバッファ: 画面の画素値を行順（ラスタ順）に並べて保持するメモリ"
+   },
+   {
+    "type": "table",
+    "head": [
+     "画面",
+     "画素数",
+     "8bit×3ch(24bit)",
+     "ダブルバッファ"
+    ],
+    "rows": [
+     [
+      "1920×1080",
+      "約207万",
+      "約6.2MB",
+      "約12.4MB"
+     ],
+     [
+      "3840×2160",
+      "約829万",
+      "約24.9MB",
+      "約49.8MB"
+     ]
+    ],
+    "caption": "表示中のバッファと描画中のバッファを切り替えると、描きかけが見えない（ちらつき・ティアリング防止）"
+   }
+  ],
+  "code": "import numpy as np\nW, H, BPP = 4, 3, 1                       # 幅・高さ・1画素のバイト数\nfb = np.zeros(W * H * BPP, np.uint8)      # フレームバッファ（1次元メモリ）\ndef put_pixel(x, y, v):\n    fb[(y * W + x) * BPP] = v             # ラスタ順の番地に書く\ndef get_pixel(x, y):\n    return fb[(y * W + x) * BPP]\nimg = np.array([[0, 0, 255, 255], [0, 128, 128, 255], [64, 64, 192, 192]])\nfor y in range(H):\n    for x in range(W):\n        put_pixel(x, y, img[y, x])\nprint(\"メモリ内容:\", fb)\nprint(\"画素(1,2) =\", get_pixel(1, 2), \" 番地\", 2 * W + 1)\nprint(\"フルHD 24bit:\", 1920 * 1080 * 3 / 1e6, \"MB\")"
+ },
+ {
+  "id": "sys-gpu",
+  "steps": [
+   "① 入力: 大量の画素（例: 4K画像829万画素）と、全画素に共通の処理（フィルタ・色変換・畳み込み）",
+   "② 画像をタイル（ブロック）に分け、各スレッドに1画素ずつ担当させる",
+   "③ 数千のコアが同じ命令を同時に実行（SIMT）。CPU↔GPU間の転送時間も考慮が必要",
+   "④ 出力: 処理結果をGPUメモリからCPU側へ戻す（あるいはそのまま表示）",
+   "⑤ 深層学習の行列積・畳み込みは典型的なGPU向け処理（CUDA・OpenCL）"
+  ],
+  "example": "829万画素に3×3フィルタ = 約7500万回の積和。CPU1コアが1ns/回なら75ms、GPUで4096並列なら理論上約0.02ms＋転送時間",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 112' width='330' height='112' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='15' width='120' height='90' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='70' y='10' font-size='9' fill='#ef6c00' text-anchor='middle'>CPU（少数の高性能コア）</text><rect x='20' y='25' width='45' height='32' fill='#ffe0b2' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='42' y='45' font-size='9' fill='#333' text-anchor='middle'>コア</text><rect x='20' y='65' width='45' height='32' fill='#ffe0b2' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='42' y='85' font-size='9' fill='#333' text-anchor='middle'>コア</text><rect x='75' y='25' width='45' height='32' fill='#ffe0b2' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='97' y='45' font-size='9' fill='#333' text-anchor='middle'>コア</text><rect x='75' y='65' width='45' height='32' fill='#ffe0b2' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='97' y='85' font-size='9' fill='#333' text-anchor='middle'>コア</text><rect x='150' y='15' width='170' height='90' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='0'/><text x='235' y='10' font-size='9' fill='#2e7d32' text-anchor='middle'>GPU（数千の単純なコア）</text><rect x='156' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='156' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='156' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='156' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='156' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='156' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='156' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='156' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='166' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='176' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='186' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='196' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='206' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='216' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='226' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='236' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='246' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='256' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='266' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='276' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='286' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='296' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='21' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='31.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='42' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='52.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='63' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='73.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='84' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/><rect x='306' y='94.5' width='8' height='8' fill='#a5d6a7' stroke='none' stroke-width='1' rx='0'/></svg>",
+    "caption": "GPUは単純な演算器を大量に並べ、全画素に同じ計算を同時に行う"
+   },
+   {
+    "type": "table",
+    "head": [
+     "処理",
+     "CPU 8コア",
+     "GPU 4096コア（目安）"
+    ],
+    "rows": [
+     [
+      "4K画像(829万画素)のガウスフィルタ",
+      "約10ms",
+      "約0.5ms"
+     ],
+     [
+      "CNN推論(ResNet-50)",
+      "約50ms",
+      "約2ms"
+     ],
+     [
+      "分岐の多い逐次処理",
+      "得意",
+      "苦手"
+     ]
+    ],
+    "caption": "画素ごとに独立な処理（データ並列）ほどGPUの効果が大きい"
+   }
+  ],
+  "code": "import numpy as np\nimport time\nimg = np.random.default_rng(0).random((2160, 3840)).astype(np.float32)\nk = np.ones((3, 3), np.float32) / 9\n# 逐次処理のイメージ（1画素ずつ）: 遅い -> 一部だけ実行\nt = time.time()\nout1 = np.zeros((10, 3840), np.float32)\nfor y in range(1, 11):\n    for x in range(1, 3839):\n        out1[y-1, x] = (img[y-1:y+2, x-1:x+2] * k).sum()\nt_loop = (time.time() - t) * 2160 / 10\n# データ並列（全画素に同じ演算を一斉に）: GPUの考え方\nt = time.time()\nout2 = sum(img[1+dy:2159+dy, 1+dx:3839+dx] for dy in (-1, 0, 1) for dx in (-1, 0, 1)) / 9\nt_vec = time.time() - t\nprint(f\"逐次(推定) {t_loop:.1f}s / 一括並列 {t_vec:.3f}s\")"
+ },
+ {
+  "id": "sys-fpga",
+  "steps": [
+   "① 入力: カメラから1クロックに1画素（以上）ずつ流れてくる画素ストリーム",
+   "② HDL（VHDL/Verilog）や高位合成で処理回路を記述し、FPGAの論理ブロック（LUT）と配線に書き込む",
+   "③ 2値化・フィルタなどが専用回路として並列・パイプラインで動き、1画素あたり数クロックの遅延で結果が出る",
+   "④ 出力: フレーム全体を待たずに処理結果を出力（数µs〜の低遅延）。仕様変更時は回路を書き換えるだけ",
+   "⑤ ASICより開発が速く少量生産向き、CPUより低遅延・低消費電力。ただし開発の難易度は高い"
+  ],
+  "example": "画素クロック148.5MHz（フルHD60fps）で3×3フィルタを行う場合、ラインバッファ2行分を持てば毎クロック1画素を出力でき、遅延は約2行分（約30µs）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 128' width='330' height='128' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='15' y='15' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='28' y='29' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='15' y='47' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='28' y='61' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='15' y='79' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='28' y='93' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='55' y='15' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='68' y='29' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='55' y='47' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='68' y='61' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='55' y='79' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='68' y='93' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='95' y='15' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='108' y='29' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='95' y='47' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='108' y='61' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='95' y='79' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='108' y='93' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='135' y='15' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='148' y='29' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='135' y='47' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='148' y='61' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='135' y='79' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='148' y='93' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='175' y='15' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='188' y='29' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='175' y='47' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='188' y='61' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><rect x='175' y='79' width='26' height='20' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='188' y='93' font-size='8' fill='#1565c0' text-anchor='middle'>LUT</text><line x1='41' y1='25' x2='55' y2='25' stroke='#c62828' stroke-width='2'/><line x1='55' y1='25' x2='55' y2='57' stroke='#c62828' stroke-width='2'/><line x1='55' y1='57' x2='95' y2='57' stroke='#c62828' stroke-width='2'/><line x1='121' y1='57' x2='135' y2='57' stroke='#c62828' stroke-width='2'/><line x1='135' y1='57' x2='135' y2='89' stroke='#c62828' stroke-width='2'/><line x1='135' y1='89' x2='175' y2='89' stroke='#c62828' stroke-width='2'/><text x='105' y='120' font-size='9' fill='#333' text-anchor='middle'>論理ブロックと配線を書き換えて回路を構成</text><rect x='220' y='20' width='100' height='24' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='4'/><text x='270' y='35.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>画素ストリーム</text><line x1='270' y1='44' x2='270' y2='52' stroke='#333' stroke-width='1.2'/><polygon points='270,56 267.8,51.5 272.2,51.5' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='220' y='56' width='100' height='24' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='4'/><text x='270' y='71.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>しきい値回路</text><line x1='270' y1='80' x2='270' y2='88' stroke='#333' stroke-width='1.2'/><polygon points='270,92 267.8,87.5 272.2,87.5' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='220' y='92' width='100' height='24' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='4'/><text x='270' y='107.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>結果（数クロック後）</text></svg>",
+    "caption": "FPGA: 処理を回路として組み、画素が流れてくるそばから処理（低遅延）"
+   }
+  ],
+  "code": "import numpy as np\n# FPGAのストリーム処理を模擬: ラインバッファ2行＋3x3窓で毎クロック1画素を出す\nH, W = 5, 8\nimg = np.arange(H * W).reshape(H, W) % 7 * 30\nline_buf = np.zeros((2, W), int)               # 直前2行を保持するメモリ\nwindow = np.zeros((3, 3), int)                 # 3x3シフトレジスタ\nout = np.zeros((H, W), int)\nfor y in range(H):\n    for x in range(W):                         # 1クロックに1画素到着\n        col = np.array([line_buf[0, x], line_buf[1, x], img[y, x]])\n        window = np.column_stack([window[:, 1:], col])   # 窓を1つ右へ\n        line_buf[0, x], line_buf[1, x] = line_buf[1, x], img[y, x]\n        out[y, x] = window.max()               # 例: 3x3最大値（膨張）\nprint(out)"
+ },
+ {
+  "id": "sys-asic",
+  "steps": [
+   "① 入力: 決まった処理（例: スマホカメラのデモザイク・ノイズ除去・JPEG圧縮）",
+   "② ASIC: その処理だけを行う回路をLSIとして設計・製造。DSP: 積和演算（MAC）を1サイクルで行う専用命令をもつプロセッサ",
+   "③ 汎用CPUより、同じ電力で何十倍もの処理ができる",
+   "④ 出力: 低消費電力・高速・小型な画像処理。ASICは製造後の変更不可・開発費大、DSPはソフトで変更可",
+   "⑤ 量産品（カメラのISP・NPU）はASIC、試作や少量品はFPGA、という使い分け"
+  ],
+  "example": "FIRフィルタ y[n]=Σh[k]x[n−k] の1タップ＝積和1回。DSPは1サイクルで積和を実行できるので、16タップなら16サイクル（汎用CPUの数分の1）",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "方式",
+     "柔軟性",
+     "性能/電力",
+     "開発費",
+     "向く用途"
+    ],
+    "rows": [
+     [
+      "CPU",
+      "◎ ソフトで何でも",
+      "△",
+      "小",
+      "汎用処理"
+     ],
+     [
+      "GPU",
+      "○",
+      "○（並列）",
+      "小",
+      "深層学習・大量画素"
+     ],
+     [
+      "DSP",
+      "○ 積和に特化",
+      "○",
+      "中",
+      "フィルタ・FFT・音声"
+     ],
+     [
+      "FPGA",
+      "○ 回路を書換",
+      "◎",
+      "中",
+      "低遅延・少量生産"
+     ],
+     [
+      "ASIC",
+      "× 固定",
+      "◎◎",
+      "大（量産で安い）",
+      "スマホのISP・NPU"
+     ]
+    ],
+    "caption": "右に行くほど専用化・高効率だが、作った後の変更が難しい"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 95' width='330' height='95' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='6' y='20' width='53.6' height='40' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='32.8' y='43.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>仕様</text><line x1='59.6' y1='40' x2='66.4' y2='40' stroke='#333' stroke-width='1'/><polygon points='69.6,40 66,41.7 66,38.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='69.6' y='20' width='53.6' height='40' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='96.4' y='43.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>論理設計</text><line x1='123.2' y1='40' x2='130' y2='40' stroke='#333' stroke-width='1'/><polygon points='133.2,40 129.6,41.7 129.6,38.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='133.2' y='20' width='53.6' height='40' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='160' y='43.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>検証</text><line x1='186.8' y1='40' x2='193.6' y2='40' stroke='#333' stroke-width='1'/><polygon points='196.8,40 193.2,41.7 193.2,38.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='196.8' y='20' width='53.6' height='40' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='223.6' y='37.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>製造</text><text x='223.6' y='48.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>(数か月)</text><line x1='250.4' y1='40' x2='257.2' y2='40' stroke='#333' stroke-width='1'/><polygon points='260.4,40 256.8,41.7 256.8,38.3' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='260.4' y='20' width='53.6' height='40' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='287.2' y='43.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>量産</text><text x='165' y='85' font-size='9' fill='#333' text-anchor='middle'>ASIC: 一度作ると回路は変えられない → 大量生産で1個あたりが安い</text></svg>",
+    "caption": "ASIC開発の流れ（初期費用が大きい）"
+   }
+  ],
+  "code": "import numpy as np\n# DSPが得意な積和演算（MAC）: FIRフィルタ\nh = np.array([1, 4, 6, 4, 1]) / 16           # フィルタ係数\nx = np.array([0, 0, 10, 50, 200, 200, 200, 50, 0, 0], float)\ny = np.zeros_like(x)\nfor n in range(len(x)):\n    acc = 0.0                                 # アキュムレータ\n    for k in range(len(h)):                   # 1タップ = 積和1回（DSPは1サイクル）\n        if n - k >= 0:\n            acc += h[k] * x[n - k]\n    y[n] = acc\nprint(y.round(1))\nprint(\"積和の回数:\", len(x) * len(h))"
+ },
+ {
+  "id": "sys-simd",
+  "steps": [
+   "① 入力: 同じ処理をする多数の画素（例: 全画素に明るさ+5）",
+   "② 128bit/256bit/512bitの幅広いレジスタに、8bit画素を16/32/64個まとめて読み込む",
+   "③ 1命令で全要素に同じ加算・乗算などを実行（SSE/AVX/NEONなど）",
+   "④ 飽和演算（255を超えたら255）など画像向けの命令もある",
+   "⑤ 出力: 一度に複数画素の結果。256bit幅なら8bit画素32個を同時に処理 → 理論上32倍速"
+  ],
+  "example": "AVX2(256bit)で8bit画素に+5: 32画素を1命令で処理 → 1920×1080の画素207万個は約6.5万命令で済む（逐次なら207万命令）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 128' width='330' height='128' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='20' y='15' width='32' height='22' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='36' y='30' font-size='10' fill='#222' text-anchor='middle'>10</text><rect x='20' y='55' width='32' height='22' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='0'/><text x='36' y='70' font-size='10' fill='#222' text-anchor='middle'>5</text><rect x='20' y='100' width='32' height='22' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='36' y='115' font-size='10' fill='#222' text-anchor='middle'>15</text><rect x='56' y='15' width='32' height='22' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='72' y='30' font-size='10' fill='#222' text-anchor='middle'>20</text><rect x='56' y='55' width='32' height='22' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='0'/><text x='72' y='70' font-size='10' fill='#222' text-anchor='middle'>5</text><rect x='56' y='100' width='32' height='22' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='72' y='115' font-size='10' fill='#222' text-anchor='middle'>25</text><rect x='92' y='15' width='32' height='22' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='108' y='30' font-size='10' fill='#222' text-anchor='middle'>30</text><rect x='92' y='55' width='32' height='22' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='0'/><text x='108' y='70' font-size='10' fill='#222' text-anchor='middle'>5</text><rect x='92' y='100' width='32' height='22' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='108' y='115' font-size='10' fill='#222' text-anchor='middle'>35</text><rect x='128' y='15' width='32' height='22' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='0'/><text x='144' y='30' font-size='10' fill='#222' text-anchor='middle'>40</text><rect x='128' y='55' width='32' height='22' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='0'/><text x='144' y='70' font-size='10' fill='#222' text-anchor='middle'>5</text><rect x='128' y='100' width='32' height='22' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='0'/><text x='144' y='115' font-size='10' fill='#222' text-anchor='middle'>45</text><text x='174' y='50' font-size='16' fill='#333' text-anchor='middle'>＋</text><text x='170' y='92' font-size='9' fill='#333' text-anchor='start'>1命令（例: 128bitレジスタに8bit×16個）</text><text x='200' y='30' font-size='9' fill='#222' text-anchor='start'>SIMD: 4要素を</text><text x='200' y='44' font-size='9' fill='#222' text-anchor='start'>1命令で同時に加算</text><text x='200' y='115' font-size='9' fill='#777' text-anchor='start'>通常: 4命令必要</text></svg>",
+    "caption": "SIMD: 1つの命令で複数のデータ（画素）に同じ演算をする"
+   }
+  ],
+  "code": "import numpy as np\nimg = np.array([250, 10, 20, 128, 200, 255, 0, 64], np.uint8)\n# 逐次: 1画素ずつ（1命令1データ）\nseq = img.copy()\nfor i in range(len(seq)):\n    seq[i] = min(int(seq[i]) + 10, 255)\n# SIMD的: 配列全体に1回の演算（NumPy内部でSIMD命令が使われる）\nsimd = np.minimum(img.astype(np.uint16) + 10, 255).astype(np.uint8)  # 飽和加算\nprint(seq, simd, (seq == simd).all())\n# 256bitレジスタに入る 8bit 画素数\nprint(\"1命令で処理できる画素数:\", 256 // 8)"
+ },
+ {
+  "id": "sys-parallel",
+  "steps": [
+   "① 入力: 処理全体の時間を1としたとき、並列化できる割合 P と、プロセッサ数 N",
+   "② 並列部分の時間は P/N に縮むが、逐次部分 (1−P) は縮まない",
+   "③ 速度向上率 S = 1 / ((1−P) + P/N)",
+   "④ N→∞ でも S は 1/(1−P) で頭打ち。実際は通信・同期のオーバーヘッドでさらに下がる",
+   "⑤ 出力: 何コア使えばどこまで速くなるかの見積もり。逐次部分を減らすことが最重要"
+  ],
+  "example": "P=0.9, N=8: S = 1/(0.1+0.9/8) = 1/0.2125 ≒ 4.71倍。N=∞でも 1/0.1 = 10倍が上限",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 150' width='330' height='150' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='40' y1='120' x2='240' y2='120' stroke='#333' stroke-width='1'/><line x1='40' y1='10' x2='40' y2='120' stroke='#333' stroke-width='1'/><text x='240' y='142' font-size='9' fill='#333' text-anchor='end'>プロセッサ数N</text><text x='42' y='6' font-size='9' fill='#333' text-anchor='start'>速度向上率S</text><line x1='40' y1='120' x2='40' y2='123' stroke='#333' stroke-width='1.2'/><text x='40' y='132' font-size='8' fill='#555' text-anchor='middle'>1</text><line x1='90' y1='120' x2='90' y2='123' stroke='#333' stroke-width='1.2'/><text x='90' y='132' font-size='8' fill='#555' text-anchor='middle'>4</text><line x1='140' y1='120' x2='140' y2='123' stroke='#333' stroke-width='1.2'/><text x='140' y='132' font-size='8' fill='#555' text-anchor='middle'>16</text><line x1='190' y1='120' x2='190' y2='123' stroke='#333' stroke-width='1.2'/><text x='190' y='132' font-size='8' fill='#555' text-anchor='middle'>64</text><line x1='240' y1='120' x2='240' y2='123' stroke='#333' stroke-width='1.2'/><text x='240' y='132' font-size='8' fill='#555' text-anchor='middle'>256</text><line x1='37' y1='120' x2='40' y2='120' stroke='#333' stroke-width='1.2'/><text x='35' y='123' font-size='8' fill='#555' text-anchor='end'>0</text><line x1='37' y1='92.5' x2='40' y2='92.5' stroke='#333' stroke-width='1.2'/><text x='35' y='95.5' font-size='8' fill='#555' text-anchor='end'>20</text><line x1='37' y1='65' x2='40' y2='65' stroke='#333' stroke-width='1.2'/><text x='35' y='68' font-size='8' fill='#555' text-anchor='end'>40</text><line x1='37' y1='37.5' x2='40' y2='37.5' stroke='#333' stroke-width='1.2'/><text x='35' y='40.5' font-size='8' fill='#555' text-anchor='end'>60</text><line x1='37' y1='10' x2='40' y2='10' stroke='#333' stroke-width='1.2'/><text x='35' y='13' font-size='8' fill='#555' text-anchor='end'>80</text><polyline points='40,118.6 65,118.2 90,117.8 115,117.6 140,117.4 165,117.3 190,117.3 215,117.3 240,117.3' fill='none' stroke='#777' stroke-width='1.8'/><line x1='255' y1='20' x2='268' y2='20' stroke='#777' stroke-width='2'/><text x='272' y='24' font-size='9' fill='#777' text-anchor='start'>P=0.5</text><polyline points='40,118.6 65,117.5 90,115.8 115,113.5 140,111.2 165,109.3 190,107.9 215,107.2 240,106.7' fill='none' stroke='#1565c0' stroke-width='1.8'/><line x1='255' y1='38' x2='268' y2='38' stroke='#1565c0' stroke-width='2'/><text x='272' y='42' font-size='9' fill='#1565c0' text-anchor='start'>P=0.9</text><polyline points='40,118.6 65,117.4 90,115.2 115,111.9 140,107.4 165,102.7 190,98.8 215,96.1 240,94.4' fill='none' stroke='#2e7d32' stroke-width='1.8'/><line x1='255' y1='56' x2='268' y2='56' stroke='#2e7d32' stroke-width='2'/><text x='272' y='60' font-size='9' fill='#2e7d32' text-anchor='start'>P=0.95</text><polyline points='40,118.6 65,117.3 90,114.7 115,109.7 140,100.9 165,86.4 190,66 215,42.5 240,20.8' fill='none' stroke='#c62828' stroke-width='1.8'/><line x1='255' y1='74' x2='268' y2='74' stroke='#c62828' stroke-width='2'/><text x='272' y='78' font-size='9' fill='#c62828' text-anchor='start'>P=0.99</text></svg>",
+    "caption": "アムダールの法則: 並列化できない部分(1−P)があると、Nを増やしても頭打ち"
+   },
+   {
+    "type": "table",
+    "head": [
+     "N",
+     "S (P=0.9)",
+     "S (P=0.95)"
+    ],
+    "rows": [
+     [
+      "2",
+      "1.82",
+      "1.90"
+     ],
+     [
+      "4",
+      "3.08",
+      "3.48"
+     ],
+     [
+      "8",
+      "4.71",
+      "5.93"
+     ],
+     [
+      "16",
+      "6.40",
+      "9.14"
+     ],
+     [
+      "∞",
+      "10.00",
+      "20.00"
+     ]
+    ],
+    "caption": "P=0.9なら上限は 1/(1−0.9)=10倍"
+   }
+  ],
+  "code": "import numpy as np\ndef amdahl(P, N):\n    return 1.0 / ((1 - P) + P / N)\nfor P in [0.5, 0.9, 0.95, 0.99]:\n    s = [amdahl(P, N) for N in [2, 8, 64, 1e9]]\n    print(f\"P={P}: N=2:{s[0]:.2f} N=8:{s[1]:.2f} N=64:{s[2]:.2f} 上限:{s[3]:.1f}\")"
+ },
+ {
+  "id": "sys-pipeline",
+  "steps": [
+   "① 入力: 次々に届く画像（データ列 n 個）と、k 段に分けた処理（取込→前処理→判定 など）",
+   "② 各段を別の処理装置に割り当て、1段の時間 t ごとにデータを次の段へ渡す",
+   "③ 段が埋まると、1つのデータの処理時間（レイテンシ k·t）は変わらないが、t ごとに1つ結果が出る",
+   "④ 全体時間 T = (k + n − 1)·t。逐次処理の k·n·t に比べ、nが大きいほど約k倍速",
+   "⑤ 出力: 高いスループット。最も遅い段が全体の速度を決める（段の時間をそろえることが重要）"
+  ],
+  "example": "k=3段、n=4枚、t=10ms: T=(3+4−1)×10=60ms（逐次なら120ms）。n=100枚なら 1020ms vs 3000ms で約2.9倍",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 118' width='330' height='118' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='60' y='12' width='38' height='20' fill='#bbdefb' stroke='#888' stroke-width='0.6' rx='0'/><text x='79' y='26' font-size='8' fill='#222' text-anchor='middle'>画像1</text><rect x='100' y='36' width='38' height='20' fill='#c8e6c9' stroke='#888' stroke-width='0.6' rx='0'/><text x='119' y='50' font-size='8' fill='#222' text-anchor='middle'>画像1</text><rect x='140' y='60' width='38' height='20' fill='#ffe0b2' stroke='#888' stroke-width='0.6' rx='0'/><text x='159' y='74' font-size='8' fill='#222' text-anchor='middle'>画像1</text><rect x='100' y='12' width='38' height='20' fill='#bbdefb' stroke='#888' stroke-width='0.6' rx='0'/><text x='119' y='26' font-size='8' fill='#222' text-anchor='middle'>画像2</text><rect x='140' y='36' width='38' height='20' fill='#c8e6c9' stroke='#888' stroke-width='0.6' rx='0'/><text x='159' y='50' font-size='8' fill='#222' text-anchor='middle'>画像2</text><rect x='180' y='60' width='38' height='20' fill='#ffe0b2' stroke='#888' stroke-width='0.6' rx='0'/><text x='199' y='74' font-size='8' fill='#222' text-anchor='middle'>画像2</text><rect x='140' y='12' width='38' height='20' fill='#bbdefb' stroke='#888' stroke-width='0.6' rx='0'/><text x='159' y='26' font-size='8' fill='#222' text-anchor='middle'>画像3</text><rect x='180' y='36' width='38' height='20' fill='#c8e6c9' stroke='#888' stroke-width='0.6' rx='0'/><text x='199' y='50' font-size='8' fill='#222' text-anchor='middle'>画像3</text><rect x='220' y='60' width='38' height='20' fill='#ffe0b2' stroke='#888' stroke-width='0.6' rx='0'/><text x='239' y='74' font-size='8' fill='#222' text-anchor='middle'>画像3</text><rect x='180' y='12' width='38' height='20' fill='#bbdefb' stroke='#888' stroke-width='0.6' rx='0'/><text x='199' y='26' font-size='8' fill='#222' text-anchor='middle'>画像4</text><rect x='220' y='36' width='38' height='20' fill='#c8e6c9' stroke='#888' stroke-width='0.6' rx='0'/><text x='239' y='50' font-size='8' fill='#222' text-anchor='middle'>画像4</text><rect x='260' y='60' width='38' height='20' fill='#ffe0b2' stroke='#888' stroke-width='0.6' rx='0'/><text x='279' y='74' font-size='8' fill='#222' text-anchor='middle'>画像4</text><text x='55' y='26' font-size='9' fill='#333' text-anchor='end'>取込</text><text x='55' y='50' font-size='9' fill='#333' text-anchor='end'>前処理</text><text x='55' y='74' font-size='9' fill='#333' text-anchor='end'>判定</text><text x='79' y='96' font-size='8' fill='#555' text-anchor='middle'>t1</text><text x='119' y='96' font-size='8' fill='#555' text-anchor='middle'>t2</text><text x='159' y='96' font-size='8' fill='#555' text-anchor='middle'>t3</text><text x='199' y='96' font-size='8' fill='#555' text-anchor='middle'>t4</text><text x='239' y='96' font-size='8' fill='#555' text-anchor='middle'>t5</text><text x='279' y='96' font-size='8' fill='#555' text-anchor='middle'>t6</text><text x='165' y='112' font-size='9' fill='#c62828' text-anchor='middle'>3段×4枚: (3+4−1)×t = 6t（逐次なら12t）</text></svg>",
+    "caption": "パイプライン: 段ごとに別の画像を同時処理する流れ作業"
+   }
+  ],
+  "code": "def pipeline_time(k, n, t):\n    return (k + n - 1) * t              # パイプライン\ndef sequential_time(k, n, t):\n    return k * n * t                    # 逐次\nk, t = 3, 10                            # 3段, 1段10ms\nfor n in [1, 4, 100]:\n    p, s = pipeline_time(k, n, t), sequential_time(k, n, t)\n    print(f\"n={n:3d}: パイプライン{p}ms 逐次{s}ms 速度比{s/p:.2f}\")\n# 各時刻にどの段がどの画像を処理しているか\nfor clock in range(k + 4 - 1):\n    print(f\"t{clock+1}:\", [f\"段{s+1}=画像{clock-s+1}\" for s in range(k) if 0 <= clock - s < 4])"
+ },
+ {
+  "id": "sys-scanner",
+  "steps": [
+   "① 入力: 原稿台に置いた紙やフィルム",
+   "② 光源で原稿を照らし、反射光（透過原稿は透過光）をレンズ・ミラー経由でラインセンサ（CCD/CIS）に結像",
+   "③ センサの画素並び方向が主走査、キャリッジを動かす方向が副走査。1行読むごとに1行分（=1/dpiインチ）進める",
+   "④ 行を積み重ねて2次元画像を作り、シェーディング補正・ガンマ補正を行う",
+   "⑤ 出力: 指定dpiのディジタル画像。画素数 = 寸法[mm]/25.4 × dpi"
+  ],
+  "example": "A4（210×297mm）を300dpi → 横 210/25.4×300 ≒ 2480画素、縦 297/25.4×300 ≒ 3508画素 → 約870万画素、24bitで約26MB",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 145' width='330' height='145' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='20' y='20' width='200' height='90' fill='#fafafa' stroke='#999' stroke-width='1' rx='0'/><text x='120' y='15' font-size='9' fill='#333' text-anchor='middle'>原稿台（ガラス）</text><line x1='30' y1='35' x2='200' y2='35' stroke='#bbb' stroke-width='1'/><line x1='30' y1='49' x2='200' y2='49' stroke='#bbb' stroke-width='1'/><line x1='30' y1='63' x2='200' y2='63' stroke='#bbb' stroke-width='1'/><line x1='30' y1='77' x2='200' y2='77' stroke='#bbb' stroke-width='1'/><line x1='30' y1='91' x2='200' y2='91' stroke='#bbb' stroke-width='1'/><rect x='95' y='22' width='10' height='86' fill='#bbdefb' stroke='#1565c0' stroke-width='1' rx='0'/><line x1='110' y1='65' x2='136' y2='65' stroke='#1565c0' stroke-width='1.5'/><polygon points='140,65 135.5,67.2 135.5,62.8' fill='#1565c0' stroke='#1565c0' stroke-width='0.5'/><text x='150' y='68' font-size='9' fill='#1565c0' text-anchor='start'>ラインセンサ＋光源が移動（副走査）</text><line x1='100' y1='112' x2='100' y2='124' stroke='#333' stroke-width='1'/><polygon points='100,128 97.8,123.5 102.2,123.5' fill='#333' stroke='#333' stroke-width='0.5'/><text x='100' y='140' font-size='9' fill='#333' text-anchor='middle'>1列分=主走査（センサの画素方向）</text></svg>",
+    "caption": "フラットベッドスキャナ: 1列のセンサを原稿に沿って動かし、1行ずつ読む"
+   },
+   {
+    "type": "table",
+    "head": [
+     "解像度",
+     "A4(210×297mm)の画素数",
+     "24bitカラーの容量"
+    ],
+    "rows": [
+     [
+      "150dpi",
+      "1240×1754",
+      "6.5MB"
+     ],
+     [
+      "300dpi",
+      "2480×3508",
+      "26.1MB"
+     ],
+     [
+      "600dpi",
+      "4961×7016",
+      "104.4MB"
+     ],
+     [
+      "1200dpi",
+      "9921×14031",
+      "417.6MB"
+     ]
+    ],
+    "caption": "dpiを2倍にすると画素数・容量は4倍"
+   }
+  ],
+  "code": "def scan_size(w_mm, h_mm, dpi, bytes_per_px=3):\n    w = round(w_mm / 25.4 * dpi)           # 主走査方向の画素数\n    h = round(h_mm / 25.4 * dpi)           # 副走査方向の行数\n    return w, h, w * h * bytes_per_px\nfor dpi in [150, 300, 600]:\n    w, h, b = scan_size(210, 297, dpi)\n    print(f\"A4 {dpi}dpi: {w}x{h} 画素, {b/1e6:.1f} MB\")\n# 副走査の送り量: 1行ごとに 25.4/dpi mm 進める\nprint(\"300dpiの1行送り:\", round(25.4 / 300, 4), \"mm\")"
+ },
+ {
+  "id": "sys-line-sensor",
+  "steps": [
+   "① 入力: 一定速度で動く対象物（シート・コンベア上の部品・回転体）",
+   "② 1列（例: 4096画素）だけのセンサで、エンコーダのパルスに同期して1行ずつ撮る",
+   "③ 行の間隔 = 移動速度 × ラインレート周期。縦横の分解能を等しくするには 速度 = 画素の物体側サイズ × ラインレート",
+   "④ 撮った行を順に積み重ねて2次元画像を作る（長さ制限のない画像も可能）",
+   "⑤ 出力: 高解像・連続した画像。エリアカメラより照明が細い線状でよく、ムラが出にくい"
+  ],
+  "example": "物体側1画素=0.1mm、ラインレート20kHz → 適切な搬送速度は 0.1mm×20000 = 2000mm/s = 2m/s。速度が半分なら画像は縦に2倍伸びる",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='95' width='310' height='25' fill='#eceff1' stroke='#999' stroke-width='1' rx='0'/><text x='165' y='135' font-size='9' fill='#333' text-anchor='middle'>コンベア（一定速度で移動）</text><rect x='40' y='98' width='50' height='19' fill='#ffe0b2' stroke='#ef6c00' stroke-width='1' rx='0'/><rect x='110' y='98' width='50' height='19' fill='#ffe0b2' stroke='#ef6c00' stroke-width='1' rx='0'/><rect x='180' y='98' width='50' height='19' fill='#ffe0b2' stroke='#ef6c00' stroke-width='1' rx='0'/><line x1='260' y1='108' x2='296' y2='108' stroke='#333' stroke-width='1.5'/><polygon points='300,108 295.5,110.2 295.5,105.8' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='140' y='15' width='50' height='20' fill='#455a64' stroke='none' stroke-width='1' rx='0'/><text x='165' y='29' font-size='9' fill='#fff' text-anchor='middle'>カメラ</text><line x1='165' y1='35' x2='165' y2='96' stroke='#c62828' stroke-width='1' stroke-dasharray='3 2'/><line x1='60' y1='96' x2='270' y2='96' stroke='#c62828' stroke-width='2'/><text x='275' y='92' font-size='9' fill='#c62828' text-anchor='start'>1行だけ撮像</text><text x='20' y='55' font-size='9' fill='#333' text-anchor='start'>1回の撮像=1行(例:4096画素)</text><text x='20' y='70' font-size='9' fill='#333' text-anchor='start'>→ 移動に合わせ繰返し→2次元に</text></svg>",
+    "caption": "ラインセンサ: 1列の画素で、動いている物体を1行ずつ撮って積み重ねる"
+   },
+   {
+    "type": "grid",
+    "data": [
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      200,
+      200,
+      60,
+      60,
+      200,
+      200,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      200,
+      200,
+      60,
+      60,
+      200,
+      200,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "max": 255,
+    "values": true,
+    "caption": "行ごとに撮った1次元データを縦に並べた結果（8行×12画素）。中央の暗い部分が欠陥"
+   }
+  ],
+  "code": "import numpy as np\nscene = np.zeros((8, 12)); scene[2:6, 3:9] = 200; scene[3:5, 5:7] = 60   # 流れてくる物体\nlines = []\nfor t in range(scene.shape[0]):          # エンコーダのパルスごとに\n    line = scene[t]                      # センサ直下の1行だけ撮像\n    lines.append(line)\nimage = np.vstack(lines)                 # 行を積み重ねて2次元化\nprint(image.astype(int))\npx_mm, line_rate = 0.1, 20000            # 物体側画素サイズ, ラインレート[Hz]\nprint(\"縦横等倍になる搬送速度:\", px_mm * line_rate / 1000, \"m/s\")"
+ },
+ {
+  "id": "sys-lcd",
+  "steps": [
+   "① 入力: 各画素のRGB値（フレームバッファから）",
+   "② 背面のバックライト（白色LED）が常に全面を照らす",
+   "③ 1枚目の偏光板で直線偏光にし、液晶層が画素ごとの電圧に応じて偏光方向を回転させる",
+   "④ 2枚目の偏光板を通る光の量が変わり、RGBのカラーフィルタで色をつける",
+   "⑤ 出力: 透過光の強弱で画像を表示。完全に光を止められないので黒が浮きやすい"
+  ],
+  "example": "バックライト500cd/m²、液晶の最小透過率0.05% → 黒は0.25cd/m²、コントラスト比 500/0.25 = 2000:1",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 150' width='330' height='150' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='25' y='15' width='16' height='100' fill='#fffde7' stroke='#888' stroke-width='1' rx='0'/><text x='33' y='128' font-size='9' fill='#333' text-anchor='middle'>1</text><text x='160' y='22' font-size='9' fill='#333' text-anchor='start'>1: バックライト</text><rect x='47' y='15' width='16' height='100' fill='#e3f2fd' stroke='#888' stroke-width='1' rx='0'/><text x='55' y='128' font-size='9' fill='#333' text-anchor='middle'>2</text><text x='160' y='35' font-size='9' fill='#333' text-anchor='start'>2: 偏光板(縦)</text><rect x='69' y='15' width='16' height='100' fill='#e8f5e9' stroke='#888' stroke-width='1' rx='0'/><text x='77' y='128' font-size='9' fill='#333' text-anchor='middle'>3</text><text x='160' y='48' font-size='9' fill='#333' text-anchor='start'>3: 液晶(電圧で偏光を回す)</text><rect x='91' y='15' width='16' height='100' fill='#fce4ec' stroke='#888' stroke-width='1' rx='0'/><text x='99' y='128' font-size='9' fill='#333' text-anchor='middle'>4</text><text x='160' y='61' font-size='9' fill='#333' text-anchor='start'>4: カラーフィルタRGB</text><rect x='113' y='15' width='16' height='100' fill='#e3f2fd' stroke='#888' stroke-width='1' rx='0'/><text x='121' y='128' font-size='9' fill='#333' text-anchor='middle'>5</text><text x='160' y='74' font-size='9' fill='#333' text-anchor='start'>5: 偏光板(横)</text><line x1='5' y1='65' x2='21' y2='65' stroke='#ef6c00' stroke-width='1.5'/><polygon points='25,65 20.5,67.2 20.5,62.8' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><line x1='135' y1='90' x2='151' y2='90' stroke='#ef6c00' stroke-width='1.5'/><polygon points='155,90 150.5,92.2 150.5,87.8' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><text x='160' y='98' font-size='9' fill='#ef6c00' text-anchor='start'>電圧なし→光が通る(明)</text><text x='160' y='112' font-size='9' fill='#555' text-anchor='start'>電圧あり→遮断(暗)</text><text x='160' y='126' font-size='8' fill='#777' text-anchor='start'>(TN・ノーマリホワイト)</text></svg>",
+    "caption": "液晶ディスプレイ: バックライトの光を液晶と2枚の偏光板で画素ごとに通したり止めたりする"
+   },
+   {
+    "type": "table",
+    "head": [
+     "項目",
+     "LCD",
+     "OLED"
+    ],
+    "rows": [
+     [
+      "発光",
+      "非発光（バックライト）",
+      "自発光"
+     ],
+     [
+      "黒の表示",
+      "光漏れでやや浮く",
+      "完全な黒（消灯）"
+     ],
+     [
+      "コントラスト",
+      "約1000:1",
+      "100万:1以上"
+     ],
+     [
+      "応答速度",
+      "ms程度",
+      "µs程度"
+     ],
+     [
+      "寿命・焼き付き",
+      "強い",
+      "焼き付きに注意"
+     ]
+    ],
+    "caption": "LCDとOLEDの比較"
+   }
+  ],
+  "code": "import numpy as np\n# 液晶が偏光を theta 回転 → 直交偏光板を通る割合 = sin^2(theta)（マリュスの法則）\nbacklight = 500.0                       # バックライト輝度 [cd/m^2]\nleak = 0.0005                           # 遮断時の漏れ光\nfor v in [0, 64, 128, 192, 255]:        # 画素値 -> 回転角（簡易モデル）\n    theta = np.deg2rad(90 * v / 255)\n    T = np.sin(theta) ** 2 * (1 - leak) + leak\n    print(f\"画素値{v:3d}: 透過率{T:.3f} 輝度{backlight*T:6.1f}\")\nprint(\"コントラスト比:\", round(1 / leak), \": 1\")"
+ },
+ {
+  "id": "sys-oled",
+  "steps": [
+   "① 入力: 各画素のRGB値",
+   "② 画素ごとのトランジスタ（TFT）で、RGBのサブ画素に流す電流を制御",
+   "③ 電子と正孔が有機層で再結合して発光。明るさはほぼ電流に比例",
+   "④ 黒は電流を流さない（消灯）ので、完全な黒・非常に高いコントラストが得られる",
+   "⑤ 出力: バックライト不要の薄く応答の速い表示。長時間同じ表示で劣化する「焼き付き」に注意"
+  ],
+  "example": "白600cd/m²、黒0cd/m²（実測では0.0005程度）→ コントラスト比100万:1以上。暗い画面ではほとんどの画素が消灯し消費電力が小さい",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 148' width='330' height='148' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='20' y='20' width='140' height='18' fill='#cfd8dc' stroke='#888' stroke-width='1' rx='0'/><text x='90' y='32' font-size='9' fill='#333' text-anchor='middle'>陰極</text><rect x='20' y='40' width='140' height='30' fill='#fff59d' stroke='#888' stroke-width='1' rx='0'/><text x='90' y='58' font-size='9' fill='#333' text-anchor='middle'>有機発光層</text><rect x='20' y='72' width='140' height='18' fill='#e1f5fe' stroke='#888' stroke-width='1' rx='0'/><text x='90' y='84' font-size='9' fill='#333' text-anchor='middle'>透明陽極</text><rect x='20' y='92' width='140' height='12' fill='#eceff1' stroke='#888' stroke-width='1' rx='0'/><text x='90' y='101' font-size='8' fill='#333' text-anchor='middle'>ガラス基板</text><line x1='50' y1='106' x2='50' y2='126' stroke='#ef6c00' stroke-width='1.5'/><polygon points='50,130 47.8,125.5 52.2,125.5' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><line x1='90' y1='106' x2='90' y2='126' stroke='#ef6c00' stroke-width='1.5'/><polygon points='90,130 87.8,125.5 92.2,125.5' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><line x1='130' y1='106' x2='130' y2='126' stroke='#ef6c00' stroke-width='1.5'/><polygon points='130,130 127.8,125.5 132.2,125.5' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><text x='90' y='142' font-size='9' fill='#ef6c00' text-anchor='middle'>電流を流した画素だけが光る</text><rect x='200' y='30' width='22.3' height='22.3' fill='#000000'/><rect x='222' y='30' width='22.3' height='22.3' fill='#000000'/><rect x='244' y='30' width='22.3' height='22.3' fill='#ffffff'/><rect x='200' y='52' width='22.3' height='22.3' fill='#000000'/><rect x='222' y='52' width='22.3' height='22.3' fill='#c8c8c8'/><rect x='244' y='52' width='22.3' height='22.3' fill='#000000'/><rect x='200' y='74' width='22.3' height='22.3' fill='#ffffff'/><rect x='222' y='74' width='22.3' height='22.3' fill='#000000'/><rect x='244' y='74' width='22.3' height='22.3' fill='#000000'/><rect x='200' y='30' width='66' height='66' fill='none' stroke='#888' stroke-width='0.8' rx='0'/><text x='233' y='110' font-size='9' fill='#333' text-anchor='middle'>黒=消灯</text></svg>",
+    "caption": "有機EL: 画素ごとの有機材料に電流を流すと自ら発光する（黒は発光しない）"
+   }
+  ],
+  "code": "import numpy as np\nimg = np.array([[0, 0, 255], [0, 200, 0], [255, 0, 0]], float)  # 表示したい画素値\nk = 600 / 255                              # 画素値→輝度の比例係数（簡易）\nlum = img * k                              # 自発光: 黒(0)は完全に消灯\nprint(\"輝度[cd/m^2]:\\n\", lum.round())\npower = img.sum() / (255 * img.size)       # 消費電力 ∝ 点灯量（相対）\nprint(\"全白に対する消費電力の割合:\", round(power, 2))"
+ },
+ {
+  "id": "sys-refresh-rate",
+  "steps": [
+   "① 入力: GPUが描画するフレーム（フレームレート fps）",
+   "② ディスプレイは一定周期（リフレッシュレート Hz）でフレームバッファを読み出して画面を書き換える",
+   "③ 1フレームの表示時間 = 1/Hz。60Hzなら16.7ms",
+   "④ fpsとHzが合わないと、同じフレームが2回出る（カクつき）、途中で切り替わる（ティアリング）。垂直同期（V-Sync）や可変リフレッシュで対策",
+   "⑤ 出力: 動きの滑らかさ。高いほど動画のぼけ・カクつきが減る"
+  ],
+  "example": "毎秒1000画素で動くカーソル: 60Hzでは16.7画素ずつ、120Hzでは8.3画素ずつ飛ぶ → 120Hzの方が滑らかに見える",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 335 135' width='335' height='135' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='20' y1='20' x2='20' y2='45' stroke='#1565c0' stroke-width='1.5'/><line x1='53.3' y1='20' x2='53.3' y2='45' stroke='#1565c0' stroke-width='1.5'/><line x1='86.7' y1='20' x2='86.7' y2='45' stroke='#1565c0' stroke-width='1.5'/><line x1='120' y1='20' x2='120' y2='45' stroke='#1565c0' stroke-width='1.5'/><line x1='153.3' y1='20' x2='153.3' y2='45' stroke='#1565c0' stroke-width='1.5'/><line x1='186.7' y1='20' x2='186.7' y2='45' stroke='#1565c0' stroke-width='1.5'/><line x1='220' y1='20' x2='220' y2='45' stroke='#1565c0' stroke-width='1.5'/><text x='228' y='37' font-size='10' fill='#1565c0' text-anchor='start'>60Hz: 16.7ms毎</text><circle cx='36.7' cy='32' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='70' cy='32' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='103.3' cy='32' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='136.7' cy='32' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='170' cy='32' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='203.3' cy='32' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><line x1='20' y1='70' x2='20' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='36.7' y1='70' x2='36.7' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='53.3' y1='70' x2='53.3' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='70' y1='70' x2='70' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='86.7' y1='70' x2='86.7' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='103.3' y1='70' x2='103.3' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='120' y1='70' x2='120' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='136.7' y1='70' x2='136.7' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='153.3' y1='70' x2='153.3' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='170' y1='70' x2='170' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='186.7' y1='70' x2='186.7' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='203.3' y1='70' x2='203.3' y2='95' stroke='#2e7d32' stroke-width='1.5'/><line x1='220' y1='70' x2='220' y2='95' stroke='#2e7d32' stroke-width='1.5'/><text x='228' y='87' font-size='10' fill='#2e7d32' text-anchor='start'>120Hz: 8.3ms毎</text><circle cx='28.3' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='45' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='61.7' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='78.3' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='95' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='111.7' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='128.3' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='145' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='161.7' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='178.3' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='195' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><circle cx='211.7' cy='82' r='2.5' fill='#c62828' stroke='none' stroke-width='1'/><line x1='20' y1='115' x2='220' y2='115' stroke='#333' stroke-width='1.2'/><text x='120' y='128' font-size='9' fill='#333' text-anchor='middle'>100ms</text></svg>",
+    "caption": "画面の書き換えタイミング（縦線）。120Hzは60Hzの2倍の頻度で更新し動きが滑らか"
+   },
+   {
+    "type": "table",
+    "head": [
+     "リフレッシュレート",
+     "1フレームの時間",
+     "動く物体の1回の移動量(1000画素/秒)"
+    ],
+    "rows": [
+     [
+      "30Hz",
+      "33.3ms",
+      "33画素"
+     ],
+     [
+      "60Hz",
+      "16.7ms",
+      "17画素"
+     ],
+     [
+      "120Hz",
+      "8.3ms",
+      "8画素"
+     ],
+     [
+      "240Hz",
+      "4.2ms",
+      "4画素"
+     ]
+    ],
+    "caption": "表示は「速度÷リフレッシュレート」画素ずつ飛び飛びに動く"
+   }
+  ],
+  "code": "for hz in [30, 60, 120, 240]:\n    frame_ms = 1000 / hz                 # 1フレームの表示時間\n    step = 1000 / hz                     # 1000画素/秒の物体が1回に動く量\n    print(f\"{hz:3d}Hz: {frame_ms:5.1f}ms/フレーム, 1回{step:5.1f}画素移動\")\n# 50fpsの映像を60Hzで表示 → 各フレームが何回表示されるか\nimport numpy as np\nshown = np.floor(np.arange(60) * 50 / 60).astype(int)\nprint(\"表示回数の並び:\", np.bincount(shown)[:10])   # 1と2が混ざる→カクつき"
+ },
+ {
+  "id": "sys-dpi",
+  "steps": [
+   "① 入力: 物理的な寸法（mm・インチ）と、機器の解像度 dpi（dots per inch）／ppi（pixels per inch）",
+   "② 1インチ = 25.4mm なので、画素数 = 寸法[mm] ÷ 25.4 × dpi",
+   "③ 逆に、印刷サイズ = 画素数 ÷ dpi × 25.4 [mm]、1ドットの大きさ = 25.4/dpi [mm]",
+   "④ 出力: 必要な画素数・印刷時の大きさ。同じ画素数でも dpi を大きく指定すれば小さく精細に印刷される"
+  ],
+  "example": "3000×2000画素の写真を300dpiで印刷 → 3000/300×25.4 = 254mm × 169mm。A4横幅210mmを300dpiでスキャンすると 210/25.4×300 ≒ 2480画素",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "解像度",
+     "1ドットの大きさ",
+     "100mmの画素数"
+    ],
+    "rows": [
+     [
+      "72dpi",
+      "353µm",
+      "283"
+     ],
+     [
+      "96dpi",
+      "265µm",
+      "378"
+     ],
+     [
+      "300dpi",
+      "85µm",
+      "1181"
+     ],
+     [
+      "600dpi",
+      "42µm",
+      "2362"
+     ],
+     [
+      "1200dpi",
+      "21µm",
+      "4724"
+     ]
+    ],
+    "caption": "1インチ=25.4mm。画素数 = 寸法[mm]/25.4 × dpi"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 112' width='330' height='112' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='15' y='10' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='15' y='30' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='15' y='50' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='15' y='70' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='35' y='10' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='35' y='30' width='20' height='20' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='35' y='50' width='20' height='20' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='35' y='70' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='55' y='10' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='55' y='30' width='20' height='20' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='55' y='50' width='20' height='20' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='55' y='70' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='75' y='10' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='75' y='30' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='75' y='50' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='75' y='70' width='20' height='20' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='15' y='10' width='80' height='80' fill='none' stroke='#999' stroke-width='1' rx='0'/><text x='55' y='105' font-size='9' fill='#333' text-anchor='middle'>72dpi相当</text><rect x='120' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='20' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='30' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='40' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='50' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='60' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='70' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='20' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='30' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='40' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='50' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='60' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='70' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='130' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='20' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='30' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='40' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='50' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='60' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='70' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='140' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='20' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='30' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='40' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='50' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='60' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='70' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='150' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='20' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='30' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='40' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='50' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='60' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='70' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='160' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='20' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='30' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='40' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='50' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='60' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='70' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='170' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='20' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='30' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='40' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='50' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='60' width='10' height='10' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='70' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='180' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='10' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='20' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='30' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='40' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='50' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='60' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='70' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='190' y='80' width='10' height='10' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='120' y='10' width='80' height='80' fill='none' stroke='#999' stroke-width='1' rx='0'/><text x='160' y='105' font-size='9' fill='#333' text-anchor='middle'>150dpi相当</text><rect x='225' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='30' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='35' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='40' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='45' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='50' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='55' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='60' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='65' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='30' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='35' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='40' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='45' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='50' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='55' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='60' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='65' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='230' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='30' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='65' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='235' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='240' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='245' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='20' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='75' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='250' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='20' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='75' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='255' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='20' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='75' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='260' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='20' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='75' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='265' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='20' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='75' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='270' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='20' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='75' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='275' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='25' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='70' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='280' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='30' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='65' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='285' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='30' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='35' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='40' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='45' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='50' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='55' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='60' width='5' height='5' fill='#222' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='65' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='290' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='30' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='35' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='40' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='45' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='50' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='55' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='60' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='65' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='295' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='10' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='15' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='20' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='25' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='30' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='35' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='40' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='45' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='50' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='55' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='60' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='65' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='70' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='75' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='80' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='300' y='85' width='5' height='5' fill='#fff' stroke='none' stroke-width='1' rx='0'/><rect x='225' y='10' width='80' height='80' fill='none' stroke='#999' stroke-width='1' rx='0'/><text x='265' y='105' font-size='9' fill='#333' text-anchor='middle'>300dpi相当</text></svg>",
+    "caption": "同じ大きさ（1/4インチ角）の円を異なるdpiで表現。dpiが高いほど滑らか"
+   }
+  ],
+  "code": "def pixels(mm, dpi):\n    return mm / 25.4 * dpi                 # 寸法 → 画素数\ndef print_mm(px, dpi):\n    return px / dpi * 25.4                 # 画素数 → 印刷寸法\nprint(\"A4幅210mm @300dpi:\", round(pixels(210, 300)), \"画素\")\nprint(\"3000画素 @300dpi:\", print_mm(3000, 300), \"mm\")\nfor dpi in [72, 300, 1200]:\n    print(f\"{dpi}dpi の1ドット = {25.4 / dpi * 1000:.1f} µm\")"
+ },
+ {
+  "id": "sys-interlace",
+  "steps": [
+   "① 入力: 1フレーム分の映像（例: 480行）",
+   "② インタレース: まず奇数行だけ（第1フィールド）、次に偶数行だけ（第2フィールド）を走査。60フィールド/秒＝30フレーム/秒",
+   "③ 2つのフィールドは1/60秒ずれた時刻の像なので、動く物体は行ごとに位置がずれた櫛状の像になる",
+   "④ プログレッシブ: 1行目から順に全行を走査。1フレーム内は同じ時刻で、静止画の切り出しや画像処理に向く",
+   "⑤ 出力: インタレースは帯域半分で動きを滑らかに見せられるが、処理前にデインタレース（行補間・フィールド合成）が必要"
+  ],
+  "example": "物体が1/60秒で3画素動くと、奇数行と偶数行で3画素ずれる（図）。デインタレースで偶数行を上下の奇数行の平均で埋めると、ずれは消えるが縦解像度は半分",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 335 124' width='335' height='124' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='18' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='54' y='18' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='65' y='18' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='76' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='87' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='98' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='109' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='54' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='65' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='76' y='29' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='87' y='29' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='98' y='29' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='109' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='40' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='54' y='40' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='65' y='40' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='76' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='87' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='98' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='109' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='54' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='65' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='76' y='51' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='87' y='51' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='98' y='51' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='109' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='62' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='54' y='62' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='65' y='62' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='76' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='87' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='98' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='109' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='54' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='65' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='76' y='73' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='87' y='73' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='98' y='73' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='109' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='84' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='54' y='84' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='65' y='84' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='76' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='87' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='98' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='109' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='21' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='32' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='43' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='54' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='65' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='76' y='95' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='87' y='95' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='98' y='95' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='109' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='120' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='131' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='142' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='153' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='10' y='18' width='154' height='88' fill='none' stroke='#888' stroke-width='0.8' rx='0'/><text x='87' y='12' font-size='9' fill='#c62828' text-anchor='middle'>インタレース(2フィールド合成)</text><rect x='175' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='18' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='18' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='18' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='18' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='29' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='29' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='29' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='29' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='40' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='40' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='40' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='40' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='51' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='51' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='51' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='51' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='62' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='62' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='62' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='62' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='73' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='73' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='73' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='73' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='84' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='84' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='84' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='84' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='186' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='197' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='208' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='219' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='230' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='241' y='95' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='252' y='95' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='263' y='95' width='11.3' height='11.3' fill='#dcdcdc'/><rect x='274' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='285' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='296' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='307' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='318' y='95' width='11.3' height='11.3' fill='#000000'/><rect x='175' y='18' width='154' height='88' fill='none' stroke='#888' stroke-width='0.8' rx='0'/><text x='252' y='12' font-size='9' fill='#2e7d32' text-anchor='middle'>プログレッシブ</text><text x='87' y='118' font-size='8' fill='#333' text-anchor='middle'>奇数行=時刻t、偶数行=t+1/60秒</text><text x='252' y='118' font-size='8' fill='#333' text-anchor='middle'>全行が同じ時刻</text></svg>",
+    "caption": "右へ動く棒を撮影（計算）。インタレースでは行ごとに位置がずれ、櫛状のギザギザ（コーミング）が出る"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 335 118' width='335' height='118' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='20' y1='12' x2='146.8' y2='12' stroke='#1565c0' stroke-width='1.2'/><polygon points='150,12 146.4,13.7 146.4,10.3' fill='#1565c0' stroke='#1565c0' stroke-width='0.5'/><line x1='190' y1='12' x2='316.8' y2='12' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,12 316.4,13.7 316.4,10.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><line x1='20' y1='24' x2='146.8' y2='24' stroke='#ef6c00' stroke-width='1.2'/><polygon points='150,24 146.4,25.7 146.4,22.3' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><line x1='190' y1='24' x2='316.8' y2='24' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,24 316.4,25.7 316.4,22.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><line x1='20' y1='36' x2='146.8' y2='36' stroke='#1565c0' stroke-width='1.2'/><polygon points='150,36 146.4,37.7 146.4,34.3' fill='#1565c0' stroke='#1565c0' stroke-width='0.5'/><line x1='190' y1='36' x2='316.8' y2='36' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,36 316.4,37.7 316.4,34.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><line x1='20' y1='48' x2='146.8' y2='48' stroke='#ef6c00' stroke-width='1.2'/><polygon points='150,48 146.4,49.7 146.4,46.3' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><line x1='190' y1='48' x2='316.8' y2='48' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,48 316.4,49.7 316.4,46.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><line x1='20' y1='60' x2='146.8' y2='60' stroke='#1565c0' stroke-width='1.2'/><polygon points='150,60 146.4,61.7 146.4,58.3' fill='#1565c0' stroke='#1565c0' stroke-width='0.5'/><line x1='190' y1='60' x2='316.8' y2='60' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,60 316.4,61.7 316.4,58.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><line x1='20' y1='72' x2='146.8' y2='72' stroke='#ef6c00' stroke-width='1.2'/><polygon points='150,72 146.4,73.7 146.4,70.3' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><line x1='190' y1='72' x2='316.8' y2='72' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,72 316.4,73.7 316.4,70.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><line x1='20' y1='84' x2='146.8' y2='84' stroke='#1565c0' stroke-width='1.2'/><polygon points='150,84 146.4,85.7 146.4,82.3' fill='#1565c0' stroke='#1565c0' stroke-width='0.5'/><line x1='190' y1='84' x2='316.8' y2='84' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,84 316.4,85.7 316.4,82.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><line x1='20' y1='96' x2='146.8' y2='96' stroke='#ef6c00' stroke-width='1.2'/><polygon points='150,96 146.4,97.7 146.4,94.3' fill='#ef6c00' stroke='#ef6c00' stroke-width='0.5'/><line x1='190' y1='96' x2='316.8' y2='96' stroke='#2e7d32' stroke-width='1.2'/><polygon points='320,96 316.4,97.7 316.4,94.3' fill='#2e7d32' stroke='#2e7d32' stroke-width='0.5'/><text x='85' y='112' font-size='8' fill='#333' text-anchor='middle'>青: 第1フィールド(奇数行)→橙: 第2</text><text x='255' y='112' font-size='8' fill='#333' text-anchor='middle'>1〜8行目を順に</text></svg>",
+    "caption": "走査順序の違い（インタレース: 1フレーム=2フィールド）"
+   }
+  ],
+  "code": "import numpy as np\nH, W = 8, 14\nyy, xx = np.mgrid[0:H, 0:W]\nbar = lambda x0: ((xx >= x0) & (xx < x0 + 3)) * 220\nfield1, field2 = bar(3), bar(6)              # 時刻t と t+1/60 の像\nframe = np.where(yy % 2 == 0, field1, field2)  # 奇数行/偶数行を合成\nprint(\"インタレース:\\n\", frame[:4] // 220)\n# デインタレース（ライン補間）: 第1フィールドだけ使い、間の行を上下平均で作る\ndeint = frame.astype(float).copy()\nfor r in range(1, H - 1, 2):\n    deint[r] = (frame[r - 1] + frame[r + 1]) / 2\nprint(\"補間後:\\n\", (deint[:4] // 220).astype(int))"
+ },
+ {
+  "id": "sys-usb3vision",
+  "steps": [
+   "① 入力: カメラで撮った画像データ",
+   "② USB 3.0（5Gbps）で、PCのUSBポートへ直接転送。実効帯域は約350〜400MB/s",
+   "③ 制御はGenICam準拠（露光時間・ゲインなどを共通の名前で設定）、プラグアンドプレイで接続が簡単",
+   "④ ケーブルは数m程度と短い（アクティブケーブル・光で延長可）",
+   "⑤ 出力: PCメモリ上の画像。卓上装置・研究用途など近距離で手軽に使う構成向き"
+  ],
+  "example": "2448×2048・8bit（約5MB）を400MB/sで送ると最大約80fps。12bitなら約53fps",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 90' width='330' height='90' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='25' width='60' height='34' fill='#eceff1' stroke='#555' stroke-width='1' rx='4'/><text x='40' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>カメラ</text><line x1='70' y1='42' x2='92' y2='42' stroke='#333' stroke-width='2.5'/><rect x='92' y='25' width='90' height='34' fill='#fff' stroke='#555' stroke-width='1' rx='4'/><text x='137' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>USB3ケーブル</text><line x1='182' y1='42' x2='204' y2='42' stroke='#333' stroke-width='2.5'/><rect x='204' y='25' width='100' height='34' fill='#e3f2fd' stroke='#555' stroke-width='1' rx='4'/><text x='254' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>PC(USB3ポート)</text><text x='165' y='80' font-size='9' fill='#333' text-anchor='middle'>フレームグラバ不要・USBバスパワー給電も可</text></svg>",
+    "caption": "USB3 Vision の接続（PC直結）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "規格",
+     "帯域(目安)",
+     "ケーブル長",
+     "グラバ",
+     "特徴"
+    ],
+    "rows": [
+     [
+      "▶USB3 Vision",
+      "約400MB/s",
+      "5m程度",
+      "不要",
+      "PC直結・手軽"
+     ],
+     [
+      "GigE Vision",
+      "約115MB/s(1GbE)",
+      "100m",
+      "不要",
+      "長距離・多台数・PoE給電"
+     ],
+     [
+      "Camera Link",
+      "255〜850MB/s",
+      "10m",
+      "必要",
+      "低遅延・確実"
+     ],
+     [
+      "CoaXPress",
+      "1.25〜12.5Gbps/本",
+      "速度により〜100m超",
+      "必要",
+      "高速・同軸で給電"
+     ]
+    ],
+    "caption": "代表的なマシンビジョン用インタフェース（▶が本項目）"
+   }
+  ],
+  "code": "# USB3 Vision で送れる最大フレームレートを見積もる\ndef max_fps(width, height, bits_per_pixel, bandwidth_MBps):\n    frame_bytes = width * height * bits_per_pixel / 8\n    return bandwidth_MBps * 1e6 / frame_bytes\nbw = 400                                   # 実効帯域 [MB/s]（目安）\nfor w, h, bpp in [(1280, 1024, 8), (2448, 2048, 8), (2448, 2048, 12), (5472, 3648, 8)]:\n    print(f\"{w}x{h} {bpp}bit: 最大 {max_fps(w, h, bpp, bw):6.1f} fps\")\nneed = 2448 * 2048 * 1 * 60 / 1e6             # 5Mピクセル8bitを60fps\nprint(\"5MP 60fps に必要な帯域:\", round(need), \"MB/s ->\", \"OK\" if need <= bw else \"不足\")"
+ },
+ {
+  "id": "sys-gige-vision",
+  "steps": [
+   "① 入力: カメラ画像",
+   "② ギガビットイーサネット（1Gbps、実効約115MB/s）で、画像をUDPパケット（GVSP）に分けて送信",
+   "③ 汎用のLANケーブル・スイッチ・NICが使え、最大100mまで延長、複数台をスイッチで1台のPCに集約できる",
+   "④ PoE対応なら1本のケーブルで給電も可能。10GigE/25GigEで高帯域化",
+   "⑤ 出力: PC上の画像。工場ラインで離れた場所に多数のカメラを置く構成に向く。帯域を超えないようフレームレート・台数を調整"
+  ],
+  "example": "2448×2048・8bit（約5MB）: 115MB/s ÷ 5MB ≒ 23fps。カメラ2台を同じ1Gポートにつなぐと1台あたり約11fpsに半減",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 100' width='330' height='100' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='25' width='50' height='34' fill='#eceff1' stroke='#555' stroke-width='1' rx='4'/><text x='35' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>カメラ1</text><line x1='60' y1='42' x2='82' y2='42' stroke='#333' stroke-width='2.5'/><rect x='82' y='25' width='80' height='34' fill='#fff' stroke='#555' stroke-width='1' rx='4'/><text x='122' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>LAN(〜100m)</text><line x1='162' y1='42' x2='184' y2='42' stroke='#333' stroke-width='2.5'/><rect x='184' y='25' width='50' height='34' fill='#fff3e0' stroke='#555' stroke-width='1' rx='4'/><text x='209' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>スイッチ</text><line x1='234' y1='42' x2='256' y2='42' stroke='#333' stroke-width='2.5'/><rect x='256' y='25' width='60' height='34' fill='#e3f2fd' stroke='#555' stroke-width='1' rx='4'/><text x='286' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>PC(NIC)</text><rect x='10' y='70' width='50' height='24' fill='#eceff1' stroke='#555' stroke-width='1' rx='4'/><text x='35' y='85.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>カメラ2</text><line x1='60' y1='82' x2='182' y2='59' stroke='#333' stroke-width='2'/></svg>",
+    "caption": "GigE Vision: イーサネットで長距離・複数台を接続（PoEで給電も可）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "規格",
+     "帯域(目安)",
+     "ケーブル長",
+     "グラバ",
+     "特徴"
+    ],
+    "rows": [
+     [
+      "USB3 Vision",
+      "約400MB/s",
+      "5m程度",
+      "不要",
+      "PC直結・手軽"
+     ],
+     [
+      "▶GigE Vision",
+      "約115MB/s(1GbE)",
+      "100m",
+      "不要",
+      "長距離・多台数・PoE給電"
+     ],
+     [
+      "Camera Link",
+      "255〜850MB/s",
+      "10m",
+      "必要",
+      "低遅延・確実"
+     ],
+     [
+      "CoaXPress",
+      "1.25〜12.5Gbps/本",
+      "速度により〜100m超",
+      "必要",
+      "高速・同軸で給電"
+     ]
+    ],
+    "caption": "代表的なマシンビジョン用インタフェース（▶が本項目）"
+   }
+  ],
+  "code": "# GigE Vision で送れる最大フレームレートを見積もる\ndef max_fps(width, height, bits_per_pixel, bandwidth_MBps):\n    frame_bytes = width * height * bits_per_pixel / 8\n    return bandwidth_MBps * 1e6 / frame_bytes\nbw = 115                                   # 実効帯域 [MB/s]（目安）\nfor w, h, bpp in [(1280, 1024, 8), (2448, 2048, 8), (2448, 2048, 12), (5472, 3648, 8)]:\n    print(f\"{w}x{h} {bpp}bit: 最大 {max_fps(w, h, bpp, bw):6.1f} fps\")\nneed = 2448 * 2048 * 1 * 60 / 1e6             # 5Mピクセル8bitを60fps\nprint(\"5MP 60fps に必要な帯域:\", round(need), \"MB/s ->\", \"OK\" if need <= bw else \"不足\")"
+ },
+ {
+  "id": "sys-camera-link",
+  "steps": [
+   "① 入力: カメラ画像（パラレルの画素データ）",
+   "② 専用ケーブルでフレームグラバ（PCに挿すボード）へ送る。構成 Base/Medium/Full で帯域が増える（約255〜850MB/s）",
+   "③ 画素クロックに同期した伝送で遅延が小さく確実。トリガ信号も専用線で送れる",
+   "④ ケーブル長は約10mまで、フレームグラバが必要でコスト高",
+   "⑤ 出力: グラバがDMAでPCメモリに転送した画像。高速ラインスキャン・半導体検査などで使われてきた"
+  ],
+  "example": "Base構成: 85MHz×24bit ≒ 255MB/s → 2048×2048・8bit（4.2MB）で約60fps。Full構成(80bit)なら約200fps",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 90' width='330' height='90' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='25' width='60' height='34' fill='#eceff1' stroke='#555' stroke-width='1' rx='4'/><text x='40' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>カメラ</text><line x1='70' y1='42' x2='92' y2='42' stroke='#333' stroke-width='2.5'/><rect x='92' y='25' width='100' height='34' fill='#fff' stroke='#555' stroke-width='1' rx='4'/><text x='142' y='39.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>Camera Link</text><text x='142' y='50.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>ケーブル(〜10m)</text><line x1='192' y1='42' x2='214' y2='42' stroke='#333' stroke-width='2.5'/><rect x='214' y='25' width='70' height='34' fill='#fff3e0' stroke='#555' stroke-width='1' rx='4'/><text x='249' y='39.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>フレーム</text><text x='249' y='50.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>グラバ</text><text x='165' y='80' font-size='9' fill='#333' text-anchor='middle'>専用ボードが画像をPCメモリへ直接書き込む（低遅延・CPU負荷小）</text></svg>",
+    "caption": "Camera Link の接続（フレームグラバ必須）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "規格",
+     "帯域(目安)",
+     "ケーブル長",
+     "グラバ",
+     "特徴"
+    ],
+    "rows": [
+     [
+      "USB3 Vision",
+      "約400MB/s",
+      "5m程度",
+      "不要",
+      "PC直結・手軽"
+     ],
+     [
+      "GigE Vision",
+      "約115MB/s(1GbE)",
+      "100m",
+      "不要",
+      "長距離・多台数・PoE給電"
+     ],
+     [
+      "▶Camera Link",
+      "255〜850MB/s",
+      "10m",
+      "必要",
+      "低遅延・確実"
+     ],
+     [
+      "CoaXPress",
+      "1.25〜12.5Gbps/本",
+      "速度により〜100m超",
+      "必要",
+      "高速・同軸で給電"
+     ]
+    ],
+    "caption": "代表的なマシンビジョン用インタフェース（▶が本項目）"
+   }
+  ],
+  "code": "# Camera Link (Full) で送れる最大フレームレートを見積もる\ndef max_fps(width, height, bits_per_pixel, bandwidth_MBps):\n    frame_bytes = width * height * bits_per_pixel / 8\n    return bandwidth_MBps * 1e6 / frame_bytes\nbw = 850                                   # 実効帯域 [MB/s]（目安）\nfor w, h, bpp in [(1280, 1024, 8), (2448, 2048, 8), (2448, 2048, 12), (5472, 3648, 8)]:\n    print(f\"{w}x{h} {bpp}bit: 最大 {max_fps(w, h, bpp, bw):6.1f} fps\")\nneed = 2448 * 2048 * 1 * 60 / 1e6             # 5Mピクセル8bitを60fps\nprint(\"5MP 60fps に必要な帯域:\", round(need), \"MB/s ->\", \"OK\" if need <= bw else \"不足\")"
+ },
+ {
+  "id": "sys-coaxpress",
+  "steps": [
+   "① 入力: 高解像度・高速カメラの画像",
+   "② 同軸ケーブル1本あたり最大12.5Gbps（CXP-12）で伝送。複数本束ねて帯域を増やせる",
+   "③ 同じ同軸で、カメラ制御信号（低速の上り）と電源（PoCXP）も送れる",
+   "④ 長いケーブルでも高帯域を保てる（速度によるが数十m以上）。フレームグラバが必要",
+   "⑤ 出力: 高速・大容量の画像ストリーム（数百fpsの大判カメラなど）"
+  ],
+  "example": "CXP-12×4本 = 50Gbps ≒ 実効約5000MB/s → 2448×2048・8bitで約1000fps、25MP（5120×5120）でも約190fps",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 90' width='330' height='90' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='25' width='60' height='34' fill='#eceff1' stroke='#555' stroke-width='1' rx='4'/><text x='40' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>カメラ</text><line x1='70' y1='42' x2='92' y2='42' stroke='#333' stroke-width='2.5'/><rect x='92' y='25' width='120' height='34' fill='#fff' stroke='#555' stroke-width='1' rx='4'/><text x='152' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>同軸ケーブル×1〜4本</text><line x1='212' y1='42' x2='234' y2='42' stroke='#333' stroke-width='2.5'/><rect x='234' y='25' width='60' height='34' fill='#fff3e0' stroke='#555' stroke-width='1' rx='4'/><text x='264' y='45.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>グラバ</text><text x='165' y='80' font-size='9' fill='#333' text-anchor='middle'>1本で画像・制御・給電(PoCXP)を同時に伝送</text></svg>",
+    "caption": "CoaXPress の接続"
+   },
+   {
+    "type": "table",
+    "head": [
+     "規格",
+     "帯域(目安)",
+     "ケーブル長",
+     "グラバ",
+     "特徴"
+    ],
+    "rows": [
+     [
+      "USB3 Vision",
+      "約400MB/s",
+      "5m程度",
+      "不要",
+      "PC直結・手軽"
+     ],
+     [
+      "GigE Vision",
+      "約115MB/s(1GbE)",
+      "100m",
+      "不要",
+      "長距離・多台数・PoE給電"
+     ],
+     [
+      "Camera Link",
+      "255〜850MB/s",
+      "10m",
+      "必要",
+      "低遅延・確実"
+     ],
+     [
+      "▶CoaXPress",
+      "1.25〜12.5Gbps/本",
+      "速度により〜100m超",
+      "必要",
+      "高速・同軸で給電"
+     ]
+    ],
+    "caption": "代表的なマシンビジョン用インタフェース（▶が本項目）"
+   }
+  ],
+  "code": "# CoaXPress (CXP-12 x4) で送れる最大フレームレートを見積もる\ndef max_fps(width, height, bits_per_pixel, bandwidth_MBps):\n    frame_bytes = width * height * bits_per_pixel / 8\n    return bandwidth_MBps * 1e6 / frame_bytes\nbw = 5000                                   # 実効帯域 [MB/s]（目安）\nfor w, h, bpp in [(1280, 1024, 8), (2448, 2048, 8), (2448, 2048, 12), (5472, 3648, 8)]:\n    print(f\"{w}x{h} {bpp}bit: 最大 {max_fps(w, h, bpp, bw):6.1f} fps\")\nneed = 2448 * 2048 * 1 * 60 / 1e6             # 5Mピクセル8bitを60fps\nprint(\"5MP 60fps に必要な帯域:\", round(need), \"MB/s ->\", \"OK\" if need <= bw else \"不足\")"
+ },
+ {
+  "id": "sys-genicam",
+  "steps": [
+   "① 入力: アプリからの「露光時間を5msに」という要求（機能名 ExposureTime = 5000）",
+   "② カメラ内のXML記述ファイルを読み、機能名→レジスタのアドレス・型・範囲を調べる（GenApi）",
+   "③ 伝送層（GenTL）を通じて、GigE/USB3/CoaXPressなどどのインタフェースでも同じ手順でレジスタに書き込む",
+   "④ 出力: メーカーやインタフェースを替えても同じプログラムでカメラを制御できる",
+   "⑤ 機能名は標準化（SFNC）されているので、Width・Gain・TriggerMode などが共通"
+  ],
+  "example": "アプリは camera.ExposureTime = 5000 と書くだけ。XMLに「ExposureTime: アドレス0x1234、単位µs、範囲10〜1000000」とあれば、ライブラリが0x1234に5000を書き込む",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 130' width='330' height='130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='100' y='8' width='130' height='26' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='4'/><text x='165' y='24.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>アプリケーション</text><line x1='165' y1='34' x2='165' y2='42' stroke='#333' stroke-width='1.2'/><polygon points='165,46 162.8,41.5 167.2,41.5' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='70' y='46' width='190' height='26' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='165' y='62.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>GenICam (GenApi: 共通の機能名)</text><line x1='165' y1='72' x2='165' y2='80' stroke='#333' stroke-width='1.2'/><polygon points='165,84 162.8,79.5 167.2,79.5' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='20' y='84' width='65' height='24' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='4'/><text x='52.5' y='99.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>GigE V</text><rect x='95' y='84' width='65' height='24' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='4'/><text x='127.5' y='99.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>USB3 V</text><rect x='170' y='84' width='65' height='24' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='4'/><text x='202.5' y='99.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>CoaXPress</text><rect x='245' y='84' width='65' height='24' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='4'/><text x='277.5' y='99.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>CL</text><text x='165' y='125' font-size='9' fill='#333' text-anchor='middle'>カメラ内のXMLファイルが「ExposureTime はアドレス◯◯」を記述</text></svg>",
+    "caption": "GenICam: インタフェースやメーカーが違っても同じ名前で操作できる共通層"
+   },
+   {
+    "type": "table",
+    "head": [
+     "機能名(SFNC)",
+     "意味",
+     "設定例"
+    ],
+    "rows": [
+     [
+      "Width / Height",
+      "画像サイズ",
+      "2448 / 2048"
+     ],
+     [
+      "ExposureTime",
+      "露光時間[µs]",
+      "5000"
+     ],
+     [
+      "Gain",
+      "ゲイン[dB]",
+      "6.0"
+     ],
+     [
+      "PixelFormat",
+      "画素形式",
+      "Mono8 / BayerRG12"
+     ],
+     [
+      "TriggerMode",
+      "外部トリガ",
+      "On"
+     ]
+    ],
+    "caption": "標準機能名（SFNC）の例"
+   }
+  ]
+ }
+]

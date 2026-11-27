@@ -1251,7 +1251,7 @@
     "caption": "LBP コードの計算"
    }
   ],
-  "code": "import numpy as np\ndef lbp(img):\n    img = img.astype(int); H, W = img.shape\n    c = img[1:-1, 1:-1]                                     # 中心画素\n    offs = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]  # 時計回り\n    code = np.zeros_like(c)\n    for k, (dy, dx) in enumerate(offs):\n        nb = img[1+dy:H-1+dy, 1+dx:W-1+dx]\n        code |= (nb >= c).astype(int) << (7 - k)           # 1ビット目が最上位\n    return code\np = np.array([[85, 120, 60], [140, 100, 95], [110, 70, 130]])\nprint(lbp(p), format(int(lbp(p)[0, 0]), '08b'))            # [[90]] 01011010\nprint(lbp(p + 50))                                          # 明るさを変えても同じ\nimg = np.random.default_rng(0).integers(0, 255, (32, 32))\nhist = np.bincount(lbp(img).ravel(), minlength=256)        # テクスチャ特徴\nprint(hist.shape)"
+  "code": "import numpy as np\ndef lbp(img):\n    img = img.astype(int); H, W = img.shape\n    c = img[1:-1, 1:-1]                                     # 中心画素\n    offs = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]  # 時計回り\n    code = np.zeros_like(c)\n    for k, (dy, dx) in enumerate(offs):\n        nb = img[1+dy:H-1+dy, 1+dx:W-1+dx]\n        code |= (nb >= c).astype(int) << (7 - k)           # 1ビット目が最上位\n    return code\np = np.array([[85, 120, 60], [140, 100, 95], [110, 70, 130]])\nprint(lbp(p), format(int(lbp(p)[0, 0]), '08b'))            # [[75]] 01001011\nprint(lbp(p + 50))                                          # 明るさを変えても同じ\nimg = np.random.default_rng(0).integers(0, 255, (32, 32))\nhist = np.bincount(lbp(img).ravel(), minlength=256)        # テクスチャ特徴\nprint(hist.shape)"
  },
  {
   "id": "detect-local-feature-matching",

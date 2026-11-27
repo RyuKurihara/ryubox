@@ -140,7 +140,7 @@ def panels(items, W=320, cs=None, gap=22, title_size=10, top=14, arrows=None, no
         oy = top + (rows - a.shape[0]) * cs / 2
         body.append(T(x + pw / 2, oy - 4, it.get('title', ''), title_size))
         body.append(grid(a, ox, oy, cs, it.get('mode', 'bin'), it.get('values'), it.get('colors'), it.get('hl'), it.get('mx', 255), it.get('size')))
-        if i < n - 1:
+        if i < n - 1 and arrows is not False:
             ay = top + rows * cs / 2
             lab = arrows[i] if arrows else None
             body.append(arrow(x + pw + 3, ay, x + pw + gap - 3, ay, None))

@@ -94,7 +94,7 @@ def dist(a, metric='city'):
     a = np.asarray(a); H, W = a.shape
     INF = 10 ** 6
     if metric == 'euclid':
-        bg = np.argwhere(np.pad(a, 1) == 0) - 1
+        bg = np.argwhere(np.pad(a, 1, constant_values=1) == 0) - 1
         D = np.zeros((H, W))
         for y in range(H):
             for x in range(W):
@@ -102,7 +102,7 @@ def dist(a, metric='city'):
                     D[y, x] = np.sqrt(((bg - [y, x]) ** 2).sum(1)).min()
         return D
     wa, wb = {'city': (1, 2), 'chess': (1, 1), 'chamfer': (3, 4)}[metric]
-    D = np.where(np.pad(a, 1) > 0, INF, 0).astype(int)
+    D = np.where(np.pad(a, 1, constant_values=1) > 0, INF, 0).astype(int)
     fw = [(-1, -1, wb), (-1, 0, wa), (-1, 1, wb), (0, -1, wa)]
     for y in range(1, H + 1):
         for x in range(1, W + 1):

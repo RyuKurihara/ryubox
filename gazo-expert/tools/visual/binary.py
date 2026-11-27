@@ -27,11 +27,19 @@ BASE = A('''
 00000000000
 01111100000
 01111100010
-01101100000
+01111100000
 01111111110
 01111100000
 01111100000
 00000000000''')
+
+GAP = A('''
+000000000000
+011110111100
+011110111100
+011010111100
+011110111100
+000000000000''')
 
 # ---------------- 2値化 ----------------
 G = np.array([[30, 40, 200, 210, 60, 50], [35, 180, 220, 190, 170, 45], [40, 190, 90, 100, 200, 55], [50, 185, 95, 110, 210, 40], [45, 60, 195, 205, 70, 50], [40, 50, 55, 60, 45, 35]])
@@ -176,7 +184,7 @@ for t in range(256):
     m1 = (np.arange(t + 1) * p[:t + 1]).sum() / w1        # クラス平均
     m2 = (np.arange(t + 1, 256) * p[t + 1:]).sum() / w2
     sb = w1 * w2 * (m1 - m2) ** 2                         # クラス間分散
-    if sb > best: best_t, best = t, sb
+    if sb > best + 1e-9: best_t, best = t, sb             # 同値（度数0の階調）なら小さい t
 print('NumPy:', best_t, round(best, 1))
 t_cv, b = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 print('OpenCV:', t_cv)
@@ -583,7 +591,7 @@ E.append(dict(id='binary-euler', steps=[
     "④ 図形を伸ばしたり曲げたりしても（切ったりつないだりしなければ）E は変わらない＝位相的特徴",
     "⑤ 2×2 の局所パターンの個数から1回の走査で計算する方法もある（E = (Q1 − Q3 + 2QD)/4 など、8連結なら符号が変わる）",
 ], example="O：1−1=0、B：1−2=−1、i：2−0=2、C：1−0=1。4連結と8連結で C・H が変わることがあるので組合せを固定する",
-    figures=[gfig(panels([dict(a=s, title=f"「{k}」 E={r[3]}", mode='bin') for (k, s), r in zip(shapes_e.items(), erows)], W=300, gap=20), '形とオイラー数'),
+    figures=[gfig(panels([dict(a=s, title=f"「{k}」 E={r[3]}", mode='bin') for (k, s), r in zip(shapes_e.items(), erows)], W=300, gap=20, arrows=False), '形とオイラー数'),
              {"type": "table", "head": ["図形", "連結成分 C", "穴 H", "E = C − H"], "rows": erows}],
     code=r'''import numpy as np
 import cv2
@@ -695,7 +703,7 @@ pts = cs[0][:, 0, :]                              # (x, y) の点列（反時計
 code_of = {(1, 0): 0, (1, -1): 1, (0, -1): 2, (-1, -1): 3, (-1, 0): 4, (-1, 1): 5, (0, 1): 6, (1, 1): 7}
 d = np.roll(pts, -1, axis=0) - pts
 codes = [code_of[(int(dx), int(dy))] for dx, dy in d]
-print('始点(x,y)=', tuple(pts[0]), ' chain =', ''.join(map(str, codes)))
+print('始点(x,y)=', tuple(int(v) for v in pts[0]), ' chain =', ''.join(map(str, codes)))
 even = sum(c % 2 == 0 for c in codes); odd = len(codes) - even
 print('周囲長 =', even, '+', odd, '√2 =', round(even + odd * np.sqrt(2), 3))
 print(round(cv2.arcLength(cs[0], True), 3))       # OpenCV の周囲長も同じ考え方
@@ -757,7 +765,7 @@ E.append(dict(id='binary-se', steps=[
     "④ 大きさが『消したい／残したい構造の大きさ』を決める：3×3 のオープニングは幅2以下の突起や点を消す",
     "⑤ OpenCV では cv2.getStructuringElement(cv2.MORPH_RECT / MORPH_CROSS / MORPH_ELLIPSE, (w,h)) で作る",
 ], example="1画素の点を 3×3 正方形で膨張 → 3×3 の正方形、十字形で膨張 → 5画素の十字。構造要素の形がそのまま押印される",
-    figures=[gfig(panels([dict(a=SQ, title='3×3正方形', values=se_vals(SQ), colors=[[('#222' if v else '#fff') for v in r] for r in SQ]), dict(a=CROSS, title='十字形', values=se_vals(CROSS), colors=[[('#222' if v else '#fff') for v in r] for r in CROSS]), dict(a=DISK5, title='5×5円盤', values=se_vals(DISK5), colors=[[('#222' if v else '#fff') for v in r] for r in DISK5]), dict(a=LINE, title='横線', values=se_vals(LINE), colors=[[('#222' if v else '#fff') for v in r] for r in LINE])], W=320, gap=14), '構造要素の例（◎＝原点）'),
+    figures=[gfig(panels([dict(a=SQ, title='3×3正方形', values=se_vals(SQ), colors=[[('#222' if v else '#fff') for v in r] for r in SQ]), dict(a=CROSS, title='十字形', values=se_vals(CROSS), colors=[[('#222' if v else '#fff') for v in r] for r in CROSS]), dict(a=DISK5, title='5×5円盤', values=se_vals(DISK5), colors=[[('#222' if v else '#fff') for v in r] for r in DISK5]), dict(a=LINE, title='横線', values=se_vals(LINE), colors=[[('#222' if v else '#fff') for v in r] for r in LINE])], W=320, gap=14, arrows=False), '構造要素の例（◎＝原点）'),
              gfig(panels([dict(a=np.pad([[1]], 2), title='1点', mode='bin'), dict(a=dil(np.pad([[1]], 2), SQ), title='正方形で膨張', mode='bin'), dict(a=dil(np.pad([[1]], 2), CROSS), title='十字形で膨張', mode='bin')], W=300, arrows=['', '']), '1点を膨張すると構造要素の形が押印される')],
     code=r'''import numpy as np
 import cv2
@@ -777,14 +785,14 @@ E.append(dict(id='binary-morphology', steps=[
     "③ 組合せ：オープニング＝収縮→膨張（小さな突起・点を消す）、クロージング＝膨張→収縮（小さな穴・すき間を埋める）",
     "④ さらに トップハット、ブラックハット、モルフォロジー勾配、ヒットオアミス、細線化、骨格、グラニュロメトリ へ発展",
     "⑤ 濃淡画像にも拡張でき、膨張＝近傍の最大値、収縮＝近傍の最小値（最大値・最小値フィルタ）",
-], example=f"右の図（3×3 正方形）：入力 {BASE.sum()} 画素 → 膨張 {dil(BASE).sum()} 画素、収縮 {ero(BASE).sum()} 画素、オープニング {opn(BASE).sum()} 画素、クロージング {cls(BASE).sum()} 画素",
+], example=f"右の図（3×3 正方形）：入力 {BASE.sum()} 画素 → 膨張 {dil(BASE).sum()} 画素、収縮 {ero(BASE).sum()} 画素、オープニング {opn(BASE).sum()} 画素、クロージング（すき間のある画像）{GAP.sum()} → {cls(GAP).sum()} 画素",
     figures=[gfig(panels([dict(a=BASE, title='入力', mode='bin'), dict(a=dil(BASE), title='膨張', colors=dcol(BASE, dil(BASE))), dict(a=ero(BASE), title='収縮', colors=dcol(BASE, ero(BASE)))], W=320, arrows=['', '']), '青＝増えた画素、ピンク＝消えた画素'),
-             gfig(panels([dict(a=opn(BASE), title='オープニング', colors=dcol(BASE, opn(BASE))), dict(a=cls(BASE), title='クロージング', colors=dcol(BASE, cls(BASE)))], W=300), '入力との差：オープニングは点と突起を消し、クロージングは穴を埋める')],
+             gfig(panels([dict(a=opn(BASE), title='オープニング', colors=dcol(BASE, opn(BASE))), dict(a=cls(GAP), title='クロージング（別画像）', colors=dcol(GAP, cls(GAP)))], W=320, arrows=False), 'オープニングは点と突起を消し（ピンク）、クロージングは穴とすき間を埋める（青）')],
     code=r'''import numpy as np
 import cv2
 
 img = np.array([[0,0,0,0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,1,0],
-                [0,1,1,0,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
+                [0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
                 [0,1,1,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]], np.uint8)
 k = np.ones((3, 3), np.uint8)                       # 3x3 正方形の構造要素
 ops = {'膨張': cv2.dilate(img, k), '収縮': cv2.erode(img, k),
@@ -862,7 +870,7 @@ print(sorted(set.intersection(*[{(a[0] - b[0], a[1] - b[1]) for a in R} for b in
 E.append(dict(id='binary-dilation', steps=[
     "① 入力：2値画像と構造要素（例 3×3 正方形）",
     "② 各画素に構造要素の原点を置き、構造要素の範囲に1画素でも1があれば出力を1にする（＝3×3 の最大値フィルタ）",
-    "③ 例：穴 (3,3) は周りに1があるので1になる（穴が埋まる）。図形の外側1画素の輪も1になる（青）",
+    "③ 例：孤立点 (2,9) は 3×3 の塊になり、幅1の突起は幅3に太る。図形の外側1画素の輪も1になる（青）",
     f"④ 出力：図形が1画素分太り、{BASE.sum()} → {dil(BASE).sum()} 画素。孤立点は 3×3 の塊に、細い突起は幅3に",
     "⑤ 用途：切れた線をつなぐ、小さな穴を埋める、領域を少し広げてマスクにする",
 ], example="画素 (2,8)：右隣 (2,9) が孤立点の1なので 3×3 内に1あり → 1。画素 (0,0)：3×3 内に1がない → 0",
@@ -871,7 +879,7 @@ E.append(dict(id='binary-dilation', steps=[
 import cv2
 
 img = np.array([[0,0,0,0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,1,0],
-                [0,1,1,0,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
+                [0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
                 [0,1,1,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]], np.uint8)
 H, W = img.shape
 p = np.pad(img, 1)                                # 外側は0
@@ -887,7 +895,7 @@ print(img.sum(), '->', out.sum())
 E.append(dict(id='binary-erosion', steps=[
     "① 入力：2値画像と構造要素（例 3×3 正方形）",
     "② 各画素に構造要素を置き、範囲の全画素が1のときだけ出力を1にする（1つでも0があれば0）＝3×3 の最小値フィルタ",
-    "③ 例：孤立点 (2,9) は周りが0 → 消える。幅1の突起も消える。穴 (3,3) の周り8画素も0になり、穴が広がる",
+    "③ 例：孤立点 (2,9) は周りが0 → 消える。幅1の突起も消える。本体の 6×5 の四角形は外周1画素が削れて 4×3 になる",
     f"④ 出力：図形が1画素分細り、{BASE.sum()} → {ero(BASE).sum()} 画素（ピンクが消えた画素）",
     "⑤ 用途：小さなノイズの除去、くっついた物体の切り離し、境界抽出（元画像 − 収縮）",
 ], example="画素 (5,2)：3×3 内がすべて1 → 1 のまま。画素 (1,1)：左上が背景 → 0。画像の外は0とみなす",
@@ -896,7 +904,7 @@ E.append(dict(id='binary-erosion', steps=[
 import cv2
 
 img = np.array([[0,0,0,0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,1,0],
-                [0,1,1,0,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
+                [0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
                 [0,1,1,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]], np.uint8)
 H, W = img.shape
 p = np.pad(img, 1)                                # 外側は0
@@ -916,13 +924,13 @@ E.append(dict(id='binary-opening', steps=[
     f"③ 例：{BASE.sum()} 画素 → 収縮 {e1.sum()} → 膨張 {o1.sum()} 画素。孤立点 (2,9) と右に伸びた突起が消え、本体の四角形はほぼ元通り",
     "④ 『構造要素が入り込めない細い部分を削る』処理。構造要素を内側で転がして届く範囲だけが残る",
     "⑤ 用途：ゴマ塩ノイズ（白点）除去、細いつながりの切断。何度繰り返しても結果は同じ（べき等）",
-], example="穴 (3,3) は収縮で広がり、膨張で戻る → 穴はそのまま残る（穴埋めはクロージング）。(A∘B)∘B = A∘B",
+], example="収縮で消えた孤立点・突起は、膨張しても復活しない（何も残っていないので）。本体は 4×3 → 6×5 に戻る。(A∘B)∘B = A∘B",
     figures=[gfig(panels([dict(a=BASE, title='入力', mode='bin'), dict(a=e1, title='① 収縮', colors=dcol(BASE, e1)), dict(a=o1, title='② 膨張', colors=dcol(e1, o1))], W=320, arrows=['⊖', '⊕']), '収縮で点と突起が消え、膨張で本体が戻る')],
     code=r'''import numpy as np
 import cv2
 
 img = np.array([[0,0,0,0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,1,0],
-                [0,1,1,0,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
+                [0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
                 [0,1,1,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]], np.uint8)
 k = np.ones((3, 3), np.uint8)
 e = cv2.erode(img, k, borderValue=0)              # ① 収縮
@@ -934,13 +942,6 @@ o2 = cv2.morphologyEx(o, cv2.MORPH_OPEN, k)       # もう一度しても変わ�
 print(np.array_equal(o, o2))
 '''))
 
-GAP = A('''
-000000000000
-011110111100
-011110111100
-011010111100
-011110111100
-000000000000''')
 d1_ = dil(GAP); c1 = ero(d1_)
 E.append(dict(id='binary-closing', steps=[
     "① 入力画像を構造要素（3×3）で膨張する：小さな穴や幅1〜2のすき間が埋まる（図形全体も太る）",
@@ -977,7 +978,7 @@ E.append(dict(id='binary-duality', steps=[
 import cv2
 
 img = np.array([[0,0,0,0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,1,0],
-                [0,1,1,0,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
+                [0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
                 [0,1,1,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]], np.uint8)
 k = np.ones((3, 3), np.uint8)
 ero = cv2.erode(img, k, borderValue=0)                 # 図形を収縮（画像外=背景）
@@ -1090,7 +1091,7 @@ res = hit & miss
 print(np.argwhere(res))                                      # 右端点の位置
 # OpenCV：1=前景, -1=背景, 0=don't care の1つのカーネルで
 k = B1.astype(int) - B2.astype(int)
-print(np.array_equal(res, cv2.morphologyEx(img, cv2.MORPH_HITMISS, k) // 255))
+print(np.array_equal(res, cv2.morphologyEx(img, cv2.MORPH_HITMISS, k) > 0))
 '''))
 
 dB, eB = dil(BASE), ero(BASE)
@@ -1107,7 +1108,7 @@ E.append(dict(id='binary-morph-gradient', steps=[
 import cv2
 
 img = np.array([[0,0,0,0,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,1,0],
-                [0,1,1,0,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
+                [0,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,0,0,0,0,0],
                 [0,1,1,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]], np.uint8)
 k = np.ones((3, 3), np.uint8)
 d, e = cv2.dilate(img, k), cv2.erode(img, k, borderValue=0)
@@ -1241,14 +1242,14 @@ E.append(dict(id='binary-chamfer', steps=[
     "④ 結果を a で割るとユークリッド距離のよい近似（b/a = 4/3 = 1.33 ≈ √2 = 1.41）。等距離線は八角形",
     "⑤ 5-7（7/5 = 1.4）や 5-7-11（5×5 マスク）ではさらに精度が上がる。整数演算だけで速い",
 ], example="(5,4)：横2・縦1 → 斜め1歩(4)＋横1歩(3) = 7 → 7/3 = 2.33（真値 2.24）。市街地距離なら 3、チェス盤なら 2",
-    figures=[gfig(panels([dgrid(dch.astype(int), '3-4 距離（値）'), dgrid(dch / 3, '÷3（近似距離）', fmt=lambda v: f"{v:.1f}")], W=320, cs=20), '左：面取り距離 3-4 の値、右：3で割った近似ユークリッド距離')],
+    figures=[gfig(panels([dgrid(dch.astype(int), '3-4 距離（値）'), dgrid(dch / 3, '÷3（近似距離）', fmt=lambda v: f"{v:.1f}")], W=320, cs=20, arrows=False), '左：面取り距離 3-4 の値、右：3で割った近似ユークリッド距離')],
     code=r'''import numpy as np
 import cv2
 
 img = np.ones((7, 7), np.uint8); img[3, 3] = 0          # 中心だけ背景
 a, b = 3, 4                                              # 縦横 a、斜め b
 INF = 10 ** 6
-D = np.where(np.pad(img, 1) > 0, INF, 0)
+D = np.where(np.pad(img, 1, constant_values=1) > 0, INF, 0)   # 画像の外は背景としない
 fw = [(-1, -1, b), (-1, 0, a), (-1, 1, b), (0, -1, a)]
 for y in range(1, 8):                                    # 順方向
     for x in range(1, 8):
@@ -1395,7 +1396,7 @@ E.append(dict(id='binary-connectivity-number', steps=[
     "④ 意味：その画素を消すと周囲がいくつに分かれるか。0=孤立点か内部点、1=端点・境界点（消しても連結性は変わらない）、2=連結点、3=分岐点、4=交差点",
     "⑤ 細線化では『連結数が1の境界画素だけを消す』ことで、図形がちぎれないようにする",
 ], example="連結数：" + '、'.join(f"{k}={v}" for k, v in cn_vals.items()),
-    figures=[gfig(panels([dict(a=np.array(m), title=f"{k} N8={cn_vals[k]}", colors=[[('#e4572e' if (r == 1 and c == 1) else '#222' if m[r][c] else '#fff') for c in range(3)] for r in range(3)]) for k, m in cn_ex.items()], W=330, cs=18, gap=10, title_size=9), '中央（赤）の画素の8連結の連結数')],
+    figures=[gfig(panels([dict(a=np.array(m), title=f"{k} N8={cn_vals[k]}", colors=[[('#e4572e' if (r == 1 and c == 1) else '#222' if m[r][c] else '#fff') for c in range(3)] for r in range(3)]) for k, m in cn_ex.items()], W=330, cs=18, gap=10, title_size=9, arrows=False), '中央（赤）の画素の8連結の連結数')],
     code=r'''import numpy as np
 
 def nb(m):        # x1=右から反時計回り x1..x8（中央が注目画素の3x3）
@@ -1430,11 +1431,11 @@ while er.any():
 E.append(dict(id='binary-skeleton', steps=[
     "① 図形の形を、内部を通る線で要約したもの。定義はいくつかある（中心軸、距離変換の尾根、モルフォロジー骨格、細線化結果）",
     "② モルフォロジー骨格：k 回収縮した図形 A⊖kB から、そのオープニングを引いた差 Sk = (A⊖kB) − (A⊖kB)∘B を各 k で集めて和をとる",
-    f"③ 例：5×9 の長方形 → 収縮を {k_} 回でき、各段階の差を集めると中央の横線＋四隅への斜め線（赤）になる",
+    f"③ 例：5×9 の長方形 → 収縮を {k_} 回でき、各段階の差を集めると中央の横線（赤）が残る（3×3 正方形の構造要素では四隅への斜線は現れない）",
     "④ 各 Sk の画素を k 回膨張して和をとると元の図形を完全に復元できる（細線化結果は復元できない）",
     "⑤ 境界の小さな凹凸で余計な枝（ひげ）が出やすいので、短い枝を刈る（プルーニング）",
-], example=f"長方形の骨格画素数 {skel.sum()}。中心軸（最大内接円の中心）と同じく、長方形では中央線＋四隅への斜線",
-    figures=[gfig(panels([dict(a=SK, title='入力（長方形）', mode='bin'), dict(a=SK, title='モルフォロジー骨格', colors=[[('#e4572e' if skel[r, c] else '#c9d6ff' if SK[r, c] else '#fff') for c in range(11)] for r in range(7)])], W=310, arrows=['']), '赤＝骨格（中央線と四隅への斜線）')],
+], example=f"長方形の骨格画素数 {skel.sum()}。連続図形の中心軸なら中央線＋四隅への斜線になるが、ディジタルの骨格は構造要素（距離の定義）によって形が変わる",
+    figures=[gfig(panels([dict(a=SK, title='入力（長方形）', mode='bin'), dict(a=SK, title='モルフォロジー骨格', colors=[[('#e4572e' if skel[r, c] else '#c9d6ff' if SK[r, c] else '#fff') for c in range(11)] for r in range(7)])], W=310, arrows=['']), '赤＝モルフォロジー骨格（3×3 正方形で中央の横線）')],
     code=r'''import numpy as np
 import cv2
 
@@ -1552,27 +1553,26 @@ def disk(r, n):
     return ((xx - c) ** 2 + (yy - c) ** 2 <= r * r).astype(int)
 circ_shapes = {'円': disk(5.2, 13), '正方形': np.pad(np.ones((9, 9), int), 2), '細長い長方形': np.pad(np.ones((3, 11), int), (5, 1))}
 crows = []
-for k, s in circ_shapes.items():
-    pts_, cds = trace(s)
-    _, _, L_ = perim_chain(cds)
-    S_ = s.sum()
-    crows.append([k, str(int(S_)), f(L_, 1), f(4 * math.pi * S_ / L_ ** 2, 3)])
+for k, s_ in circ_shapes.items():
+    cs_, _ = cv2.findContours(s_.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    S_ = cv2.contourArea(cs_[0]); L_ = cv2.arcLength(cs_[0], True)
+    crows.append([k, f(S_, 1), f(L_, 1), f(4 * math.pi * S_ / L_ ** 2, 3), str(int(s_.sum()))])
 E.append(dict(id='binary-circularity', steps=[
-    "① 面積 S と周囲長 L を求める（L はチェーンコード長など、定義をそろえる）",
+    "① 面積 S と周囲長 L を求める。ここでは輪郭（画素中心を結んだ多角形）の面積と周長を使い、定義をそろえる",
     "② 円形度 e = 4πS / L²。真円なら S = πr², L = 2πr より e = 1（最大）",
     "③ 連続図形の理論値：正方形 π/4 = 0.785、正三角形 0.605、細長いほど・ギザギザなほど 0 に近づく",
-    f"④ ディジタル画像の例：円 e = {crows[0][3]}、正方形 e = {crows[1][3]}、細長い長方形 e = {crows[2][3]}",
-    "⑤ 大きさ・向きによらない（無次元）ので、形の分類（丸い錠剤か、欠けているか）に使える。小さい図形では周囲長の誤差で1を超えることも",
-], example=f"正方形：S={crows[1][1]}, L={crows[1][2]}（画素中心を結んだ周囲）→ 4π·{crows[1][1]}/{crows[1][2]}² = {crows[1][3]}（理論値 0.785 に近い）",
-    figures=[gfig(panels([dict(a=s, title=f"{k} e={r[3]}", mode='bin') for (k, s), r in zip(circ_shapes.items(), crows)], W=320, gap=14), '形と円形度'),
-             {"type": "table", "head": ["図形", "面積 S", "周囲長 L", "e = 4πS/L²"], "rows": crows}],
+    f"④ ディジタル画像の例：円 e = {crows[0][3]}（輪郭が角ばるので1より小さい）、正方形 e = {crows[1][3]}、細長い長方形 e = {crows[2][3]}",
+    "⑤ 大きさ・向きによらない（無次元）ので形の分類に使える。注意：S を画素数（円で " + crows[0][4] + "）にして L を画素中心の周長にすると、定義のずれで1を超えることがある",
+], example=f"正方形（9×9画素）：画素中心を結ぶと 8×8 の正方形 → S={crows[1][1]}, L={crows[1][2]} → 4π·{crows[1][1]}/{crows[1][2]}² = {crows[1][3]}（理論値 π/4）",
+    figures=[gfig(panels([dict(a=s, title=f"{k} e={r[3]}", mode='bin') for (k, s), r in zip(circ_shapes.items(), crows)], W=320, gap=14, arrows=False), '形と円形度'),
+             {"type": "table", "head": ["図形", "面積 S", "周囲長 L", "e = 4πS/L²"], "rows": [r[:4] for r in crows]}],
     code=r'''import numpy as np
 import cv2
 
 def circularity(img):
     cs, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    S = img.sum()                          # 面積 = 画素数
-    L = cv2.arcLength(cs[0], True)         # 周囲長（縦横1・斜め√2）
+    S = cv2.contourArea(cs[0])             # 面積（画素中心を結んだ多角形）
+    L = cv2.arcLength(cs[0], True)         # 周囲長（縦横1・斜め√2）。S と定義をそろえる
     return S, round(L, 1), round(4 * np.pi * S / L ** 2, 3)
 yy, xx = np.mgrid[0:13, 0:13]
 disk = (((xx - 6) ** 2 + (yy - 6) ** 2) <= 5.2 ** 2).astype(np.uint8)
@@ -1696,7 +1696,7 @@ theta = 0.5 * np.arctan2(2 * mu11, mu20 - mu02)
 print(round(mu20, 1), round(mu02, 1), round(mu11, 1), round(np.rad2deg(theta), 1))
 # 共分散行列の固有ベクトルでも同じ方向
 w, v = np.linalg.eigh(np.cov(np.vstack([xs, ys])))
-print(round(np.rad2deg(np.arctan2(v[1, 1], v[0, 1])), 1))
+print(round(np.rad2deg(np.arctan2(v[1, 1], v[0, 1])) % 180, 1))   # 最大固有値の固有ベクトル
 M = cv2.moments(img, True)
 print(round(np.rad2deg(0.5 * np.arctan2(2 * M['mu11'], M['mu20'] - M['mu02'])), 1))
 '''))
@@ -1799,7 +1799,7 @@ for p in reversed(P):
     while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0: upper.pop()
     upper.append(p)
 hull = lower[:-1] + upper[:-1]
-print('凸包の頂点', hull)
+print('凸包の頂点', [(int(x), int(y)) for x, y in hull])
 h2 = cv2.convexHull(pts.astype(np.int32))
 print(len(h2), round(cv2.contourArea(h2), 1))  # 画素中心を結んだ凸包の面積
 mask = np.zeros_like(img); cv2.fillConvexPoly(mask, h2, 1)
@@ -1823,8 +1823,8 @@ E.append(dict(id='binary-logic-op', steps=[
     f"④ XOR（排他的論理和）：片方だけ1 → 違う部分（{(LA_ ^ LB_).sum()} 画素）。A − B = A AND (NOT B)（{(LA_ & (1 - LB_)).sum()} 画素）",
     "⑤ 用途：マスク処理（AND）、検出結果の統合（OR）、2枚の差の検出・検査（XOR）、境界抽出（A − 収縮A）",
 ], example=f"A={LA_.sum()}画素、B={LB_.sum()}画素：|A∪B| = |A| + |B| − |A∩B| = {LA_.sum()}+{LB_.sum()}−{(LA_ & LB_).sum()} = {(LA_ | LB_).sum()}",
-    figures=[gfig(panels([dict(a=LA_, title='A', colors=[[('#3a86ff' if v else '#fff') for v in r] for r in LA_]), dict(a=LB_, title='B', colors=[[('#e4572e' if v else '#fff') for v in r] for r in LB_])], W=240, gap=20), '入力 A, B'),
-             gfig(panels([dict(a=o, title=t, mode='bin') for t, o in ops_], W=320, gap=12), '画素ごとの論理演算の結果')],
+    figures=[gfig(panels([dict(a=LA_, title='A', colors=[[('#3a86ff' if v else '#fff') for v in r] for r in LA_]), dict(a=LB_, title='B', colors=[[('#e4572e' if v else '#fff') for v in r] for r in LB_])], W=240, gap=20, arrows=False), '入力 A, B'),
+             gfig(panels([dict(a=o, title=t, mode='bin') for t, o in ops_], W=320, gap=12, arrows=False), '画素ごとの論理演算の結果')],
     code=r'''import numpy as np
 import cv2
 
