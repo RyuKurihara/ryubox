@@ -437,7 +437,7 @@
     $('#dst').addEventListener('change', (e) => { dictState.st = e.target.value; render(); });
   }
   function visualHTML(t) {
-    const v = t.vis || {}; const hasLab = typeof VIZ !== 'undefined' && VIZ.has(t.id);
+    const v = (window.VIS || {})[t.id] || {}; const hasLab = typeof VIZ !== 'undefined' && VIZ.has(t.id);
     if (!hasLab && !v.steps && !v.figures && !v.code) return '';
     let o = '<div class="vis-box">';
     if (hasLab) o += `<div class="vz-mount" data-viz="${t.id}"></div>`;
@@ -509,7 +509,7 @@
     const seen = new Map();
     VIZ.list().forEach((id) => { const t = TERM[id]; if (!t) return; const title = VIZ.V[id].title; if (!seen.has(title)) seen.set(title, []); seen.get(title).push(t); });
     const byCat = {}; for (const [title, ts] of seen) { const c = ts[0].cat; (byCat[c] = byCat[c] || []).push([title, ts]); }
-    const vn = D.terms.filter((t) => t.vis && (t.vis.figures || t.vis.steps)).length;
+    const vn = Object.keys(window.VIS || {}).length;
     shell('図解ラボ', `<p class="sub">ブラウザ内で実際に画素を計算して動く図解 ${seen.size}種。パラメータを動かすと結果が変わります。さらに用語 ${vn} 語に「処理イメージ・数値例・実装」が付いています（各用語ページ）。</p>` +
       D.cats.filter((c) => byCat[c.id]).map((c) => `<div class="sec"><h3>${c.icon} ${esc(c.name)}</h3>${byCat[c.id].map(([title, ts]) => `<button class="mode" data-term="${ts[0].id}"><span class="ic">🔬</span><span><div class="t">${esc(title)}</div><div class="d">${ts.map((t) => esc(t.term)).join('・')}</div></span></button>`).join('')}</div>`).join(''), { back: true });
   }
@@ -587,5 +587,8 @@
   });
 
   route();
+  // 処理イメージ（大きい）は起動後に読み込む
+  window.addEventListener('vis-loaded', () => { if (/^#\/(term|lab)/.test(location.hash)) route(); });
+  setTimeout(() => { const sc = document.createElement('script'); sc.src = 'js/vis.js'; document.body.appendChild(sc); }, 300);
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

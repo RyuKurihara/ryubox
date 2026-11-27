@@ -21,8 +21,8 @@ const ALIAS = {
 const errs = [];
 const tid = new Set(); terms = terms.filter((t) => { if (!t.id || !t.term || !t.short) { errs.push('term missing field ' + (t.id || t.term)); return false; } if (tid.has(t.id)) { errs.push('dup term ' + t.id); return false; } tid.add(t.id); return true; });
 // 処理イメージ（content/visual）を用語に合流
-const vis = read(path.join(root, 'content/visual')); const tmap = Object.fromEntries(terms.map((t) => [t.id, t])); let vOK = 0;
-vis.forEach((v) => { const t = tmap[v.id]; if (!t) { errs.push('visual unknown id ' + v.id); return; } t.vis = { steps: v.steps, figures: v.figures, example: v.example, code: v.code }; vOK++; });
+const VISMAP = {}; const vis = read(path.join(root, 'content/visual')); const tmap = Object.fromEntries(terms.map((t) => [t.id, t])); let vOK = 0;
+vis.forEach((v) => { const t = tmap[v.id]; if (!t) { errs.push('visual unknown id ' + v.id); return; } VISMAP[v.id] = { steps: v.steps, figures: v.figures, example: v.example, code: v.code }; vOK++; });
 console.log('visual entries', vOK);
 terms.forEach((t) => { if (ALIAS[t.id]) t.aliases = [...(t.aliases || []), ...ALIAS[t.id]]; });
 const qid = new Set(); qs = qs.filter((q) => {
@@ -39,6 +39,7 @@ terms.forEach((t) => (t.related || []).forEach((r) => !res(r) && bump(r)));
 qs.forEach((q) => (q.terms || []).forEach((r) => !res(r) && bump(r)));
 const data = { version: new Date().toISOString().slice(0, 10), cats: cats.map(([id, name, icon]) => ({ id, name, icon })), weights: Object.fromEntries(cats.map(([id, , , w]) => [id, w])), terms, questions: qs };
 fs.writeFileSync(path.join(root, 'www/js/data.js'), 'window.DATA=' + JSON.stringify(data) + ';\n');
+fs.writeFileSync(path.join(root, 'www/js/vis.js'), 'window.VIS=' + JSON.stringify(VISMAP) + ';window.dispatchEvent(new Event("vis-loaded"));\n');
 const by = (arr) => Object.fromEntries(cats.map(([c]) => [c, arr.filter((x) => x.cat === c).length]));
 console.log('terms', terms.length, by(terms)); console.log('questions', qs.length, by(qs));
 console.log('errors', errs.length, errs.slice(0, 30));

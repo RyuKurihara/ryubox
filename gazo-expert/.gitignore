@@ -8,3 +8,4 @@ android/app/src/main/assets/public/
 www/js/data.js
 __pycache__/
 *.pyc
+www/js/vis.js
