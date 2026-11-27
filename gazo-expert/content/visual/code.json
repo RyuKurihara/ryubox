@@ -1004,5 +1004,1708 @@
    }
   ],
   "code": "import numpy as np\ndef zigzag_order(n=8):\n    order = []\n    for s in range(2 * n - 1):                    # 斜めの列 s = 行 + 列\n        cells = [(r, s - r) for r in range(max(0, s - n + 1), min(n - 1, s) + 1)]\n        order += cells[::-1] if s % 2 == 0 else cells   # 偶数は左下→右上、奇数は右上→左下\n    return order\nzz = zigzag_order()\nprint(zz[:10])       # [(0,0),(0,1),(1,0),(2,0),(1,1),(0,2),(0,3),(1,2),(2,1),(3,0)]\nFq = np.zeros((8, 8), int); Fq[0, 0], Fq[0, 1], Fq[1, 0], Fq[2, 0], Fq[1, 1] = -26, -3, 0, -3, -2\nseq = [Fq[r, c] for r, c in zz]\nlast = max(i for i, v in enumerate(seq) if v != 0)\n# AC 係数を (前の0の数, 値) に変換して EOB で終える\npairs, run = [], 0\nfor v in seq[1:last + 1]:\n    if v == 0: run += 1\n    else: pairs.append((run, v)); run = 0\nprint(\"DC:\", seq[0], \" AC:\", pairs + [\"EOB\"])"
+ },
+ {
+  "id": "code-jpeg",
+  "steps": [
+   "① 色変換：RGB → YCbCr（輝度Y・色差Cb,Cr）。色差を 4:2:0 などに間引く",
+   "② 8×8 ブロックに分割し、各ブロックをレベルシフト（−128）して DCT",
+   "③ 量子化テーブルで割って丸める（ここで非可逆）。品質設定＝テーブルの倍率",
+   "④ ジグザグスキャン → DC は前ブロックとの差分（DPCM）、AC は（0のラン, 値）→ ハフマン符号化。復号は逆順。出力：高圧縮だが高圧縮時はブロックノイズ・モスキートノイズ"
+  ],
+  "example": "64×64 試験画像（4096 係数）を品質50相当で処理：非0係数は 859 個（21.0%）、PSNR 30.3 dB。OpenCV の JPEG 品質50：956 バイト（ヘッダ込み、元 4096 バイト）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 52' width='320' height='52' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='52' fill='#fff'/><rect x='6.0' y='6' width='50.4' height='38' rx='5' fill='#fff' stroke='#556'/><text x='31.2' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>RGB→</text><text x='31.2' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>YCbCr</text><line x1='57.4' y1='25.0' x2='69.4' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='70.4' y='6' width='50.4' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='95.6' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>8×8</text><text x='95.6' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>DCT</text><line x1='121.8' y1='25.0' x2='133.8' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='134.8' y='6' width='50.4' height='38' rx='5' fill='#ffeede' stroke='#556'/><text x='160.0' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>量子化</text><line x1='186.2' y1='25.0' x2='198.2' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='199.2' y='6' width='50.4' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='224.4' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>ジグザグ</text><text x='224.4' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>ラン長</text><line x1='250.6' y1='25.0' x2='262.6' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='263.6' y='6' width='50.4' height='38' rx='5' fill='#e2f6dc' stroke='#556'/><text x='288.8' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>ハフマン</text><text x='288.8' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>符号化</text></svg>",
+    "caption": "JPEG 符号化の流れ（復号は逆順）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 120' width='320' height='120' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='120' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA5UlEQVRYw+2VQQ6DIBBFkfQArHvWCWHBWXsN2oTawMA08xFj08DCyOh7Ih90c+ZYs2YJ/kBw208ewg33mSOIsa1tTjuCD0xDgurZhL9CFHt2gK/6doQvK3aIn7CQIiCI5yzluLbzDwhIL6BTRkCIgA6PgL5UrBkxEDwHJPbmfVTXXrhQYFxu3hifUiiOr0oozsuruZ7BXYDznglgPtUCnGcCnA9MAPNsEnFeTkHJiyloeSkFNS+koOd9NwWA76aA8L0UIL6TAsa3KYB8kwLK870A82wScb5JAeV5CjD/nsT1a5sgeALbujaMFLUhZwAAAABJRU5ErkJggg=='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>自作 品質50</text><text x='160.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>30.3dB</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>品質10</text><text x='256.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>23.6dB</text></svg>",
+    "caption": "自作の8×8 DCT＋量子化と、OpenCV JPEG 品質10"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0)\nQ = np.array([[16, 11, 10, 16, 24, 40, 51, 61], [12, 12, 14, 19, 26, 58, 60, 55],\n              [14, 13, 16, 24, 40, 57, 69, 56], [14, 17, 22, 29, 51, 87, 80, 62],\n              [18, 22, 37, 56, 68, 109, 103, 77], [24, 35, 55, 64, 81, 104, 113, 92],\n              [49, 64, 78, 87, 103, 121, 120, 101], [72, 92, 95, 98, 112, 100, 103, 99]], np.float32)\nout = np.zeros_like(img, np.float32); nonzero = 0\nfor y in range(0, img.shape[0], 8):\n    for x in range(0, img.shape[1], 8):\n        F = cv2.dct(img[y:y + 8, x:x + 8].astype(np.float32) - 128)   # レベルシフト＋DCT\n        Fq = np.round(F / Q)                                            # 量子化\n        nonzero += np.count_nonzero(Fq)\n        out[y:y + 8, x:x + 8] = cv2.idct(Fq * Q) + 128                  # 復号側\nprint(\"非0係数:\", nonzero, \"/\", img.size, \" PSNR:\", cv2.PSNR(img, np.clip(out, 0, 255).astype(np.uint8)))\nok, buf = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 50])     # 実際のJPEG\nprint(\"JPEG:\", len(buf), \"バイト\")"
+ },
+ {
+  "id": "code-jpeg-baseline",
+  "steps": [
+   "① 入力：8ビット/成分の画像（12ビットは拡張方式）",
+   "② 8×8 DCT → 量子化（テーブルは最大4つまで定義）",
+   "③ エントロピー符号化はハフマン符号のみ（算術符号は使わない）。ハフマンテーブルは DC・AC 各2つまで",
+   "④ ブロックを左上から順に1回で送る逐次型（シーケンシャル）。全デコーダが対応必須の基本方式。拡張方式＝12ビット・算術符号・プログレッシブ、ほかに可逆方式・階層方式"
+  ],
+  "example": "DC の差分符号化：各ブロックの DC = [-26, -24, -25, -30, -30, -28] → 送る値 = [-26, 2, -1, -5, 0, 2]（隣のブロックとの差は小さい）。差分 −5 はカテゴリ3（3ビット付加）として符号化",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "項目",
+     "ベースライン",
+     "拡張方式"
+    ],
+    "rows": [
+     [
+      "ビット深度",
+      "8ビット",
+      "8/12ビット"
+     ],
+     [
+      "エントロピー符号",
+      "ハフマンのみ",
+      "ハフマン/算術"
+     ],
+     [
+      "走査",
+      "逐次（シーケンシャル）",
+      "逐次/プログレッシブ"
+     ],
+     [
+      "ハフマン表",
+      "DC・AC 各2個",
+      "各4個"
+     ],
+     [
+      "対応",
+      "全デコーダ必須",
+      "任意"
+     ]
+    ],
+    "caption": "JPEG の方式の比較"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0)\n# ベースライン（8bit・ハフマン・逐次）で保存：プログレッシブ指定なし\nok, base = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 75, cv2.IMWRITE_JPEG_PROGRESSIVE, 0])\nok, prog = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 75, cv2.IMWRITE_JPEG_PROGRESSIVE, 1])\nb = base.tobytes()\nprint(\"SOF0(ベースライン)あり:\", b\"\\xff\\xc0\" in b, \" SOF2(プログレッシブ):\", b\"\\xff\\xc2\" in prog.tobytes())\n# DC 係数の差分（DPCM）とカテゴリ（付加ビット数）\ndc = np.array([-26, -24, -25, -30, -30, -28])\ndiff = np.r_[dc[0], np.diff(dc)]\ncat = [int(abs(d)).bit_length() for d in diff]\nprint(\"差分:\", diff, \" カテゴリ:\", cat)"
+ },
+ {
+  "id": "code-wavelet",
+  "steps": [
+   "① 入力：画像全体（ブロック分割しない）",
+   "② 行・列にローパス／ハイパスと 1/2 間引き → LL・HL・LH・HH の4サブバンド。LL をさらに分解（3〜5段）",
+   "③ 係数の大半（高域サブバンド）は0付近 → 量子化で0に。LL と大きな係数（エッジ付近）だけが残る",
+   "④ 符号化：ビットプレーン単位で上位ビットから送る（JPEG 2000 の EBCOT）。ブロック境界がないので高圧縮でもブロックノイズが出ず、ぼけ・リンギング状の劣化になる"
+  ],
+  "example": "64×64 試験画像をハール3段分解：係数4096個のうち |値|<4 が 71%。LL3（8×8=64個）だけで逆変換すると 1/8 解像度の画像になる。JPEG 2000 は可逆用に整数の 5/3 フィルタ、非可逆用に 9/7 フィルタ",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 280 109' width='280' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='280' height='109' fill='#fff'/><image x='39.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA5UlEQVRYw+2VQQ6DIBBFkfQArHvWCWHBWXsN2oTawMA08xFj08DCyOh7Ih90c+ZYs2YJ/kBw208ewg33mSOIsa1tTjuCD0xDgurZhL9CFHt2gK/6doQvK3aIn7CQIiCI5yzluLbzDwhIL6BTRkCIgA6PgL5UrBkxEDwHJPbmfVTXXrhQYFxu3hifUiiOr0oozsuruZ7BXYDznglgPtUCnGcCnA9MAPNsEnFeTkHJiyloeSkFNS+koOd9NwWA76aA8L0UIL6TAsa3KYB8kwLK870A82wScb5JAeV5CjD/nsT1a5sgeALbujaMFLUhZwAAAABJRU5ErkJggg=='/><rect x='39.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='81.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像</text><line x1='126.0' y1='48.0' x2='154.0' y2='48.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><text x='140.0' y='43.0' font-size='9' text-anchor='middle' fill='#3563e9'>DWT</text><image x='157.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAADNUlEQVRYw+1XQWgTQRT9m2w1qd3CtpCSHIR0sV6UajeX4KWQdT3VY3P1lIInEQ8FD56EFupZ6k3wUq/1IE3irRS0W6gWBXGTijSLhzbFTbXYJePMZHczMZkkNogV+vnM/M/s+5n3/8z+rKBDTVbgeCLCM4C7EzvviJPcurT25wGwjEcin8gs22uxkrciwxCYnQMEyPC5av0gc5+YrOOVsmmmOwcQbgyGnaOws5sLg2SD9LXqLtx/SEal4x7Es5rjhBzHiNhSBYfQX/oMuAF0NuNiH8WHHAkqCG/BBrYqSqva6CvsHDxv72+X9rd3Xw/sDsPe8Jef7mOmvneoyCU+HsyF45Veb3SDtP4X1A9kvnJQrcLALYhOodgUHiFWdpoCMFkhW6Dn4I0DoUM8b5F5khYH0SfQ03RX5yApJgkeIuLFQzAMlKhrR0bB4OWrI9/Gj3YC584M2yJ8R5M2gy8Xm3NQ50CSGAgXNt8WNjf7w7GKhLUfgP39TLsfX6AUKhKtv1T5OAZYJXgFRsJT9VEzbMUrg36PZitwM2pBrJQ/GLGiYEUrdjeFPO7d/ysi+JZ8ew8eMytdvg+E+v1fxwVYhwZfLhNzQha0LNUcup5l7bx7kKgQ7LoCDX655vPwgncXiNCjCGVo4ZcsDl7LMTtQ/KHJT/DwWWACmLoMisxcOsX3EQ8vNFSBL2ieg9dmSQ4G7oTmRkPzcTouOy3eBy9KHHy2SHagqsz9hQ1QjUWY8XRxg5RxiIMXcmQHFjD3P2aAxeBnpgxaBQ6eVEEE9bf3h8rgF5+QHKhDHLxbBRZP3mQMnvrwHsGsgBURRTXDHYkMRqMPfB3DfiYDvo7Bqfw7WegJrevtY+h6d+1X73G9y/YeOK33yUxir+eg95P4vwnpzqlRJYOoQnwGsXbtTx5eL6SoavFiirWLbhnb9X+6nktR1VA+1WB7zXWO179n3QgcfM6loJm8/l2joMU5eI9C2/5P1zn4Bgq8/u9RaIVnKXD7v0uhJZ6hwOnfPoXW+DoFXv/3KHDwHoVUkdf/3YOkcPCEAvnkWV2G6SVILwnTWJ8DGV03TwOsXqM7xZ9BWFHN8MYTIL8A2GtqAsqIl7sAAAAASUVORK5CYII='/><rect x='157.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='199.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>3段分解（係数の絶対値）</text></svg>",
+    "caption": "エネルギーは左上の LL3 と縁に集中"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0).astype(float)\ndef haar_step(a):\n    L, H = (a[:, 0::2] + a[:, 1::2]) / 2, (a[:, 0::2] - a[:, 1::2]) / 2\n    return np.block([[(L[0::2] + L[1::2]) / 2, (H[0::2] + H[1::2]) / 2],\n                     [(L[0::2] - L[1::2]) / 2, (H[0::2] - H[1::2]) / 2]])   # LL HL / LH HH\nW = img.copy(); n = img.shape[0]\nfor level in range(3):                        # LL だけを繰り返し分解\n    W[:n, :n] = haar_step(W[:n, :n]); n //= 2\nprint(\"|係数|<4 の割合:\", (np.abs(W) < 4).mean().round(2))\nq = 8\nWq = np.round(W / q) * q                      # 一様量子化（LL も含む簡易版）\nprint(\"非0係数:\", np.count_nonzero(Wq), \"/\", W.size)\n# PyWavelets: coeffs = pywt.wavedec2(img, 'bior2.2', level=3)  （5/3 に近いフィルタ）"
+ },
+ {
+  "id": "code-jpeg2000",
+  "steps": [
+   "① 前処理：画像をタイルに分け（全体1タイルでもよい）、色変換（可逆 RCT / 非可逆 ICT）",
+   "② 離散ウェーブレット変換：可逆は整数 5/3 フィルタ、非可逆は 9/7 フィルタで多段分解",
+   "③ 量子化（非可逆のみ）→ 各サブバンドをコードブロック（例 64×64）に分け、EBCOT でビットプレーンごとに算術符号化（MQコーダ）",
+   "④ 符号列をレイヤに並べ替え：途中で打ち切っても画像になる（画質・解像度スケーラブル）、関心領域（ROI）を優先、1つのファイルで可逆〜非可逆。デジタルシネマ（DCI）・医用（DICOM）で利用"
+  ],
+  "example": "例：同じ符号列から、先頭 10% だけ読めば低画質の全体像、50% で中画質、100% で可逆復元、LL だけ読めば 1/2・1/4 の縮小画像が得られる。高圧縮時の劣化はブロックノイズではなく、ぼけとエッジ周辺のリンギング",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "項目",
+     "JPEG",
+     "JPEG 2000"
+    ],
+    "rows": [
+     [
+      "変換",
+      "8×8 DCT",
+      "DWT（5/3, 9/7）"
+     ],
+     [
+      "エントロピー符号",
+      "ハフマン（主）",
+      "算術（EBCOT/MQ）"
+     ],
+     [
+      "可逆",
+      "別方式",
+      "同じ枠組みで可能"
+     ],
+     [
+      "スケーラビリティ",
+      "プログレッシブ程度",
+      "画質・解像度・位置・ROI"
+     ],
+     [
+      "高圧縮の劣化",
+      "ブロックノイズ",
+      "ぼけ・リンギング"
+     ]
+    ],
+    "caption": "JPEG と JPEG 2000 の比較"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 52' width='320' height='52' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='52' fill='#fff'/><rect x='6.0' y='6' width='50.4' height='38' rx='5' fill='#fff' stroke='#556'/><text x='31.2' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>タイル</text><text x='31.2' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>色変換</text><line x1='57.4' y1='25.0' x2='69.4' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='70.4' y='6' width='50.4' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='95.6' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>DWT</text><text x='95.6' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>5/3,9/7</text><line x1='121.8' y1='25.0' x2='133.8' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='134.8' y='6' width='50.4' height='38' rx='5' fill='#ffeede' stroke='#556'/><text x='160.0' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>量子化</text><line x1='186.2' y1='25.0' x2='198.2' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='199.2' y='6' width='50.4' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='224.4' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>EBCOT</text><text x='224.4' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>算術符号</text><line x1='250.6' y1='25.0' x2='262.6' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='263.6' y='6' width='50.4' height='38' rx='5' fill='#e2f6dc' stroke='#556'/><text x='288.8' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>レイヤ</text><text x='288.8' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>構成</text></svg>",
+    "caption": "JPEG 2000 の符号化の流れ"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0)\n# OpenCV（OpenJPEG 付きビルド）なら JPEG 2000 で保存できる\ntry:\n    ok, buf = cv2.imencode('.jp2', img, [cv2.IMWRITE_JPEG2000_COMPRESSION_X1000, 100])  # 1/10 圧縮\n    print(\"JP2:\", len(buf), \"バイト, PSNR\", cv2.PSNR(img, cv2.imdecode(buf, 0)))\nexcept cv2.error:\n    print(\"この環境のOpenCVはJPEG2000非対応\")\n# 可逆 5/3 リフティング（1次元）：整数演算で完全に元に戻る\nx = img[0].astype(int)\nd = x[1::2] - (x[0::2] + np.r_[x[2::2], x[-2]]) // 2      # 予測（高域）\ns = x[0::2] + (np.r_[d[0], d[:-1]] + d + 2) // 4          # 更新（低域）\nprint(\"低域\", s[:4], \"高域\", d[:4])"
+ },
+ {
+  "id": "code-progressive",
+  "steps": [
+   "① 目的：伝送の途中でも全体像を早く見せる（低速回線・Web）",
+   "② スペクトル選択：まず全ブロックの DC（各8×8の平均）だけを送る → モザイク状の粗い全体像",
+   "③ 次に低周波の AC、さらに高周波の AC と段階的に追加 → だんだん細部が見える。逐次近似：係数の上位ビットから順に送る方式もある",
+   "④ 最後まで受け取れば通常の逐次型と同じ画質。逐次型（ベースライン）は上から1行ずつ完成していく点が異なる。JPEG 2000・PNG（Adam7 インタレース）・GIF（インタレース）も同様の考え方"
+  ],
+  "example": "64×64 画像で、各ブロックの係数をジグザグ順に先頭 k 個だけ使った画像：k=1（DCのみ）PSNR 16.7 dB、k=6 17.9 dB、k=64 で完全に元通り（誤差≈0）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 120' width='320' height='120' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='120' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAiUlEQVRYw2NgGAWjgIGBEcb4j0OBMpT2hdLXofQuKM1EqQtGDRgMBrAQUuAJpZXQ6OOjgTii0sEFKK0Cpe9A6c+jgTicDGCEVQziUJoXSv+E0r9wiD8eDcRhVR7wQBmZBOL/F5r8xtFAHFbpgI3E+EcvF0YDcXjVCxpo8fwZTSG6+L3RQBxOBgAAyPkYraOGP1MAAAAASUVORK5CYII='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>DCのみ</text><text x='64.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>(1/64)</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>+低周波AC</text><text x='160.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>(6/64)</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAABUklEQVRYw+1VW27EIAxkUQ+Q754VIX9w1h7DdDfExQ9SOWxWW1XJhwUOMzYzkNyW8NwTw0XwDwg+aPC1s+DzzA5Ksbnb4u3gB5ymCETtdHwLZXcWJ/BiHmfwPBOn8CccpHKAoLzmKJfrOv8BguQnSC/pIB0hSE93kH7JxDDDkA5rkHZn531Ur7vwRoKwtCeHkGuFR8QW7xloGcTM8vcI+Mg3IBF0/BYzrWtc/C3gyqUIeIWMVddvmDXCtlISyP4Zfh2L+jSWBFS57x8tHjkeJAGa+l1L4q3AdAElIqtv+kdk/fexcYF0YvVZ/6jq77nA9bf+CaWHLjQ88vrs/FSh1NgFh/+0UhF4/e9OWxdc/nelB3fB5/+2U+uC13+6ncoFv/+butoFv//kjiLw+5+Hd6Hjuf/8+4H9pLW32oURHhle9m9dAKmQ1h+tOw14/dpOIPgG11Q1/q9OacIAAAAASUVORK5CYII='/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>全係数</text></svg>",
+    "caption": "プログレッシブ JPEG の表示の進み方（スペクトル選択）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 260 109' width='260' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='260' height='109' fill='#fff'/><image x='40.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAbUlEQVRYw+2UQQ6AIAwE68bP+ZM+iZ/4PPUCgSBRynX2QNqGHQoEzBAy23JwDiYcHwDNrObe1/b/7jykEMDrMM1vwYeZAv4mV8RfVxTyR6/xDarFBsIdFKxW3wKA5z+4OAMAAAAAAAAAAAAAvW71AQoi2tfJegAAAABJRU5ErkJggg=='/><rect x='40.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='82.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>逐次型：途中</text><image x='136.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='136.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='178.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>プログレッシブ：途中</text></svg>",
+    "caption": "同じデータ量を受け取った時点の見え方"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0).astype(np.float32)\nzz = [(r, s - r) for s in range(15) for r in (range(min(7, s), max(0, s - 7) - 1, -1) if s % 2 == 0\n                                              else range(max(0, s - 7), min(7, s) + 1))]   # ジグザグ順\ndef first_k(k):                                      # 各ブロックの先頭 k 係数だけで復号\n    out = np.zeros_like(img)\n    mask = np.zeros((8, 8), np.float32)\n    for r, c in zz[:k]: mask[r, c] = 1\n    for y in range(0, img.shape[0], 8):\n        for x in range(0, img.shape[1], 8):\n            out[y:y + 8, x:x + 8] = cv2.idct(cv2.dct(img[y:y + 8, x:x + 8] - 128) * mask) + 128\n    return out\nfor k in (1, 3, 6, 15, 64):                          # 段階的に送ると画質が上がる\n    print(k, \"係数:\", round(cv2.PSNR(img, first_k(k)), 1), \"dB\")"
+ },
+ {
+  "id": "code-png",
+  "steps": [
+   "① 入力：画像（グレー、パレット、RGB、RGBA、1〜16ビット）。α（透過）チャネルも可",
+   "② フィルタ（予測）：行ごとに None / Sub（左との差）/ Up（上との差）/ Average / Paeth から選び、差分に変換 → 0付近の値が増える",
+   "③ Deflate（LZ77＋ハフマン）で可逆圧縮し、IDAT チャンクに格納",
+   "④ ファイル構造：シグネチャ 8バイト → IHDR（幅・高さ・ビット深度）→ PLTE（パレット）→ IDAT → IEND。各チャンクは 長さ・種類・データ・CRC"
+  ],
+  "example": "64×64 の滑らかなグラデーション画像を Deflate したサイズ：フィルタなし 2585 B、Sub 987 B、Up 909 B、Average 1024 B。cv2 で書き出した PNG（863 B）のチャンク：IHDR(13B) → IDAT(806B) → IEND(0B)",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "フィルタ",
+     "予測値",
+     "Deflate後"
+    ],
+    "rows": [
+     [
+      "None",
+      "なし",
+      "2585 B"
+     ],
+     [
+      "Sub",
+      "左",
+      "987 B"
+     ],
+     [
+      "Up",
+      "上",
+      "909 B"
+     ],
+     [
+      "Average",
+      "(左+上)/2",
+      "1024 B"
+     ],
+     [
+      "Paeth",
+      "左・上・左上から選択",
+      "—"
+     ]
+    ],
+    "caption": "PNG のフィルタ（グラデーション画像での効果）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 52' width='320' height='52' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='52' fill='#fff'/><rect x='6.0' y='6' width='50.4' height='38' rx='5' fill='#fff' stroke='#556'/><text x='31.2' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>シグネチャ</text><text x='31.2' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>8B</text><line x1='57.4' y1='25.0' x2='69.4' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='70.4' y='6' width='50.4' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='95.6' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>IHDR</text><text x='95.6' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>幅・高さ</text><line x1='121.8' y1='25.0' x2='133.8' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='134.8' y='6' width='50.4' height='38' rx='5' fill='#fff' stroke='#556'/><text x='160.0' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>(PLTE)</text><text x='160.0' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>パレット</text><line x1='186.2' y1='25.0' x2='198.2' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='199.2' y='6' width='50.4' height='38' rx='5' fill='#ffeede' stroke='#556'/><text x='224.4' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>IDAT</text><text x='224.4' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>圧縮データ</text><line x1='250.6' y1='25.0' x2='262.6' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='263.6' y='6' width='50.4' height='38' rx='5' fill='#fff' stroke='#556'/><text x='288.8' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>IEND</text></svg>",
+    "caption": "PNG のチャンク構造"
+   }
+  ],
+  "code": "import numpy as np, cv2, zlib, struct\nimg = cv2.imread('input.png', 0)\na = img.astype(int)\nleft = np.zeros_like(a); left[:, 1:] = a[:, :-1]\nup = np.zeros_like(a); up[1:] = a[:-1]\nfor name, f in [(\"None\", a), (\"Sub\", a - left), (\"Up\", a - up), (\"Avg\", a - (left + up) // 2)]:\n    data = (f % 256).astype(np.uint8).tobytes()          # フィルタ後（mod 256）\n    print(name, len(zlib.compress(data, 9)), \"バイト\")\nok, buf = cv2.imencode('.png', img)                      # 実際のPNG\nb = buf.tobytes(); pos = 8                               # 先頭8バイト = シグネチャ\nprint(b[:8])                                             # b'\\x89PNG\\r\\n\\x1a\\n'\nwhile pos < len(b):                                      # チャンクを列挙\n    length, ctype = struct.unpack('>I4s', b[pos:pos + 8])\n    print(ctype.decode(), length); pos += 12 + length    # 長さ4+種類4+データ+CRC4"
+ },
+ {
+  "id": "code-deflate",
+  "steps": [
+   "① 入力：バイト列",
+   "② LZ77（LZSS）：直前 32KB の窓から最長一致を探し、「長さ, 距離」の組または リテラル（そのままの1バイト）に置き換える",
+   "③ ハフマン符号化：リテラル/長さを1つのアルファベット（0〜285）、距離を別のアルファベット（0〜29）としてそれぞれハフマン符号化（固定または動的ハフマン表）",
+   "④ 出力：ブロック単位のビット列。ZIP、gzip、PNG、PDF などで使われる標準的な可逆圧縮"
+  ],
+  "example": "繰り返しの多い 112 バイトの文字列 → zlib（Deflate＋ヘッダ6B）21 バイト。乱数 112 バイトでは 123 バイト（圧縮できず少し増える）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 64' width='320' height='64' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='64' fill='#fff'/><rect x='6.0' y='6' width='66.5' height='50' rx='5' fill='#fff' stroke='#556'/><text x='39.2' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>バイト列</text><line x1='73.5' y1='31.0' x2='85.5' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='86.5' y='6' width='66.5' height='50' rx='5' fill='#eef3ff' stroke='#556'/><text x='119.8' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>LZ77</text><text x='119.8' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>長さ・距離</text><text x='119.8' y='47.0' font-size='9.5' text-anchor='middle' fill='#222'>リテラル</text><line x1='154.0' y1='31.0' x2='166.0' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='167.0' y='6' width='66.5' height='50' rx='5' fill='#ffeede' stroke='#556'/><text x='200.2' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>ハフマン</text><text x='200.2' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>2種類の表</text><line x1='234.5' y1='31.0' x2='246.5' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='247.5' y='6' width='66.5' height='50' rx='5' fill='#e2f6dc' stroke='#556'/><text x='280.8' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>ビット列</text></svg>",
+    "caption": "Deflate＝LZ77＋ハフマン"
+   }
+  ],
+  "code": "import zlib, numpy as np\ndata = b\"ABABABABABABCCCCCCCCABABABAB\" * 4\nz = zlib.compress(data, 9)                      # zlib形式（Deflate＋ヘッダとチェックサム）\nprint(len(data), \"→\", len(z), \"バイト\")\nraw = zlib.compressobj(9, zlib.DEFLATED, -15)   # 生のDeflate（ヘッダなし）\nd = raw.compress(data) + raw.flush()\nprint(\"生Deflate:\", len(d), \" 復元一致:\", zlib.decompress(d, -15) == data)\nrnd = np.random.default_rng(0).integers(0, 256, len(data), dtype=np.uint8).tobytes()\nprint(\"乱数:\", len(rnd), \"→\", len(zlib.compress(rnd, 9)))     # 圧縮できない\n# 先頭3ビット: BFINAL(1) + BTYPE(2): 01=固定ハフマン, 10=動的ハフマン\nprint(\"BTYPE:\", (d[0] >> 1) & 3)"
+ },
+ {
+  "id": "code-gif",
+  "steps": [
+   "① 入力：画像の色を最大256色のパレット（色表）に減色（メディアンカット等）。各画素はパレット番号（インデックス）で表す",
+   "② インデックス列を LZW で可逆圧縮（減色の段階では情報が失われる）",
+   "③ パレットのうち1色を透明色に指定できる（半透明は不可）",
+   "④ 複数フレームと表示時間を格納してアニメーション。インタレース表示も可。図・アイコン・単純なアニメ向き（写真は色数不足で擬似輪郭が出る）"
+  ],
+  "example": "64×64 のグラデーション（4096 色）を16色に減色：画素あたり 24 bit → 4 bit（パレット 16×3 バイト別途）。減色誤差の平均 13.3（0〜255）。256色なら 8 bit/画素",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 260 109' width='260' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='260' height='109' fill='#fff'/><image x='29.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAUklEQVRo3u3PwQkAQAgEsRXsv2S9Ku4hZJgGUsl25vKd0wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD87wGVukJ3ET5mewAAAABJRU5ErkJggg=='/><rect x='29.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='71.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>フルカラー</text><line x1='116.0' y1='48.0' x2='144.0' y2='48.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><text x='130.0' y='43.0' font-size='9' text-anchor='middle' fill='#3563e9'>減色</text><image x='147.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAABq0lEQVRo3u3Yy07CQBQG4BlL6UoXbAwSlPgALiQxgaS0XeBj+Gi+iCZQWZi4YOGeBG8hLkwUF6Rg1ZqahrTT4YwBMpL/hEApA/N/nV6G8r39MaNVk98zcjnhHVOsUzZg6rXF/nkBAAAAAAAAAAAAaAjwjYP1AAo6bEXTDn9eenoDflPmV8eueb1hdr3hfMoA3P0iJrhm1Yb/IPgJT9yBGYSqSHnWJYxAXlachQAAYBMBXauGEQAAAAA2HqDFdLrkTOKFPisf90a6jECpNblt78pzx4/5lX27TO/C8kJeOXtb3M79iBdOrp4ouVNrji6e8zZ5XmXHIcoqbCkAJHGFlWfI5s4aFuaer0bhkdKMH56/qO4bKYM8elLudKjUCxHwl4P4plWJDMTcmp5GV52euPlxIQMAAAAAAGBtPXWLNYzA8v7QjB0ret7xA/pX6q3RO7Pi5e3LYFkAXh28Jm9Mn3RDvOkIbrLLMVF6yacpT72dblzshCSApBKbML0cI0+fnnVzhVl3BKPuQjPHUN3BYolSetWaesZqD+JEgusAAAAAAAAAAAAAAACC+gZAzXLQhBOvSwAAAABJRU5ErkJggg=='/><rect x='147.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='189.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>16色パレット</text></svg>",
+    "caption": "パレット化で擬似輪郭（段差）が出る"
+   },
+   {
+    "type": "table",
+    "head": [
+     "項目",
+     "GIF"
+    ],
+    "rows": [
+     [
+      "色数",
+      "最大256色（パレット）"
+     ],
+     [
+      "圧縮",
+      "LZW（可逆）"
+     ],
+     [
+      "透過",
+      "1色を透明に（2値）"
+     ],
+     [
+      "アニメ",
+      "可"
+     ],
+     [
+      "向く画像",
+      "図・ロゴ・アイコン"
+     ]
+    ],
+    "caption": "GIF の特徴"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png')                         # カラー画像\nZ = img.reshape(-1, 3).astype(np.float32)\nK = 16                                                # パレットの色数（GIFは最大256）\n_, idx, palette = cv2.kmeans(Z, K, None, (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0),\n                             2, cv2.KMEANS_PP_CENTERS)\nindex_img = idx.reshape(img.shape[:2]).astype(np.uint8)   # 各画素＝パレット番号\nrecon = palette[idx.ravel()].reshape(img.shape).astype(np.uint8)\nprint(\"パレット\", palette.shape, \" 4bit/画素, 誤差\", np.abs(recon.astype(int) - img).mean().round(1))\n# 実際の保存（Pillow）: Image.fromarray(img[..., ::-1]).convert('P', palette=Image.ADAPTIVE, colors=16).save('a.gif')"
+ },
+ {
+  "id": "code-tiff",
+  "steps": [
+   "① ヘッダ 8バイト：バイト順（\"II\"=リトルエンディアン/\"MM\"=ビッグ）、識別番号 42、最初の IFD の位置",
+   "② IFD（画像ファイルディレクトリ）：タグ番号・型・個数・値の並び。幅(256)、高さ(257)、ビット深度(258)、圧縮方式(259)、色空間(262)、ストリップ位置(273) など",
+   "③ 画像データ：ストリップやタイルに分けて格納。圧縮は無圧縮・LZW・PackBits・Deflate・JPEG などをタグで指定",
+   "④ 複数ページ（IFD の連結）、16ビット・浮動小数・CMYK なども扱える柔軟な形式 → 印刷・スキャナ・医用・科学計測で利用。Exif もこのタグ構造を利用"
+  ],
+  "example": "cv2 で書き出した 64×64 グレー TIFF（738 B）の先頭：II（バイト順）、識別番号 42、最初の IFD 位置 588",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "タグ番号",
+     "名前",
+     "例"
+    ],
+    "rows": [
+     [
+      "256",
+      "ImageWidth",
+      "64"
+     ],
+     [
+      "257",
+      "ImageLength",
+      "64"
+     ],
+     [
+      "258",
+      "BitsPerSample",
+      "8"
+     ],
+     [
+      "259",
+      "Compression",
+      "1=無圧縮, 5=LZW, 32773=PackBits"
+     ],
+     [
+      "262",
+      "Photometric",
+      "1=黒が0"
+     ],
+     [
+      "273",
+      "StripOffsets",
+      "データの位置"
+     ]
+    ],
+    "caption": "TIFF の主なタグ"
+   }
+  ],
+  "code": "import numpy as np, cv2, struct\nimg = cv2.imread('input.png', 0)\nok, buf = cv2.imencode('.tiff', img)\nb = buf.tobytes()\nendian = '<' if b[:2] == b'II' else '>'                 # II=リトル, MM=ビッグ\nmagic, ifd = struct.unpack(endian + 'HI', b[2:8])      # 42 と最初のIFDの位置\nprint(b[:2], magic, ifd)\nn = struct.unpack(endian + 'H', b[ifd:ifd + 2])[0]     # タグの個数\nfor i in range(n):                                     # 各エントリ12バイト\n    tag, typ, cnt, val = struct.unpack(endian + 'HHII', b[ifd + 2 + 12 * i: ifd + 14 + 12 * i])\n    if typ == 3 and cnt == 1:\n        val &= 0xFFFF if endian == '<' else val >> 16  # SHORT 型は先頭2バイト\n    print(tag, typ, cnt, val)                          # 256=幅, 257=高さ, 259=圧縮…"
+ },
+ {
+  "id": "code-bmp",
+  "steps": [
+   "① ファイルヘッダ 14バイト：\"BM\"、ファイルサイズ、画素データの開始位置",
+   "② 情報ヘッダ（BITMAPINFOHEADER 40バイト）：幅、高さ（正なら下から上へ格納）、ビット数（1/4/8/24/32）、圧縮（通常 0=無圧縮）",
+   "③ （8ビット以下なら）パレット → 画素データ。24ビットは B,G,R の順、各行は4バイト境界まで0で埋める",
+   "④ 構造が単純で読み書きが容易だが、無圧縮なのでサイズが大きい（RLE 圧縮も定義はある）"
+  ],
+  "example": "幅6×高さ5 の24ビット BMP：1行 = 6×3 = 18 バイト → 4の倍数に切り上げ 20 バイト（2バイト詰め物）。画素データ 20×5 = 100 B ＋ ヘッダ 54 B = 154 B（cv2 で作成して確認）。1920×1080×24bit なら 1920×3=5760 B/行 × 1080 + 54 = 6,220,854 B",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "オフセット",
+     "大きさ",
+     "内容",
+     "例"
+    ],
+    "rows": [
+     [
+      "0",
+      "2",
+      "\"BM\"",
+      "BM"
+     ],
+     [
+      "2",
+      "4",
+      "ファイルサイズ",
+      "154"
+     ],
+     [
+      "10",
+      "4",
+      "画素データ位置",
+      "54"
+     ],
+     [
+      "18",
+      "4",
+      "幅",
+      "6"
+     ],
+     [
+      "22",
+      "4",
+      "高さ",
+      "5"
+     ],
+     [
+      "28",
+      "2",
+      "ビット数",
+      "24"
+     ]
+    ],
+    "caption": "BMP ヘッダ（6×5・24bit、実際に生成した値）"
+   }
+  ],
+  "code": "import numpy as np, cv2, struct\nimg = cv2.imread('input.png')[:5, :6]                  # 幅6×高さ5 のカラー\nok, buf = cv2.imencode('.bmp', img)\nb = buf.tobytes()\nsig, size, _, offset = struct.unpack('<2sIII', b[:14])  # ファイルヘッダ\nw, h, planes, bpp, comp = struct.unpack('<iiHHI', b[18:34])   # 情報ヘッダ\nprint(sig, size, offset, w, h, bpp, comp)\nrow_bytes = (w * bpp // 8 + 3) // 4 * 4                 # 4バイト境界に切り上げ\nprint(\"1行\", row_bytes, \"バイト  データ\", row_bytes * abs(h), \"+ ヘッダ\", offset, \"=\", size)\n# 高さが正 → 下の行から格納。先頭の画素は左下で B,G,R の順\nprint(list(b[offset:offset + 3]), img[-1, 0])"
+ },
+ {
+  "id": "code-webp",
+  "steps": [
+   "① 非可逆モード：VP8（動画コーデック）のフレーム内符号化を利用。マクロブロック単位で周囲の画素から予測（イントラ予測）し、残差を 4×4 DCT 系変換・量子化・算術符号化",
+   "② 可逆モード：色キャッシュ、空間予測、LZ77 風の後方参照、ハフマン符号など独自の手法",
+   "③ α（透過）チャネル、アニメーションに対応 → JPEG・PNG・GIF の役割を1形式で",
+   "④ ファイルは RIFF コンテナ（\"RIFF\"＋サイズ＋\"WEBP\"＋チャンク VP8/VP8L/VP8X）。同画質で JPEG より 25〜35% 程度小さいとされる"
+  ],
+  "example": "64×64 試験画像：JPEG 品質50 956 B（PSNR 30.3 dB）、WebP 品質50 562 B（PSNR 34.9 dB）、WebP 可逆 246 B、PNG 863 B。先頭 12 バイト：RIFF … WEBP",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "JPEG",
+     "PNG",
+     "GIF",
+     "WebP"
+    ],
+    "rows": [
+     [
+      "非可逆",
+      "○",
+      "×",
+      "×",
+      "○"
+     ],
+     [
+      "可逆",
+      "△",
+      "○",
+      "○(256色)",
+      "○"
+     ],
+     [
+      "透過",
+      "×",
+      "○(α)",
+      "○(1色)",
+      "○(α)"
+     ],
+     [
+      "アニメ",
+      "×",
+      "△(APNG)",
+      "○",
+      "○"
+     ]
+    ],
+    "caption": "WebP は他形式の機能をまとめて持つ"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0)\nfor q in (50, 80, 101):                                  # 101 = 可逆（OpenCV の指定）\n    ok, buf = cv2.imencode('.webp', img, [cv2.IMWRITE_WEBP_QUALITY, q])\n    dec = cv2.imdecode(buf, 0)\n    psnr = cv2.PSNR(img, dec)\n    print(f\"WebP q={q}: {len(buf)} バイト, PSNR {psnr:.1f}\")\nok, jpg = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 50])\nprint(\"JPEG q=50:\", len(jpg))\nb = buf.tobytes()\nprint(b[:4], int.from_bytes(b[4:8], 'little'), b[8:12], b[12:16])   # RIFF, サイズ, WEBP, VP8L"
+ },
+ {
+  "id": "code-heif",
+  "steps": [
+   "① コンテナ：ISO ベースメディアファイル形式（MP4 と同じ \"box\" 構造）。ftyp（ブランド heic/mif1）、meta（画像の一覧・属性）、mdat（符号化データ）",
+   "② 画像の中身は HEVC（H.265）のフレーム内符号化（HEIC）。AV1 なら AVIF、JPEG なども格納可能",
+   "③ 1ファイルに複数画像（連写・バースト）、サムネイル、深度マップ、α、HDR、編集情報（回転・切り抜き）を格納。大きな画像はタイル分割",
+   "④ 同画質で JPEG の約半分のサイズとされ、iPhone（iOS 11〜）の標準写真形式。互換性のため共有時に JPEG に変換されることも"
+  ],
+  "example": "ファイル先頭の例：00 00 00 18 66 74 79 70 68 65 69 63 … → box の大きさ 0x18=24 バイト、種類 \"ftyp\"、メジャーブランド \"heic\"。12MP の写真：JPEG 約 4MB → HEIC 約 2MB",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 280 64' width='280' height='64' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='280' height='64' fill='#fff'/><rect x='6.0' y='6' width='80.0' height='50' rx='5' fill='#fff' stroke='#556'/><text x='46.0' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>ftyp</text><text x='46.0' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>ブランド</text><line x1='87.0' y1='31.0' x2='99.0' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='100.0' y='6' width='80.0' height='50' rx='5' fill='#eef3ff' stroke='#556'/><text x='140.0' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>meta</text><text x='140.0' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>iinf,iloc</text><text x='140.0' y='47.0' font-size='9.5' text-anchor='middle' fill='#222'>属性</text><line x1='181.0' y1='31.0' x2='193.0' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='194.0' y='6' width='80.0' height='50' rx='5' fill='#ffeede' stroke='#556'/><text x='234.0' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>mdat</text><text x='234.0' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>HEVC</text><text x='234.0' y='47.0' font-size='9.5' text-anchor='middle' fill='#222'>データ</text></svg>",
+    "caption": "HEIF ファイルの box 構造"
+   },
+   {
+    "type": "table",
+    "head": [
+     "",
+     "JPEG",
+     "HEIF(HEIC)"
+    ],
+    "rows": [
+     [
+      "符号化",
+      "DCT＋ハフマン",
+      "HEVC イントラ"
+     ],
+     [
+      "複数画像",
+      "×",
+      "○"
+     ],
+     [
+      "α・深度",
+      "×",
+      "○"
+     ],
+     [
+      "ビット深度",
+      "8",
+      "8〜16（HDR）"
+     ],
+     [
+      "サイズ(同画質)",
+      "1",
+      "約1/2"
+     ]
+    ],
+    "caption": "JPEG との比較"
+   }
+  ],
+  "code": "import struct\ndef list_boxes(b, start=0, end=None, depth=0):\n    \"\"\"ISO BMFF の box（大きさ4B + 種類4B + 中身）を列挙する\"\"\"\n    end = len(b) if end is None else end; pos = start\n    while pos + 8 <= end:\n        size, typ = struct.unpack('>I4s', b[pos:pos + 8])\n        print(\"  \" * depth + typ.decode('latin1'), size)\n        if typ == b'meta':                       # meta は FullBox（4Bの version/flags の後に子box）\n            list_boxes(b, pos + 12, pos + size, depth + 1)\n        pos += size if size else end\n# 実ファイルなら b = open('photo.heic', 'rb').read()。ここでは最小構造を自作して確認\nftyp = struct.pack('>I4s4sI4s4s', 24, b'ftyp', b'heic', 0, b'mif1', b'heic')\nhdlr = struct.pack('>I4sI', 12, b'hdlr', 0)\nmeta = struct.pack('>I4sI', 12 + len(hdlr), b'meta', 0) + hdlr\nmdat = struct.pack('>I4s', 12, b'mdat') + b'\\x00' * 4\nlist_boxes(ftyp + meta + mdat)"
+ },
+ {
+  "id": "code-exif",
+  "steps": [
+   "① JPEG の APP1 マーカ（FF E1）の中に \"Exif\\0\\0\" に続けて TIFF 構造（バイト順・IFD・タグ）でメタデータを格納",
+   "② 0th IFD：メーカー(271)、機種(272)、向き Orientation(274)、日時(306)。Exif IFD：露出時間(33434)、F値(33437)、ISO(34855)、撮影日時(36867)、焦点距離(37386)",
+   "③ GPS IFD：緯度・経度・高度。1st IFD：サムネイル画像",
+   "④ 利用：撮影条件の確認、Orientation による自動回転、写真の整理。位置情報が残るので公開前の削除に注意。JPEG のほか TIFF・HEIF・WebP・PNG でも利用"
+  ],
+  "example": "Orientation=6 は「表示時に時計回りに90°回転」。露出時間 1/125 秒は有理数 (1,125)、F値 2.8 は (28,10) で格納。GPS 緯度 35°39′29.1″ は (35/1, 39/1, 2910/100)",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "タグ番号",
+     "名前",
+     "値の例"
+    ],
+    "rows": [
+     [
+      "271",
+      "Make",
+      "Canon"
+     ],
+     [
+      "274",
+      "Orientation",
+      "1（正立）/6（右90°）"
+     ],
+     [
+      "33434",
+      "ExposureTime",
+      "1/125"
+     ],
+     [
+      "33437",
+      "FNumber",
+      "2.8"
+     ],
+     [
+      "34855",
+      "ISOSpeedRatings",
+      "400"
+     ],
+     [
+      "36867",
+      "DateTimeOriginal",
+      "2024:05:01 10:23:45"
+     ],
+     [
+      "34853",
+      "GPSInfo",
+      "GPS IFD へのポインタ"
+     ]
+    ],
+    "caption": "Exif の主なタグ"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 64' width='320' height='64' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='64' fill='#fff'/><rect x='6.0' y='6' width='50.4' height='50' rx='5' fill='#fff' stroke='#556'/><text x='31.2' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>SOI</text><text x='31.2' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>FFD8</text><line x1='57.4' y1='31.0' x2='69.4' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='70.4' y='6' width='50.4' height='50' rx='5' fill='#ffeede' stroke='#556'/><text x='95.6' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>APP1</text><text x='95.6' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>FFE1</text><text x='95.6' y='47.0' font-size='9.5' text-anchor='middle' fill='#222'>Exif</text><line x1='121.8' y1='31.0' x2='133.8' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='134.8' y='6' width='50.4' height='50' rx='5' fill='#eef3ff' stroke='#556'/><text x='160.0' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>DQT,DHT</text><text x='160.0' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>SOF,SOS</text><line x1='186.2' y1='31.0' x2='198.2' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='199.2' y='6' width='50.4' height='50' rx='5' fill='#fff' stroke='#556'/><text x='224.4' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>画像</text><text x='224.4' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>データ</text><line x1='250.6' y1='31.0' x2='262.6' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='263.6' y='6' width='50.4' height='50' rx='5' fill='#fff' stroke='#556'/><text x='288.8' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>EOI</text><text x='288.8' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>FFD9</text></svg>",
+    "caption": "JPEG ファイル内の Exif の位置"
+   }
+  ],
+  "code": "import io\nimport numpy as np\nfrom PIL import Image\n# Exif を付けた JPEG を作って読み出す（実際は Image.open('photo.jpg')）\nimg = Image.fromarray(np.zeros((32, 32, 3), np.uint8))\nexif = Image.Exif()\nexif[271] = \"DemoCam\"                 # Make\nexif[274] = 6                         # Orientation: 右に90°回転して表示\nexif[306] = \"2024:05:01 10:23:45\"     # DateTime\nbuf = io.BytesIO(); img.save(buf, 'JPEG', exif=exif.tobytes())\ndata = buf.getvalue()\nprint(data[:2].hex(), data[2:4].hex(), data[6:12])     # ffd8 ffe1 b'Exif\\x00\\x00'\nex = Image.open(io.BytesIO(data)).getexif()\nfor tag, val in ex.items():\n    print(tag, val)\n# 位置情報を消して保存: Image.open(...).save('out.jpg')（exif を渡さない）"
+ },
+ {
+  "id": "code-raster-image",
+  "steps": [
+   "① 画像を縦横の格子（画素）に分け、各画素の色・濃度を数値で持つ（例 16×16、各画素 0/1 や 0〜255、RGB なら3つ）",
+   "② データ量 = 幅 × 高さ × ビット深度（圧縮前）。解像度（画素数）が決まっている",
+   "③ 拡大すると画素が大きな四角に見え、斜め線や曲線の縁にギザギザ（ジャギー）が出る。補間で滑らかにしても細部は増えない",
+   "④ 写真・スキャン画像など、色が連続的に変化する画像に適する。形式：BMP、PNG、JPEG、GIF、TIFF など"
+  ],
+  "example": "円を 16×16 画素で表すと、縁は階段状。1920×1080×24bit = 約 6.2 MB、4K（3840×2160）なら 4倍の約 24.9 MB。ベクタなら円は「中心(8,8) 半径6」の数値だけ",
+  "figures": [
+   {
+    "type": "grid",
+    "data": [
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "max": 1,
+    "values": false,
+    "caption": "16×16 のラスタで描いた円（拡大するとジャギー）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 109' width='320' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='109' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAMklEQVQY02NgIBr8h9KMyDxGmABMFsRjROaDuEzoZmEIMKLoAPLJMwPTHSguxfALBgAAvuEJDnN8JsQAAAAASUVORK5CYII='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>16×16</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAUklEQVRYw+2XOw4AIAhDi/e/c50dDH4GE3ydaQMNEJAAkCILcBLUbjN4LxCzulcJFT3wJqmaBz4gFvAAAQSGWfAhmX1AIyHAfcCdWN+Dz/4FIHVk6wlg7g4DXgAAAABJRU5ErkJggg=='/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>最近傍で4倍</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>補間で4倍</text></svg>",
+    "caption": "拡大しても新しい細部は生まれない"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = np.zeros((16, 16), np.uint8)\ncv2.circle(img, (8, 8), 6, 255, -1)            # 画素の格子に円を描く（ラスタ化）\nprint(img // 255)                               # 縁は階段状\nbig = cv2.resize(img, None, fx=8, fy=8, interpolation=cv2.INTER_NEAREST)   # ジャギーが拡大される\nsmooth = cv2.resize(img, None, fx=8, fy=8, interpolation=cv2.INTER_CUBIC)  # 滑らかだがぼける\n# データ量（無圧縮）\nfor w, h in [(1920, 1080), (3840, 2160)]:\n    print(w, h, w * h * 3 / 1e6, \"MB（24bit）\")"
+ },
+ {
+  "id": "code-vector-image",
+  "steps": [
+   "① 画像を図形の命令として記録：点の座標、直線、ベジェ曲線、円、塗り色、線の太さ など",
+   "② 表示するときに、出力解像度に合わせてその都度ラスタ化（画素に変換）する",
+   "③ 拡大・縮小・回転しても座標を変換して描き直すので、輪郭は常に滑らか（劣化しない）。データ量は図形の数で決まり、画素数に依存しない",
+   "④ ロゴ・図面・地図・フォント（アウトラインフォント）・イラストに適する。写真のような複雑な濃淡は苦手。形式：SVG、EPS、PDF、AI、DXF など"
+  ],
+  "example": "円は SVG なら <svg viewBox='0 0 16 16'><circle cx='8' cy='8' r='6'/></svg>（60 バイト）。どの大きさで表示しても縁は滑らか。同じ円を 1000×1000 の8ビットラスタにすると 1,000,000 バイト（無圧縮）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 120' width='300' height='120' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='120' fill='#fff'/><circle cx='40' cy='60' r='18' fill='#3563e9'/><text x='40.0' y='100.0' font-size='9.5' text-anchor='middle' fill='#222'>小さく表示</text><circle cx='170' cy='60' r='48' fill='#3563e9'/><text x='170.0' y='118.0' font-size='9.5' text-anchor='middle' fill='#222'>大きく表示しても滑らか</text><text x='270.0' y='40.0' font-size='9.5' text-anchor='middle' fill='#222'>&lt;circle</text><text x='270.0' y='54.0' font-size='9.5' text-anchor='middle' fill='#222'>cx=8 cy=8</text><text x='270.0' y='68.0' font-size='9.5' text-anchor='middle' fill='#222'>r=6/&gt;</text><text x='270.0' y='90.0' font-size='9.5' text-anchor='middle' fill='#e33'>数値だけ</text></svg>",
+    "caption": "ベクタ画像：座標と属性の記述"
+   },
+   {
+    "type": "table",
+    "head": [
+     "",
+     "ラスタ",
+     "ベクタ"
+    ],
+    "rows": [
+     [
+      "表現",
+      "画素の配列",
+      "図形の座標・属性"
+     ],
+     [
+      "拡大",
+      "ジャギー・ぼけ",
+      "劣化なし"
+     ],
+     [
+      "データ量",
+      "画素数×深度",
+      "図形の数"
+     ],
+     [
+      "向く画像",
+      "写真",
+      "ロゴ・図面・文字"
+     ],
+     [
+      "形式",
+      "JPEG/PNG/BMP",
+      "SVG/EPS/PDF"
+     ]
+    ],
+    "caption": "ラスタとベクタの比較"
+   }
+  ],
+  "code": "import numpy as np, cv2\nshapes = [(\"circle\", (8.0, 8.0), 6.0), (\"line\", (1.0, 15.0), (15.0, 1.0))]   # ベクタ表現（座標）\ndef rasterize(shapes, scale):\n    n = int(16 * scale)\n    img = np.zeros((n, n), np.uint8)\n    for s in shapes:                                # 表示する解像度に合わせて描く\n        if s[0] == \"circle\":\n            cv2.circle(img, (int(s[1][0] * scale), int(s[1][1] * scale)), int(s[2] * scale), 255, -1, cv2.LINE_AA)\n        else:\n            p, q = (np.array(s[1]) * scale).astype(int), (np.array(s[2]) * scale).astype(int)\n            cv2.line(img, tuple(map(int, p)), tuple(map(int, q)), 128, max(1, int(scale)), cv2.LINE_AA)\n    return img\nfor sc in (1, 4, 16):\n    print(sc, rasterize(shapes, sc).shape)          # 何倍でも滑らかに描き直せる\nsvg = \"<svg viewBox='0 0 16 16'><circle cx='8' cy='8' r='6'/></svg>\"\nprint(len(svg), \"バイト\")"
+ },
+ {
+  "id": "code-vq",
+  "steps": [
+   "① 入力：画像を小ブロック（例 2×2 = 4画素）に分け、各ブロックを4次元ベクトルとみなす",
+   "② 符号帳（コードブック）：代表ベクトル K 個（例 16個）を、学習画像のベクトルを k-means（LBG法）でクラスタリングして作る",
+   "③ 符号化：各ブロックについて、符号帳の中で最も近い（二乗距離最小の）代表ベクトルの番号だけを送る",
+   "④ 復号：番号から代表ベクトルを引いて並べるだけ（高速）。出力：ブロック状に近似された画像。K を増やすと高画質だが符号帳探索が重い"
+  ],
+  "example": "64×64 画像を 2×2 ブロック（1024個）× 符号帳16個で表すと、1ブロック 32 bit → 4 bit（1画素あたり 1 bit）、圧縮比 8:1（符号帳 16×4 バイト別途）。PSNR 45.3 dB",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 260 109' width='260' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='260' height='109' fill='#fff'/><image x='29.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA5UlEQVRYw+2VQQ6DIBBFkfQArHvWCWHBWXsN2oTawMA08xFj08DCyOh7Ih90c+ZYs2YJ/kBw208ewg33mSOIsa1tTjuCD0xDgurZhL9CFHt2gK/6doQvK3aIn7CQIiCI5yzluLbzDwhIL6BTRkCIgA6PgL5UrBkxEDwHJPbmfVTXXrhQYFxu3hifUiiOr0oozsuruZ7BXYDznglgPtUCnGcCnA9MAPNsEnFeTkHJiyloeSkFNS+koOd9NwWA76aA8L0UIL6TAsa3KYB8kwLK870A82wScb5JAeV5CjD/nsT1a5sgeALbujaMFLUhZwAAAABJRU5ErkJggg=='/><rect x='29.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='71.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像</text><line x1='116.0' y1='48.0' x2='144.0' y2='48.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><text x='130.0' y='43.0' font-size='9' text-anchor='middle' fill='#3563e9'>VQ</text><image x='147.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA4UlEQVRYw+2VTQuCQBCGdyUIT83FS9Bv648MDcQeuvcfO0aS5zXClHbT8tU+JGYPgwzuMx+vM1oy405iFPAHgFn9cOh4YfnODJx79FnqlUFeUnOZBwE22Z2P0RLy0z4LSoF7IHEzIEAcPyQkA+KjMi6yNkUBgPvMp+x0nCcA4P4AHp1B8Yz6jVkwKRfdZQ3bB4yqEOSwPnLbWn+VQ9oM5ap9qeos/BBgqDo7a8R7QWx1sQbM7dVrEBsA8PjiQwAc34cAKtH4XiIAGl+iJqoKqoKqMBEViKQ8bzF7a7/+2sYDLo59QSxKBir3AAAAAElFTkSuQmCC'/><rect x='147.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='189.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>16個の代表で近似</text></svg>",
+    "caption": "2×2ブロックのベクトル量子化"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 60' width='300' height='60' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='60' fill='#fff'/><image x='20.0' y='6.0' width='260.0' height='26.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAAFCAAAAADJHFt7AAAAXklEQVQI12P8z0AiYGKwsWE4eZKht5fhbAODsTFDw1mGhnMMtucYjjUx9Noy2PYy2LaCZG1tQSRQhAmhefNmBgZfIGTYmw/ilu8GkQFAvIlhA5ABZIEoBkYyXEUqAADB3BlKOzc5/AAAAABJRU5ErkJggg=='/><rect x='20.0' y='6.0' width='260.0' height='26.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='150.0' y='50.0' font-size='9.5' text-anchor='middle' fill='#222'>符号帳（16個の 2×2 代表ブロック、k-means で学習）</text></svg>",
+    "caption": "符号帳"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0)\nb = 2                                                 # 2×2 ブロック = 4次元ベクトル\nH, W = img.shape\nvecs = img.reshape(H // b, b, W // b, b).transpose(0, 2, 1, 3).reshape(-1, b * b).astype(np.float32)\nK = 16\ncrit = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.5)\n_, labels, codebook = cv2.kmeans(vecs, K, None, crit, 3, cv2.KMEANS_PP_CENTERS)   # 符号帳の学習\n# 符号化：最近傍の代表ベクトルの番号（kmeans の labels と同じ）\nd = ((vecs[:, None, :] - codebook[None]) ** 2).sum(-1)\nidx = d.argmin(axis=1)\n# 復号：番号 → 代表ベクトル → ブロックを並べ直す\nrec = codebook[idx].reshape(H // b, W // b, b, b).transpose(0, 2, 1, 3).reshape(H, W)\nprint(\"4 bit/ブロック  PSNR:\", cv2.PSNR(img, np.clip(rec, 0, 255).astype(np.uint8)))"
+ },
+ {
+  "id": "code-chroma-subsampling",
+  "steps": [
+   "① 入力：RGB 画像を輝度 Y と色差 Cb, Cr に変換（Y=0.299R+0.587G+0.114B など）",
+   "② 視覚は明るさの細部には敏感だが色の細部には鈍感 → Y は全画素残し、Cb・Cr だけ間引く",
+   "③ 4:2:2 は色差を横方向に1/2、4:2:0 は縦横とも1/2（2×2 画素で色差1組）、4:1:1 は横1/4",
+   "④ 復号時に色差を拡大して戻す。見た目はほとんど変わらないが、細い色付きの線や文字の縁で色がにじむ。JPEG・MPEG・放送・Blu-ray は主に 4:2:0"
+  ],
+  "example": "2×2 画素あたりのサンプル数：4:4:4 は Y4+Cb4+Cr4=12、4:2:2 は 4+2+2=8（2/3）、4:2:0 は 4+1+1=6（1/2）。1920×1080 の 8bit なら 4:4:4 で 6.2 MB、4:2:0 で 3.1 MB",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 96' width='330' height='96' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='330' height='96' fill='#fff'/><text x='36.0' y='14.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>4:4:4</text><rect x='10' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='16.5' cy='28.5' r='2' fill='#333'/><circle cx='16.5' cy='28.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='23' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='29.5' cy='28.5' r='2' fill='#333'/><circle cx='29.5' cy='28.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='36' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='42.5' cy='28.5' r='2' fill='#333'/><circle cx='42.5' cy='28.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='49' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='55.5' cy='28.5' r='2' fill='#333'/><circle cx='55.5' cy='28.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='10' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='16.5' cy='41.5' r='2' fill='#333'/><circle cx='16.5' cy='41.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='23' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='29.5' cy='41.5' r='2' fill='#333'/><circle cx='29.5' cy='41.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='36' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='42.5' cy='41.5' r='2' fill='#333'/><circle cx='42.5' cy='41.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='49' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='55.5' cy='41.5' r='2' fill='#333'/><circle cx='55.5' cy='41.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='10' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='16.5' cy='54.5' r='2' fill='#333'/><circle cx='16.5' cy='54.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='23' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='29.5' cy='54.5' r='2' fill='#333'/><circle cx='29.5' cy='54.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='36' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='42.5' cy='54.5' r='2' fill='#333'/><circle cx='42.5' cy='54.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='49' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='55.5' cy='54.5' r='2' fill='#333'/><circle cx='55.5' cy='54.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='10' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='16.5' cy='67.5' r='2' fill='#333'/><circle cx='16.5' cy='67.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='23' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='29.5' cy='67.5' r='2' fill='#333'/><circle cx='29.5' cy='67.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='36' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='42.5' cy='67.5' r='2' fill='#333'/><circle cx='42.5' cy='67.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='49' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='55.5' cy='67.5' r='2' fill='#333'/><circle cx='55.5' cy='67.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><text x='141.0' y='14.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>4:2:2</text><rect x='115' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='121.5' cy='28.5' r='2' fill='#333'/><circle cx='121.5' cy='28.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='128' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='134.5' cy='28.5' r='2' fill='#333'/><rect x='141' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='147.5' cy='28.5' r='2' fill='#333'/><circle cx='147.5' cy='28.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='154' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='160.5' cy='28.5' r='2' fill='#333'/><rect x='115' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='121.5' cy='41.5' r='2' fill='#333'/><circle cx='121.5' cy='41.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='128' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='134.5' cy='41.5' r='2' fill='#333'/><rect x='141' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='147.5' cy='41.5' r='2' fill='#333'/><circle cx='147.5' cy='41.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='154' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='160.5' cy='41.5' r='2' fill='#333'/><rect x='115' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='121.5' cy='54.5' r='2' fill='#333'/><circle cx='121.5' cy='54.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='128' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='134.5' cy='54.5' r='2' fill='#333'/><rect x='141' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='147.5' cy='54.5' r='2' fill='#333'/><circle cx='147.5' cy='54.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='154' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='160.5' cy='54.5' r='2' fill='#333'/><rect x='115' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='121.5' cy='67.5' r='2' fill='#333'/><circle cx='121.5' cy='67.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='128' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='134.5' cy='67.5' r='2' fill='#333'/><rect x='141' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='147.5' cy='67.5' r='2' fill='#333'/><circle cx='147.5' cy='67.5' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><rect x='154' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='160.5' cy='67.5' r='2' fill='#333'/><text x='246.0' y='14.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>4:2:0</text><rect x='220' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='226.5' cy='28.5' r='2' fill='#333'/><rect x='233' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='239.5' cy='28.5' r='2' fill='#333'/><rect x='246' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='252.5' cy='28.5' r='2' fill='#333'/><rect x='259' y='22' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='265.5' cy='28.5' r='2' fill='#333'/><rect x='220' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='226.5' cy='41.5' r='2' fill='#333'/><rect x='233' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='239.5' cy='41.5' r='2' fill='#333'/><rect x='246' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='252.5' cy='41.5' r='2' fill='#333'/><rect x='259' y='35' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='265.5' cy='41.5' r='2' fill='#333'/><rect x='220' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='226.5' cy='54.5' r='2' fill='#333'/><rect x='233' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='239.5' cy='54.5' r='2' fill='#333'/><rect x='246' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='252.5' cy='54.5' r='2' fill='#333'/><rect x='259' y='48' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='265.5' cy='54.5' r='2' fill='#333'/><rect x='220' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='226.5' cy='67.5' r='2' fill='#333'/><rect x='233' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='239.5' cy='67.5' r='2' fill='#333'/><rect x='246' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='252.5' cy='67.5' r='2' fill='#333'/><rect x='259' y='61' width='13' height='13' fill='#fff' stroke='#aaa'/><circle cx='265.5' cy='67.5' r='2' fill='#333'/><circle cx='233' cy='35' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><circle cx='259' cy='35' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><circle cx='233' cy='61' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><circle cx='259' cy='61' r='4.5' fill='none' stroke='#e33' stroke-width='1.5'/><text x='150.0' y='88.0' font-size='9.5' text-anchor='middle' fill='#555'>● 輝度Y（全画素）  ○ 色差Cb,Cr の標本位置</text></svg>",
+    "caption": "サンプリング位置（4×4 画素の例）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 109' width='320' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='109' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAjklEQVRo3u3YsRFAMBQG4MSZwgRqtTnUCiMYwwgKtSFUCpOYQ+voNMh9r3up8l3+l7skbnX4dWUhALxa+aVvhq9Hau7XcxvNAIAZECEAMyBCAGZAhAAAUrmF7tV2+4v7m8ZChAAAAAAAAAAAAAAAAAAAkgT4WgQASAxQLeW/VkQIAAAAAAAAAMCT0gk8rgM8CiGQykk/BwAAAABJRU5ErkJggg=='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>元の画像</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAA9UlEQVRo3u3YvQqCUBjG8WPoZMNZa6jpuPZB0NJldAV1XQXdTUP0sYVnr/UQNbn0uhlIgg5H4f8MB3Tx/amPcAyOK9Xp9FTHExYPToMoX4dRa8ddPLJ8fWblAEmSJK8WA5J+lqZp8UxAB+gAHaADdIAO0AE6QAfoAAC+QuU564msFz31MtzMXWWdu1t9gMQY89bGC8C4j7W20ROQey/T78YbL4Ct2lsd/38ClBgAAAAAAAAAAAAAAAAAANRMWPlfQHbWsjf1Mpxcve+abeolVqJjL4DK6RX/RgEA+AHcR2p5WHfrDK8QAAAAAAAAAABAh8OOzHe+mJtrkSHsekAAAAAASUVORK5CYII='/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>4:2:0 で復元</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAf0lEQVRYw2NgGGjACCJKGErJ0NrN0AMkWSDst+QYUMowKMBoGIyGwWgYDBbAiGAuYIgnUtNChgQ4mwlJnFj9KAqRXPAfxTR84B+SNiZKw2DUgFEDRg0YNWDwGIAEFvwnGizA7oKFxFq1kGEUYIDkPPLJ0aQ8asCoAdQvEwcIAAB2REt7sSPpUgAAAABJRU5ErkJggg=='/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>差（色の縁だけ）</text></svg>",
+    "caption": "色差を1/4に間引いても大部分は同じ。細い色線の周囲だけ色がにじむ"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png')                                  # BGR\nycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb).astype(np.float32)\nY, Cr, Cb = cv2.split(ycc)\nh, w = Y.shape\nCr420 = cv2.resize(Cr, (w // 2, h // 2), interpolation=cv2.INTER_AREA)   # 2×2 の平均\nCb420 = cv2.resize(Cb, (w // 2, h // 2), interpolation=cv2.INTER_AREA)\nprint(\"サンプル数:\", Y.size + Cr.size + Cb.size, \"→\", Y.size + Cr420.size + Cb420.size)   # 1/2\nup = lambda c: cv2.resize(c, (w, h), interpolation=cv2.INTER_LINEAR)      # 復号：色差を拡大\nrec = cv2.cvtColor(np.clip(cv2.merge([Y, up(Cr420), up(Cb420)]), 0, 255).astype(np.uint8), cv2.COLOR_YCrCb2BGR)\nprint(\"PSNR:\", cv2.PSNR(img, rec))"
+ },
+ {
+  "id": "code-gop",
+  "steps": [
+   "① GOP（Group of Pictures）：I ピクチャから次の I の直前までのまとまり。N（GOP長、例 12〜15枚）と M（I/P の間隔、例 3）で表す",
+   "② 例 N=12, M=3：表示順 I0 B1 B2 P3 B4 B5 P6 B7 B8 P9 B10 B11 → 次の GOP の I12",
+   "③ B は後ろの P も参照するので、符号化（伝送）順は I0 P3 B1 B2 P6 B4 B5 … と並べ替える",
+   "④ 再生途中から見る・早送り・編集は I ピクチャから始める（ランダムアクセス単位）。GOP が長いほど圧縮効率は上がるが、頭出しの遅れと誤りの伝搬が増える"
+  ],
+  "example": "30fps で N=15 なら 0.5 秒ごとに I。放送（MPEG-2）では N=15, M=3 が典型。I:P:B のデータ量比をおよそ 10:4:1 とすると、GOP あたり I1+P3+B8 = 10+12+8 = 30 単位 → 全て I なら 120 単位（約1/4）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 122' width='320' height='122' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='122' fill='#fff'/><rect x='12' y='40' width='19' height='24' fill='#ffd6d6' stroke='#556'/><text x='21.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>I</text><text x='21.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>0</text><rect x='34' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='43.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='43.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>1</text><rect x='56' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='65.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='65.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>2</text><rect x='78' y='40' width='19' height='24' fill='#d6e4ff' stroke='#556'/><text x='87.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>P</text><text x='87.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>3</text><rect x='100' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='109.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='109.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>4</text><rect x='122' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='131.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='131.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>5</text><rect x='144' y='40' width='19' height='24' fill='#d6e4ff' stroke='#556'/><text x='153.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>P</text><text x='153.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>6</text><rect x='166' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='175.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='175.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>7</text><rect x='188' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='197.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='197.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>8</text><rect x='210' y='40' width='19' height='24' fill='#d6e4ff' stroke='#556'/><text x='219.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>P</text><text x='219.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>9</text><rect x='232' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='241.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='241.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>10</text><rect x='254' y='40' width='19' height='24' fill='#d8f5d0' stroke='#556'/><text x='263.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>B</text><text x='263.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>11</text><rect x='276' y='40' width='19' height='24' fill='#ffd6d6' stroke='#556'/><text x='285.5' y='56.0' font-size='11' text-anchor='middle' fill='#222' font-weight='bold'>I</text><text x='285.5' y='76.0' font-size='9' text-anchor='middle' fill='#222'>12</text><path d='M24,64 Q35.0,86 41,66' fill='none' stroke='#2a2' stroke-width='0.8' marker-end='url(#ah)'/><path d='M21,40 Q54.0,12 87,38' fill='none' stroke='#3563e9' stroke-width='1.2' marker-end='url(#ah)'/><path d='M87,40 Q120.0,12 153,38' fill='none' stroke='#3563e9' stroke-width='1.2' marker-end='url(#ah)'/><path d='M153,40 Q186.0,12 219,38' fill='none' stroke='#3563e9' stroke-width='1.2' marker-end='url(#ah)'/><text x='150.0' y='10.0' font-size='9.5' text-anchor='middle' fill='#3563e9'>P：前の I/P から予測（青）</text><rect x='9' y='36' width='266' height='32' fill='none' stroke='#e33' stroke-dasharray='4 2'/><text x='144.0' y='96.0' font-size='9.5' text-anchor='middle' fill='#e33'>1 GOP（N=12, M=3）  表示順</text><text x='150.0' y='114.0' font-size='9.5' text-anchor='middle' fill='#222'>符号化順：I0 P3 B1 B2 P6 B4 B5 P9 B7 B8 I12 B10 B11</text></svg>",
+    "caption": "GOP 構造（表示順と符号化順）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "表示順",
+     "0",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9"
+    ],
+    "rows": [
+     [
+      "種類",
+      "I",
+      "B",
+      "B",
+      "P",
+      "B",
+      "B",
+      "P",
+      "B",
+      "B",
+      "P"
+     ],
+     [
+      "符号化順",
+      "0",
+      "2",
+      "3",
+      "1",
+      "5",
+      "6",
+      "4",
+      "8",
+      "9",
+      "7"
+     ]
+    ],
+    "caption": "B は参照先の P より後に符号化"
+   }
+  ],
+  "code": "def gop(N=12, M=3):\n    \"\"\"表示順のピクチャ種別と、符号化順を作る\"\"\"\n    types = [\"I\" if i == 0 else (\"P\" if i % M == 0 else \"B\") for i in range(N)]\n    order, pending_b = [], []\n    for i, t in enumerate(types + [\"I\"]):        # 次のGOPのIまで\n        if t == \"B\":\n            pending_b.append(i)                  # B は後ろの参照ピクチャを待つ\n        else:\n            order.append(i); order += pending_b; pending_b = []\n    return types, order\ntypes, order = gop()\nprint(\"表示順 :\", \" \".join(f\"{t}{i}\" for i, t in enumerate(types)))\nprint(\"符号化順:\", \" \".join(f\"{(types + ['I'])[i]}{i}\" for i in order))\nsizes = {\"I\": 10, \"P\": 4, \"B\": 1}                 # 相対的なデータ量\nprint(\"GOPのデータ量:\", sum(sizes[t] for t in types), \"/ 全I:\", 10 * len(types))"
+ },
+ {
+  "id": "code-ipb",
+  "steps": [
+   "① I ピクチャ：そのフレームだけで符号化（フレーム内符号化。JPEG と同様）。単独で復号でき、頭出しの起点。データ量は最大",
+   "② P ピクチャ：前の I/P を参照し、動き補償予測の差分だけを符号化（前方予測）",
+   "③ B ピクチャ：前と後ろの I/P の両方（または平均）から予測（双方向予測）→ 差分が最も小さく、データ量最小。隠れていた背景が現れる場合も後ろから予測できる",
+   "④ 出力のデータ量は I > P > B。B は後ろのピクチャを先に復号しておく必要があるので、遅延と並べ替えが生じる"
+  ],
+  "example": "右へ毎フレーム2画素動く画像：フレームそのもののエントロピー 2.15 bit/画素（I）、単純な前フレーム差分 1.82 bit、動き補償した前方予測の残差 0.00 bit（P、ほぼ0）、前後の平均で予測 0.00 bit（B）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 109' width='320' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='109' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAqklEQVRYw+2VSw6DMAwFjdUDZN+zPmXhs3KOoC7aFEuReCaoHzkLhC1mcOIEliLnhkoK/kBw67fr4JH7zArMfGYpxyt4wQgJdu8GPwUbRBri32KN8T2jQX7CRjJCYNdsZcvj/AUCHBfgkgrACHC6AgwzKjED6DXAIJr5Uc2z8DGBlOeoIrU16vrAuoDnqxPQfNsLeN4JeN5NgefdImYXsgvZhR/vQv7aJgg2IEI2n14v/coAAAAASUVORK5CYII='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>I：画像そのもの</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAzklEQVRYw+2UMQ7CMAxFv0wvwJCJe3XgEhygc/dwiDDkgKwpAhKc0gHbDB38lUptJf8+xz8FXC6mUmTvqwbJR/LjGtUEOa9vRAZdFX+gX+E5+ogsNMir1pkDaeq5A6nqId6DLzUEMgKoCRoCWY+AGxgM6nBJkJm/ErR0EYwIBJXDJ94EjQM7HgSFw+bxMv9UXTtQDCkV2QqBB2kGzjfZwsQJQixShNhFT16fXhmtLVwULVy7yCtaeG7i4W1wnE9ShAl3n4JPwaewwym4DFoA2ueRTQKaoJQAAAAASUVORK5CYII='/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>動き補償なし差分</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAG0lEQVRYw+3BgQAAAADDoPlT3+AEVQEAAAB8AxBAAAEZszF2AAAAAElFTkSuQmCC'/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>P：動き補償の残差</text></svg>",
+    "caption": "予測すると符号化すべき残差がほぼ0に"
+   },
+   {
+    "type": "table",
+    "head": [
+     "種類",
+     "参照",
+     "相対データ量",
+     "単独復号"
+    ],
+    "rows": [
+     [
+      "I",
+      "なし",
+      "大（10）",
+      "○"
+     ],
+     [
+      "P",
+      "前の I/P",
+      "中（4）",
+      "×"
+     ],
+     [
+      "B",
+      "前後の I/P",
+      "小（1）",
+      "×"
+     ]
+    ],
+    "caption": "I/P/B ピクチャの比較"
+   }
+  ],
+  "code": "import numpy as np, cv2\nf0 = cv2.imread('input.png', 0).astype(np.float32)\nframes = [np.roll(f0, 2 * k, axis=1) for k in range(4)]     # 右に2画素ずつ動く動画\ndef entropy(a):\n    a = np.round(a).astype(int); p = np.bincount((a - a.min()).ravel()) / a.size; p = p[p > 0]\n    return -(p * np.log2(p)).sum()\nmv = 2                                                      # 動きベクトル（既知とする）\nI = frames[1]                                               # I：そのまま\nP = frames[1] - np.roll(frames[0], mv, axis=1)              # P：前から動き補償予測した残差\nB = frames[2] - (np.roll(frames[1], mv, axis=1) + np.roll(frames[3], -mv, axis=1)) / 2   # B：前後の平均\nfor name, a in [(\"I\", I), (\"P\", P), (\"B\", B)]:\n    print(name, \"エントロピー\", entropy(a).round(2), \"bit/画素\")"
+ },
+ {
+  "id": "code-motion-compensation",
+  "steps": [
+   "① 入力：現フレームと参照フレーム（前の復号済みフレーム）。現フレームを 16×16 などのブロックに分ける",
+   "② 動き推定：各ブロックについて、参照フレームの探索範囲（例 ±6画素）内で差の絶対値和（SAD）が最小になる位置を探す → 動きベクトル (dx, dy)",
+   "③ 予測画像：参照フレームを動きベクトル分ずらして貼り合わせる。現フレーム − 予測 = 予測残差",
+   "④ 動きベクトル＋残差（DCT・量子化）を符号化。出力：単純なフレーム差分よりずっと小さい残差。H.264 以降は 1/4 画素精度・可変ブロックサイズ・複数参照"
+  ],
+  "example": "全体が右3・下1 に動き、左下の一部が別の動き：大部分のブロックの動きベクトル = (3, 1)（dx,dy）。残差の平均絶対値：単純なフレーム差 36.8 → 動き補償後 9.4",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 140' width='300' height='140' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='140' fill='#fff'/><image x='10.0' y='6.0' width='128.0' height='128.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA8klEQVRYw+1WOw6DMAx1UrhGVy7RkYUB5Jt06TG69CYWrD1GF85Shi4tjSNI7QASUsNg2THvyfYzH3OCZZeFRJAIADLHv87cc1mzAsRABb/RH0NRBOi6pG8BpyMbh//GNhI/nthY/AqLhAoC3GaVMT3OOyAgOQFtUgFpCGhxBTR3YiGSgdQzoOko0wwNJ8hM+sHYAcHhOLrl41mdq0Fj84CMZQ1dC03Y3gMtSPC1t4mlmxfiGQHPC/Cdr4IW33oELC/EsxZ4PkYFLb72WuiSCn+rgvNCuZm+N0XxtiIVckYwyJRzbc5moMc3oT2QqpA+bQAvEo94qUccN1YAAAAASUVORK5CYII='/><rect x='10.0' y='6.0' width='128.0' height='128.0' fill='none' stroke='#888' stroke-width='0.8'/><rect x='10' y='6' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='26' y1='22' x2='26' y2='22' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='42' y='6' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='58' y1='22' x2='58' y2='22' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='74' y='6' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='90' y1='22' x2='102' y2='22' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='106' y='6' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='122' y1='22' x2='130' y2='22' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='10' y='38' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='26' y1='54' x2='26' y2='54' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='42' y='38' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='58' y1='54' x2='58' y2='54' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='74' y='38' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='90' y1='54' x2='102' y2='58' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='106' y='38' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='122' y1='54' x2='134' y2='58' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='10' y='70' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='26' y1='86' x2='26' y2='94' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='42' y='70' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='58' y1='86' x2='70' y2='90' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='74' y='70' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='90' y1='86' x2='102' y2='90' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='106' y='70' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='122' y1='86' x2='134' y2='90' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='10' y='102' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='26' y1='118' x2='26' y2='126' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='42' y='102' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='58' y1='118' x2='46' y2='122' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='74' y='102' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='90' y1='118' x2='78' y2='122' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><rect x='106' y='102' width='32' height='32' fill='none' stroke='#ff0' stroke-width='0.6'/><line x1='122' y1='118' x2='134' y2='122' stroke='#e33' stroke-width='1.8' marker-end='url(#ah)'/><text x='210.0' y='40.0' font-size='9.5' text-anchor='middle' fill='#222'>16×16 ブロックごとに</text><text x='210.0' y='54.0' font-size='9.5' text-anchor='middle' fill='#222'>前フレームの最も似た</text><text x='210.0' y='68.0' font-size='9.5' text-anchor='middle' fill='#222'>位置を探索（±6画素）</text><text x='210.0' y='92.0' font-size='9.5' text-anchor='middle' fill='#e33'>赤矢印 = 動きベクトル</text><text x='210.0' y='106.0' font-size='9.5' text-anchor='middle' fill='#e33'>（4倍に拡大表示）</text></svg>",
+    "caption": "ブロックマッチングで求めた動きベクトル（計算結果）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 260 109' width='260' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='260' height='109' fill='#fff'/><image x='40.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAABQUlEQVRYw+1VwW3DMAy8qn0kPyebdITO4hGSBwF/Y4ABuoLH6CzZIu3TnyJ1nRSiZVsU7WdFCEQi6E48UqSBbNmAp78f15kDe4XgRTt7FfsMikYQJ+DeE5gWEfAd/YiEzAQs4EMtLinVAf5XiIkgxEsGtwjvk5ooYYy35IAigaVGQPNbbkUb8FoC/HcCw0vkaHGd6bqJHYfFT5HSc0CjENiYxJBB9GdyN/JMfxuGKsnwaTQTUz4NrHV4tnV2KIpD25r8Hfj8ILig3L2dtx/f22T/etm0PoLRDafbSVndOSkhjFDF37pz4iW2qJojqtqvwZ+p9VljI5qpamDDo3NBFQYB6hI6nUJCgbJ+N0po8CUklLVVQoMyqIJRQq5CroKvgvP442BEqfiqv1NWYadjJqogJpKetthEmppqus8fo95+ACB4OWAuf272AAAAAElFTkSuQmCC'/><rect x='40.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='82.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>フレーム差分</text><image x='136.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA3ElEQVRYw+1WwQ7CIAytxkSPk9P+b5/AxWRXSHrxE/y/nfDKTYHJsqgk0B5MZhuydoQ+2r7CBiAiArDLhiuvUVVIzrmaZfg+cWgJN3hf5gcpAsRyHDUAyKwBMouITBawOLXuA0VppD23EwVAAARgMwAfHxYFIr8U3XXae2ofBG+YJuj7hBLfGiX76axrHZf/g8HCKairgaM93217AcK+yTAPk0YrQIw7GS9/03yYxtusLYxpUDhkpRBZ4KUwWGYKwsJGWJg9qddRYJG284qFtuJ9YYGXQr7JPPyfPAEkYprR35PBcQAAAABJRU5ErkJggg=='/><rect x='136.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='178.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>動き補償後の残差</text></svg>",
+    "caption": "黒＝残差0。動き補償で残差が激減"
+   }
+  ],
+  "code": "import numpy as np, cv2\nprev = cv2.imread('input.png', 0).astype(np.float32)\ncur = np.roll(prev, (1, 3), axis=(0, 1))                  # 下1・右3 に動いた現フレーム\nB, R = 16, 6                                              # ブロックサイズ, 探索範囲\npred = np.zeros_like(cur); mvs = {}\nfor by in range(0, cur.shape[0], B):\n    for bx in range(0, cur.shape[1], B):\n        blk = cur[by:by + B, bx:bx + B]; best = (np.inf, 0, 0)\n        for dy in range(-R, R + 1):\n            for dx in range(-R, R + 1):                    # 全探索\n                y, x = by - dy, bx - dx\n                if 0 <= y <= cur.shape[0] - B and 0 <= x <= cur.shape[1] - B:\n                    sad = np.abs(blk - prev[y:y + B, x:x + B]).sum()   # SAD\n                    if sad < best[0]: best = (sad, dy, dx)\n        _, dy, dx = best; mvs[(by, bx)] = (dx, dy)\n        pred[by:by + B, bx:bx + B] = prev[by - dy:by - dy + B, bx - dx:bx - dx + B]\nprint(mvs[(16, 16)], \" 残差:\", np.abs(cur - prev).mean().round(1), \"→\", np.abs(cur - pred).mean().round(1))"
+ },
+ {
+  "id": "code-block-noise",
+  "steps": [
+   "① 原因：8×8 などのブロックごとに独立に DCT・量子化する",
+   "② 高圧縮（量子化が粗い）では、各ブロックがほぼ DC（平均値）だけ、または少数の低周波だけで表される",
+   "③ 隣のブロックとは別々に丸められるので、ブロック境界で値が段差状に食い違う → 格子状のタイル模様（ブロックノイズ）",
+   "④ なだらかなグラデーション（空・肌）で目立つ。対策：デブロッキングフィルタ（H.264 以降はループ内フィルタとして標準化）、重なり変換、ウェーブレット（JPEG 2000）"
+  ],
+  "example": "横方向のグラデーションを JPEG 品質5 で圧縮：隣接画素の差の平均は ブロック境界（8画素ごと）で 23.6、境界以外で 0.00（原画像はどこも 3.0）→ 段差が境界に集中",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 109' width='320' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='109' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAj0lEQVRYw9XWUQ4AEQyE4aq9/5lXJHuB/SRapG+E8c8wYs5n9d8lA1sObLkHFJv9FTqCi4j7T5XANdAbOEHiAZAQ5cswl7AzksggFbBz/0grQWL3SGMOStj5cqRVsHP7SKtBYvNIYw5u2zmURH7a9AhLg8sk8m9dr5ETKU6IiBKYBvzJYg4iTpEIEhCJe4EXeokPUSdDMooAAAAASUVORK5CYII='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像（グラデーション）</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAX0lEQVRYw2NkgAJJKC2FxjfGIQ7jMzFQCEYNGAwGsOCSkBoNxBGZDtDzO6H0ITkaiMMqHZAa76OBOLLqBcnRQByR6UCSyHbBaDtxeKYDYtuDUqOBOKL7C5KjgTgSDAAA/9wDDC492IIAAAAASUVORK5CYII='/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>JPEG 品質5</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAL0lEQVRYw+3MoQ0AAAjAMOD/n+EEBAbR2SXNWOrlVxwDAAAAAAAAAAAAAAAA8B0YME0Bf2XzQdYAAAAASUVORK5CYII='/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>左上を拡大</text></svg>",
+    "caption": "8×8 の格子状の段差が見える"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 115' width='300' height='115' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='115' fill='#fff'/><line x1='34' y1='89' x2='290' y2='89' stroke='#666'/><line x1='34' y1='10' x2='34' y2='89' stroke='#666'/><line x1='34.0' y1='89' x2='34.0' y2='92' stroke='#666'/><text x='34.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>0</text><line x1='66.5' y1='89' x2='66.5' y2='92' stroke='#666'/><text x='66.5' y='101.0' font-size='9' text-anchor='middle' fill='#222'>8</text><line x1='99.0' y1='89' x2='99.0' y2='92' stroke='#666'/><text x='99.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>16</text><line x1='131.5' y1='89' x2='131.5' y2='92' stroke='#666'/><text x='131.5' y='101.0' font-size='9' text-anchor='middle' fill='#222'>24</text><line x1='164.0' y1='89' x2='164.0' y2='92' stroke='#666'/><text x='164.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>32</text><line x1='196.5' y1='89' x2='196.5' y2='92' stroke='#666'/><text x='196.5' y='101.0' font-size='9' text-anchor='middle' fill='#222'>40</text><line x1='229.0' y1='89' x2='229.0' y2='92' stroke='#666'/><text x='229.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>48</text><line x1='261.6' y1='89' x2='261.6' y2='92' stroke='#666'/><text x='261.6' y='101.0' font-size='9' text-anchor='middle' fill='#222'>56</text><text x='162.0' y='112.0' font-size='9.5' text-anchor='middle' fill='#222'>x（1行分）</text><text x='10.0' y='49.5' font-size='9.5' text-anchor='middle' fill='#222' transform='rotate(-90 10 49.5)'>画素値</text><polyline points='34.0,74.7 38.1,73.7 42.1,72.8 46.2,71.9 50.3,70.9 54.3,70.0 58.4,69.1 62.4,68.1 66.5,67.2 70.6,66.3 74.6,65.3 78.7,64.4 82.8,63.5 86.8,62.5 90.9,61.6 95.0,60.7 99.0,59.7 103.1,58.8 107.1,57.9 111.2,56.9 115.3,56.0 119.3,55.1 123.4,54.1 127.5,53.2 131.5,52.3 135.6,51.3 139.7,50.4 143.7,49.5 147.8,48.5 151.8,47.6 155.9,46.7 160.0,45.7 164.0,44.8 168.1,43.9 172.2,42.9 176.2,42.0 180.3,41.1 184.3,40.1 188.4,39.2 192.5,38.3 196.5,37.3 200.6,36.4 204.7,35.5 208.7,34.5 212.8,33.6 216.9,32.7 220.9,31.7 225.0,30.8 229.0,29.9 233.1,28.9 237.2,28.0 241.2,27.1 245.3,26.1 249.4,25.2 253.4,24.3 257.5,23.3 261.6,22.4 265.6,21.5 269.7,20.5 273.7,19.6 277.8,18.7 281.9,17.7 285.9,16.8 290.0,15.9' fill='none' stroke='#888' stroke-width='1.7'/><polyline points='34.0,74.1 38.1,74.1 42.1,74.1 46.2,74.1 50.3,74.1 54.3,74.1 58.4,74.1 62.4,74.1 66.5,61.6 70.6,61.6 74.6,61.6 78.7,61.6 82.8,61.6 86.8,61.6 90.9,61.6 95.0,61.6 99.0,55.4 103.1,55.4 107.1,55.4 111.2,55.4 115.3,55.4 119.3,55.4 123.4,55.4 127.5,55.4 131.5,49.2 135.6,49.2 139.7,49.2 143.7,49.2 147.8,49.2 151.8,49.2 155.9,49.2 160.0,49.2 164.0,42.9 168.1,42.9 172.2,42.9 176.2,42.9 180.3,42.9 184.3,42.9 188.4,42.9 192.5,42.9 196.5,36.7 200.6,36.7 204.7,36.7 208.7,36.7 212.8,36.7 216.9,36.7 220.9,36.7 225.0,36.7 229.0,24.3 233.1,24.3 237.2,24.3 241.2,24.3 245.3,24.3 249.4,24.3 253.4,24.3 257.5,24.3 261.6,18.0 265.6,18.0 269.7,18.0 273.7,18.0 277.8,18.0 281.9,18.0 285.9,18.0 290.0,18.0' fill='none' stroke='#e33' stroke-width='1.7'/><rect x='40' y='10' width='94' height='26' fill='#fff' fill-opacity='0.85' stroke='#ddd'/><line x1='43' y1='17' x2='55' y2='17' stroke='#888' stroke-width='2'/><text x='58.0' y='20.0' font-size='9' text-anchor='start' fill='#222'>原画像</text><line x1='43' y1='28' x2='55' y2='28' stroke='#e33' stroke-width='2'/><text x='58.0' y='31.0' font-size='9' text-anchor='start' fill='#222'>JPEG q=5</text></svg>",
+    "caption": "8画素ごとの階段"
+   }
+  ],
+  "code": "import numpy as np, cv2\ny, x = np.mgrid[:64, :64]\nimg = np.clip(30 + x * 3 + y * 0.8, 0, 255).astype(np.uint8)     # グラデーション\nok, buf = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 5])\ndec = cv2.imdecode(buf, 0).astype(float)\nd = np.abs(np.diff(dec, axis=1))                                  # 横に隣接する画素の差\nat_boundary = d[:, 7::8].mean()                                   # x=7|8, 15|16, … の境界\ninside = np.delete(d, np.s_[7::8], axis=1).mean()\nprint(\"境界:\", at_boundary.round(2), \" 境界以外:\", inside.round(2))\n# 簡易デブロッキング：境界の両側の画素だけ平滑化\nfix = dec.copy()\nfor b in range(8, 64, 8):\n    fix[:, b - 1:b + 1] = (dec[:, b - 2:b] + dec[:, b - 1:b + 1] + dec[:, b:b + 2]) / 3"
+ },
+ {
+  "id": "code-mosquito-noise",
+  "steps": [
+   "① 原因：エッジ（文字の輪郭）を含むブロックは高周波成分を多く含む",
+   "② 量子化で高周波係数が粗く丸められる・0にされる → 逆DCTすると、急な段差を表しきれず周囲に細かい波（リンギング、ギブス現象）が残る",
+   "③ 見え方：文字や輪郭の周囲の平坦部に、もやもや・ざわざわした点々が出る。動画ではフレームごとに模様が変わるので蚊が飛ぶように見える",
+   "④ ブロックノイズ（平坦部の段差）とは出る場所が違う。対策：量子化を細かくする、エッジ保存型の後処理フィルタ"
+  ],
+  "example": "白地(230)に黒文字を JPEG 品質15：文字のすぐ周囲（5×5 の範囲）の背景画素の平均誤差 21.2、文字から離れた背景 3.0 → 輪郭の周りだけ乱れる",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 109' width='320' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='109' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA2UlEQVRYw+1W0Q7EIAizZP//y73kliXTAXbulnthj8hKqRUF27PPWgEUQAH4ABAi50Vek68hygxwrYicwzsiYhkA/95GLDB5zGDT7HGQYsrgm0PfNIh62zSiCG1pwR5CAHNFZGp8B2GT5eZJCXoM0KWOPezakjMfMCnvJ5ioVUjPehPkPOZOfHAasdrDq2MdNwBuNI9YROrVOTDAeg82LeGBumfB+wfzaWkiVWEiDQSIWA/qUxlTfSzsgE3S144Io2T2i+NM2acTmN0OYHIvoJ77BVAABfArgA8jBzGPH9wmPgAAAABJRU5ErkJggg=='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAGd0lEQVRYw+2XSWwb1xnHvxkOh5ydq0yJFLVRimRJtmo7tmJHiCvHjZsAMbIgQOukcNAEcHts0VNbF7k4CBCjQHso0KIt0PaQAt0CtLUT13GkVrGdxoojJ5KojRRFipSG+3AW8s1SFTApQAKhQ2+F3mnwf8Bv/u973/u/GWwN/reBwz7g/wngp4AQBCjWlM2UwjiVuk5TBFJ0LtgMQNQfSkDZLU3TDYxy4DWcsR7qkg23Y1ZZ3dNByaRIvYrzhNPjdyqIresawmjeoYl7OsAwE2m4j98EhiptWK7GEgAjHKSl7+mAhUoZ2SnQNjZNp6UZdd2DZVN5TDiwpwNKVnGnviIllrknQkSt8UY8/akUGuz0KHsBdE13s4nrE45/u4mvkhZW13Mzf473PUOzezqoVnGWLk38xZeFB2OcZavrYnRSSYSGg3vWINuVoT9sK+G8z/2T8GpJquudv2CBmxyqFA2KJvlQqKkDd/zQZv87pL1IJ31vvGKx5Yd6GXgRK4u1VlOTyoqF9zRz4Em7467fVgTKD0Nv1fhGESVcYE2pgjgn1TYyNnqoqQPgQbi9aA+A0m+DexeXmYeyjcCNGuZi5xTE+FldtTVzUOifDf3clWfS0Z47zr8SjV0TsIpi8gc8hx97tIsB3NHUQT6UJ//RulbRICkP3pmhG52ICuBk9WoOkGK4uyHZDKBA168h71298MUMVCpXr9QPkyEjcOPzc9/w8TXzkfPjrmZLsErBP7WnhpXvv60eTtO/wbf7QwfBnL9GcY5S6t7cetM+aCE/+PRx+JA3eVNkD3OJKsdKRTtrVg6qPeuJH94+kJu3esN/e3bk+M1Qa5707gIw0tvwUxxeaIfz6wfvSm9ops1BYJalmuCwKptJsWpJi/Nmr7t889Z9T0thF8An/XMAhnyv2qlvQq/EX8uqhJPcAqCtk46sqkENnDvd5dA0Sr7+4xscFHcVsXyL7y4SQ65kkDud9HfGVtyCw8BMy0lARcH6fOHDjwpLNyeWwiBO4a8I+O5tfMf1fv/0d0qVkPLtlwaqh+77AgRuASaQUNACZ48HvZ3sSMQ7keAYFJsNutHOJQh5F8rBy8M01MYht5S9Gy3olmnhJAEIa33suVPeVAodvHg54vO483dl164afOxUfesXviT0TfPsmOyavb+cqxoG4JoJNMP5KMU0cqvljrPPuAq10swCsQvwZnzmKTiXmaUmafUH7HG9KlaQYQJWMYBjCB1itkgPIYq1JxzpvJLONCIPk7JWwJlayr3oZ6uIxKt0Cjm8uA6e+NVLCdQTZzv8eX/ljr9e9vSLo+9BNQ6NGqgkIeucsQBySUFIx+T2EyeDNt3KOReXSUdx5+GDvl99XJJsX2uELF52kmWNVaY6XHYnidSaWNFSc6sqkXXfe9fJJ6mdAPVMHLr4W9utrBGEqtQyn3C6bIJULARd+RU5NNhteBc+MHlF2AmIzQN3xISNRh/gukUoYnTDFKE9kFeYhFIA3D6j0fbiUsoj2HcCIq92r6U3Xku11AGsbBNyH93HmGLXhVNazTvCgInD5FufFUCZCrQZOwH+GyMr/4KrCw0HrgQVTk0+aHGrkSdPgE5cj+BpToimmWU7fm3o8fROC9dsYij5Et8oLs4oiNCjm57MRiYPmc8WT0a6HXrH67+3VTHbvVXI7nTwLTb+FPsjCTUAquyFLwzfQuXM986CxhwoJ5OBlmSSisOJldHLf0Bpd8ZGD1yMhbCFYqhl6rurXN8vh+Tt7wViHdNXPkohwwgGqwrONOL86b8vwpruOaJ2maVkFF26IlO8dPtnE2FYAcYAe60OoIc9Uw/0NgMb7FdEF9dI468vLYEsr4wnpdpWWn2efLMg2dlqAuhldOS5gGRsb6MHYtN6m9k25F8TvWypPnH63aRdr9zo1ctlZBtYZu6W/huz4dFpdOTyeZTZzoMNO72gw6Yy0gmmiTUuZfCMvO+I8Qh/5Ci+HAuoc1QkaBMz+cKo/dnzIBYjuTrAq5CDvdJReZwH0m2ptoa3Y2F1/ctnxmC844/Bp0nzxnoRKWRb4AoKmtmou9HiRHuMfV5JDtNhrEi1GmV7HbB66nXzd5d8oA4c5Xpe/grSi2lJOHbu2Mmqkil7XbUGoBqjAmPRgVYqkWtlNhV3fWK64zVwjs/Ptrf3iC0QKF5hONq2FXHprWzodGqx+t2J7f8v7AP2AfuAh+M/ouT2v1DrwgMAAAAASUVORK5CYII='/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>JPEG 品質15</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>誤差（白=大）</text></svg>",
+    "caption": "文字の周囲にもやもや（モスキートノイズ）"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = np.full((64, 64), 230, np.uint8)\ncv2.putText(img, 'Ab', (4, 44), cv2.FONT_HERSHEY_SIMPLEX, 1.4, 20, 3)    # 白地に黒文字\nok, buf = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 15])\ndec = cv2.imdecode(buf, 0).astype(float)\nerr = np.abs(dec - img)\ntext = (img < 128).astype(np.uint8)\nnear = cv2.dilate(text, np.ones((5, 5))) - text                       # 文字のすぐ周り\nfar = cv2.dilate(text, np.ones((15, 15))) == 0                        # 文字から離れた背景\nprint(\"文字の周り:\", err[near > 0].mean().round(1), \" 離れた背景:\", err[far].mean().round(1))"
+ },
+ {
+  "id": "code-bitrate",
+  "steps": [
+   "① ビットレート = 1秒あたりのデータ量 [bps]。総データ量 = 平均ビットレート × 時間",
+   "② CBR（固定ビットレート）：常に一定量になるよう量子化を調整 → 動きの激しい場面は量子化が粗くなり画質が落ちる。放送・リアルタイム伝送向き（バッファ管理が容易）",
+   "③ VBR（可変ビットレート）：画質（量子化）をほぼ一定にし、複雑な場面には多く、単純な場面には少なく割り当てる → 同じ平均レートで画質が安定。DVD・Blu-ray・配信の2パス符号化",
+   "④ 出力の違い：CBR は時間ごとのデータ量が平坦で画質が上下、VBR はデータ量が上下して画質が平坦"
+  ],
+  "example": "平均 4 Mbps で 2時間：4×10⁶ × 7200 = 2.88×10¹⁰ bit = 3.6 GB。地デジ（MPEG-2, HD）約 17 Mbps、Blu-ray 最大 40 Mbps、配信の 1080p（H.264）5〜8 Mbps 程度",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 135' width='300' height='135' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='135' fill='#fff'/><line x1='34' y1='109' x2='290' y2='109' stroke='#666'/><line x1='34' y1='10' x2='34' y2='109' stroke='#666'/><line x1='34.0' y1='109' x2='34.0' y2='112' stroke='#666'/><text x='34.0' y='121.0' font-size='9' text-anchor='middle' fill='#222'>0</text><line x1='164.2' y1='109' x2='164.2' y2='112' stroke='#666'/><text x='164.2' y='121.0' font-size='9' text-anchor='middle' fill='#222'>30</text><line x1='290.0' y1='109' x2='290.0' y2='112' stroke='#666'/><text x='290.0' y='121.0' font-size='9' text-anchor='middle' fill='#222'>60</text><line x1='31' y1='69.4' x2='34' y2='69.4' stroke='#666'/><text x='29.0' y='72.4' font-size='9' text-anchor='end' fill='#222'>4</text><text x='162.0' y='132.0' font-size='9.5' text-anchor='middle' fill='#222'>時間 [秒]</text><text x='10.0' y='59.5' font-size='9.5' text-anchor='middle' fill='#222' transform='rotate(-90 10 59.5)'>Mbps</text><polyline points='34.0,69.4 38.3,69.4 42.7,69.4 47.0,69.4 51.4,69.4 55.7,69.4 60.0,69.4 64.4,69.4 68.7,69.4 73.1,69.4 77.4,69.4 81.7,69.4 86.1,69.4 90.4,69.4 94.7,69.4 99.1,69.4 103.4,69.4 107.8,69.4 112.1,69.4 116.4,69.4 120.8,69.4 125.1,69.4 129.5,69.4 133.8,69.4 138.1,69.4 142.5,69.4 146.8,69.4 151.2,69.4 155.5,69.4 159.8,69.4 164.2,69.4 168.5,69.4 172.8,69.4 177.2,69.4 181.5,69.4 185.9,69.4 190.2,69.4 194.5,69.4 198.9,69.4 203.2,69.4 207.6,69.4 211.9,69.4 216.2,69.4 220.6,69.4 224.9,69.4 229.3,69.4 233.6,69.4 237.9,69.4 242.3,69.4 246.6,69.4 250.9,69.4 255.3,69.4 259.6,69.4 264.0,69.4 268.3,69.4 272.6,69.4 277.0,69.4 281.3,69.4 285.7,69.4 290.0,69.4' fill='none' stroke='#3563e9' stroke-width='1.7'/><polyline points='34.0,83.0 38.3,83.0 42.7,62.2 47.0,62.2 51.4,62.2 55.7,62.2 60.0,62.2 64.4,62.2 68.7,62.2 73.1,62.2 77.4,62.2 81.7,62.2 86.1,62.2 90.4,62.2 94.7,62.2 99.1,83.0 103.4,83.0 107.8,83.0 112.1,83.0 116.4,83.0 120.8,83.0 125.1,83.0 129.5,83.0 133.8,83.0 138.1,83.0 142.5,83.0 146.8,83.0 151.2,83.0 155.5,83.0 159.8,83.0 164.2,82.9 168.5,82.8 172.8,82.3 177.2,60.4 181.5,58.1 185.9,54.1 190.2,47.9 194.5,40.0 198.9,31.9 203.2,25.6 207.6,23.2 211.9,25.6 216.2,31.9 220.6,40.0 224.9,47.9 229.3,54.1 233.6,78.9 237.9,81.2 242.3,82.3 246.6,82.8 250.9,82.9 255.3,83.0 259.6,83.0 264.0,83.0 268.3,83.0 272.6,83.0 277.0,83.0 281.3,83.0 285.7,83.0 290.0,83.0' fill='none' stroke='#e33' stroke-width='1.7'/><polyline points='34.0,89.2 38.3,89.2 42.7,73.4 47.0,73.4 51.4,73.4 55.7,73.4 60.0,73.4 64.4,73.4 68.7,73.4 73.1,73.4 77.4,73.4 81.7,73.4 86.1,73.4 90.4,73.4 94.7,73.4 99.1,89.2 103.4,89.2 107.8,89.2 112.1,89.2 116.4,89.2 120.8,89.2 125.1,89.2 129.5,89.2 133.8,89.2 138.1,89.2 142.5,89.2 146.8,89.2 151.2,89.2 155.5,89.2 159.8,89.2 164.2,89.1 168.5,89.0 172.8,88.7 177.2,72.0 181.5,70.2 185.9,67.1 190.2,62.4 194.5,56.4 198.9,50.2 203.2,45.5 207.6,43.7 211.9,45.5 216.2,50.2 220.6,56.4 224.9,62.4 229.3,67.1 233.6,86.1 237.9,87.8 242.3,88.7 246.6,89.0 250.9,89.1 255.3,89.2 259.6,89.2 264.0,89.2 268.3,89.2 272.6,89.2 277.0,89.2 281.3,89.2 285.7,89.2 290.0,89.2' fill='none' stroke='#bbb' stroke-width='1.7' stroke-dasharray='4 3'/><rect x='214' y='10' width='76' height='37' fill='#fff' fill-opacity='0.85' stroke='#ddd'/><line x1='217' y1='17' x2='229' y2='17' stroke='#3563e9' stroke-width='2'/><text x='232.0' y='20.0' font-size='9' text-anchor='start' fill='#222'>CBR</text><line x1='217' y1='28' x2='229' y2='28' stroke='#e33' stroke-width='2'/><text x='232.0' y='31.0' font-size='9' text-anchor='start' fill='#222'>VBR</text><line x1='217' y1='39' x2='229' y2='39' stroke='#bbb' stroke-width='2'/><text x='232.0' y='42.0' font-size='9' text-anchor='start' fill='#222'>場面の複雑さ</text></svg>",
+    "caption": "同じ平均 4 Mbps でも割り当て方が違う"
+   }
+  ],
+  "code": "import numpy as np\nt = np.arange(60)                                          # 60秒\ncomplexity = 1 + 0.8 * (np.sin(t / 5) > 0.3)               # 場面の複雑さ（必要ビット数の比）\navg = 4e6                                                  # 平均 4 Mbps\ncbr = np.full(60, avg)                                     # CBR：常に一定\nvbr = avg * complexity / complexity.mean()                 # VBR：複雑さに比例して配分\nprint(\"総量 CBR\", cbr.sum() / 8e6, \"MB  VBR\", vbr.sum() / 8e6, \"MB\")   # 同じ\nq_cbr = complexity / (cbr / avg)       # 量子化の粗さ（相対）：CBR は場面で変動\nq_vbr = complexity / (vbr / avg)       # VBR はほぼ一定\nprint(\"量子化の変動 CBR:\", np.ptp(q_cbr).round(2), \" VBR:\", np.ptp(q_vbr).round(2))\nprint(\"2時間 4Mbps =\", 4e6 * 7200 / 8 / 1e9, \"GB\")"
+ },
+ {
+  "id": "code-data-amount",
+  "steps": [
+   "① 1枚のデータ量 [bit] = 幅 × 高さ × 1画素のビット数（RGB 各8bit なら 24bit。4:2:0 なら平均 12bit/画素）",
+   "② 動画は × フレームレート [fps] × 時間 [s]。圧縮後は ÷ 圧縮比",
+   "③ 伝送時間 [s] = データ量 [bit] ÷ 伝送速度 [bps]。バイト(B)⇔ビット(b) の8倍に注意",
+   "④ 単位：k=10³, M=10⁶, G=10⁹（記憶容量では 1KiB=1024B の場合あり。問題文に従う）"
+  ],
+  "example": "例1：1920×1080×24bit = 49,766,400 bit = 6,220,800 B（約6.2MB）。100 Mbps で送ると 0.50 秒。例2：その動画 30fps を10秒 → 49,766,400×300 ≈ 14.9 Gbit。1/100 に圧縮すれば約 149 Mbit → 100 Mbps で約 1.5 秒。例3：4:2:0・8bit なら 1枚 1920×1080×12 = 24.9 Mbit",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "計算",
+     "式",
+     "結果"
+    ],
+    "rows": [
+     [
+      "1枚(24bit)",
+      "1920×1080×24",
+      "49,766,400 bit = 約6.2 MB"
+     ],
+     [
+      "伝送(100Mbps)",
+      "49,766,400 ÷ 10⁸",
+      "約0.50 秒"
+     ],
+     [
+      "動画 30fps×10s",
+      "49,766,400×30×10",
+      "約14.9 Gbit"
+     ],
+     [
+      "1/100 圧縮",
+      "÷100",
+      "約149 Mbit"
+     ],
+     [
+      "4:2:0(8bit)",
+      "1920×1080×12",
+      "約24.9 Mbit/枚"
+     ]
+    ],
+    "caption": "データ量と伝送時間の計算例"
+   }
+  ],
+  "code": "def data_bits(w, h, bpp):                      # 1枚のデータ量 [bit]\n    return w * h * bpp\none = data_bits(1920, 1080, 24)\nprint(\"1枚:\", one, \"bit =\", one / 8 / 1e6, \"MB\")\nrate = 100e6                                   # 100 Mbps\nprint(\"伝送時間:\", one / rate, \"秒\")\nvideo = one * 30 * 10                          # 30fps × 10秒\nprint(\"動画:\", video / 1e9, \"Gbit, 1/100圧縮で\", video / 100 / rate, \"秒\")\nprint(\"4:2:0 の1枚:\", data_bits(1920, 1080, 12) / 1e6, \"Mbit\")   # Y + Cb/4 + Cr/4 → 12bit/画素"
+ },
+ {
+  "id": "code-mpeg1",
+  "steps": [
+   "① 対象：ビデオCD 用。SIF 解像度（352×240 @30fps / 352×288 @25fps）、プログレッシブ（ノンインタレース）のみ",
+   "② 符号化：16×16 マクロブロック単位の動き補償予測（I/P/B）＋ 8×8 DCT ＋ 量子化 ＋ 可変長符号。基本の仕組みは以後の MPEG-2・H.264 にも引き継がれる",
+   "③ ビットレート：映像約 1.15 Mbps＋音声 224 kbps、合計約 1.5 Mbps（CD-ROM の読み出し速度）",
+   "④ 音声の MPEG-1 Audio Layer III が MP3。1993年に標準化"
+  ],
+  "example": "非圧縮の SIF（352×240、4:2:0 で 12bit/画素、30fps）= 352×240×12×30 = 30.4 Mbps → 1.15 Mbps に圧縮すると約 1/26。74分のビデオCD に約 1.5Mbps×4440秒 ≈ 833 MB",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "規格",
+     "年",
+     "主な用途",
+     "ビットレート",
+     "特徴"
+    ],
+    "rows": [
+     [
+      "MPEG-1",
+      "1993",
+      "ビデオCD",
+      "〜1.5 Mbps",
+      "SIF・プログレッシブ"
+     ],
+     [
+      "MPEG-2",
+      "1995",
+      "DVD・放送",
+      "4〜20 Mbps",
+      "インタレース・HD"
+     ],
+     [
+      "MPEG-4",
+      "1999",
+      "モバイル・ネット",
+      "数十kbps〜",
+      "オブジェクト符号化"
+     ]
+    ],
+    "caption": "MPEG 規格の比較"
+   }
+  ],
+  "code": "w, h, fps = 352, 240, 30                  # SIF（NTSC系）\nbpp = 12                                  # 4:2:0 / 8bit → 平均12bit/画素\nraw = w * h * bpp * fps                   # 非圧縮のビットレート\nvideo = 1.15e6                            # MPEG-1 の映像ビットレート\nprint(\"非圧縮:\", raw / 1e6, \"Mbps  圧縮比:\", round(raw / video, 1))\nmb = (w // 16) * (h // 16)                # 16×16 マクロブロック数\nprint(\"1フレームのマクロブロック数:\", mb, \"(\", w // 16, \"×\", h // 16, \")\")\nprint(\"74分のデータ量:\", 1.5e6 * 74 * 60 / 8 / 1e6, \"MB\")"
+ },
+ {
+  "id": "code-mpeg2",
+  "steps": [
+   "① 対象：DVD・デジタル放送（BS/地デジ）・Blu-ray（一部）。SD〜HD の解像度、4〜20 Mbps 程度",
+   "② インタレース対応：1フレームを奇数ラインのトップフィールドと偶数ラインのボトムフィールドに分け、フレーム単位／フィールド単位の DCT・動き予測を選べる",
+   "③ プロファイル（使う機能の組）とレベル（解像度・ビットレートの上限）で適用範囲を規定。例 MP@ML（DVD）、MP@HL（HDTV）",
+   "④ 多重化：プログラムストリーム（DVD）とトランスポートストリーム（放送、188バイトのパケット）を規定"
+  ],
+  "example": "DVD：720×480、平均 4〜6 Mbps、最大 9.8 Mbps。地デジ HD：1440×1080i、約 17 Mbps。インタレース 60i は毎秒60フィールド＝30フレーム。動きがあるとフレームの奇数行と偶数行がずれる（櫛状）→ フィールド DCT が有利",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 120' width='320' height='120' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='120' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA2klEQVRYw+2VwQ3DIAxF7YoB4NwhmcDikAkYsmfYgKqK0pQWFDsgVYrMAeUA38/xt0ELY+sGKnABAbN9PDoH7gcC+GkkjsgCdJJgGSeoJEhG8BWezhD8pEB8gkb6JCVo/UKqBISX3whMgnYNiUfQMQBNIHiJKMEAAU1wItcHfRuLurHXUGaklYUTqT1UzMg4k0/l5SAFfVz/JAB2XQEglCLa14sbQbQ2IkIpwN59zn4nEMcPpSaw0TlRfMDsU9oJxPFLqAmci1YUHyEln7UKWgWtwoWqoE/bBIEn+hIUTtFJrOQAAAAASUVORK5CYII='/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>動く物体のフレーム</text><text x='64.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>（櫛状のずれ）</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAjklEQVRYw+2VwQrAIAiGbewBuu9ZxYPPuudwh+gwRm0xZzB+DyE/pR+ZljK9s4UQ4AcB1ursjQ1bGMGtaXXYlyDlR3egZ5GjCfQqc+hD0p4WQaBdFe08MwAHEnBXDJoH2qaKmkhnBv5kJqIXJgagXEyIxGxoLQfdCIbzizkTDOc3cSZAFVAFVAFVwN9IdACi5C1lz+hduwAAAABJRU5ErkJggg=='/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>トップフィールド</text><text x='160.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>（奇数ライン）</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAkUlEQVRYw+2VUQrAIAiGbewAvu+s0oNn3Tnc42QUJDMbwx6ifuL3C9MKwruxQRr8wGDXm7Nz6FBrBvIlKDhOwFqjeAJ+qhRLwA2ZIh8Sd8W1T5mznEMNqKuGXYGm1YKhI3GTKbQnKgia1JWzFhYZAN4DoIpU04zoSmCOL+JMYI5fwZkgs5BZyCyszEL+TF8wuABfqxVAcN3tdAAAAABJRU5ErkJggg=='/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>ボトムフィールド</text><text x='256.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>（偶数ライン）</text></svg>",
+    "caption": "インタレース：2つのフィールドは撮影時刻が1/60秒違う"
+   }
+  ],
+  "code": "import numpy as np, cv2\nframe = cv2.imread('input.png', 0).astype(np.float32)\nmoved = np.roll(frame, 4, axis=1)                  # 1/60秒後には右へ4画素動いた\ninterlaced = frame.copy()\ninterlaced[1::2] = moved[1::2]                     # 偶数ライン（ボトム）は後の時刻\ntop, bottom = interlaced[0::2], interlaced[1::2]   # フィールドに分離\n# フレームDCT vs フィールドDCT：8×8 ブロックの高周波エネルギーを比較\ndef hf_energy(blocks):\n    return sum(float((cv2.dct(b)[4:, :] ** 2).sum()) for b in blocks)\nframe_blks = [interlaced[y:y + 8, x:x + 8] for y in range(0, 64, 8) for x in range(0, 64, 8)]\nfield_blks = [f[y:y + 8, x:x + 8] for f in (top, bottom) for y in range(0, 32, 8) for x in range(0, 64, 8)]\nprint(\"縦方向高周波エネルギー フレーム:\", round(hf_energy(frame_blks)), \" フィールド:\", round(hf_energy(field_blks)))"
+ },
+ {
+  "id": "code-mpeg4",
+  "steps": [
+   "① 目的：数十 kbps の低ビットレート（携帯・インターネット）から高画質まで幅広い用途。1999年 Part 2（Visual）",
+   "② オブジェクト符号化：映像を背景と人物などのオブジェクト（VOP：任意形状）に分け、形状（α マスク）とテクスチャを別々に符号化・合成できる",
+   "③ 符号化ツールの改良：1/4 画素精度の動き補償、AC/DC 予測、誤り耐性（再同期マーカ、可逆VLC）",
+   "④ 規格群：Part 2 Visual、Part 10 AVC（= H.264）、Part 14 MP4 ファイル形式、Part 3 Audio（AAC）など"
+  ],
+  "example": "人物（画面の約20%）と静止背景を別オブジェクトにすると、背景は最初に1回送るだけで、以後は人物の形状とテクスチャ（と動き）だけを送ればよい。MP4 ファイル（.mp4）は Part 14 のコンテナ",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 64' width='320' height='64' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='64' fill='#fff'/><rect x='6.0' y='6' width='66.5' height='50' rx='5' fill='#e2f6dc' stroke='#556'/><text x='39.2' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>背景</text><text x='39.2' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>オブジェクト</text><line x1='73.5' y1='31.0' x2='85.5' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='86.5' y='6' width='66.5' height='50' rx='5' fill='#ffeede' stroke='#556'/><text x='119.8' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>人物VOP</text><text x='119.8' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>形状＋</text><text x='119.8' y='47.0' font-size='9.5' text-anchor='middle' fill='#222'>テクスチャ</text><line x1='154.0' y1='31.0' x2='166.0' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='167.0' y='6' width='66.5' height='50' rx='5' fill='#eef3ff' stroke='#556'/><text x='200.2' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>各々を</text><text x='200.2' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>符号化</text><line x1='234.5' y1='31.0' x2='246.5' y2='31.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='247.5' y='6' width='66.5' height='50' rx='5' fill='#fff' stroke='#556'/><text x='280.8' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>受信側で</text><text x='280.8' y='41.0' font-size='9.5' text-anchor='middle' fill='#222'>合成</text></svg>",
+    "caption": "オブジェクトベース符号化（MPEG-4 Part 2）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "Part",
+     "内容"
+    ],
+    "rows": [
+     [
+      "2",
+      "Visual（オブジェクト符号化）"
+     ],
+     [
+      "3",
+      "Audio（AAC）"
+     ],
+     [
+      "10",
+      "AVC（= H.264）"
+     ],
+     [
+      "14",
+      "MP4 ファイル形式"
+     ]
+    ],
+    "caption": "MPEG-4 の主なパート"
+   }
+  ],
+  "code": "import numpy as np, cv2\nframe = cv2.imread('input.png', 0)\nalpha = np.zeros_like(frame)                       # オブジェクトの形状（αマスク）\ncv2.ellipse(alpha, (32, 32), (12, 20), 0, 0, 360, 255, -1)\nx, y, w, h = cv2.boundingRect(alpha)               # VOP の外接矩形\nobj_tex = frame[y:y + h, x:x + w]                  # テクスチャ（矩形内だけ）\nshape = alpha[y:y + h, x:x + w] > 0                # 2値の形状\nprint(\"全画面\", frame.size, \"画素 → オブジェクト\", int(shape.sum()), \"画素（矩形\", obj_tex.size, \"）\")\n# 受信側：背景（既に受信済み）にオブジェクトを合成\nbackground = np.full_like(frame, 128)\nout = background.copy()\nout[y:y + h, x:x + w][shape] = obj_tex[shape]"
+ },
+ {
+  "id": "code-h264",
+  "steps": [
+   "① 2003年に ITU-T（VCEG）と ISO/IEC（MPEG）の合同チーム JVT が策定（MPEG-4 Part 10 AVC）。MPEG-2 の約2倍の圧縮効率",
+   "② イントラ予測：4×4 / 16×16 ブロックを、隣接する復号済み画素から9方向（垂直・水平・DC・斜め…）で予測し、残差だけを符号化",
+   "③ インター予測：可変ブロックサイズ（16×16〜4×4）、1/4 画素精度、複数参照フレーム、重み付き予測。変換は 4×4 の整数変換（DCTの近似、誤差なく逆変換）",
+   "④ ループ内デブロッキングフィルタ、エントロピー符号化は CAVLC か CABAC（算術符号）。ワンセグ・Blu-ray・配信・ビデオ会議で普及"
+  ],
+  "example": "4×4 ブロック（各行 100,102,104,106）、上の隣接画素 [100,102,104,106]、左 [99,99,100,100]：垂直予測の SAD = 0、水平 = 56、DC（平均 101.25）= 38.0 → 垂直を選択（残差0）",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "予測モード",
+     "予測値の作り方",
+     "SAD"
+    ],
+    "rows": [
+     [
+      "0 垂直",
+      "上の画素を下へコピー",
+      "0"
+     ],
+     [
+      "1 水平",
+      "左の画素を右へコピー",
+      "56"
+     ],
+     [
+      "2 DC",
+      "上と左の平均",
+      "38.0"
+     ],
+     [
+      "3〜8",
+      "斜め方向",
+      "—"
+     ]
+    ],
+    "caption": "4×4 イントラ予測（例のブロック）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "",
+     "MPEG-2",
+     "H.264"
+    ],
+    "rows": [
+     [
+      "変換",
+      "8×8 DCT",
+      "4×4 整数変換"
+     ],
+     [
+      "動き補償",
+      "16×16, ½画素",
+      "16×16〜4×4, ¼画素, 複数参照"
+     ],
+     [
+      "イントラ予測",
+      "DC のみ",
+      "空間予測 9方向"
+     ],
+     [
+      "エントロピー符号",
+      "VLC",
+      "CAVLC/CABAC"
+     ],
+     [
+      "デブロッキング",
+      "なし",
+      "ループ内"
+     ]
+    ],
+    "caption": "MPEG-2 との違い"
+   }
+  ],
+  "code": "import numpy as np\nblk = np.array([[100, 102, 104, 106]] * 4, float)       # 符号化する 4×4\ntop = np.array([100, 102, 104, 106], float)             # 上の復号済み画素\nleft = np.array([99, 99, 100, 100], float)              # 左の復号済み画素\nmodes = {\n    \"vertical\": np.tile(top, (4, 1)),                   # モード0\n    \"horizontal\": np.tile(left[:, None], (1, 4)),       # モード1\n    \"DC\": np.full((4, 4), (top.sum() + left.sum()) / 8),  # モード2\n}\nfor name, p in modes.items():\n    print(name, \"SAD =\", np.abs(blk - p).sum())\nbest = min(modes, key=lambda m: np.abs(blk - modes[m]).sum())\n# 4×4 整数変換（DCTの近似）\nC = np.array([[1, 1, 1, 1], [2, 1, -1, -2], [1, -1, -1, 1], [1, -2, 2, -1]])\nprint(\"選択:\", best, \" 残差の変換:\", (C @ (blk - modes[best]) @ C.T).astype(int).ravel()[:4])"
+ },
+ {
+  "id": "code-hevc",
+  "steps": [
+   "① 2013年に ITU-T と ISO/IEC の JCT-VC が策定（H.265 / MPEG-H Part 2）。H.264 の約2倍の圧縮効率（同画質で約半分のビットレート）",
+   "② 符号化単位：最大 64×64 の CTU（Coding Tree Unit）を4分木で CU（64〜8）に再帰分割。平坦な所は大きく、細かい所は小さく。さらに PU（予測）・TU（変換 4〜32）に分割",
+   "③ イントラ予測は 35 モード（33方向＋DC＋Planar）、動き情報のマージモード・AMVP、ループ内フィルタにデブロッキング＋SAO（画素適応オフセット）",
+   "④ 並列処理向けのタイル・WPP。4K/8K 放送（新4K8K衛星放送）、UHD Blu-ray、iPhone の HEIC で採用"
+  ],
+  "example": "平坦な背景＋円＋細かい縞の 64×64 画像を「ブロック内の分散 > 300 なら分割」の規則で4分木分割すると CU は 31 個（32×32: 2個、16×16: 1個、8×8: 28個）。H.264 の 16×16 固定マクロブロックなら 16 個で、平坦部でもヘッダが必要",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 140' width='300' height='140' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='140' fill='#fff'/><image x='10.0' y='6.0' width='128.0' height='128.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAwUlEQVRYw2PMY2CkCDIxUAhGDSDagFXfnVSPrvjioHR46SdbhQOL31vL7iPJAF+fxwsfoxEkGYBFvy9JBmDR70OSAVj0k+YFLPoXjgbiaCAOpkBkHC2VRw0YNWAADPDDIsZCrOYAmAlbyHNBIKJ0I8uAQCS2NxkGBKHwvEk2IAiN7zXyElIwhogXaQasxRDZNvJy4zrcQUCkC1BN2EqGF9bj0k90GCBM2EJmgbIBWJX7bwJV6BTEwqbRYn3UAFoZAACct86NVLz3kAAAAABJRU5ErkJggg=='/><rect x='10.0' y='6.0' width='128.0' height='128.0' fill='none' stroke='#888' stroke-width='0.8'/><rect x='10' y='6' width='64' height='64' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='6' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='6' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='22' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='22' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='106' y='6' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='122' y='6' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='106' y='22' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='122' y='22' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='38' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='38' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='54' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='54' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='106' y='38' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='122' y='38' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='106' y='54' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='122' y='54' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='10' y='70' width='64' height='64' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='70' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='70' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='86' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='86' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='106' y='70' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='122' y='70' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='106' y='86' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='122' y='86' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='102' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='102' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='74' y='118' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='90' y='118' width='16' height='16' fill='none' stroke='#e33' stroke-width='1'/><rect x='106' y='102' width='32' height='32' fill='none' stroke='#e33' stroke-width='1'/><text x='215.0' y='40.0' font-size='9.5' text-anchor='middle' fill='#222'>CTU 64×64 を</text><text x='215.0' y='54.0' font-size='9.5' text-anchor='middle' fill='#222'>4分木で再帰分割</text><text x='215.0' y='78.0' font-size='9.5' text-anchor='middle' fill='#222'>平坦部：大きなCU</text><text x='215.0' y='92.0' font-size='9.5' text-anchor='middle' fill='#222'>細かい所：8×8 まで</text><text x='215.0' y='116.0' font-size='9.5' text-anchor='middle' fill='#e33'>CU数 31</text></svg>",
+    "caption": "CTU の4分木分割（分散で分割を判定した例）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "",
+     "H.264",
+     "HEVC",
+     "VVC"
+    ],
+    "rows": [
+     [
+      "最大ブロック",
+      "16×16 MB",
+      "64×64 CTU",
+      "128×128 CTU"
+     ],
+     [
+      "分割",
+      "固定＋サブ分割",
+      "4分木",
+      "4分木＋2分木/3分木"
+     ],
+     [
+      "イントラ方向",
+      "9",
+      "35",
+      "67"
+     ],
+     [
+      "変換",
+      "4×4, 8×8",
+      "4〜32",
+      "4〜64＋複数変換"
+     ],
+     [
+      "効率",
+      "1",
+      "約2倍",
+      "約4倍"
+     ]
+    ],
+    "caption": "H.264 / HEVC / VVC"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0).astype(np.float32)\ndef split_ctu(a, x, y, size, thr=300, min_size=8, out=None):\n    \"\"\"分散が大きければ4分割する（実際のエンコーダはRDコストで判定）\"\"\"\n    out = [] if out is None else out\n    blk = a[y:y + size, x:x + size]\n    if size > min_size and blk.var() > thr:\n        h = size // 2\n        for dy in (0, h):\n            for dx in (0, h):\n                split_ctu(a, x + dx, y + dy, h, thr, min_size, out)\n    else:\n        out.append((x, y, size))                        # CU を確定\n    return out\ncus = split_ctu(img, 0, 0, 64)                          # CTU = 64×64\nsizes = [s for _, _, s in cus]\nprint(\"CU数:\", len(cus), {s: sizes.count(s) for s in sorted(set(sizes), reverse=True)})"
+ },
+ {
+  "id": "code-vvc",
+  "steps": [
+   "① 2020年に ITU-T と ISO/IEC の JVET が策定（H.266 / MPEG-I Part 3）。HEVC の約半分のビットレート（約2倍の効率）が目標",
+   "② ブロック分割：最大 128×128 の CTU を、4分木に加えて2分木・3分木（QTMT）で分割 → 長方形の CU も使え、物体の形に沿った分割",
+   "③ イントラ予測 67 モード（65方向＋DC＋Planar）、成分間予測（CCLM：輝度から色差を予測）、アフィン動き補償、複数の変換（MTS）、適応ループフィルタ（ALF）",
+   "④ 8K・360度映像・画面コンテンツ（PC 画面）・HDR など幅広い用途。計算量はエンコーダで HEVC の数倍〜10倍程度"
+  ],
+  "example": "同じ 8K 映像を HEVC で約 80 Mbps とすると、VVC では約 40 Mbps で同等の主観画質（目標値）。2分木：1つの CU を縦または横に 1:1 で2分割、3分木：1:2:1 で3分割",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 110' width='300' height='110' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='110' fill='#fff'/><rect x='10' y='10' width='80' height='80' fill='#fff' stroke='#333'/><line x1='50' y1='10' x2='50' y2='90' stroke='#e33'/><line x1='10' y1='50' x2='90' y2='50' stroke='#e33'/><text x='50.0' y='104.0' font-size='9.5' text-anchor='middle' fill='#222'>4分木</text><rect x='110' y='10' width='80' height='80' fill='#fff' stroke='#333'/><line x1='150' y1='10' x2='150' y2='90' stroke='#3563e9'/><text x='150.0' y='104.0' font-size='9.5' text-anchor='middle' fill='#222'>2分木（縦）</text><rect x='210' y='10' width='80' height='80' fill='#fff' stroke='#333'/><line x1='230' y1='10' x2='230' y2='90' stroke='#2a2'/><line x1='270' y1='10' x2='270' y2='90' stroke='#2a2'/><text x='250.0' y='104.0' font-size='9.5' text-anchor='middle' fill='#222'>3分木（1:2:1）</text></svg>",
+    "caption": "VVC の分割の種類（QTMT）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "規格",
+     "年",
+     "策定",
+     "効率（相対）"
+    ],
+    "rows": [
+     [
+      "H.264/AVC",
+      "2003",
+      "JVT",
+      "1"
+     ],
+     [
+      "H.265/HEVC",
+      "2013",
+      "JCT-VC",
+      "約2倍"
+     ],
+     [
+      "H.266/VVC",
+      "2020",
+      "JVET",
+      "約4倍"
+     ],
+     [
+      "AV1",
+      "2018",
+      "AOMedia",
+      "HEVC 程度以上"
+     ]
+    ],
+    "caption": "動画符号化規格の系譜"
+   }
+  ],
+  "code": "def split(w, h, mode):\n    \"\"\"VVC の分割（QT: 4分木, BT: 2分木, TT: 3分木）。戻り値は子ブロックの (幅, 高さ)\"\"\"\n    if mode == \"QT\":   return [(w // 2, h // 2)] * 4\n    if mode == \"BT_V\": return [(w // 2, h)] * 2                     # 縦に2分割\n    if mode == \"BT_H\": return [(w, h // 2)] * 2\n    if mode == \"TT_V\": return [(w // 4, h), (w // 2, h), (w // 4, h)]   # 1:2:1\n    if mode == \"TT_H\": return [(w, h // 4), (w, h // 2), (w, h // 4)]\n# 128×128 CTU → QT → 64×64 → TT_V → 16×64, 32×64, 16×64 → BT_H …\nblk = (128, 128)\nfor m in (\"QT\", \"TT_V\", \"BT_H\"):\n    children = split(*blk, m)\n    print(blk, m, \"→\", children)\n    blk = children[1]\nprint(\"イントラ方向モード: HEVC 33+2 =\", 35, \" VVC 65+2 =\", 67)"
+ },
+ {
+  "id": "code-av1",
+  "steps": [
+   "① 2018年に AOMedia（Alliance for Open Media：Google, Netflix, Amazon, Apple, Microsoft など）が策定。ロイヤリティフリー（特許料不要）",
+   "② VP9（Google）を発展させた方式：最大 128×128 のスーパーブロックを多様な形（10種類の分割）に分割、56方向のイントラ予測、輝度からの色差予測（CfL）",
+   "③ ループ内フィルタ：デブロッキング → CDEF（方向性のリンギング除去）→ ループ復元フィルタ。フィルムグレイン合成（粒状ノイズを除いて符号化し、復号時にパラメータから再合成）",
+   "④ 圧縮効率は HEVC と同等以上。YouTube・Netflix などの配信、WebRTC、静止画形式 AVIF で利用。主要ブラウザ・GPU がハードウェア復号に対応"
+  ],
+  "example": "フィルムグレイン合成の例：粒状ノイズは予測できず多くのビットを消費するので、ノイズを除去して符号化し「ノイズの強さ・粒の大きさ」のパラメータ（数十バイト）だけ送る → 粒状感を保ったままビットレートを大幅に削減",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "HEVC",
+     "AV1",
+     "VVC"
+    ],
+    "rows": [
+     [
+      "策定",
+      "ITU-T/ISO",
+      "AOMedia",
+      "ITU-T/ISO"
+     ],
+     [
+      "特許料",
+      "有（複数団体）",
+      "なし",
+      "有"
+     ],
+     [
+      "最大ブロック",
+      "64×64",
+      "128×128",
+      "128×128"
+     ],
+     [
+      "イントラ方向",
+      "33",
+      "56",
+      "65"
+     ],
+     [
+      "主な用途",
+      "4K放送・iPhone",
+      "Web配信・AVIF",
+      "8K・次世代"
+     ]
+    ],
+    "caption": "AV1 と他方式の比較"
+   }
+  ],
+  "code": "import numpy as np, cv2\n# フィルムグレイン合成の考え方：ノイズを分離して「パラメータだけ」送る\nrng = np.random.default_rng(0)\nclean = cv2.imread('input.png', 0).astype(np.float32)\ngrain = rng.normal(0, 6, clean.shape).astype(np.float32)\nsrc = clean + grain                                    # 粒状ノイズを含む原画像\ndenoised = cv2.GaussianBlur(src, (0, 0), 1.0)          # エンコーダ：ノイズ除去してから符号化\nest_sigma = float((src - denoised).std())              # 送るのはノイズの強さ等のパラメータのみ\nok1, b1 = cv2.imencode('.jpg', np.clip(src, 0, 255).astype(np.uint8), [cv2.IMWRITE_JPEG_QUALITY, 80])\nok2, b2 = cv2.imencode('.jpg', np.clip(denoised, 0, 255).astype(np.uint8), [cv2.IMWRITE_JPEG_QUALITY, 80])\nprint(\"ノイズごと:\", len(b1), \"B  ノイズ除去後:\", len(b2), \"B  パラメータ σ≈\", round(est_sigma, 1))\nsynth = cv2.imdecode(b2, 0) + rng.normal(0, est_sigma, clean.shape)   # デコーダ：粒状感を再合成\n# 実際のAV1符号化（ffmpeg）: ffmpeg -i in.mp4 -c:v libaom-av1 -crf 30 -b:v 0 out.mkv"
+ },
+ {
+  "id": "code-watermark",
+  "steps": [
+   "① 埋め込み：著作者のIDなどから鍵で作った擬似乱数パターン w（±1）を、画像に弱い強さ α で加える：I′ = I + α·w（周波数領域の中域係数に入れる方式も多い）",
+   "② 知覚しにくい：α が小さく（例 ±3 / 255）ノイズのように見える。PSNR 40dB 以上が目安",
+   "③ 検出：疑わしい画像の高域成分と、鍵から作った同じ w との相関をとる。相関が大きければ「透かしあり」→ 著作権の主張・不正流通の追跡",
+   "④ 頑健性：JPEG 圧縮・縮小・切り抜きなどの加工後も検出できること（ロバスト型）。改ざん検出用にわざと壊れやすくする方式（フラジャイル型）もある"
+  ],
+  "example": "α=3 の ±1 パターンを埋め込み：PSNR 38.6 dB（見た目は同じ）。相関値：透かし入り 3.22、それを JPEG 品質70 に圧縮後 1.84、透かしなし 0.42、違う鍵 0.08 → しきい値 1 程度で判定できる",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 109' width='320' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='109' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAq0lEQVRYw+2VQQ6DMAwEjdUH5N63rnLwW/uO9ICoSFAq1gQVKueAsMUMTpzAlOTYUAnBHwgey82r88BzZAVm29yU9lbwgeESVO8GPwXrRurgq1g9/DqjLn7ARjJCYOdsZYvjfAEB9gtwSgVgBDhcAb5kVDwG0GuAbjTuoxpn4YcCSfPIIrkU6jqDi4DncyOg+VILeL4R8HwzBZ5vFjG6EF2ILty+C/FrGyB4A+QLNp/DnEAVAAAAAElFTkSuQmCC'/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAFeklEQVRYw1VXsXLrOAxENG6IRrXqdz+W2m0y80ZFioyKFPm7a9+1TusrAs2k0RG7C8pnOwxFkeBisQClp9k83CzMzC3Qz6vs9Kv8zyFMqRmalTcvuVCrw53zxlD+D9jTeNpEL0w3J3fYww9zDNbdo+aZbnl+Q5eOae4+0VLuz6kCHA+LcBmj1R4YiLiE1nOYy4kdaJ3Y6tLstMC/CybR+3ITP7OBWPQNrlxYMTiZSOhoBmAvntISfQsrbJHsBHnr7STzY/Oy7eKBfrkPehhgr+A8zYL3dzPbreUve73d++y2//KwsjbCBAUQ6CWDmfZa3mr9e67v/X1QnM1HfFYsqLHePs1i6maFwHbYSiPd0l/l21tR8FtBpEjTAO7/02qdEbvRi1/k4YWBxKL4jMG0Q4l0sLWW69KHZsMlOBwv9FxheoFSKacpIMiI3Lh/WxMMGCpxvOUMl/v991Hq6VL2M8hcxjYBZZvudPfjTCV83lI43aiknHymz93pnVwyEGmy338zOzeX0pNDyGaqoDb43UAEpu3VKIXcvTIhSCr8mCj9fgm8+441AMKgJIBa6SXFqLoTyYEjusl9qy2gKESSVSMqeW0UrDdl22WknWTAMIIGKsGVjUq5kVGOVPfLWYkQewppB6H4hupbZXEhqIo54bJ70RS3jEFrYrBboHZUj+IsG5SUx0SI4ADUJRE7xJgmgeAh1VEG3H0kWCcxVF5TO0V/gt8ZlkLNGsoSgx3BiKsiscC1/VEDhNCqwBCCuyqqvwfFPdVqxQBSUFoliN37VBtHRcH16mUUYDcqA0Yq4LfjbpznCEVn8ck4sqhSSJXHCgQrS17HO2ijilwb0lZkOqPsplWyCDfagNByx98jYVONaexTNR8nEyB6YxyxtDEf8kO9/DacdDrQzD6tilOejfKv7W2EAB40kZCA34PBRwGOd0YVyC/sOqsJKgBU3ErZTvSf8cFQRO/qlIMPT7NXkbbCoieGcSDUQaAnhnoAoKwnFUdnmSyhqO545XEFzc400DPCVOdVnAchnBpZSAm7qrKpmDCZ+4SJtsIEz+tCNkYlizMPK6TIz0vUI4SPA1cPMjo/h23JcODi8MX1SKUiGQ9PVboTlQZeWRl1sHgmE718vv+83m6vX/9e73+uX/frn/s1R+7Xn6/r/fb683O93Z77+P32/JMz+10ZXZZ56R9r2/exma3Ztt6urW3HsbXe/95wd7XR761ty9w/i3H9YuuRM/q9tVnObmlrpS1a77YO2M05fXzOpXNH0C0tS9rmbjkPOwBFH1k7riPtouUc2440AASwMHMUCGveISxcn61QpPU+MmOh0ZOl39O8RGhCe/rV2+O7fDFgnGcagAfLKsxA0bRmrXY7fTmItPdBwYIo9G8ji2ROjA7Oy6OMyzoitZD9mUhyxtZ0bwNnjCJae4yrRo6FLjAYM3y2VfilhZPR43ur/eXjcaTn0AFcedxTKDD7OGO5Kcaas84U0kwlnfjX009wZowckFcfLTUsLpdSHvc0KZdRlBeM67eYbmCPJCYZ0r+JS0aB+hu4hN/UX5YRxpT0dkCF9LaUR15LS+CYXBijsECJ0OJAvhWX67f0vz3svJWi+x5UkJGChdwgIx64qBwvFZc6gW5mHUBGLMv/dKo4kYXhPxRZGHsfQmQydQzaQZzZiNkZEeWrqk4fwdYy0A0pfutQ0WC7LJZSK2uHCygI7SEXyWLVAq05Rl5lvPIuCwneFyzGw+D5pnQef1WK6w05/OG98jJe0x4q+nhndR2WMV5o672UZ24/pZ6WMn++so0XxHo0Gm/l4zHjfH281Pkxzkg+zESdIWOuTusouDphLvH4EMuJejB19XEEhcf5tqq3JJyv/wF0p82fq3BiPgAAAABJRU5ErkJggg=='/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>透かし入り</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAETElEQVRYw11X0YHjSghjfS4rnylKJaio/Uwtr47nASTI3iVZe4xnGJAE8/MOEBGMCATz+tydi+fu/K2hNJFFW52H93mx3yZQdh46f5nz9fiZM68Y/fACcr78pE3k7ABlF/0I5z/7FmkG4KqZzvpl2g5zvZS39G+vkQPkzX6/huv18j29Rfmm24iZob53GtXutc38RNjjDp9jhfY1B6/oIDze2GEoTmem2htDvvFEhxW35/fq6b245kbHofYFODyVYCg5P2+5V2/oCoTmYmg2p6ke53I/v5x95e+8X3lwPnru0KN0JTILXNgq81od6HwrKp0n+5IxyGgfg5lHUNRgCGxs36ht8dmCQS4PWPjvn4ZvOW1ShHN9cwWcMYG2NwJvQr/2XZdlcJcpOEzplyFMBWfLhmIIWD/vZiyVsor7SsRyJHbGGolOamH++bffWBQCMIu3MycL5aZ4z6YdJxmIcGoUIUp3iKtgmruYJcT9+lBsZu+H1gXwQHmAEVAilU0TMxTPcIRyshPEFSARas0wUV16B9tc6VBGDmIxYBwWlvXAW9cunxmuhmT6yg4U+zXAItqeJaJrvcbv1c5w60IFmksEawOlPZkpaqGrPUcjGAvt6Nw7BkKLpOqMPnpgJQnzfzhAjUJ/xKViLFpQHGPMRWzj2DmcKkYcOneVWgRuDiwQfE1azG1JM5C+ODQVUazBwt/IHhpIKqVin2wHmg6J0NwkPFuQ564oiOWnkas8jNrnepdY66qZyqd8QVUWVnRJTLmSxdVa0uAR6UmngKvsqGaVaF29qVyqgAMzCxCPh5emQafzkoxyCiFaUqyAaEZVgeOg9jG4ai4qXQjXh9qBlIzDw6XvZKbRUPqubH90VpC1bufl3Vm3sG8MhdUplt5XAttfVmVC/OlsXKTjS9dH2Vw1rlB70mCg5BSLBZKS6TZY31Mb3RnO8lsM1UN53+54CuG3iw9HWdxFqtS76xwpU1ySzoaxtFgNxGpUtKGhe/3cw/hVy+zt9JByfZE8DQ4bLWZePmKty6/KM0XaisTl9uqcu3j8aZDWdsube0FUiy2B8q174AlyeXLJRMybZqbrgvjVpKHrTzH6qLIVD2tydbhhGq8SOc0K/v2HzyteEa8X47nii8/VJz7P9SfOg8+LeL0+eB2TV2bx2MQzcgbj9/1bn/e7vnmd9zmeA7Ips7TMi+dZyfoUdLe1i4jYumvuNbgzjRbhkc7B5hqIRQ9F7nYfaaC4md299263J28nC298BXaqpltjD1hb5hTVUB6ft2Q5KPsME6vC5KqXFqjWpFqHJg+I4VnLmBqMEKzu1ZsrC0s8uA5idMOiI2H2yrsSYjXD1dbHao5jnxqpXqNknYvtI7ErerGT8KUpt49pS9E5tA2fF/F1Lm0FPUDS9HNkG0mI2FDcEu/k35Zp1cgMM3T8IfdpxtINH9TvfVDa6hxCYB1IuUtctxApCP8Dv+vI+RLsf0cAAAAASUVORK5CYII='/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>差×20（パターン）</text></svg>",
+    "caption": "知覚しにくいパターンを加える"
+   },
+   {
+    "type": "table",
+    "head": [
+     "画像",
+     "相関値",
+     "判定"
+    ],
+    "rows": [
+     [
+      "透かし入り",
+      "3.22",
+      "あり"
+     ],
+     [
+      "JPEG70 後",
+      "1.84",
+      "あり"
+     ],
+     [
+      "透かしなし",
+      "0.42",
+      "なし"
+     ],
+     [
+      "違う鍵で検出",
+      "0.08",
+      "なし"
+     ]
+    ],
+    "caption": "相関による検出"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0).astype(np.float32)\nkey = 12345                                                   # 秘密の鍵\nw = np.random.default_rng(key).choice([-1.0, 1.0], size=img.shape)   # 透かしパターン\nalpha = 3.0\nmarked = np.clip(img + alpha * w, 0, 255).astype(np.uint8)    # 埋め込み\nprint(\"PSNR:\", cv2.PSNR(img.astype(np.uint8), marked))\ndef detect(a, key):\n    a = a.astype(np.float32)\n    hp = a - cv2.GaussianBlur(a, (0, 0), 1.5)                  # 画像の大きな構造を除く\n    w = np.random.default_rng(key).choice([-1.0, 1.0], size=a.shape)\n    return float((hp * w).mean())                              # 相関\nok, buf = cv2.imencode('.jpg', marked, [cv2.IMWRITE_JPEG_QUALITY, 70])   # 攻撃：JPEG圧縮\nfor name, a, k in [(\"透かし入り\", marked, key), (\"JPEG後\", cv2.imdecode(buf, 0), key),\n                   (\"原画像\", img, key), (\"違う鍵\", marked, 999)]:\n    print(name, round(detect(a, k), 2))"
+ },
+ {
+  "id": "code-steganography",
+  "steps": [
+   "① 目的：秘密の通信が行われていること自体を隠す（暗号は内容を隠すが、通信していることは分かる）。透かしは著作権の主張が目的で、存在が知られてもよい点が異なる",
+   "② LSB 置換：秘密データのビットを、画素値の最下位ビット（LSB）に1ビットずつ書き込む。画素値は最大 ±1 しか変わらない",
+   "③ 受信側は同じ順で LSB を読み出して元のデータを得る（順序や位置を鍵で決めることも）",
+   "④ 見た目では分からないが、統計的解析（ステグアナリシス）で検出されることがある。JPEG 圧縮などの加工で LSB は壊れやすい（頑健性は低い）"
+  ],
+  "example": "\"HELLO\" = 40 ビット（H = 01001000 …）を先頭 40 画素の LSB に埋め込み：例 画素値 60 → 61。取り出し結果 \"HELLO\"。64×64 全画素の LSB を使うと最大 4096 ビット = 512 文字、PSNR 51.2 dB",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 91' width='320' height='91' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='91' fill='#fff'/><image x='10.0' y='6.0' width='66.0' height='66.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA5UlEQVRYw+2VQQ6DIBBFkfQArHvWCWHBWXsN2oTawMA08xFj08DCyOh7Ih90c+ZYs2YJ/kBw208ewg33mSOIsa1tTjuCD0xDgurZhL9CFHt2gK/6doQvK3aIn7CQIiCI5yzluLbzDwhIL6BTRkCIgA6PgL5UrBkxEDwHJPbmfVTXXrhQYFxu3hifUiiOr0oozsuruZ7BXYDznglgPtUCnGcCnA9MAPNsEnFeTkHJiyloeSkFNS+koOd9NwWA76aA8L0UIL6TAsa3KYB8kwLK870A82wScb5JAeV5CjD/nsT1a5sgeALbujaMFLUhZwAAAABJRU5ErkJggg=='/><rect x='10.0' y='6.0' width='66.0' height='66.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='43.0' y='84.0' font-size='9.5' text-anchor='middle' fill='#222'>カバー画像</text><image x='88.0' y='6.0' width='66.0' height='66.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAFYElEQVRYw11XW47cOAykiD6A4a9Frjpjo2dmc9UglzC1ZFVRNnaStt1q8VUskvLYw8w8L5738PxnfcnvWLXawg3Yw+WAmHs+u9uSr9+f+yJqqXbUbzLmfCqhFAl9pROtDPfgzYLqQprbAVgp5XXD1+j12lRKIBRwc2mVJr+9RzBO1x3RM57Sw6dQvAHdfuNhvRsW66fodUUUAR/pbW6OBSyvHi96HQik40RSsNmXmWXVg3aoSOq9todAXjpMLjmdCywwWmBS5uIV3GB/aCNECVk1+5X7kSrxIXqLwnw9eBJh8q7MiFu+Qo74PT8VOZwA28Yu+b/tyiPV9fll2vrvsGn5GUf4zc0YG8XibzCAJnAn9h+wzX9S2lI+FZgdpPtNeAIUnfdlXeHl6ncZL/E5ps1vF+edhAqyRbrAIOu0EoDvEoYGgx/fYkswPZ0VtwVdsxNkiJ8MPQ3XJcXr8uNidhLJV1nJcfcVAAH8bRNSkJ1jzIIzmkmgutiu/FctLR4m1TL+FDMCOCb0wIXy+UUWh+ot1AS8Czgff+Zk9HPc92mLH+LuorffNGO5ThP+Vo/TGM0PK80aDG+7or8aW22i9zBaIZQbc6UNtUABlTYxhG7VOiCwpxag6EzUC8SmPfxf1aYKdhuCv25T4qWQQb9oJx4FpjITHcLbMu6mPAylXqF3m2Z/8NXSEMYE8LN5OJXS+pnJZ+tsDnQTtm5kTtkCbzAG0PLz7uALxbuLOVFleo+qgjln1yO0je4rr0fWugqaW9YfJpBM1JfjdrRp7wq7WUVGVF4+y/cuRKRxNue6bDWsuu/2AGGxh3+omiAKUnysXk/UiV1011y85rQI+7AmEk18dAsnmUg79Gy/u3+PRuz8TNuVvomedHbGQz2xLP1Z88e6tIHkL/U3+zGW0zge0y+TvHcD7hL2lZZ2xTVq/NF3tYbB0lKItvu+3aeIbrKS1sHBhdFrDQpNI8yhxk98D0xtAn5PDob2Uiu88289kv5X6DoWuMyriu0Vz/6Nxtx8VJNcw3wZ1VmIIq+mvhx1W4eEtWm1PHpLgrHr5PO+b9u278ntY17vTFJd7bxmrnzN+R7jnFcm/riuL13H+7pyfau/3Uo6H0p+fg1oaRnsK13ngF48p/xXasnnfdtLwV5/254yaQ1ayk7az32pEbqGtJ91HW/4eFylYKcH+VfyJjsHZNIOVmD/YiylhevndZV9hABFjF825zHSf8V/1Dr9L8vviiJ9ub4AAUIoH2p3Wi75C/HzuexjN57fhWthVFgOuL7ZzhiodeEHnOT/qfgrC1w/gQJMU0GBKYTTC/h/ISMZyzgZMzD+mlhHLk8IloIdCk7ZlP9v7IN9+V/5E8b1fF5AbwORUglxogz5g1wAP3Ck44clxEvTRjps2JG/HcUzyF/lf+UPHEX8eKb/GSki2JDGVCIWHbDPHacpfnL8PalLWTzHBiYBy1RBnI+bZ1ULiJ/oAH8zYgGkB+E30mFb+StvR8vDLzDnDf+ZS0RqhxSwGHdoZfzcQeYwi8ofGV16z/JiAxGoYNuKv8of+Sf8ix3gtWIhfqV3ksIGCLcdNlW/lFe2gV/XFaKosZDy740KmMa9vHqvWgKKjKXql57zVzAFVQvDCSKLAfFfXf/0X/x9N5ZckXfIAngAR/Y7Txc8VP6/br1kSkWqricFKmf2Cev6J9qFyHv5UohU/MTiuMjAnI18jdLMuU8Lz9eBHoZrfN6rL50nXe9CGqw8ed2DQKcnf8w7NfdXH+o530Ivq2sgPQ4+6y3n8aYZfOm6X959TSR/CGg02joY8v2vp2cL6jCxXgn7gKHTkuZl6OW3/fwPhE7L6XphO+wAAAAASUVORK5CYII='/><rect x='88.0' y='6.0' width='66.0' height='66.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='121.0' y='84.0' font-size='9.5' text-anchor='middle' fill='#222'>全LSBに埋込後</text><image x='166.0' y='6.0' width='66.0' height='66.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAAh0lEQVRYw+2VQQ6AIAwEW/7/55oIwbbAYasHDzsHQc0QcRIVIYQQQggh/0PHaCp2n81jH+bc3+3X4wIC+9bVVvaH1176zxPAvqYFir57iTXfbQH1TQ4VMH+tAPpLBdTPFQBfdxVwP1aA/E2Fiu8rlHy3BdTXbUbYTxlxP2aE/PxFgn3+T77jAgFptCPzrGYhAAAAAElFTkSuQmCC'/><rect x='166.0' y='6.0' width='66.0' height='66.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='199.0' y='84.0' font-size='9.5' text-anchor='middle' fill='#222'>元のLSB面</text><image x='244.0' y='6.0' width='66.0' height='66.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAD3klEQVRYw2VXC47lMAjD1dz/yt42YOy81UivnyEJGGMoiKr6fvhewfev9PM+n7f1mbTBsenXOMv4vPdk7frv/2kHfK8+i+9/cxj77luEB5jHdkKbnSv6UujtMDvLgXPK85q8l7aD3qMD41n0OnC2LG93Djmv3xA6GLbrPNF3PN8+fYeJF2dvGo/X6Gl/OCdB7ycifFFwvH13wALbv8Rfe40TiOI8STnG43NH1JsTfU5v1CmYQ3bjScx5z04B+/GE3X8HlnHGN33Xa3ZHPfnNHklCfhWHGuNmOF1iDhW/YG7wtebwgpnqSTe1Fm3hNdVEEhfZ2TieiJNsL9nsE/5oGEQc6hg5yGS8EnEVSslfPN8JzRZO/tFnRTH1lZtIkboXGXSlwAnJwpj1w+tO8Pv8KP52g4fL3GoxcuLICYLjZ5Z50QRZX4dHc9zUVN/JqwEjlSPSdaErGw7I/fB0Msr05qzZmlVZGWRF89n/maZfdNqcZhlnu5E9uvAojZkiGby5OG+90OUlZLyqIoWsRWiTyd3Jy12vwTpnziI9OEzVbMpGsgdPORPksO/r2F70f1qX/hMJxbxBlKIiUzza/LHXsIrRCE82T38wYqpcBnWWGsutlZlksWnVb58FrzU1ju38t1wQqZjHmyHcI5+BKAGl4MhJNzzI6iCP0PqyJIeOGv0LTBrEQFjZCm6R6UtFDk3OtjaD1qfpdQbUpTfa5u5XIS/L8TJv8k7k2GpZoOneZf3fvATloxGsLxvCT6PgRoWU4Y1j2ucClomge5yrMlVumX/e/SH1u1O8PAvt4rQPty64oW46txmX5b3CBwaYZkr0grqsor3HSBH9ISTq5lWs+TnPuRYlV1p+5i9GO1HeKuu1NFg9MAtrBpuJDl112x7XCjuvjWrQuV3amM7q3nBJo6LrKFPdibgzlQRmBzB5kc39GzDUos1gAwBXw44SGKTh+cWdIQhmrBm9h7zo0e1d6cUCu7WK4qUKanKcivmc+NsZdtbQ9Swnrb5dbmoyuPWlUgrIdNMdcjvCmj/nc0BAX1F6RJyRbUb4Kaqx/1MpKnhNetEyyhHzoo8/ZoLvqci8xq5ozSF2j2dH6KSacUuQYpOKik+NZoRbmItovxmS5lNrqz5gyDSjURI/46om8Ksv+sPubzLQMey0dI1d13wxWVHtAOs/f3TXkGevtsaP0VPxMTEDAvYDAKbC0FcWGlM92NBKGnPZrXZMBZ2sCjdMHdn9AP3Ojv0n3CFyQnYl8H8NZmp5jPGmYTQibt+4PsAqVRpFJ2I/ynl/bHkMCF4VfkYohTUNbZUwNg98Vnf/AYsmpyqZy7H+AAAAAElFTkSuQmCC'/><rect x='244.0' y='6.0' width='66.0' height='66.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='277.0' y='84.0' font-size='9.5' text-anchor='middle' fill='#222'>埋込後のLSB面</text></svg>",
+    "caption": "見た目は同じだが、LSB 面は乱数状に変わる"
+   },
+   {
+    "type": "table",
+    "head": [
+     "画素値",
+     "2進",
+     "ビット",
+     "埋込後"
+    ],
+    "rows": [
+     [
+      "60",
+      "00111100",
+      "0",
+      "60"
+     ],
+     [
+      "60",
+      "00111100",
+      "1",
+      "61"
+     ],
+     [
+      "60",
+      "00111100",
+      "0",
+      "60"
+     ],
+     [
+      "60",
+      "00111100",
+      "0",
+      "60"
+     ],
+     [
+      "60",
+      "00111100",
+      "1",
+      "61"
+     ],
+     [
+      "60",
+      "00111100",
+      "0",
+      "60"
+     ]
+    ],
+    "caption": "\"H\"=01001000 の先頭6ビットを LSB へ"
+   }
+  ],
+  "code": "import numpy as np, cv2\ncover = cv2.imread('input.png', 0)\nmsg = \"HELLO\"\nbits = np.array([int(b) for c in msg.encode() for b in f\"{c:08b}\"], np.uint8)   # 40 ビット\nflat = cover.ravel().copy()\nflat[:bits.size] = (flat[:bits.size] & 0xFE) | bits      # LSB を秘密ビットで置換\nstego = flat.reshape(cover.shape)\nprint(\"最大変化:\", np.abs(stego.astype(int) - cover).max())   # 1\n# 取り出し\ngot = stego.ravel()[:bits.size] & 1\ntext = bytes(int(\"\".join(map(str, got[i:i + 8])), 2) for i in range(0, got.size, 8)).decode()\nprint(text, \" PSNR:\", cv2.PSNR(cover, stego))\nok, buf = cv2.imencode('.jpg', stego, [cv2.IMWRITE_JPEG_QUALITY, 95])   # JPEG で壊れる\nprint(\"JPEG後のビット一致率:\", ((cv2.imdecode(buf, 0).ravel()[:bits.size] & 1) == bits).mean())"
  }
 ]
