@@ -60,13 +60,13 @@ RG = np.array([
     [90, 88, 21, 24, 27, 83],
     [92, 91, 87, 85, 86, 82]])
 seed = (3, 3)
-T = 12
+TG = 12
 reg = np.zeros_like(RG); reg[seed] = 1
 stages = [reg.copy()]
 while True:
     m = RG[reg == 1].mean()
     nb = dil(reg, np.array([[0, 1, 0], [1, 1, 1], [0, 1, 0]])) - reg
-    add = (nb == 1) & (np.abs(RG - m) <= T)
+    add = (nb == 1) & (np.abs(RG - m) <= TG)
     if not add.any():
         break
     reg = reg | add.astype(int)
@@ -85,11 +85,11 @@ def rg_panel(st, prev, title):
 sel = [0, 1, 2, len(stages) - 1]
 E.append(dict(id='region-growing', steps=[
     f"① 入力：濃淡画像と種（シード）画素。例：(行3, 列3) の値 {RG[seed]} を種にする",
-    f"② 領域の4近傍の画素のうち、『領域の平均濃度との差 ≤ T（例 T = {T}）』を満たすものを領域に加える",
+    f"② 領域の4近傍の画素のうち、『領域の平均濃度との差 ≤ T（例 T = {TG}）』を満たすものを領域に加える",
     f"③ 加えるたびに領域の平均を更新し、条件を満たす画素がなくなるまで繰り返す。例：1回目に {int(stages[1].sum()) - 1} 画素、2回目に {int(stages[2].sum() - stages[1].sum())} 画素が加わる",
     f"④ 出力：種から広がった連結な領域（{int(reg.sum())} 画素、平均 {f(RG[reg == 1].mean(), 1)}）。周りの 80〜90 台の画素や、左上の 10 台の画素（差が大きい）は入らない",
     "⑤ 種の位置と T の選び方で結果が変わる。T が大きすぎると隣の領域へ漏れ出し、小さすぎると途中で止まる",
-], example=f"1回目：平均 {RG[seed]} との差が {T} 以下の4近傍 → " + ', '.join(f'({r},{c})={RG[r, c]}' for r, c in np.argwhere(stages[1] - stages[0])) + f"。最終的な領域の平均 {f(RG[reg == 1].mean(), 1)}",
+], example=f"1回目：平均 {RG[seed]} との差が {TG} 以下の4近傍 → " + ', '.join(f'({r},{c})={RG[r, c]}' for r, c in np.argwhere(stages[1] - stages[0])) + f"。最終的な領域の平均 {f(RG[reg == 1].mean(), 1)}",
     figures=[gfig(panels([rg_panel(stages[i], stages[i - 1] if i else np.zeros_like(RG), t) for i, t in zip(sel, ['種', '1回目', '2回目', f'完了（{len(stages) - 1}回）'])], W=330, gap=12, arrows=['', '', '…']), '赤＝その回に加わった画素、青＝それまでの領域')],
     code=r'''import numpy as np
 
@@ -276,7 +276,7 @@ show(build(0, 0, 8))
 # k-means（2次元点）
 rng = np.random.default_rng(5)
 pts = np.vstack([rng.normal([2, 2], 0.6, (12, 2)), rng.normal([6, 3], 0.6, (12, 2)), rng.normal([4, 6.5], 0.6, (12, 2))])
-cents = [np.array([[1.0, 6.0], [2.0, 5.5], [7.0, 1.0]])]
+cents = [np.array([[1.0, 4.5], [3.0, 0.5], [7.5, 5.5]])]
 assigns = []
 for it in range(10):
     c = cents[-1]
@@ -312,7 +312,7 @@ def km_fig(i1, i2, t1, t2):
 sse = [float(((pts - cents[i][assigns[i]]) ** 2).sum()) for i in range(len(assigns))]
 E.append(dict(id='region-kmeans', steps=[
     "① 入力：データ点（例：画素の色 (R,G) や (濃度, x, y) の特徴ベクトル）36 個と、クラスタ数 k = 3",
-    "② 初期化：k 個のクラスタ中心（×）を適当に置く（例：(1,6), (2,5.5), (7,1)）",
+    "② 初期化：k 個のクラスタ中心（×）を適当に置く（例：(1,4.5), (3,0.5), (7.5,5.5)）",
     "③ 割り当て：各点を最も近い中心のクラスタに入れる（色分け）",
     "④ 更新：各クラスタに属する点の平均を新しい中心にする（矢印の先へ移動）。③④を中心が動かなくなるまで繰り返す",
     f"⑤ この例では {len(cents)} 回目の更新で収束。誤差（各点と中心の距離²の和）は {f(sse[0], 1)} → {f(sse[-1], 1)} と単調に減る。結果は初期値に依存し、k は事前に決める必要がある",
@@ -323,7 +323,7 @@ import cv2
 
 rng = np.random.default_rng(5)
 X = np.vstack([rng.normal([2, 2], .6, (12, 2)), rng.normal([6, 3], .6, (12, 2)), rng.normal([4, 6.5], .6, (12, 2))])
-C = np.array([[1.0, 6.0], [2.0, 5.5], [7.0, 1.0]])         # 初期中心
+C = np.array([[1.0, 4.5], [3.0, 0.5], [7.5, 5.5]])         # 初期中心
 for it in range(20):
     d = ((X[:, None, :] - C[None]) ** 2).sum(-1)           # 各点と各中心の距離²
     a = d.argmin(1)                                        # ③ 割り当て
@@ -1723,7 +1723,8 @@ def dp(pts, eps, rec):
     a, b_ = pts[0], pts[-1]
     if len(pts) < 3:
         return [a, b_]
-    d = np.abs(np.cross(b_ - a, pts - a)) / np.linalg.norm(b_ - a)
+    u_, w_ = b_ - a, pts - a
+    d = np.abs(u_[0] * w_[:, 1] - u_[1] * w_[:, 0]) / np.linalg.norm(u_)
     i = int(np.argmax(d))
     rec.append((tuple(a), tuple(b_), tuple(pts[i]), float(d[i])))
     if d[i] > eps:
@@ -1765,7 +1766,8 @@ pts = np.array([[0, 0], [1, .4], [2, 1.2], [3, 2.6], [4, 3.0], [5, 2.9], [6, 2.2
 def douglas_peucker(p, eps):
     a, b = p[0], p[-1]
     if len(p) < 3: return [a, b]
-    d = np.abs(np.cross(b - a, p - a)) / np.linalg.norm(b - a)   # 弦からの距離
+    u, w = b - a, p - a
+    d = np.abs(u[0] * w[:, 1] - u[1] * w[:, 0]) / np.linalg.norm(u)   # 弦からの距離
     i = int(np.argmax(d))
     if d[i] <= eps: return [a, b]                               # 線分1本で近似
     return douglas_peucker(p[:i + 1], eps)[:-1] + douglas_peucker(p[i:], eps)
