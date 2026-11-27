@@ -421,5 +421,588 @@
    }
   ],
   "code": "from fractions import Fraction as Fr\nprobs = {\"a\": Fr(6, 10), \"b\": Fr(3, 10), \"c\": Fr(1, 10)}\ncum, c = {}, Fr(0)\nfor s, p in probs.items():\n    cum[s] = (c, c + p); c += p                   # a:[0,.6) b:[.6,.9) c:[.9,1)\ndef encode(seq):\n    lo, hi = Fr(0), Fr(1)\n    for s in seq:\n        w = hi - lo\n        lo, hi = lo + w * cum[s][0], lo + w * cum[s][1]   # 区間を絞る\n        print(s, float(lo), float(hi))\n    # 区間内で最短の2進小数を探す\n    k = 1\n    while True:\n        v = Fr(-(-lo.numerator * 2 ** k // lo.denominator), 2 ** k)   # ceil(lo*2^k)/2^k\n        if v < hi:\n            return format(int(v * 2 ** k), f\"0{k}b\")\n        k += 1\nprint(\"符号:\", encode(\"aab\"))                     # 2進小数 0.01 → \"01\""
+ },
+ {
+  "id": "code-lz77",
+  "steps": [
+   "① 入力：文字列（画素列）。直前の一定範囲（スライド窓、例 32KB）を辞書として使う",
+   "② 現在位置から始まる文字列が、窓の中のどこかと一致するかを探し、最長一致を見つける",
+   "③ 「何文字前から（距離）・何文字（長さ）・次の1文字」の3つ組を出力して、一致した分だけ先へ進む（一致がなければ (0,0,文字)）",
+   "④ 復号は出力済みの列からコピーするだけで高速。繰り返しが多いデータほど短くなる。Deflate（PNG・ZIP）はこの変形（LZSS）＋ハフマン"
+  ],
+  "example": "\"ABABABCABAB\" → (0,0,A) (0,0,B) (2,4,C) (7,3,B)。3組目の (2,4,C)：2文字前から4文字 \"ABAB\" をコピー（コピー元とコピー先が重なってもよい）してから C",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "位置",
+     "一致",
+     "出力 (距離,長さ,次)"
+    ],
+    "rows": [
+     [
+      "0",
+      "—",
+      "(0,0,A)"
+     ],
+     [
+      "1",
+      "—",
+      "(0,0,B)"
+     ],
+     [
+      "2",
+      "ABAB",
+      "(2,4,C)"
+     ],
+     [
+      "7",
+      "ABA",
+      "(7,3,B)"
+     ]
+    ],
+    "caption": "\"ABABABCABAB\" の LZ77 符号化（窓16）"
+   }
+  ],
+  "code": "def lz77_encode(s, window=16, lookahead=8):\n    i, out = 0, []\n    while i < len(s):\n        dist, length = 0, 0\n        for j in range(max(0, i - window), i):          # 窓の中を探す\n            k = 0\n            while k < lookahead and i + k < len(s) - 1 and s[j + k] == s[i + k]:\n                k += 1\n            if k > length:\n                dist, length = i - j, k\n        out.append((dist, length, s[i + length]))       # (距離, 長さ, 次の文字)\n        i += length + 1\n    return out\ndef lz77_decode(tokens):\n    s = []\n    for d, l, c in tokens:\n        for _ in range(l):\n            s.append(s[-d])                             # d文字前から1文字ずつコピー\n        s.append(c)\n    return \"\".join(s)\nt = lz77_encode(\"ABABABCABAB\")\nprint(t, lz77_decode(t))"
+ },
+ {
+  "id": "code-lz78",
+  "steps": [
+   "① 入力：文字列。辞書は空（番号0＝空文字列）から始める",
+   "② 現在位置から、辞書に登録済みの最長の文字列 w を見つける",
+   "③ 「w の辞書番号, 次の1文字 c」を出力し、w+c を新しい番号で辞書に登録",
+   "④ 復号側も同じ手順で同じ辞書を作れるので、辞書そのものは送らない。長い繰り返しほど長い単語が登録され効率が上がる"
+  ],
+  "example": "\"ABABABA\" → (0,A) (0,B) (1,B) (3,A)。辞書：1=A、2=B、3=AB、4=ABA",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "出力",
+     "(0,A)",
+     "(0,B)",
+     "(1,B)",
+     "(3,A)"
+    ],
+    "rows": [
+     [
+      "登録",
+      "1:A",
+      "2:B",
+      "3:AB",
+      "4:ABA"
+     ]
+    ],
+    "caption": "\"ABABABA\" の LZ78"
+   }
+  ],
+  "code": "def lz78_encode(s):\n    dic, out, w = {}, [], \"\"\n    for c in s:\n        if w + c in dic:\n            w += c                               # まだ辞書にある → 伸ばす\n        else:\n            out.append((dic.get(w, 0), c))       # (最長一致の番号, 次の文字)\n            dic[w + c] = len(dic) + 1            # 新しい単語を登録\n            w = \"\"\n    if w:\n        out.append((dic[w], \"\"))\n    return out, dic\ndef lz78_decode(tokens):\n    words, s = [\"\"], \"\"\n    for i, c in tokens:\n        w = words[i] + c; s += w; words.append(w)\n    return s\nt, d = lz78_encode(\"ABABABA\")\nprint(t, d, lz78_decode(t))"
+ },
+ {
+  "id": "code-lzw",
+  "steps": [
+   "① 初期辞書：全ての1文字を登録（8ビット画像なら0〜255、例では A=0, B=1）",
+   "② 辞書にある最長の文字列 w を読み、その番号だけを出力（LZ78と違い次の文字は出力しない）",
+   "③ w + 次の文字 を辞書に新番号で登録し、次の文字から再開",
+   "④ 復号側も出力番号の列から同じ辞書を再現できる。GIF・TIFF（LZW圧縮）で使用。符号長は辞書の大きさに応じて増やす（GIF は 12 ビットまで）"
+  ],
+  "example": "\"ABABABA\"（A=0,B=1）→ 出力 [0, 1, 2, 4]。登録：2=AB、3=BA、4=ABA。7文字が 4 個の番号に",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "ステップ",
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "rows": [
+     [
+      "出力番号",
+      "0",
+      "1",
+      "2",
+      "4"
+     ],
+     [
+      "新規登録",
+      "2:AB",
+      "3:BA",
+      "4:ABA",
+      "—"
+     ]
+    ],
+    "caption": "\"ABABABA\" の LZW"
+   }
+  ],
+  "code": "def lzw_encode(s, alphabet=\"AB\"):\n    dic = {c: i for i, c in enumerate(alphabet)}   # 初期辞書：1文字すべて\n    w, out = \"\", []\n    for c in s:\n        if w + c in dic:\n            w += c\n        else:\n            out.append(dic[w])                      # 番号だけ出力\n            dic[w + c] = len(dic)                   # w+c を登録\n            w = c\n    out.append(dic[w])\n    return out\ndef lzw_decode(codes, alphabet=\"AB\"):\n    words = list(alphabet); w = words[codes[0]]; s = w\n    for k in codes[1:]:\n        e = words[k] if k < len(words) else w + w[0]   # まだ未登録の番号（特殊ケース）\n        s += e; words.append(w + e[0]); w = e\n    return s\nc = lzw_encode(\"ABABABA\"); print(c, lzw_decode(c))      # [0, 1, 2, 4] ABABABA"
+ },
+ {
+  "id": "code-dpcm",
+  "steps": [
+   "① 入力：画素値の列（例 100, 102, 105, 105, 104, 110, 180, 182）",
+   "② 予測：既に符号化した周囲の画素から注目画素を予測（最も簡単なのは左の画素 x̂ = 左）",
+   "③ 予測誤差 e = x − x̂ を（必要なら量子化して）符号化。隣が似ているので e は 0 付近に集中する",
+   "④ 復号：x = x̂ + e を順に計算。誤差が小さい値に集中するので、ハフマン等の可変長符号で短くなる（PNG のフィルタ、JPEG-LS、JPEG の DC 成分）"
+  ],
+  "example": "列 [100, 102, 105, 105, 104, 110, 180, 182] → 予測誤差 [100, 2, 3, 0, -1, 6, 70, 2]。試験画像：画素値のエントロピー 2.24 bit → 左予測の誤差のエントロピー 1.32 bit",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 280 109' width='280' height='109' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='280' height='109' fill='#fff'/><image x='39.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAAA5UlEQVRYw+2VQQ6DIBBFkfQArHvWCWHBWXsN2oTawMA08xFj08DCyOh7Ih90c+ZYs2YJ/kBw208ewg33mSOIsa1tTjuCD0xDgurZhL9CFHt2gK/6doQvK3aIn7CQIiCI5yzluLbzDwhIL6BTRkCIgA6PgL5UrBkxEDwHJPbmfVTXXrhQYFxu3hifUiiOr0oozsuruZ7BXYDznglgPtUCnGcCnA9MAPNsEnFeTkHJiyloeSkFNS+koOd9NwWA76aA8L0UIL6TAsa3KYB8kwLK870A82wScb5JAeV5CjD/nsT1a5sgeALbujaMFLUhZwAAAABJRU5ErkJggg=='/><rect x='39.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='81.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像</text><line x1='126.0' y1='48.0' x2='154.0' y2='48.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><text x='140.0' y='43.0' font-size='9' text-anchor='middle' fill='#3563e9'>x − 左</text><image x='157.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAABACAAAAACIQPAXAAAAlElEQVRIx+1Vyw6AMAiDfc78/++r8eAyLzDA16HNTobapo4qQhAiCD4/0UIayOvDnnT48GZtPtxhkw9/2uJbcgv5Q2/6fhMUy3xTPqs/DLTivSc/2Re6ylc8oD8uVZOigRf2t9wf5f7y+5P49veL8Okzv2feMO8PjjUJnar/q74mDeT9b9f+CBsQ5s/8mf8/8ieS2AHumR1pE5ZF6AAAAABJRU5ErkJggg=='/><rect x='157.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='199.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>|予測誤差|（黒=0）</text></svg>",
+    "caption": "予測誤差はほとんど0（エッジだけ大）"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 115' width='300' height='115' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='115' fill='#fff'/><line x1='34' y1='89' x2='290' y2='89' stroke='#666'/><line x1='34' y1='10' x2='34' y2='89' stroke='#666'/><line x1='34.0' y1='89' x2='34.0' y2='92' stroke='#666'/><text x='34.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>−40</text><line x1='162.0' y1='89' x2='162.0' y2='92' stroke='#666'/><text x='162.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>0</text><line x1='290.0' y1='89' x2='290.0' y2='92' stroke='#666'/><text x='290.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>40</text><text x='162.0' y='112.0' font-size='9.5' text-anchor='middle' fill='#222'>値（誤差は −40〜40）</text><text x='10.0' y='49.5' font-size='9.5' text-anchor='middle' fill='#222' transform='rotate(-90 10 49.5)'>頻度</text><polyline points='34.0,89.0 37.2,89.0 40.4,89.0 43.6,89.0 46.8,89.0 50.0,89.0 53.2,89.0 56.4,89.0 59.6,89.0 62.8,89.0 66.0,89.0 69.2,89.0 72.4,89.0 75.6,89.0 78.8,89.0 82.0,89.0 85.2,89.0 88.4,89.0 91.6,89.0 94.8,89.0 98.0,89.0 101.2,89.0 104.4,89.0 107.6,89.0 110.8,89.0 114.0,89.0 117.2,89.0 120.4,89.0 123.6,89.0 126.8,89.0 130.0,89.0 133.2,89.0 136.4,89.0 139.6,89.0 142.8,89.0 146.0,89.0 149.2,89.0 152.4,89.0 155.6,89.0 158.8,84.7 162.0,85.2 165.2,89.0 168.4,89.0 171.6,89.0 174.8,89.0 178.0,89.0 181.2,89.0 184.4,89.0 187.6,89.0 190.8,89.0 194.0,89.0 197.2,89.0 200.4,79.7 203.6,89.0 206.8,89.0 210.0,89.0 213.2,89.0 216.4,89.0 219.6,89.0 222.8,89.0 226.0,89.0 229.2,89.0 232.4,89.0 235.6,89.0 238.8,89.0 242.0,89.0 245.2,89.0 248.4,89.0 251.6,89.0 254.8,89.0 258.0,89.0 261.2,89.0 264.4,89.0 267.6,89.0 270.8,89.0 274.0,89.0 277.2,89.0 280.4,89.0 283.6,89.0 286.8,89.0 290.0,89.0' fill='none' stroke='#888' stroke-width='1.7'/><polyline points='34.0,89.0 37.2,89.0 40.4,89.0 43.6,89.0 46.8,89.0 50.0,89.0 53.2,89.0 56.4,89.0 59.6,89.0 62.8,89.0 66.0,89.0 69.2,89.0 72.4,89.0 75.6,89.0 78.8,89.0 82.0,89.0 85.2,89.0 88.4,89.0 91.6,89.0 94.8,89.0 98.0,89.0 101.2,89.0 104.4,89.0 107.6,89.0 110.8,89.0 114.0,89.0 117.2,89.0 120.4,89.0 123.6,89.0 126.8,89.0 130.0,88.8 133.2,89.0 136.4,89.0 139.6,89.0 142.8,89.0 146.0,89.0 149.2,89.0 152.4,89.0 155.6,89.0 158.8,89.0 162.0,15.9 165.2,89.0 168.4,89.0 171.6,89.0 174.8,89.0 178.0,89.0 181.2,89.0 184.4,89.0 187.6,89.0 190.8,89.0 194.0,88.8 197.2,89.0 200.4,89.0 203.6,89.0 206.8,89.0 210.0,89.0 213.2,89.0 216.4,89.0 219.6,89.0 222.8,89.0 226.0,89.0 229.2,89.0 232.4,89.0 235.6,89.0 238.8,89.0 242.0,89.0 245.2,89.0 248.4,89.0 251.6,89.0 254.8,89.0 258.0,89.0 261.2,89.0 264.4,89.0 267.6,89.0 270.8,89.0 274.0,89.0 277.2,89.0 280.4,89.0 283.6,89.0 286.8,89.0 290.0,89.0' fill='none' stroke='#e33' stroke-width='1.7'/><rect x='40' y='10' width='121' height='26' fill='#fff' fill-opacity='0.85' stroke='#ddd'/><line x1='43' y1='17' x2='55' y2='17' stroke='#888' stroke-width='2'/><text x='58.0' y='20.0' font-size='9' text-anchor='start' fill='#222'>画素値(88〜168)</text><line x1='43' y1='28' x2='55' y2='28' stroke='#e33' stroke-width='2'/><text x='58.0' y='31.0' font-size='9' text-anchor='start' fill='#222'>予測誤差</text></svg>",
+    "caption": "予測誤差は 0 に鋭く集中"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0).astype(int)\ndef entropy(a):\n    p = np.bincount(a.ravel() - a.min()) / a.size; p = p[p > 0]\n    return -(p * np.log2(p)).sum()\npred = np.zeros_like(img); pred[:, 1:] = img[:, :-1]   # 左の画素で予測\nerr = img - pred                                         # 予測誤差（先頭列はそのまま）\nprint(\"画素値:\", entropy(img).round(2), \"bit  予測誤差:\", entropy(err[:, 1:]).round(2), \"bit\")\n# 復号：左から順に x = 予測 + 誤差\nrec = np.zeros_like(img); rec[:, 0] = err[:, 0]\nfor x in range(1, img.shape[1]):\n    rec[:, x] = rec[:, x - 1] + err[:, x]\nprint(\"完全復元:\", np.array_equal(rec, img))\n# 平面予測の例（JPEG-LS の MED 予測など）: x̂ = 左 + 上 − 左上"
+ },
+ {
+  "id": "code-transform",
+  "steps": [
+   "① 入力：画像を小ブロック（例 8×8）に分ける",
+   "② 直交変換（DCT、ウェーブレット、KL変換など）：隣接画素の相関が強いため、エネルギーが少数の低周波係数に集中する",
+   "③ 量子化：小さい係数は0に、重要でない（高周波）係数は粗く。ここで情報を捨てる",
+   "④ 0 が多くなった係数をランレングス＋エントロピー符号化。復号は逆量子化 → 逆変換。出力：少ない係数で元に近い画像"
+  ],
+  "example": "有名な 8×8 ブロック（値52〜154）を DCT：64係数のうち大きい方から10個で全エネルギーの 98.0% を占める。10個だけ残して逆変換した最大誤差 21（平均 6.2）",
+  "figures": [
+   {
+    "type": "grid",
+    "data": [
+     [
+      52,
+      55,
+      61,
+      66,
+      70,
+      61,
+      64,
+      73
+     ],
+     [
+      63,
+      59,
+      55,
+      90,
+      109,
+      85,
+      69,
+      72
+     ],
+     [
+      62,
+      59,
+      68,
+      113,
+      144,
+      104,
+      66,
+      73
+     ],
+     [
+      63,
+      58,
+      71,
+      122,
+      154,
+      106,
+      70,
+      69
+     ],
+     [
+      67,
+      61,
+      68,
+      104,
+      126,
+      88,
+      68,
+      70
+     ],
+     [
+      79,
+      65,
+      60,
+      70,
+      77,
+      68,
+      58,
+      75
+     ],
+     [
+      85,
+      71,
+      64,
+      59,
+      55,
+      61,
+      65,
+      83
+     ],
+     [
+      87,
+      79,
+      69,
+      68,
+      65,
+      76,
+      78,
+      94
+     ]
+    ],
+    "max": 255,
+    "values": true,
+    "caption": "入力 8×8 ブロック"
+   },
+   {
+    "type": "grid",
+    "data": [
+     [
+      103,
+      7,
+      15,
+      6,
+      14,
+      5,
+      0,
+      0
+     ],
+     [
+      1,
+      5,
+      15,
+      2,
+      3,
+      1,
+      2,
+      1
+     ],
+     [
+      11,
+      1,
+      19,
+      6,
+      7,
+      2,
+      1,
+      1
+     ],
+     [
+      12,
+      3,
+      8,
+      3,
+      2,
+      1,
+      0,
+      0
+     ],
+     [
+      3,
+      1,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "max": 60,
+    "values": false,
+    "caption": "|DCT係数|（左上ほど大きい）"
+   }
+  ],
+  "code": "import numpy as np, cv2\nblk = np.array([[52, 55, 61, 66, 70, 61, 64, 73], [63, 59, 55, 90, 109, 85, 69, 72],\n                [62, 59, 68, 113, 144, 104, 66, 73], [63, 58, 71, 122, 154, 106, 70, 69],\n                [67, 61, 68, 104, 126, 88, 68, 70], [79, 65, 60, 70, 77, 68, 58, 75],\n                [85, 71, 64, 59, 55, 61, 65, 83], [87, 79, 69, 68, 65, 76, 78, 94]], np.float32)\nC = cv2.dct(blk - 128)                                     # ② 直交変換\ne = np.sort((C ** 2).ravel())[::-1]\nprint(\"上位10係数のエネルギー割合:\", (e[:10].sum() / e.sum()).round(3))\nthr = np.sort(np.abs(C).ravel())[::-1][9]\nCq = np.where(np.abs(C) >= thr, C, 0)                      # ③ 小さい係数を捨てる\nrec = cv2.idct(Cq) + 128                                    # ④ 逆変換\nprint(\"0にした係数:\", (Cq == 0).sum(), \"/64  平均誤差:\", np.abs(rec - blk).mean().round(1))"
+ },
+ {
+  "id": "code-dct",
+  "steps": [
+   "① 入力：8×8 画素のブロック（JPEG ではレベルシフトして −128〜127）",
+   "② 2次元DCT：F(u,v) = (1/4)C(u)C(v) ΣΣ f(x,y)·cos((2x+1)uπ/16)·cos((2y+1)vπ/16)、C(0)=1/√2、他は1",
+   "③ 出力：64個の係数。F(0,0)＝DC（ブロック平均の8倍）、右へ行くほど横方向、下へ行くほど縦方向に細かい縞（基底パターン）の強さ",
+   "④ ブロックは「64枚の基底パターン × 係数」の和で表される。自然画像では左上に大きな値が集中し、右下はほぼ0"
+  ],
+  "example": "前出の 8×8 ブロック：DC = F(0,0) = -415.4（平均 76.08 − 128 = -51.92 の 8倍）、F(0,1) = -30.2、F(1,0) = 4.5、F(7,7) = 1.68。一様なブロック（全画素 c）なら DC = 8c、他は全て0",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 280 200' width='280' height='200' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='280' height='200' fill='#fff'/><image x='60.0' y='6.0' width='175.0' height='175.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='60.0' y='6.0' width='175.0' height='175.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='147.0' y='196.0' font-size='9.5' text-anchor='middle' fill='#222'>u（横方向の周波数）→</text><text x='30.0' y='90.0' font-size='10' text-anchor='middle' fill='#222'>v</text><text x='30.0' y='104.0' font-size='10' text-anchor='middle' fill='#222'>↓</text></svg>",
+    "caption": "8×8 DCT の64個の基底パターン（左上=DC、右下=最も細かい市松）"
+   },
+   {
+    "type": "matrix",
+    "data": [
+     [
+      "-415",
+      "-30",
+      "-61",
+      "27"
+     ],
+     [
+      "4",
+      "-22",
+      "-61",
+      "10"
+     ],
+     [
+      "-47",
+      "7",
+      "77",
+      "-25"
+     ],
+     [
+      "-49",
+      "12",
+      "34",
+      "-15"
+     ]
+    ],
+    "label": "F(0..3,0..3)=",
+    "caption": "DCT係数（左上4×4、cv2.dct で計算）"
+   }
+  ],
+  "code": "import numpy as np, cv2\ndef dct2(f):\n    N = 8\n    C = np.array([np.sqrt(1 / N)] + [np.sqrt(2 / N)] * (N - 1))\n    x = np.arange(N)\n    T = C[:, None] * np.cos((2 * x[None, :] + 1) * x[:, None] * np.pi / (2 * N))   # 基底行列 T[u,x]\n    return T @ f @ T.T                                  # 行と列に1次元DCT（分離可能）\nblk = cv2.imread('input.png', 0)[:8, :8].astype(np.float32) - 128   # レベルシフト\nF = dct2(blk)\nprint(np.allclose(F, cv2.dct(blk), atol=1e-3))        # OpenCV と一致\nprint(\"DC =\", F[0, 0].round(1), \" = 8×平均\", (8 * blk.mean()).round(1))\n# 基底パターン (u,v) を見る：係数1つだけ1にして逆DCT\ne = np.zeros((8, 8), np.float32); e[1, 2] = 1         # v=1, u=2\nprint(np.round(cv2.idct(e), 2))                        # 横に1周期、縦に半周期の縞"
+ },
+ {
+  "id": "code-quant-table",
+  "steps": [
+   "① 入力：8×8 ブロックの DCT 係数 F(u,v)",
+   "② 量子化テーブル Q(u,v)（例：JPEG 標準の輝度テーブル）で割って四捨五入：Fq = round(F/Q)。左上（低周波）は Q が小さく細かく、右下（高周波）は Q が大きく粗い",
+   "③ 高周波の係数はもともと小さいので、ほとんど0になる → 符号量が激減",
+   "④ 復号は Fq × Q（逆量子化）。品質パラメータはテーブル全体を何倍にするかで調整（品質を下げる＝Q を大きく）。色差用は輝度より粗いテーブル"
+  ],
+  "example": "F(0,0)=-415.4 → /16 → -26、F(0,1)=-30.2 → /11 → -3、F(1,0)=4.5 → /12 → 0、F(7,7)=1.68 → /99 → 0。64係数中 20 個だけが非0。逆量子化 -26×16 = -416（誤差 0.6）",
+  "figures": [
+   {
+    "type": "matrix",
+    "data": [
+     [
+      16,
+      11,
+      10,
+      16,
+      24,
+      40,
+      51,
+      61
+     ],
+     [
+      12,
+      12,
+      14,
+      19,
+      26,
+      58,
+      60,
+      55
+     ],
+     [
+      14,
+      13,
+      16,
+      24,
+      40,
+      57,
+      69,
+      56
+     ],
+     [
+      14,
+      17,
+      22,
+      29,
+      51,
+      87,
+      80,
+      62
+     ],
+     [
+      18,
+      22,
+      37,
+      56,
+      68,
+      109,
+      103,
+      77
+     ],
+     [
+      24,
+      35,
+      55,
+      64,
+      81,
+      104,
+      113,
+      92
+     ],
+     [
+      49,
+      64,
+      78,
+      87,
+      103,
+      121,
+      120,
+      101
+     ],
+     [
+      72,
+      92,
+      95,
+      98,
+      112,
+      100,
+      103,
+      99
+     ]
+    ],
+    "label": "Q =",
+    "caption": "JPEG 標準 輝度量子化テーブル（右下ほど粗い）"
+   },
+   {
+    "type": "matrix",
+    "data": [
+     [
+      -26,
+      -3,
+      -6,
+      2,
+      2,
+      -1,
+      0,
+      0
+     ],
+     [
+      0,
+      -2,
+      -4,
+      1,
+      1,
+      0,
+      0,
+      0
+     ],
+     [
+      -3,
+      1,
+      5,
+      -1,
+      -1,
+      0,
+      0,
+      0
+     ],
+     [
+      -3,
+      1,
+      2,
+      -1,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "label": "Fq =",
+    "caption": "量子化後の係数（ほとんど0）"
+   }
+  ],
+  "code": "import numpy as np, cv2\nQ = np.array([[16, 11, 10, 16, 24, 40, 51, 61], [12, 12, 14, 19, 26, 58, 60, 55],\n              [14, 13, 16, 24, 40, 57, 69, 56], [14, 17, 22, 29, 51, 87, 80, 62],\n              [18, 22, 37, 56, 68, 109, 103, 77], [24, 35, 55, 64, 81, 104, 113, 92],\n              [49, 64, 78, 87, 103, 121, 120, 101], [72, 92, 95, 98, 112, 100, 103, 99]])\nblk = cv2.imread('input.png', 0)[8:16, 8:16].astype(np.float32) - 128\nF = cv2.dct(blk)\ndef scaled(Q, quality):                                # libjpeg の品質スケーリング\n    s = 5000 / quality if quality < 50 else 200 - 2 * quality\n    return np.clip((Q * s + 50) // 100, 1, 255)\nfor q in (90, 50, 10):\n    Fq = np.round(F / scaled(Q, q)).astype(int)          # 量子化\n    rec = cv2.idct((Fq * scaled(Q, q)).astype(np.float32)) + 128   # 逆量子化→逆DCT\n    print(f\"品質{q}: 非0係数 {np.count_nonzero(Fq)}/64, 平均誤差 {np.abs(rec - blk - 128).mean():.1f}\")"
+ },
+ {
+  "id": "code-zigzag",
+  "steps": [
+   "① 入力：量子化後の 8×8 DCT 係数（左上に非0が集まり、右下はほぼ0）",
+   "② 左上の DC から始めて、右→左下斜め→下→右上斜め… とジグザグに 64個を1列に並べる（低周波→高周波の順）",
+   "③ 結果：非0の値が前半に集まり、後半は0が長く続く",
+   "④ AC 係数は「直前の0の個数（ラン）と値」の組で表し、最後の非0以降は EOB（End of Block）1つで終わり → ハフマン符号化"
+  ],
+  "example": "前出ブロックの量子化係数をジグザグに並べると：[-26, -3, 0, -3, -2, -6, 2, -4, 1, -3, 1, 1, 5, 1, 2, -1, 1, -1, 2, 0, 0, 0, 0, 0, -1, -1] の後に 0 が 38 個 → EOB。並び順は (0,0),(0,1),(1,0),(2,0),(1,1),(0,2),(0,3),(1,2),…",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 290 150' width='290' height='150' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='290' height='150' fill='#fff'/><rect x='10' y='8' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='27' y='8' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='44' y='8' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='61' y='8' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='78' y='8' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='95' y='8' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='112' y='8' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='8' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='10' y='25' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='27' y='25' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='44' y='25' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='61' y='25' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='78' y='25' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='95' y='25' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='112' y='25' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='25' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='10' y='42' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='27' y='42' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='44' y='42' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='61' y='42' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='78' y='42' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='95' y='42' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='112' y='42' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='42' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='10' y='59' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='27' y='59' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='44' y='59' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='61' y='59' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='78' y='59' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='95' y='59' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='112' y='59' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='59' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='10' y='76' width='17' height='17' fill='#ffe1c4' stroke='#bbb'/><rect x='27' y='76' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='44' y='76' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='61' y='76' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='78' y='76' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='95' y='76' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='112' y='76' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='76' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='10' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='27' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='44' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='61' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='78' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='95' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='112' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='93' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='10' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='27' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='44' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='61' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='78' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='95' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='112' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='110' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='10' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='27' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='44' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='61' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='78' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='95' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='112' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><rect x='129' y='127' width='17' height='17' fill='#fff' stroke='#bbb'/><polyline points='18.5,16.5 35.5,16.5 18.5,33.5 18.5,50.5 35.5,33.5 52.5,16.5 69.5,16.5 52.5,33.5 35.5,50.5 18.5,67.5 18.5,84.5 35.5,67.5 52.5,50.5 69.5,33.5 86.5,16.5 103.5,16.5 86.5,33.5 69.5,50.5 52.5,67.5 35.5,84.5 18.5,101.5 18.5,118.5 35.5,101.5 52.5,84.5 69.5,67.5 86.5,50.5 103.5,33.5 120.5,16.5 137.5,16.5 120.5,33.5 103.5,50.5 86.5,67.5 69.5,84.5 52.5,101.5 35.5,118.5 18.5,135.5 35.5,135.5 52.5,118.5 69.5,101.5 86.5,84.5 103.5,67.5 120.5,50.5 137.5,33.5 137.5,50.5 120.5,67.5 103.5,84.5 86.5,101.5 69.5,118.5 52.5,135.5 69.5,135.5 86.5,118.5 103.5,101.5 120.5,84.5 137.5,67.5 137.5,84.5 120.5,101.5 103.5,118.5 86.5,135.5 103.5,135.5 120.5,118.5 137.5,101.5 137.5,118.5 120.5,135.5 137.5,135.5' fill='none' stroke='#3563e9' stroke-width='1.4'/><text x='18.5' y='19.5' font-size='9' text-anchor='middle' fill='#e33'>0</text><text x='35.5' y='19.5' font-size='9' text-anchor='middle' fill='#e33'>1</text><text x='18.5' y='36.5' font-size='9' text-anchor='middle' fill='#e33'>2</text><text x='18.5' y='53.5' font-size='9' text-anchor='middle' fill='#e33'>3</text><text x='35.5' y='36.5' font-size='9' text-anchor='middle' fill='#e33'>4</text><text x='52.5' y='19.5' font-size='9' text-anchor='middle' fill='#e33'>5</text><text x='69.5' y='19.5' font-size='9' text-anchor='middle' fill='#e33'>6</text><text x='52.5' y='36.5' font-size='9' text-anchor='middle' fill='#e33'>7</text><text x='35.5' y='53.5' font-size='9' text-anchor='middle' fill='#e33'>8</text><text x='18.5' y='70.5' font-size='9' text-anchor='middle' fill='#e33'>9</text><text x='160.0' y='30.0' font-size='9.5' text-anchor='start' fill='#222'>0→1→2…の順に読む</text><text x='160.0' y='50.0' font-size='9.5' text-anchor='start' fill='#222'>橙＝非0の係数</text><text x='160.0' y='70.0' font-size='9.5' text-anchor='start' fill='#222'>26番目以降は全て0</text><text x='160.0' y='90.0' font-size='9.5' text-anchor='start' fill='#e33'>→ EOB で打ち切り</text></svg>",
+    "caption": "ジグザグスキャンの順序（赤数字は先頭10個）"
+   }
+  ],
+  "code": "import numpy as np\ndef zigzag_order(n=8):\n    order = []\n    for s in range(2 * n - 1):                    # 斜めの列 s = 行 + 列\n        cells = [(r, s - r) for r in range(max(0, s - n + 1), min(n - 1, s) + 1)]\n        order += cells[::-1] if s % 2 == 0 else cells   # 偶数は左下→右上、奇数は右上→左下\n    return order\nzz = zigzag_order()\nprint(zz[:10])       # [(0,0),(0,1),(1,0),(2,0),(1,1),(0,2),(0,3),(1,2),(2,1),(3,0)]\nFq = np.zeros((8, 8), int); Fq[0, 0], Fq[0, 1], Fq[1, 0], Fq[2, 0], Fq[1, 1] = -26, -3, 0, -3, -2\nseq = [Fq[r, c] for r, c in zz]\nlast = max(i for i, v in enumerate(seq) if v != 0)\n# AC 係数を (前の0の数, 値) に変換して EOB で終える\npairs, run = [], 0\nfor v in seq[1:last + 1]:\n    if v == 0: run += 1\n    else: pairs.append((run, v)); run = 0\nprint(\"DC:\", seq[0], \" AC:\", pairs + [\"EOB\"])"
  }
 ]

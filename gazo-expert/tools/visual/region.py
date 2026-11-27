@@ -34,7 +34,7 @@ E.append(dict(id='region-segmentation', steps=[
     "③ 方法の例：しきい値処理、領域成長法、分割統合法、k-means などのクラスタリング、ウォーターシェッド、グラフカット",
     "④ 出力：各画素に領域番号を付けたラベル画像（右図：暗=1、中間=2、明=3）。濃度の近さだけでクラスタ分けすると、離れた場所にある同じ濃度の部分も同じ番号になる点に注意（空間的に連結な領域に分けるならラベリングを併用）",
     "⑤ 分割後は領域ごとに面積・形・平均濃度・テクスチャなどを計測して認識へ進む",
-], example=f"しきい値 70 と 160 で3クラスに分類。暗いクラスの画素は4連結で {seg_cc.max()} つの連結成分に分かれている（左上の塊と斜めの帯）",
+], example=f"しきい値 70 と 160 で3クラスに分類。暗いクラスの画素は4連結で {seg_cc.max()} つの連結成分（左上の塊と斜めの帯が (3,3)-(4,3) でつながっている）",
     figures=[gfig(panels([dict(a=SEG, title='入力（濃淡）', mode='gray', values=True, size=8), dict(a=seg_lab, title='領域分割（ラベル）', mode='val', values=True, colors=lcol(seg_lab))], W=320, arrows=['']), '濃度の似た画素ごとに番号（色）を付けた')],
     code=r'''import numpy as np
 import cv2
@@ -82,15 +82,15 @@ def rg_panel(st, prev, title):
     return dict(a=RG, title=title, colors=cols, values=True, size=8)
 
 
-sel = [0, 1, 2, len(stages) - 1]
+sel = [0, 1, len(stages) - 1]
 E.append(dict(id='region-growing', steps=[
     f"① 入力：濃淡画像と種（シード）画素。例：(行3, 列3) の値 {RG[seed]} を種にする",
     f"② 領域の4近傍の画素のうち、『領域の平均濃度との差 ≤ T（例 T = {TG}）』を満たすものを領域に加える",
     f"③ 加えるたびに領域の平均を更新し、条件を満たす画素がなくなるまで繰り返す。例：1回目に {int(stages[1].sum()) - 1} 画素、2回目に {int(stages[2].sum() - stages[1].sum())} 画素が加わる",
-    f"④ 出力：種から広がった連結な領域（{int(reg.sum())} 画素、平均 {f(RG[reg == 1].mean(), 1)}）。周りの 80〜90 台の画素や、左上の 10 台の画素（差が大きい）は入らない",
+    f"④ 出力：種から広がった連結な領域（{int(reg.sum())} 画素、平均 {f(RG[reg == 1].mean(), 1)}）。周りの 80〜90 台の画素は入らない。平均が 25 → 21 と下がるにつれ、左上の 11〜18 の画素も条件を満たして取り込まれた（平均を更新する方式では、ゆるやかに変化する部分へ広がっていく）",
     "⑤ 種の位置と T の選び方で結果が変わる。T が大きすぎると隣の領域へ漏れ出し、小さすぎると途中で止まる",
 ], example=f"1回目：平均 {RG[seed]} との差が {TG} 以下の4近傍 → " + ', '.join(f'({r},{c})={RG[r, c]}' for r, c in np.argwhere(stages[1] - stages[0])) + f"。最終的な領域の平均 {f(RG[reg == 1].mean(), 1)}",
-    figures=[gfig(panels([rg_panel(stages[i], stages[i - 1] if i else np.zeros_like(RG), t) for i, t in zip(sel, ['種', '1回目', '2回目', f'完了（{len(stages) - 1}回）'])], W=330, gap=12, arrows=['', '', '…']), '赤＝その回に加わった画素、青＝それまでの領域')],
+    figures=[gfig(panels([rg_panel(stages[i], stages[i - 1] if i else np.zeros_like(RG), t) for i, t in zip(sel, ['種', '1回目', f'完了（{len(stages) - 1}回）'])], W=320, gap=16, arrows=['', '…']), '赤＝その回に加わった画素、青＝それまでの領域')],
     code=r'''import numpy as np
 
 img = np.array([[12,14,80,82,85,90],[13,15,78,30,32,88],[11,16,20,28,31,86],
@@ -416,7 +416,7 @@ simg[(xx > 14) & (yy > 13)] = 130
 simg += np.random.default_rng(2).normal(0, 6, simg.shape)
 
 
-def slic_gray(img, S=6, m=10, iters=5):
+def slic_gray(img, S=6, m=20, iters=8):
     H, W = img.shape
     cs = [[float(img[y, x]), float(y), float(x)] for y in range(S // 2, H, S) for x in range(S // 2, W, S)]
     lab = np.zeros((H, W), int)
@@ -474,7 +474,7 @@ rng = np.random.default_rng(2)
 yy, xx = np.mgrid[0:24, 0:24]
 img = np.full((24, 24), 60.0); img[(xx - 9) ** 2 + (yy - 10) ** 2 < 36] = 200
 img[(xx > 14) & (yy > 13)] = 130; img += rng.normal(0, 6, img.shape)
-S, m = 6, 10                                          # 格子間隔、コンパクトさ
+S, m = 6, 20                                          # 格子間隔、コンパクトさ
 C = [[img[y, x], y, x] for y in range(3, 24, S) for x in range(3, 24, S)]   # 初期中心
 for _ in range(5):
     D = np.full(img.shape, np.inf); lab = np.zeros(img.shape, int)
@@ -499,18 +499,18 @@ Dslic = math.sqrt(dc ** 2 + (ds / S0) ** 2 * m0 ** 2)
 def slic_svg():
     W = 300
     b = []
-    cs = 8
-    ox, oy = 10, 14
-    for y in range(20):
+    cs = 6
+    ox, oy = 60, 8
+    for y in range(30):
         for x in range(30):
             b.append(R(ox + x * cs, oy + y * cs, cs, cs, '#fafafa', '#e6e6e6', 0.4))
-    for cy in range(5, 20, 10):
+    for cy in range(5, 30, 10):
         for cx in range(5, 30, 10):
             b.append(C(ox + cx * cs + cs / 2, oy + cy * cs + cs / 2, 3.5, RED))
-    cx, cy = 15, 5
-    b.append(R(ox + (cx - 10) * cs + cs / 2, oy + (cy - 10 + 10) * cs - 10 * cs + cs / 2, 20 * cs, 20 * cs, 'none', BLUE, 1.5, " stroke-dasharray='4 2'"))
-    b.append(T(ox + 15 * cs, oy + 20 * cs + 12, '赤＝初期中心（間隔 S）、青枠＝1つの中心の探索範囲 2S×2S', 9, fill='#333'))
-    return svg(W, oy + 20 * cs + 18, ''.join(b))
+    b.append(R(ox + 5 * cs + cs / 2, oy + 5 * cs + cs / 2, 20 * cs, 20 * cs, 'none', BLUE, 1.5, " stroke-dasharray='4 2'"))
+    b.append(L(ox + 15 * cs + cs / 2, oy + 30 * cs + 4, ox + 25 * cs + cs / 2, oy + 30 * cs + 4, '#333', 1) + T(ox + 20 * cs, oy + 30 * cs + 15, 'S', 10))
+    b.append(T(W / 2, oy + 30 * cs + 30, '赤＝初期中心（間隔 S）、青枠＝中央の中心の探索範囲 2S×2S', 9, fill='#333'))
+    return svg(W, oy + 30 * cs + 36, ''.join(b))
 
 
 E.append(dict(id='region-slic', steps=[
@@ -545,7 +545,7 @@ mu_f, mu_b = 190, 35
 Dp_f = [abs(v - mu_f) / 10 for v in vals]  # 前景にするコスト
 Dp_b = [abs(v - mu_b) / 10 for v in vals]
 lam = 1.0
-Vw = [lam * 20 * math.exp(-((vals[i] - vals[i + 1]) ** 2) / (2 * 30 ** 2)) for i in range(3)]
+Vw = [lam * 20 * math.exp(-((vals[i] - vals[i + 1]) ** 2) / (2 * 60 ** 2)) for i in range(3)]
 best = None
 for mask in range(16):
     labs = [(mask >> i) & 1 for i in range(4)]
@@ -584,7 +584,7 @@ E.append(dict(id='region-graph-cut', steps=[
     f"③ n-link（隣接画素間）の重み＝平滑化項。似た値どうしは大きく（40−30 の間は {f(Vw[0], 1)}）、値が大きく違う所は小さく（40−180 の間は {f(Vw[1], 1)}）",
     "④ s と t を分離する最小カット（切った辺の重みの和が最小）を最大流アルゴリズムで求める。切られずに s につながった画素＝前景",
     f"⑤ 例：エネルギー最小のラベルは {best[1]}（1=前景）。濃度差の大きい 40|180 の間で切れる。データ項＋平滑化項の大域的な最小解が得られる",
-], example=f"全16通りのうち最小は {best[1]}：データ項 0.5+0.5+1.0+1.0 = 3.0 ＋ 切った n-link {f(Vw[1], 2)} = {f(best[0], 2)}",
+], example=f"全16通りのうち最小は {best[1]}：データ項 0.5+0.5+1.0+1.0 = 3.0 ＋ 切った n-link {f(Vw[1], 2)} = {f(best[0], 2)}。境界を 30|40 の間に置くと n-link {f(Vw[0], 1)} を切ることになり高くつく",
     figures=[gfig(gc_svg(), '赤＝s との辺（背景にするコスト）、青＝t との辺（前景にするコスト）、黒＝隣接画素の辺。破線が切られた辺')],
     code=r'''import numpy as np
 import itertools
@@ -593,7 +593,7 @@ vals = np.array([30, 40, 180, 200])            # 1次元に並んだ4画素
 mu_f, mu_b = 190, 35
 cost_f = np.abs(vals - mu_f) / 10               # 前景にするコスト（データ項）
 cost_b = np.abs(vals - mu_b) / 10               # 背景にするコスト
-w = 20 * np.exp(-np.diff(vals) ** 2 / (2 * 30 ** 2))   # 平滑化項（似ていると大）
+w = 20 * np.exp(-np.diff(vals) ** 2 / (2 * 60 ** 2))   # 平滑化項（似ていると大）
 best = None
 for lab in itertools.product([0, 1], repeat=4):  # 小さいので全探索（実際は最大流）
     lab = np.array(lab)
@@ -702,7 +702,7 @@ def nc_svg():
 
 E.append(dict(id='region-normalized-cut', steps=[
     "① 画素（または小領域）をノード、類似度を辺の重み w_ij とするグラフを作る。例：6ノード、似たものどうしは重み 3〜5、違うものは 0.3〜0.5",
-    "② 単純な最小カットは、つながりの少ない1ノードだけを切り離しがち（例：ノード2だけを切ると cut = " + f(cut_single, 1) + "より小さい切り方が端にできやすい）",
+    "② 単純な最小カット（切る辺の重みの和だけ最小）は、つながりの少ない少数のノード（画像の隅の数画素など）だけを切り離す偏った分け方を選びやすい",
     "③ 正規化カット Ncut(A,B) = cut(A,B)/assoc(A,V) + cut(A,B)/assoc(B,V)。各グループの結合の総量で割るので、小さすぎるグループは不利になる",
     f"④ 解法：ラプラシアン L = D − W の一般化固有値問題 (D − W)y = λDy の第2最小固有ベクトル y を求め、符号（しきい値）で2分割。例：y > 0 のノード {Aset_}、y ≤ 0 のノード {Bset_}",
     f"⑤ 結果：弱い辺 0.5, 0.3, 0.4 だけが切られ、Ncut = {f(ncut, 3)}。さらに各グループを再帰的に分割すれば多領域に分けられる（Shi & Malik 2000）",
@@ -851,7 +851,7 @@ E.append(dict(id='region-snake', steps=[
     "② エネルギー E = Σ [ α·(点の間隔のばらつき) + β·(曲がり具合 |v(i−1) − 2v(i) + v(i+1)|²) − γ·|∇I(v(i))| ] を定義（内部エネルギー＝滑らかさ、画像エネルギー＝エッジ上で小さい）",
     "③ 各制御点を周囲 3×3 の候補位置のうち E が最小になる位置へ動かす（貪欲法）。これを繰り返す",
     "④ 輪郭は滑らかさを保ちながら縮み、エッジ（勾配の大きい所）に吸着して止まる",
-    "⑤ 出力：対象（明るい長方形）の輪郭に沿った閉曲線。途切れたエッジでも滑らかな輪郭が得られるが、初期輪郭を対象の近くに置く必要があり、凹みの奥には入りにくい",
+    "⑤ 出力：対象（明るい長方形）の輪郭に沿った閉曲線。途切れたエッジでも滑らかな輪郭が得られる（曲げの項のため角は丸くなる）が、初期輪郭を対象の近くに置く必要があり、凹みの奥には入りにくい",
 ], example=f"α={alpha}（伸縮）, β={beta}（曲げ）, γ={gamma}（エッジの引力）。βを大きくすると角が丸く、γを大きくするとエッジにより強く吸い付く",
     figures=[gfig(sn_svg(), '初期の円（黄）が縮んで長方形の輪郭（赤）に吸着する')],
     code=r'''import numpy as np
@@ -897,12 +897,12 @@ for r in (6, 8, 11):
     inside = (phi < 0).astype(np.uint8)
     n = cv2.connectedComponents(inside)[0] - 1     # 内側の連結成分の数
     print('r =', r, ' 輪郭（領域）の数 =', n)      # 2 → 2 → 1 に合体
-# φ の時間発展（F=1, 一様に広がる）：φ_t = -F|∇φ|
+# φ の時間発展 φ_t = -F|∇φ|：符号付き距離なら |∇φ|=1 なので、F=1 で φ が一様に下がる
 phi = d - 6.0; dt = 0.5
-for _ in range(10):
-    gy, gx = np.gradient(phi)
-    phi = phi - dt * 1.0 * np.hypot(gx, gy)
-print('10ステップ後の領域数', cv2.connectedComponents((phi < 0).astype(np.uint8))[0] - 1)
+for step in range(1, 11):
+    phi = phi - dt * 1.0                           # φ ← φ − F·|∇φ|·dt
+    if step % 5 == 0:
+        print(step, 'ステップ後の領域数', cv2.connectedComponents((phi < 0).astype(np.uint8))[0] - 1)
 '''))
 
 # 領域隣接グラフ
@@ -1534,7 +1534,7 @@ E.append(dict(id='region-normalized-moment', steps=[
     "⑤ 平行移動と拡大縮小に不変な量になり、これを組み合わせて回転にも不変にしたのが Hu のモーメント不変量",
 ], example=f"2次なら γ = 2/2 + 1 = 2、3次なら γ = 2.5。η20 = {f(mA['mu20'], 3)}/{f(mA['m00'])}² = {f(mA['nu20'], 4)}",
     figures=[gfig(panels([dict(a=SH[1:4, 1:5], title='元', mode='bin'), dict(a=SHs, title='3倍に拡大', mode='bin')], W=260, arrows=['×3']), '形は同じで大きさだけ違う'),
-             {"type": "table", "head": ["", "μ00", "μ20", "η20", "η02", "η11"], "rows": [["元", f(mA['m00']), f(mA['mu20'], 2), f(mA['nu20'], 4), f(mA['nu02'], 4), f(mA['nu11'], 4)], ["×3", f(mB['m00']), f(mB['mu20'], 1), f(mB['nu20'], 4), f(mB['nu02'], 4), f(mB['nu11'], 4)]]}],
+             {"type": "table", "head": ["", "μ00", "μ20", "η20", "η11"], "rows": [["元", f(mA['m00']), f(mA['mu20'], 2), f(mA['nu20'], 3), f(mA['nu11'], 3)], ["×3", f(mB['m00']), f(mB['mu20'], 1), f(mB['nu20'], 3), f(mB['nu11'], 3)]]}],
     code=r'''import numpy as np
 import cv2
 
@@ -1613,7 +1613,7 @@ hu_rows = []
 for name, im in [('元', base_shape), ('40°回転', rot_s), ('0.6倍', sc_s), ('鏡映', mir_s)]:
     hu = cv2.HuMoments(cv2.moments(im, True)).ravel()
     lg = [-math.copysign(1, h) * math.log10(abs(h)) if h != 0 else 0 for h in hu]
-    hu_rows.append([name] + [f(v, 2) for v in lg])
+    hu_rows.append([name] + [f(lg[k], 2) for k in (0, 1, 3, 6)])
 
 
 def hu_svg():
@@ -1635,8 +1635,8 @@ E.append(dict(id='region-hu-moments', steps=[
     "③ 例：F の字を 40°回転・0.6倍縮小・鏡映した図形の φ1〜φ7 を比べる（値は桁が大きく違うので −sign·log10|φ| で表示）",
     "④ 回転・縮小では φ1〜φ7 がほぼ同じ（差はディジタル化の誤差）。鏡映では φ1〜φ6 は同じで φ7 だけ符号が反転 → 裏返しを見分けられる",
     "⑤ 用途：向き・大きさ・位置によらない形状照合（cv2.matchShapes は Hu モーメントを使う）。高次ほど雑音に弱い",
-], example=f"φ1 の −log10：元 {hu_rows[0][1]}、回転 {hu_rows[1][1]}、縮小 {hu_rows[2][1]}、鏡映 {hu_rows[3][1]}。φ7：元 {hu_rows[0][7]}、鏡映 {hu_rows[3][7]}（符号が逆）",
-    figures=[gfig(hu_svg(), '同じ形を回転・縮小・鏡映'), {"type": "table", "head": ["", "φ1", "φ2", "φ3", "φ4", "φ5", "φ6", "φ7"], "rows": hu_rows, "caption": '−sign(φ)·log10|φ|（大きさの桁）'}],
+], example=f"φ1 の −log10：元 {hu_rows[0][1]}、回転 {hu_rows[1][1]}、縮小 {hu_rows[2][1]}、鏡映 {hu_rows[3][1]}。φ7：元 {hu_rows[0][4]}、鏡映 {hu_rows[3][4]}（符号が逆）",
+    figures=[gfig(hu_svg(), '同じ形を回転・縮小・鏡映'), {"type": "table", "head": ["", "φ1", "φ2", "φ4", "φ7"], "rows": hu_rows, "caption": '−sign(φ)·log10|φ|（φ3, φ5, φ6 は省略）'}],
     code=r'''import numpy as np
 import cv2
 
@@ -1686,14 +1686,15 @@ def fd_svg():
     return svg(W, 92, ''.join(b))
 
 
-mags = np.abs(Z) / np.abs(Z[1])
+dom = max(abs(Z[1]), abs(Z[Np - 1])); domu = 1 if abs(Z[1]) >= abs(Z[Np - 1]) else -1
+mags = np.abs(Z) / dom
 E.append(dict(id='region-fourier-descriptor', steps=[
     f"① 輪郭を一定間隔で N 点（例 N = {Np}）たどり、各点を複素数 z(k) = x(k) + j·y(k) で表す",
     "② z(k) を離散フーリエ変換して係数 Z(u) を得る。低い周波数（|u| 小）は大まかな形、高い周波数は細かな凹凸を表す",
-    "③ 低い方から K 個（±K）の係数だけ残して逆変換すると、輪郭を平滑化した近似形が得られる。例：星形で K=1 → 楕円、K=5 → 5つの角が出る、K=12 → ほぼ元通り",
+    "③ 低い方から K 個（±K）の係数だけ残して逆変換すると、輪郭を平滑化した近似形が得られる。例：星形で K=1 → 円、K=5 → 5つの角が出る、K=12 → ほぼ元通り",
     "④ 不変化：Z(0) を除く → 平行移動不変、|Z(u)|/|Z(1)| → 拡大縮小不変、絶対値だけ使う → 回転・始点に不変",
-    "⑤ 少数の係数で形を比較できる（形状の照合・分類）。5回対称の星形では |Z(u)| が u = 1 と u = ±5 の倍数付近に大きく出る",
-], example="正規化した大きさ |Z(u)|/|Z(1)|：" + ', '.join(f"u={u}:{f(mags[u], 3)}" for u in (2, 3, 4, 5, 6)) + f"、u=−4（=N−4）:{f(mags[Np - 4], 3)}",
+    f"⑤ 少数の係数で形を比較できる（形状の照合・分類）。5回対称の星形では、一番大きい基本成分 u = {domu} から 5 ずつずれた u = {domu + 5}, {domu - 5} に大きな係数が出る",
+], example="基本成分で正規化した大きさ：" + ', '.join(f"u={u}:{f(mags[u % Np], 3)}" for u in (domu, domu + 5, domu - 5, 2, 3, -2, -3)),
     figures=[gfig(fd_svg(), '灰：元の輪郭（星形）、赤：低周波 ±K 個の係数から復元')],
     code=r'''import numpy as np
 import cv2
@@ -1706,7 +1707,8 @@ seg = np.linalg.norm(np.diff(np.r_[p, p[:1]], axis=0), axis=1)        # 等間�
 s = np.r_[0, np.cumsum(seg)]; t = np.linspace(0, s[-1], 128, endpoint=False)
 z = np.interp(t, s, np.r_[p[:, 0], p[0, 0]]) + 1j * np.interp(t, s, np.r_[p[:, 1], p[0, 1]])
 Z = np.fft.fft(z)                                                    # フーリエ記述子
-desc = np.abs(Z[1:11]) / np.abs(Z[1])                                # 移動・拡大・回転に不変
+u1 = 1 if abs(Z[1]) >= abs(Z[-1]) else -1                           # 基本成分（輪郭の回る向きで ±1）
+desc = np.abs(np.r_[Z[1:8], Z[-7:]]) / np.abs(Z[u1])                # 移動・拡大・回転に不変
 print(desc.round(3))
 def reconstruct(K):                                                  # 低周波 ±K だけで復元
     Zk = np.zeros_like(Z); Zk[:K + 1] = Z[:K + 1]; Zk[-K:] = Z[-K:]
@@ -1754,7 +1756,7 @@ def dp_svg():
 E.append(dict(id='region-polyline', steps=[
     "① 入力：輪郭や曲線の点列（例：11点）と許容誤差 ε（例 0.5）",
     "② 始点と終点を線分で結び、その線分から最も遠い点を探す（Douglas–Peucker 法）",
-    f"③ 例：始点 (0,0)・終点 (10,1.4) の線分から最も遠いのは {rec_dp[0][2]}（距離 {f(rec_dp[0][3], 2)} > ε）→ この点で2つに分割",
+    f"③ 例：始点 (0,0)・終点 (10,1.4) の線分から最も遠いのは {tuple(float(v) for v in rec_dp[0][2])}（距離 {f(rec_dp[0][3], 2)} > ε）→ この点で2つに分割",
     "④ 分けた各部分に同じ処理を再帰的に行い、最遠点の距離が ε 以下になったら線分1本で近似する",
     f"⑤ 出力：頂点 {len(poly)} 個の折れ線（赤）{[tuple(float(v) for v in q) for q in poly]}。ε を大きくすると頂点が減る（データ削減、多角形の頂点検出）",
 ], example=f"再帰の記録（線分→最遠点・距離）：" + ' / '.join(f"{tuple(map(float, a))}-{tuple(map(float, b_))}→{tuple(map(float, q))} {f(d, 2)}" for a, b_, q, d in rec_dp[:4]),
@@ -1792,20 +1794,20 @@ E.append(dict(id='region-curvature', steps=[
     "⑤ 曲率の極大点＝コーナー（角）。形状の特徴点、折れ線近似の頂点、輪郭の分割に使う。符号で凸（正）・凹（負）を区別できる",
 ], example=f"t=0：x′=0, y′=1.5, x″=−3, y″=0 → κ = (0·0 − 1.5·(−3)) / 1.5³ = 4.5/3.375 = {f(4.5 / 3.375, 3)}",
     figures=[gfig(chart([(np.degrees(tq), kap, BLUE)], W=310, H=150, xr=(0, 360), yr=(0, 1.5), xticks=[0, 90, 180, 270, 360], yticks=[0, 0.5, 1, 1.333], xlabel='パラメータ t（度）', ylabel='曲率 κ'), '楕円（3:1.5）の曲率：長軸の端（0°, 180°）で最大'),
-             gfig(svg(260, 110, P([(130 + x * 35, 55 - y * 35) for x, y in zip(ex, ey)], 'none', '#999', 1.2) + ''.join(C(130 + x * 35, 55 - y * 35, 1.6 + 3 * k, RED) for x, y, k in zip(ex[::8], ey[::8], kap[::8])) + T(130, 106, '赤丸の大きさ＝曲率', 10)), '長軸の端ほど曲率が大きい')],
+             gfig(svg(260, 122, P([(130 + x * 35, 55 - y * 35) for x, y in zip(ex, ey)], 'none', '#999', 1.2) + ''.join(C(130 + x * 35, 55 - y * 35, 1.6 + 3 * k, RED) for x, y, k in zip(ex[::8], ey[::8], kap[::8])) + T(130, 118, '赤丸の大きさ＝曲率', 10)), '長軸の端ほど曲率が大きい')],
     code=r'''import numpy as np
 
 t = np.linspace(0, 2 * np.pi, 400, endpoint=False)
 x, y = 3 * np.cos(t), 1.5 * np.sin(t)                     # 楕円
 def curvature(x, y):                                       # 差分で微分を近似
-    dx, dy = np.gradient(x), np.gradient(y)
-    ddx, ddy = np.gradient(dx), np.gradient(dy)
+    d = lambda a: (np.roll(a, -1) - np.roll(a, 1)) / 2      # 閉曲線なので周期的な中心差分
+    dx, dy = d(x), d(y)
+    ddx, ddy = d(dx), d(dy)
     return (dx * ddy - dy * ddx) / (dx ** 2 + dy ** 2) ** 1.5
 k = curvature(x, y)
 print('t=0:', k[0].round(3), ' t=90°:', k[100].round(3))  # a/b² と b/a²
-# ディジタル輪郭なら：点列を平滑化してから同じ計算（周期的なので np.roll で差分）
-cx = np.convolve(np.r_[x[-5:], x, x[:5]], np.ones(5) / 5, 'same')[5:-5]
 print(np.argmax(k), np.argmin(k))                          # 極大＝長軸の端（コーナー候補）
+# ディジタル輪郭（findContours の点列）では、先に点列を平滑化してから同じ計算をする
 '''))
 
 # エッジの連結（ヒステリシス）
@@ -2033,11 +2035,11 @@ i_, j_ = np.indices((4, 4))
 E.append(dict(id='region-glcm-asm', steps=[
     "① 同時生起行列を確率 P(i, j) に正規化する（総和 1）",
     "② エネルギー（角二次モーメント）ASM = Σ Σ P(i, j)²（各要素の2乗の和）",
-    f"③ 例（前項の行列 /12）：(3² + 2² + 1² + 2² + 3² + 1² + 2²)/12² … = {f(Fg['asm'], 4)}",
+    f"③ 例（前項の行列 /12）：回数 2,2,1,2,3,1,1 → (2²+2²+1²+2²+3²+1²+1²)/12² = 24/144 = {f(Fg['asm'], 4)}",
     "④ 少数の組に確率が集中（一様・規則的な模様）すると大きく、最大 1（全部同じ組）。いろいろな組に散らばる（ランダム）と小さい",
     "⑤ エントロピーとは逆の傾向。平方根をエネルギーと呼ぶ文献もある",
 ], example="一様な画像（全部 2）：P(2,2) = 1 だけ → ASM = 1。16要素に均等なら 16 × (1/16)² = 0.0625",
-    figures=[mfig := {"type": "matrix", "data": [[f(v, 3) for v in r] for r in Pn], "label": 'P =', "caption": '例の画像の同時生起確率（右隣）'}, feat_table('asm', 'エネルギー ASM')],
+    figures=[mfig := {"type": "matrix", "data": [[f(v, 2) for v in r] for r in Pn], "label": 'P=', "caption": '例の画像の同時生起確率（右隣）'}, feat_table('asm', 'エネルギー ASM')],
     code=r'''import numpy as np
 
 def glcm(img, L=4):
@@ -2058,7 +2060,7 @@ E.append(dict(id='region-glcm-entropy', steps=[
     "④ いろいろな組が均等に現れる（複雑・ランダム）ほど大きく、要素数 K なら最大 log₂ K。1つの組に集中すると 0",
     "⑤ エネルギーとは逆の傾向。ランダムな模様（砂・芝生）を一様な模様（空・壁）から区別する",
 ], example="一様な画像：P(2,2) = 1 → −1·log₂1 = 0。市松（0 と 3）：(0,3), (3,0) が半々 → −2·0.5·log₂0.5 = 1 ビット",
-    figures=[{"type": "matrix", "data": [[f(-v * math.log2(v), 3) if v > 0 else '0' for v in r] for r in Pn], "label": '−P log₂P =', "caption": f'各要素の寄与（合計 {f(Fg["ent"], 3)}）'}, feat_table('ent', 'エントロピー')],
+    figures=[{"type": "matrix", "data": [[f(-v * math.log2(v), 2) if v > 0 else '0' for v in r] for r in Pn], "label": '−PlogP=', "caption": f'各要素の寄与（合計 {f(Fg["ent"], 3)}）'}, feat_table('ent', 'エントロピー')],
     code=r'''import numpy as np
 
 def glcm(img, L=4):
@@ -2094,7 +2096,7 @@ print(round(((img[:, 1:] - img[:, :-1]) ** 2).mean(), 4))   # 隣接画素の差
 '''))
 
 # 相関：縦縞 vs 横縞
-vst = np.tile([0, 1, 2, 3], (4, 1))      # 横方向に変化（縦縞）
+vst = np.tile([0, 3, 0, 3], (4, 1))      # 横方向に交互（縦縞）
 hst = vst.T.copy()                        # 縦方向に変化（横縞）
 cor_rows = []
 for name, im in [('縦縞（列ごとに一定）', vst), ('横縞（行ごとに一定）', hst)]:
@@ -2104,9 +2106,9 @@ E.append(dict(id='region-glcm-correlation', steps=[
     "① 同時生起確率 P(i, j) を i と j の同時分布とみなし、周辺分布の平均 μx, μy と標準偏差 σx, σy を求める",
     "② 相関 COR = Σ Σ (i − μx)(j − μy) P(i, j) / (σx σy)（−1〜1）",
     f"③ 例（前項の行列、右隣）：COR = {f(Fg['cor'], 4)}（隣の画素が似た濃度になりやすい → 正）",
-    "④ 縦縞（列ごとに濃度が一定）を『下隣』で調べると、組は (0,0),(1,1),… の同じ値ばかり → COR = 1。横縞では同じ『下隣』で値が1段ずつ変わり、相関は 1 に届かないが、『右隣』に変えると 1 になる",
+    "④ 縦縞（列ごとに 0,3,0,3）を『下隣』で調べると組は (0,0),(3,3) の同じ値ばかり → COR = +1。『右隣』では (0,3),(3,0) と必ず逆の値 → COR = −1。横縞では逆になる",
     "⑤ 方向 δ ごとに相関を比べると、縞の方向（模様が伸びている向き）が分かる",
-], example="縦縞：下隣で 1（同じ値が続く）。横縞：右隣で 1。値がどの方向に『続く』かを相関で判定する",
+], example="縦縞：下隣 +1・右隣 −1、横縞：右隣 +1・下隣 −1。値がどの方向に『続く』かを相関で判定する",
     figures=[gfig(panels([dict(a=vst, title='縦縞', mode='gray', mx=3, values=True), dict(a=hst, title='横縞', mode='gray', mx=3, values=True)], W=240, gap=30, arrows=False), '4階調の縦縞と横縞'), {"type": "table", "head": ["画像", "δ=右隣", "δ=下隣"], "rows": cor_rows, "caption": '相関（右隣・下隣）'}],
     code=r'''import numpy as np
 
@@ -2120,7 +2122,7 @@ def correlation(P):
     mx, my = (i * P).sum(), (j * P).sum()
     sx, sy = np.sqrt(((i - mx) ** 2 * P).sum()), np.sqrt(((j - my) ** 2 * P).sum())
     return ((i - mx) * (j - my) * P).sum() / (sx * sy)
-vert = np.tile([0, 1, 2, 3], (4, 1)); horiz = vert.T
+vert = np.tile([0, 3, 0, 3], (4, 1)); horiz = vert.T      # 縦縞と横縞
 for name, im in [('縦縞', vert), ('横縞', horiz)]:
     print(name, '右隣', round(correlation(glcm(im, 0, 1)), 3), ' 下隣', round(correlation(glcm(im, 1, 0)), 3))
 '''))
@@ -2128,11 +2130,11 @@ for name, im in [('縦縞', vert), ('横縞', horiz)]:
 E.append(dict(id='region-glcm-homogeneity', steps=[
     "① 同時生起確率 P(i, j) と重み 1 / (1 + (i − j)²) を用意する",
     "② 一様性（逆差分モーメント）IDM = Σ Σ P(i, j) / (1 + (i − j)²)",
-    f"③ 例（前項の行列）：対角要素 (3+2+3+2... の合計 8/12) は重み 1、差1の要素は重み 1/2、差2は 1/5 → {f(Fg['idm'], 4)}",
+    f"③ 例（前項の行列）：対角の組 2+2+3+1 = 8 回は重み 1、差1の組 (0,1)×2・(2,3)×1 は重み 1/2、差2の組 (0,2)×1 は 1/5 → (8 + 1.5 + 0.2)/12 = {f(Fg['idm'], 4)}",
     "④ 隣り合う画素の濃度が似ている（対角付近に集中する）滑らかな模様ほど大きく、最大 1（全部対角上）",
     "⑤ コントラストとは逆の傾向。|i−j| を使う定義もある",
 ], example="一様な画像：IDM = 1。市松（差3の組だけ）：1/(1+9) = 0.1",
-    figures=[{"type": "matrix", "data": [[f(1 / (1 + (i - j) ** 2), 2) for j in range(4)] for i in range(4)], "label": '1/(1+(i−j)²) =', "caption": '重み：対角が1、離れるほど小さい'}, feat_table('idm', '一様性 IDM')],
+    figures=[{"type": "matrix", "data": [[f(1 / (1 + (i - j) ** 2), 2) for j in range(4)] for i in range(4)], "label": 'w=', "caption": '重み w = 1/(1+(i−j)²)：対角が1、離れるほど小さい'}, feat_table('idm', '一様性 IDM')],
     code=r'''import numpy as np
 
 def glcm(img, L=4):
@@ -2274,7 +2276,7 @@ E.append(dict(id='region-fractal', steps=[
     f"④ 例：傾き D = {f(slope, 3)}（理論値 log3/log2 = 1.585）。ε を半分にすると箱の数が3倍になる → 2^D = 3",
     "⑤ 滑らかな曲線は D = 1、平面を埋める図形は D = 2。海岸線・雲・亀裂・テクスチャの粗さ（複雑さ）の指標に使う",
 ], example=f"ε=4 → N={box_rows[2][1]}、ε=2 → N={box_rows[1][1]}（{f(box_rows[1][1] / box_rows[2][1], 2)} 倍）。直線の塗りつぶし正方形なら4倍（D=2）、直線なら2倍（D=1）",
-    figures=[gfig(svg(320, 140, sier_svg() + chart([(lx, ly, RED)], W=170, H=130, xr=(0, 6.5), yr=(0, 12.5), xticks=[0, 2, 4, 6], yticks=[0, 4, 8, 12], xlabel='log₂(64/ε)', ylabel='log₂N').replace("<svg viewBox='0 0 170 130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'>", "<g transform='translate(148,4)'>").replace('</svg>', '') + T(235, 30, f'傾き D={f(slope, 3)}', 10, fill=RED) + '</g>'), '左：シェルピンスキーの三角形、右：ボックスカウントの両対数プロット')],
+    figures=[gfig(svg(320, 140, sier_svg() + chart([(lx, ly, RED)], W=170, H=130, xr=(0, 6.5), yr=(0, 12.5), xticks=[0, 2, 4, 6], yticks=[0, 4, 8, 12], xlabel='log₂(64/ε)', ylabel='log₂N').replace("<svg viewBox='0 0 170 130' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'>", "<g transform='translate(148,4)'>").replace('</svg>', '') + T(80, 26, f'傾き D={f(slope, 3)}', 10, fill=RED) + '</g>'), '左：シェルピンスキーの三角形、右：ボックスカウントの両対数プロット')],
     code=r'''import numpy as np
 
 N = 64
