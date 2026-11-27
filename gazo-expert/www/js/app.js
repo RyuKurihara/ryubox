@@ -572,7 +572,7 @@
       if (inSheet) openSheet(id, false); else viewTerm(id); return;
     }
     const act = el.dataset.act;
-    if (act === 'back') { if (history.length > 1) history.back(); else location.hash = '#/home'; }
+    if (act === 'back') { handleBack(); }
     else if (act === 'sheetclose') closeSheet(true);
     else if (act === 'sheetback') { sheetStack.pop(); openSheet(sheetStack[sheetStack.length - 1], false); }
     else if (act === 'resume') { location.hash = '#/quiz'; }
@@ -585,6 +585,45 @@
     else if (act === 'import') { try { const s = JSON.parse($('#bk').value); if (s.v !== 1) throw 0; S = s; save(); toast('読み込みました'); } catch (e) { toast('形式が正しくありません'); } }
     else if (act === 'reset') { if (confirm('学習記録をすべて消去します。よろしいですか？')) { localStorage.removeItem(KEY); S = load(); toast('リセットしました'); viewHome(); } }
   });
+
+  // ---------- 戻る操作（Androidの戻るジェスチャー／戻るボタン） ----------
+  // アプリは終了させず、アプリ内で1つ前の画面へ戻る。
+  const NAV = []; let prevHash = location.hash || '#/home', navBack = false;
+  window.addEventListener('hashchange', () => {
+    const cur = location.hash || '#/home';
+    if (navBack) navBack = false;
+    else if (prevHash !== cur) { NAV.push(prevHash); if (NAV.length > 60) NAV.shift(); }
+    prevHash = cur;
+  });
+  const replaceTo = (hsh) => { navBack = true; const before = location.hash; location.replace(hsh); if (before === hsh) { navBack = false; route(); } };
+  function confirmBox(msg, okLabel, onOk) {
+    const bg = document.createElement('div'); bg.className = 'modal-bg';
+    bg.innerHTML = `<div class="modal"><p>${msg}</p><div class="grid2"><button class="btn ghost" data-m="no">続ける</button><button class="btn ng" data-m="ok">${okLabel}</button></div></div>`;
+    bg.addEventListener('click', (e) => { const b = e.target.closest('[data-m]'); if (e.target === bg || (b && b.dataset.m === 'no')) bg.remove(); else if (b && b.dataset.m === 'ok') { bg.remove(); onOk(); } });
+    document.body.appendChild(bg);
+  }
+  let lastHomeBack = 0;
+  function handleBack() {
+    const modal = $('.modal-bg'); if (modal) { modal.remove(); return; }
+    if ($('.sheet-bg')) { if (sheetStack.length > 1) { sheetStack.pop(); openSheet(sheetStack[sheetStack.length - 1], false); } else closeSheet(true); return; }
+    const cur = location.hash || '#/home';
+    if (cur.startsWith('#/quiz') && SES && !SES.done && SES.i < SES.queue.length) {
+      confirmBox(SES.exam ? '模擬試験を中断しますか？<br><span class="sub">回答は保存され、ホームの「再開」から続けられます（時間は進みます）。</span>' : '演習を中断しますか？<br><span class="sub">ここまでの結果は記録済み。ホームの「再開」から続けられます。</span>', '中断してホームへ', () => { clearTimeout(timerT); NAV.length = 0; replaceTo('#/home'); });
+      return;
+    }
+    if (cur.startsWith('#/review')) { replaceTo('#/quiz'); return; }
+    while (NAV.length && (NAV[NAV.length - 1] === cur || (NAV[NAV.length - 1].startsWith('#/quiz') && !(SES && SES.i >= SES.queue.length)))) NAV.pop();
+    if (NAV.length) { replaceTo(NAV.pop()); return; }
+    if (!cur.startsWith('#/home') && cur !== '#' && cur !== '') { replaceTo('#/home'); return; }
+    toast('ホーム画面です（アプリは終了しません）');
+  }
+  window.__handleBack = handleBack;
+  (function hookBack() {
+    const cap = window.Capacitor;
+    if (cap && cap.Plugins && cap.Plugins.App && cap.Plugins.App.addListener) { cap.Plugins.App.addListener('backButton', handleBack); return; }
+    if (cap) document.addEventListener('backbutton', handleBack, false);
+  })();
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') handleBack(); });
 
   route();
   // 処理イメージ（大きい）は起動後に読み込む

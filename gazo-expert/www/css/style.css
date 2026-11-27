@@ -121,3 +121,7 @@ canvas.vz{image-rendering:pixelated;border:1px solid var(--line);border-radius:4
 .vz-code pre{background:#0f1420;color:#d6e2ff;padding:10px;border-radius:10px;font-size:12px;overflow-x:auto;white-space:pre;line-height:1.5}
 ol.steps{margin:0;padding-left:22px}ol.steps li{margin:4px 0}
 .vis-box{overflow-x:hidden}.vis-box .fig{max-width:100%;overflow-x:auto}.vis-box svg{max-width:100%;height:auto}
+
+.modal-bg{position:fixed;inset:0;background:#0008;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--bg);border-radius:16px;padding:18px;max-width:420px;width:100%;box-shadow:0 10px 40px #0005}
+.modal p{margin:0 0 14px;font-size:16px;line-height:1.6}
