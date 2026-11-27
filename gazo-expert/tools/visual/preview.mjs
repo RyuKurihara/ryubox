@@ -15,17 +15,18 @@ fs.mkdirSync(outdir, { recursive: true });
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: 1 });
 const P = Number(per);
+page.on('pageerror', (e) => console.log('PAGEERROR', e.message)); page.on('console', (m) => m.type() === 'error' && console.log('CONSOLE', m.text()));
 for (let k = 0; k * P < items.length; k++) {
   const chunk = items.slice(k * P, (k + 1) * P);
   const html = `<!doctype html><html><head><meta charset="utf-8"><style>${css}
   body{background:#f3f3f3;padding:8px} .wrap{display:grid;grid-template-columns:repeat(4,290px);gap:8px} .card{background:#fff;padding:6px;border:1px solid #ccc} .id{font:bold 11px monospace;color:#a00}
   .fig svg{width:280px}
-  </style></head><body><div class="wrap" id="w"></div><script>
+  </style></head><body><div class="wrap" id="w"></div><script>(function(){
   const esc=(s)=>String(s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   let pendingCanvas=[]; ${figFn}
-  const items=${JSON.stringify(chunk)};
+  const items=${JSON.stringify(chunk).replace(/</g, '\\u003c')};
   document.getElementById('w').innerHTML=items.map((it)=>'<div class="card"><div class="id">'+it.id+'</div><div class="figs">'+it.figures.map((f)=>figHTML(f)).join('')+'</div></div>').join('');
-  </script></body></html>`;
+  })();</script></body></html>`;
   await page.setContent(html);
   const file = path.join(outdir, `${cat}-${String(k).padStart(2, '0')}.png`);
   await page.screenshot({ path: file, fullPage: true });

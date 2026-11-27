@@ -81,6 +81,12 @@ def grid(a, x0, y0, cs, mode='bin', values=None, colors=None, hl=None, mx=255, s
             fg = '#000'
             if colors is not None:
                 fill = colors[r][c]
+                if fill.startswith('rgb('):
+                    rr, gg, bb = [int(t) for t in fill[4:-1].split(',')]
+                    fg = '#fff' if 0.299 * rr + 0.587 * gg + 0.114 * bb < 128 else '#000'
+                elif fill.startswith('#') and len(fill) == 7:
+                    rr, gg, bb = int(fill[1:3], 16), int(fill[3:5], 16), int(fill[5:7], 16)
+                    fg = '#fff' if 0.299 * rr + 0.587 * gg + 0.114 * bb < 128 else '#000'
             elif mode == 'bin':
                 fill = '#222' if v else '#fff'; fg = '#fff' if v else '#000'
             elif mode == 'gray':
@@ -104,24 +110,36 @@ def grid(a, x0, y0, cs, mode='bin', values=None, colors=None, hl=None, mx=255, s
     return ''.join(s)
 
 
+def _tw(s, size):
+    """文字列の概算幅（全角=1em, 半角=0.55em）"""
+    return sum(size if ord(ch) > 255 else size * 0.55 for ch in str(s))
+
+
 def panels(items, W=320, cs=None, gap=22, title_size=10, top=14, arrows=None, note=None):
     """items: list of dict(a=array, title=str, mode=..., values=..., hl=..., colors=...)
-    横に並べて矢印で結ぶ。"""
+    横に並べて矢印で結ぶ（パネル幅は各配列の列数に合わせる）。"""
     n = len(items)
-    cols = max(np.asarray(it['a']).shape[1] for it in items)
-    rows = max(np.asarray(it['a']).shape[0] for it in items)
-    if cs is None:
-        cs = min(22, (W - 10 - gap * (n - 1)) / (n * cols))
-    pw = cols * cs
-    total = n * pw + (n - 1) * gap
+    shapes = [np.asarray(it['a']).shape for it in items]
+    rows = max(sh[0] for sh in shapes)
+    tws = [_tw(it.get('title', ''), title_size) for it in items]
+    fixed = cs is not None
+    cs = cs or 22.0
+    for _ in range(60):
+        pws = [max(sh[1] * cs, tw) for sh, tw in zip(shapes, tws)]
+        total = sum(pws) + gap * (n - 1)
+        if total <= W - 6 or fixed:
+            break
+        cs *= 0.96
     x = (W - total) / 2
     H = top + rows * cs + 6 + (14 if note else 0)
     body = []
     for i, it in enumerate(items):
         a = np.asarray(it['a'])
+        pw = pws[i]
         ox = x + (pw - a.shape[1] * cs) / 2
-        body.append(T(x + pw / 2, top - 4, it.get('title', ''), title_size))
-        body.append(grid(a, ox, top, cs, it.get('mode', 'bin'), it.get('values'), it.get('colors'), it.get('hl'), it.get('mx', 255), it.get('size')))
+        oy = top + (rows - a.shape[0]) * cs / 2
+        body.append(T(x + pw / 2, oy - 4, it.get('title', ''), title_size))
+        body.append(grid(a, ox, oy, cs, it.get('mode', 'bin'), it.get('values'), it.get('colors'), it.get('hl'), it.get('mx', 255), it.get('size')))
         if i < n - 1:
             ay = top + rows * cs / 2
             lab = arrows[i] if arrows else None
@@ -176,7 +194,7 @@ class Plane:
         else:
             b.append(arrow(self.X(self.x0), self.Y(ay0), self.X(self.x1) + 6, self.Y(ay0), None, '#444', w=1))
             b.append(arrow(self.X(ax0), self.Y(self.y0), self.X(ax0), self.Y(self.y1) - 6, None, '#444', w=1))
-            b.append(T(self.X(self.x1) + 6, self.Y(ay0) + 12, xl, 10, 'end'))
+            b.append(T(self.X(self.x1) + 2, self.Y(ay0) - 4, xl, 10, 'start'))
             b.append(T(self.X(ax0) + 6, self.Y(self.y1) - 2, yl, 10, 'start'))
         if labels:
             for i, v in enumerate(xs):

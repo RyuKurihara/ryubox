@@ -294,12 +294,12 @@ Tt = H2(np.array([[1, 0, 4], [0, 1, 0]]))
 
 
 def comp_fig():
-    p = Plane((-6, 6), (-1, 7), W=300).axes(1, lab_every=2)
+    p = Plane((-6, 6), (-1, 8), W=300).axes(1, lab_every=2)
     p.poly(F_PTS, '#bbb', '#888', 1.2, dash='3 2', op=0.35)
     p.poly(ap(Tt @ Rr, F_PTS), BLUE, BLUE, 1.5, op=0.25)
     p.poly(ap(Rr @ Tt, F_PTS), '#ffd8c9', RED, 1.5, op=0.5)
     p.text((2.8, 6.0), '回転→移動', 10, fill=BLUE)
-    p.text((-3.5, 6.6), '移動→回転', 10, fill=RED)
+    p.text((-2.5, 7.4), '移動→回転', 10, fill=RED)
     return {"type": "svg", "svg": p.svg(), "caption": '90°回転と x方向+4移動：順序を変えると結果が違う'}
 
 
@@ -483,7 +483,7 @@ E.append(dict(id='geo-invariants', steps=[
     "④ アフィン（6自由度）：平行四辺形になる → 角度は崩れるが平行性・平行線分の長さの比・面積比が残る",
     "⑤ 射影（8自由度）：一般の四角形 → 平行性も失われる。残るのは直線性（直線→直線）と複比だけ。上位ほど自由度が多く、保存される性質が少ない",
 ], example="正方形の対辺は アフィンでは平行のまま、射影では交わる（消失点）。正方形の中点 → アフィンでは像の中点、射影では中点にならない",
-    figures=[inv_fig(), {"type": "table", "head": ["変換", "自由度", "長さ", "角度", "平行性", "長さの比", "直線性・複比"], "rows": [["ユークリッド", "3", "○", "○", "○", "○", "○"], ["相似", "4", "×", "○", "○", "○", "○"], ["アフィン", "6", "×", "×", "○", "平行線分のみ○", "○"], ["射影", "8", "×", "×", "×", "×", "○"]]}],
+    figures=[inv_fig(), {"type": "table", "head": ["", "ユークリッド", "相似", "アフィン", "射影"], "rows": [["自由度", "3", "4", "6", "8"], ["長さ", "○", "×", "×", "×"], ["角度", "○", "○", "×", "×"], ["平行性", "○", "○", "○", "×"], ["長さの比", "○", "○", "△※", "×"], ["直線性・複比", "○", "○", "○", "○"]], "caption": "※アフィンは平行な線分どうしの長さの比のみ保存"}],
     code=r'''import numpy as np
 import cv2
 
@@ -570,12 +570,12 @@ def imgcoord_fig():
         b.append(T(ox - 15, oy + j * cs + cs / 2 + 3, str(j), 9, fill='#777'))
     b.append(T(ox - 14, oy - 12, '(0,0)', 9, fill=RED))
     b.append(R(ox + 3 * cs + 1, oy + 1 * cs + 1, cs - 2, cs - 2, 'none', BLUE, 2.2))
-    b.append(T(232, 60, '(x,y)=(3,1)', 10, 'start', fill=BLUE))
-    b.append(T(232, 74, '= img[1, 3]', 10, 'start', fill=BLUE))
-    b.append(T(232, 88, '= 150', 10, 'start', fill=BLUE))
-    b.append(T(232, 118, 'y軸は下向き', 10, 'start', fill='#444'))
-    b.append(T(232, 132, '→ 画面上で', 10, 'start', fill='#444'))
-    b.append(T(232, 146, '　回転の向きが逆', 10, 'start', fill='#444'))
+    b.append(T(180, 60, '(x,y)=(3,1)', 10, 'start', fill=BLUE))
+    b.append(T(180, 74, '= img[1, 3]', 10, 'start', fill=BLUE))
+    b.append(T(180, 88, '= 150', 10, 'start', fill=BLUE))
+    b.append(T(180, 118, 'y軸は下向き', 10, 'start', fill='#444'))
+    b.append(T(180, 132, '→ 画面上で', 10, 'start', fill='#444'))
+    b.append(T(180, 146, '　回転の向きが逆', 10, 'start', fill='#444'))
     return {"type": "svg", "svg": svg(W, 160, ''.join(b)), "caption": '5×4 画像。配列は [行, 列] = [y, x] の順でアクセス'}
 
 
@@ -665,8 +665,8 @@ def inv_fig2():
     b.append(grid(inv, 140, 20, 26, 'gray', True, size=9, hl=[(3, 5)]))
     b.append(R(12 + 2 * 28 + 1, 20 + 1 * 28 + 1, 26, 26, 'none', RED, 2))
     b.append(f"<path d='M {f(140 + 5 * 26 + 13)} {f(20 + 3 * 26 + 2)} C 250 40, 120 0, {f(12 + 2 * 28 + 14)} {f(20 + 1 * 28 + 4)}' fill='none' stroke='{RED}' stroke-width='1.3' stroke-dasharray='4 2'/>")
-    b.append(T(230, 178, "出力(5,3) → 入力(2.5,1.5) → 最近傍 (2,1)", 9, fill=RED))
-    return svg(W, 184, ''.join(b))
+    b.append(T(160, 194, "出力(5,3) → 入力(2.5,1.5) → 最近傍 (2,1)", 10, fill=RED))
+    return svg(W, 200, ''.join(b))
 
 
 E.append(dict(id='geo-inverse-mapping', steps=[
@@ -702,8 +702,8 @@ print(o2)
 def resamp_fig():
     W = 300
     b = []
-    cs = 34
-    ox, oy = 20, 14
+    cs = 30
+    ox, oy = 14, 14
     for r in range(5):
         for c_ in range(6):
             b.append(R(ox + c_ * cs, oy + r * cs, cs, cs, '#f4f4f4', '#ccc', 0.6))
@@ -917,7 +917,7 @@ E.append(dict(id='geo-antialias-downscale', steps=[
     "④ 例：2×2 の平均を取ってから間引くと (0+255+0+255)/4 = 127.5 → 一様な灰色。『細かい縞を遠くから見た色』として正しい",
     "⑤ 実装：ガウシアンで平滑化→間引き、面積平均法（cv2.INTER_AREA）、画像ピラミッド（cv2.pyrDown）など",
 ], example="サンプリング定理：縮小率 1/2 なら、元画像の周期2画素未満の成分（ナイキスト周波数の半分超）を事前に除く必要がある。モアレ（縞模様の出現）もエイリアシングの一種",
-    figures=[{"type": "svg", "svg": panels([dict(a=stripe, title='入力 6×6 縦縞', mode='gray'), dict(a=dec, title='単純に間引き', mode='gray', values=True), dict(a=avg, title='平均してから縮小', mode='gray', values=True)], W=320, cs=17, arrows=['1/2', '']), "caption": '間引くと縞が消えて真っ黒（誤った結果）、平均すると灰色 127'}],
+    figures=[{"type": "svg", "svg": panels([dict(a=stripe, title='入力（縦縞）', mode='gray'), dict(a=dec, title='間引き', mode='gray', values=True), dict(a=avg, title='平均して縮小', mode='gray', values=True)], W=320, cs=17, arrows=['1/2', '']), "caption": '間引くと縞が消えて真っ黒（誤った結果）、平均すると灰色 127'}],
     code=r'''import numpy as np
 import cv2
 
@@ -977,7 +977,7 @@ for dy in range(-2, 3):
     for dx in range(-2, 3):
         ssd[(dx, dy)] = int(((base[2 + dy:10 + dy, 2 + dx:10 + dx] - tgt) ** 2).sum()) if 0 <= 2 + dx and 0 <= 2 + dy else None
 best = min(ssd, key=lambda k: ssd[k])
-tab = [[f"dy={dy}"] + [f(ssd[(dx, dy)] / 1000, 0) + 'k' if ssd[(dx, dy)] else '0' for dx in range(-2, 3)] for dy in range(-2, 3)]
+tab = [[f"{dy}"] + [f(ssd[(dx, dy)] / 1000, 0) + 'k' if ssd[(dx, dy)] else '0' for dx in range(-2, 3)] for dy in range(-2, 3)]
 # 2画像の図
 p1 = np.zeros((8, 8), int); p1[2:5, 1:4] = 1; p1[5, 2] = 1
 p2 = np.zeros((8, 8), int); p2[3:6, 3:6] = 1; p2[6, 4] = 1
@@ -990,24 +990,25 @@ E.append(dict(id='geo-registration', steps=[
     "⑤ 推定した変換で対象画像をワープすると、基準画像にぴったり重なる（差分画像がほぼ0になる）",
 ], example=f"乱数画像を (dx,dy)=(2,1) ずらした例：SSD は (2,1) で 0、それ以外では {min(v for k, v in ssd.items() if k != best) // 1000}k 以上 → ずれ (2,1) と推定",
     figures=[{"type": "svg", "svg": panels([dict(a=p1, title='基準', mode='bin'), dict(a=p2, title='対象（ずれ）', mode='bin', colors=[[('#e4572e' if p2[r, c] else '#fff') for c in range(8)] for r in range(8)]), dict(a=p1, title='重ね合わせ', colors=ov)], W=320, cs=12, arrows=['', '']), "caption": '青＝基準、赤＝対象。(dx,dy)=(2,1) 動かすと一致する'},
-             {"type": "table", "head": ["SSD"] + [f"dx={dx}" for dx in range(-2, 3)], "rows": tab, "caption": 'ずらし量ごとの SSD（k=1000）。最小(=0)は dx=2, dy=1'}],
+             {"type": "table", "head": ["dy/dx"] + [f"{dx}" for dx in range(-2, 3)], "rows": tab, "caption": 'ずらし量ごとの SSD（k=1000）。最小(=0)は dx=2, dy=1'}],
     code=r'''import numpy as np
 import cv2
 
 rng = np.random.default_rng(1)
-base = (rng.random((12, 12)) * 200).astype(np.float32)
-tgt = base[3:11, 4:12]                      # 対象：(dx,dy)=(2,1) ずれた8x8
+base = cv2.GaussianBlur((rng.random((80, 80)) * 200).astype(np.float32), (0, 0), 1)
+tgt = base[3:67, 4:68]                      # 対象：(dx,dy)=(2,1) ずれた 64x64
 best = None
 for dy in range(-2, 3):                     # 総当たりで SSD 最小を探す
     for dx in range(-2, 3):
-        ref = base[2 + dy:10 + dy, 2 + dx:10 + dx]
+        ref = base[2 + dy:66 + dy, 2 + dx:66 + dx]
         ssd = ((ref - tgt) ** 2).sum()
         if best is None or ssd < best[0]:
             best = (ssd, dx, dy)
 print(best)                                  # (0.0, 2, 1)
 # OpenCV：位相限定相関でサブピクセルの平行移動を推定
-(sx, sy), resp = cv2.phaseCorrelate(base[2:10, 2:10], tgt)
-print(round(sx, 2), round(sy, 2))
+win = cv2.createHanningWindow((64, 64), cv2.CV_32F)     # 端の影響を減らす窓
+(sx, sy), resp = cv2.phaseCorrelate(base[2:66, 2:66], tgt, win)
+print(round(sx, 1), round(sy, 1))           # 約(-2,-1)：基準→対象で見た内容の移動量
 # 特徴ベースなら cv2.findHomography / cv2.estimateAffine2D を使う
 '''))
 
@@ -1028,7 +1029,7 @@ E.append(dict(id='geo-dlt', steps=[
     "④ ‖h‖=1 の制約のもと、A の特異値分解で最小特異値に対応する右特異ベクトルが解。5組以上でも同じ手順で最小二乗解になる",
     "⑤ h33 = 1 に正規化して 3×3 に並べると H。精度のため座標は事前に正規化（重心を原点、平均距離 √2）するのが定石",
 ], example="h（h33=1に正規化）= [" + ', '.join(f(x, 4) for x in hd) + "]。cv2.getPerspectiveTransform と同じ結果",
-    figures=[{"type": "matrix", "data": [[f(v_, 0) for v_ in r] for r in Ad], "label": 'A =', "caption": '4組の対応点から作った 8×9 行列（各点2行）'}, mfig(hd.reshape(3, 3), 'H =', 'SVD の最小特異値ベクトル')],
+    figures=[{"type": "matrix", "data": [[f(v_, 0) for v_ in r] for r in Ad[2:6]], "label": 'A=', "caption": '8×9 行列 A のうち (4,0)→(6,1) と (4,4)→(5,5) の4行'}, mfig(hd.reshape(3, 3), 'H =', 'SVD の最小特異値ベクトル')],
     code=r'''import numpy as np
 import cv2
 
@@ -1075,24 +1076,24 @@ E.append(dict(id='geo-mosaicing', steps=[
     code=r'''import numpy as np
 import cv2
 
-# 合成用の画像：大きなシーンから重なりのある2枚を切り出す
+# 合成用の画像：大きなシーンから重なりのある2枚を切り出す（100画素重なる）
 rng = np.random.default_rng(0)
-scene = np.zeros((120, 260), np.uint8)
-for _ in range(80):                                         # ランダムな四角形を描いた風景
-    x, y = rng.integers(0, 250), rng.integers(0, 110)
-    cv2.rectangle(scene, (int(x), int(y)), (int(x) + 12, int(y) + 9), int(rng.integers(60, 255)), -1)
-img1, img2 = scene[:, :160], scene[:, 100:]                 # 60画素重なる
-orb = cv2.ORB_create(500)
-k1, d1 = orb.detectAndCompute(img1, None)
-k2, d2 = orb.detectAndCompute(img2, None)
-m = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True).match(d2, d1)
+scene = cv2.GaussianBlur((rng.random((200, 400)) * 255).astype(np.uint8), (0, 0), 3)
+scene = cv2.normalize(scene, None, 0, 255, cv2.NORM_MINMAX)
+img1, img2 = scene[:, :250], scene[:, 150:]
+sift = cv2.SIFT_create()                                   # 特徴点＋特徴量
+k1, d1 = sift.detectAndCompute(img1, None)
+k2, d2 = sift.detectAndCompute(img2, None)
+m = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True).match(d2, d1)
 p2 = np.float32([k2[x.queryIdx].pt for x in m])
 p1 = np.float32([k1[x.trainIdx].pt for x in m])
-H, inl = cv2.findHomography(p2, p1, cv2.RANSAC, 3.0)       # 画像2→画像1
-print(H.round(2))                                          # ほぼ x方向+100 の平行移動
-pano = cv2.warpPerspective(img2, H, (260, 120))            # 画像2をワープ
-pano[:, :160] = np.where(pano[:, :160] > 0, (pano[:, :160] // 2 + img1 // 2), img1)
-print(pano.shape)
+H, inl = cv2.findHomography(p2, p1, cv2.RANSAC, 3.0)       # 画像2→画像1 の H
+print(len(m), int(inl.sum()), H.round(2))                  # ほぼ x方向+150 の平行移動
+pano = cv2.warpPerspective(img2, H, (400, 200))            # 画像2をキャンバスへ
+ov = pano[:, 150:250] > 0                                  # 重なり部分は平均（簡易ブレンド）
+pano[:, :250] = img1
+pano[:, 150:250] = np.where(ov, img1[:, 150:] // 2 + cv2.warpPerspective(img2, H, (400, 200))[:, 150:250] // 2, img1[:, 150:])
+print(np.abs(pano.astype(int) - scene).max())              # 元のシーンとほぼ一致
 '''))
 
 
@@ -1210,7 +1211,7 @@ def warp_fig():
     for panel in range(2):
         ox = 10 + panel * 150
         fn = (lambda x, y: (x, y)) if panel == 0 else (lambda x, y: (x + 0.35 * math.sin(y * 1.2), y + 0.25 * math.sin(x * 1.5)))
-        X = lambda x: ox + 10 + x * 25
+        X = lambda x: ox + 14 + x * 23
         Y = lambda y: 15 + y * 25
         for v in range(6):
             b.append(P([(X(a), Y(c)) for a, c in [fn(v, t) for t in np.linspace(0, 5, 26)]], 'none', '#555' if not panel else BLUE, 1, False))
@@ -1397,7 +1398,7 @@ E.append(dict(id='geo-poisson-blending', steps=[
     "④ 連立一次方程式（ポアソン方程式）を解くと、山の形（勾配）は保ったまま全体の明るさがターゲットに合わせて下がり、境界で段差なくつながる",
     "⑤ 2次元では各画素で 4f(p) − Σ近傍 f(q) = 4g(p) − Σ近傍 g(q) を立てて解く。出力：継ぎ目が見えない合成（色味もなじむ）",
 ], example=f"境界 x=1 のターゲット {f(tgt1[1], 0)}、そのまま貼ると x=2 は {f(naive[2], 0)}（段差 {f(naive[2] - tgt1[1], 0)}）。ポアソン合成では x=2 が {f(pois[2], 1)}、山の高さ（周囲との差 30）は保存",
-    figures=[{"type": "svg", "svg": chart([(xs, tgt1, '#999', '3 2'), (xs, naive, RED), (xs, pois, BLUE)], W=310, H=170, xr=(0, 11), yr=(0, 270), xticks=list(range(0, 12)), yticks=[0, 100, 200], xlabel='画素位置 x（Ω = 2〜8）', legend=[('ターゲット', '#999'), ('そのまま貼る', RED), ('ポアソン', BLUE)], vlines=[(1.5, GREEN, None), (8.5, GREEN, None)]), "caption": '勾配を保ったまま境界値に合わせる → 段差が消える'}],
+    figures=[{"type": "svg", "svg": chart([(xs, tgt1, '#999', '3 2'), (xs, naive, RED), (xs, pois, BLUE)], W=310, H=180, xr=(0, 11), yr=(0, 320), xticks=list(range(0, 12)), yticks=[0, 100, 200], xlabel='画素位置 x（Ω = 2〜8）', legend=[('ターゲット', '#999'), ('そのまま貼る', RED), ('ポアソン', BLUE)], vlines=[(1.5, GREEN, None), (8.5, GREEN, None)]), "caption": '勾配を保ったまま境界値に合わせる → 段差が消える'}],
     code=r'''import numpy as np
 import cv2
 
@@ -1439,7 +1440,7 @@ E.append(dict(id='geo-multiband-blending', steps=[
     "④ 高周波帯は狭い遷移幅（ほぼ境界で切り替え）で混ぜる → 模様が二重にならない",
     "⑤ 各帯を合成し直して元に戻す。出力：明るさの段差もなく、細部もくっきりした継ぎ目のない画像（Burt & Adelson 1983）",
 ], example="単純なαブレンド（遷移幅広い）では重なり部の縞が A と B の二重になり振幅が減る。遷移幅を狭くすると明るさの段差が目立つ → 帯ごとに幅を変えるのが要点",
-    figures=[{"type": "svg", "svg": chart([(x, naive_al, ORANGE), (x, mb, BLUE)], W=320, H=165, xr=(0, 63), yr=(60, 220), xticks=[0, 16, 32, 48, 63], yticks=[80, 120, 160, 200], xlabel='画素位置（境界 x=32）', legend=[('広いαブレンド（縞が二重）', ORANGE), ('マルチバンド', BLUE)]), "caption": '低周波は広く、高周波は狭く混ぜる'}],
+    figures=[{"type": "svg", "svg": chart([(x[16:49], naive_al[16:49], ORANGE), (x[16:49], mb[16:49], BLUE)], W=320, H=170, xr=(16, 48), yr=(60, 250), xticks=[16, 24, 32, 40, 48], yticks=[80, 120, 160, 200], xlabel='画素位置（境界 x=32）', legend=[('広いαブレンド', ORANGE), ('マルチバンド', BLUE)]), "caption": '低周波は広く、高周波は狭く混ぜる'}],
     code=r'''import numpy as np
 import cv2
 
@@ -1593,14 +1594,14 @@ def mesh_fig():
     for k, (pts, title) in enumerate([(mesh_src, '変形前の三角形メッシュ'), (mesh_dst, '中央の点を動かした後')]):
         ox = 15 + k * 150
         X = lambda x: ox + 10 + x * 28
-        Y = lambda y: 128 - y * 28
+        Y = lambda y: 142 - y * 28
         for i, t in enumerate(tris):
             b.append(P([(X(pts[j][0]), Y(pts[j][1])) for j in t], ['#e7efff', '#ffeee7', '#e7fff4', '#fff7e0'][i], '#555', 1))
         for j, p in enumerate(pts):
             b.append(C(X(p[0]), Y(p[1]), 3, RED if j == 4 else '#333'))
-        b.append(T(ox + 66, 150, title, 10))
-    b.append(T(150, 12, '中央 (2,2) → (2.8,2.6)。4つの三角形がそれぞれ別のアフィン変換', 9, fill='#444'))
-    return svg(W, 156, ''.join(b))
+        b.append(T(ox + 66, 162, title, 10))
+    b.append(T(150, 13, '中央 (2,2) → (2.8,2.6)：4つの三角形が別々のアフィン変換', 9, fill='#444'))
+    return svg(W, 168, ''.join(b))
 
 
 E.append(dict(id='geo-mesh-warping', steps=[

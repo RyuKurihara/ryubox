@@ -1228,6 +1228,7 @@ w_pca = np.linalg.eigh(C)[1][:, -1]                           # 最大固有値�
     },
   };
 
+  const H = { h, img, px, clamp, toCanvas, jet, LABELC, fig, rowOf, arrow, control, select, note, gridTable, svgPlot, code, conv, gaussK, rankF, med, scene, colorScene, dft2, idft2, specImg, g2img, binScene, heightMap, solve, homography, invert3 };
   const list = () => Object.keys(V);
-  return { V, list, has: (id) => !!V[id], render(id, el) { const v = V[id]; if (!v) return false; el.innerHTML = ''; const t = h('div', { className: 'vz-title' }, '🔬 ' + v.title); el.appendChild(t); const body = h('div'); el.appendChild(body); try { v.run(body); } catch (e) { body.innerHTML = '<div class="sub">図解の表示に失敗しました：' + e.message + '</div>'; console.error(e); } return true; } };
+  return { V, H, list, has: (id) => !!V[id], render(id, el) { const v = V[id]; if (!v) return false; el.innerHTML = ''; const t = h('div', { className: 'vz-title' }, '🔬 ' + v.title); el.appendChild(t); const body = h('div'); el.appendChild(body); try { v.run(body); } catch (e) { body.innerHTML = '<div class="sub">図解の表示に失敗しました：' + e.message + '</div>'; console.error(e); } return true; } };
 })();
