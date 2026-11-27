@@ -1,0 +1,513 @@
+[
+ {
+  "id": "color-visible-light",
+  "steps": [
+   "① 入力: さまざまな波長の電磁波",
+   "② 眼の視細胞（錐体・桿体）が反応するのは約380〜780nmだけ → これを可視光と呼ぶ",
+   "③ 単色光では波長で色相が決まる: 短い→紫・青、中間→緑・黄、長い→橙・赤",
+   "④ 感度は波長によって違い、明所では555nm（黄緑）で最大、両端では急激に低下（比視感度）",
+   "⑤ 出力: 色と明るさの知覚。紫外（<380nm）・赤外（>780nm）は見えないが、カメラ（シリコン）は〜1100nmの近赤外まで感じるのでIRカットフィルタを入れる"
+  ],
+  "example": "550nm の光の周波数 = 3×10⁸ / 550×10⁻⁹ ≒ 5.45×10¹⁴ Hz。可視光の波長範囲は約2倍（380→780nm、ほぼ1オクターブ）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 112' width='330' height='112' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='8' y='10' width='50' height='20' fill='#eceff1' stroke='#999' stroke-width='1' rx='0'/><text x='33' y='24' font-size='9' fill='#333' text-anchor='middle'>γ線</text><rect x='61' y='10' width='50' height='20' fill='#eceff1' stroke='#999' stroke-width='1' rx='0'/><text x='86' y='24' font-size='9' fill='#333' text-anchor='middle'>X線</text><rect x='114' y='10' width='50' height='20' fill='#eceff1' stroke='#999' stroke-width='1' rx='0'/><text x='139' y='24' font-size='9' fill='#333' text-anchor='middle'>紫外線</text><rect x='167' y='10' width='50' height='20' fill='#fff9c4' stroke='#999' stroke-width='1' rx='0'/><text x='192' y='24' font-size='9' fill='#333' text-anchor='middle'>可視光</text><rect x='220' y='10' width='50' height='20' fill='#eceff1' stroke='#999' stroke-width='1' rx='0'/><text x='245' y='24' font-size='9' fill='#333' text-anchor='middle'>赤外線</text><rect x='273' y='10' width='50' height='20' fill='#eceff1' stroke='#999' stroke-width='1' rx='0'/><text x='298' y='24' font-size='9' fill='#333' text-anchor='middle'>電波</text><text x='8' y='44' font-size='8' fill='#555' text-anchor='start'>短い波長</text><text x='325' y='44' font-size='8' fill='#555' text-anchor='end'>長い波長</text><line x1='167' y1='30' x2='20' y2='60' stroke='#999' stroke-width='0.8'/><line x1='183' y1='30' x2='310' y2='60' stroke='#999' stroke-width='0.8'/><rect x='20' y='60' width='4' height='22' fill='#69006d' stroke='none' stroke-width='0' rx='0'/><rect x='23.6' y='60' width='4' height='22' fill='#750082' stroke='none' stroke-width='0' rx='0'/><rect x='27.2' y='60' width='4' height='22' fill='#7d0097' stroke='none' stroke-width='0' rx='0'/><rect x='30.9' y='60' width='4' height='22' fill='#8200ab' stroke='none' stroke-width='0' rx='0'/><rect x='34.5' y='60' width='4' height='22' fill='#8300be' stroke='none' stroke-width='0' rx='0'/><rect x='38.1' y='60' width='4' height='22' fill='#8000d1' stroke='none' stroke-width='0' rx='0'/><rect x='41.8' y='60' width='4' height='22' fill='#7a00e4' stroke='none' stroke-width='0' rx='0'/><rect x='45.4' y='60' width='4' height='22' fill='#7000f6' stroke='none' stroke-width='0' rx='0'/><rect x='49' y='60' width='4' height='22' fill='#5f00ff' stroke='none' stroke-width='0' rx='0'/><rect x='52.6' y='60' width='4' height='22' fill='#4900ff' stroke='none' stroke-width='0' rx='0'/><rect x='56.2' y='60' width='4' height='22' fill='#3000ff' stroke='none' stroke-width='0' rx='0'/><rect x='59.9' y='60' width='4' height='22' fill='#1400ff' stroke='none' stroke-width='0' rx='0'/><rect x='63.5' y='60' width='4' height='22' fill='#0017ff' stroke='none' stroke-width='0' rx='0'/><rect x='67.1' y='60' width='4' height='22' fill='#0038ff' stroke='none' stroke-width='0' rx='0'/><rect x='70.8' y='60' width='4' height='22' fill='#0054ff' stroke='none' stroke-width='0' rx='0'/><rect x='74.4' y='60' width='4' height='22' fill='#006eff' stroke='none' stroke-width='0' rx='0'/><rect x='78' y='60' width='4' height='22' fill='#0087ff' stroke='none' stroke-width='0' rx='0'/><rect x='81.6' y='60' width='4' height='22' fill='#009eff' stroke='none' stroke-width='0' rx='0'/><rect x='85.2' y='60' width='4' height='22' fill='#00b5ff' stroke='none' stroke-width='0' rx='0'/><rect x='88.9' y='60' width='4' height='22' fill='#00cbff' stroke='none' stroke-width='0' rx='0'/><rect x='92.5' y='60' width='4' height='22' fill='#00e0ff' stroke='none' stroke-width='0' rx='0'/><rect x='96.1' y='60' width='4' height='22' fill='#00f5ff' stroke='none' stroke-width='0' rx='0'/><rect x='99.8' y='60' width='4' height='22' fill='#00ffe5' stroke='none' stroke-width='0' rx='0'/><rect x='103.4' y='60' width='4' height='22' fill='#00ffaf' stroke='none' stroke-width='0' rx='0'/><rect x='107' y='60' width='4' height='22' fill='#00ff74' stroke='none' stroke-width='0' rx='0'/><rect x='110.6' y='60' width='4' height='22' fill='#00ff30' stroke='none' stroke-width='0' rx='0'/><rect x='114.2' y='60' width='4' height='22' fill='#12ff00' stroke='none' stroke-width='0' rx='0'/><rect x='117.9' y='60' width='4' height='22' fill='#2bff00' stroke='none' stroke-width='0' rx='0'/><rect x='121.5' y='60' width='4' height='22' fill='#40ff00' stroke='none' stroke-width='0' rx='0'/><rect x='125.1' y='60' width='4' height='22' fill='#54ff00' stroke='none' stroke-width='0' rx='0'/><rect x='128.8' y='60' width='4' height='22' fill='#67ff00' stroke='none' stroke-width='0' rx='0'/><rect x='132.4' y='60' width='4' height='22' fill='#79ff00' stroke='none' stroke-width='0' rx='0'/><rect x='136' y='60' width='4' height='22' fill='#8aff00' stroke='none' stroke-width='0' rx='0'/><rect x='139.6' y='60' width='4' height='22' fill='#9bff00' stroke='none' stroke-width='0' rx='0'/><rect x='143.2' y='60' width='4' height='22' fill='#abff00' stroke='none' stroke-width='0' rx='0'/><rect x='146.9' y='60' width='4' height='22' fill='#bbff00' stroke='none' stroke-width='0' rx='0'/><rect x='150.5' y='60' width='4' height='22' fill='#cbff00' stroke='none' stroke-width='0' rx='0'/><rect x='154.1' y='60' width='4' height='22' fill='#daff00' stroke='none' stroke-width='0' rx='0'/><rect x='157.8' y='60' width='4' height='22' fill='#e9ff00' stroke='none' stroke-width='0' rx='0'/><rect x='161.4' y='60' width='4' height='22' fill='#f8ff00' stroke='none' stroke-width='0' rx='0'/><rect x='165' y='60' width='4' height='22' fill='#fff700' stroke='none' stroke-width='0' rx='0'/><rect x='168.6' y='60' width='4' height='22' fill='#ffe700' stroke='none' stroke-width='0' rx='0'/><rect x='172.2' y='60' width='4' height='22' fill='#ffd700' stroke='none' stroke-width='0' rx='0'/><rect x='175.9' y='60' width='4' height='22' fill='#ffc600' stroke='none' stroke-width='0' rx='0'/><rect x='179.5' y='60' width='4' height='22' fill='#ffb600' stroke='none' stroke-width='0' rx='0'/><rect x='183.1' y='60' width='4' height='22' fill='#ffa400' stroke='none' stroke-width='0' rx='0'/><rect x='186.8' y='60' width='4' height='22' fill='#ff9200' stroke='none' stroke-width='0' rx='0'/><rect x='190.4' y='60' width='4' height='22' fill='#ff8000' stroke='none' stroke-width='0' rx='0'/><rect x='194' y='60' width='4' height='22' fill='#ff6d00' stroke='none' stroke-width='0' rx='0'/><rect x='197.6' y='60' width='4' height='22' fill='#ff5900' stroke='none' stroke-width='0' rx='0'/><rect x='201.2' y='60' width='4' height='22' fill='#ff4400' stroke='none' stroke-width='0' rx='0'/><rect x='204.9' y='60' width='4' height='22' fill='#ff2d00' stroke='none' stroke-width='0' rx='0'/><rect x='208.5' y='60' width='4' height='22' fill='#ff1300' stroke='none' stroke-width='0' rx='0'/><rect x='212.1' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='215.8' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='219.4' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='223' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='226.6' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='230.2' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='233.9' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='237.5' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='241.1' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='244.8' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='248.4' y='60' width='4' height='22' fill='#ff0000' stroke='none' stroke-width='0' rx='0'/><rect x='252' y='60' width='4' height='22' fill='#fb0000' stroke='none' stroke-width='0' rx='0'/><rect x='255.6' y='60' width='4' height='22' fill='#f20000' stroke='none' stroke-width='0' rx='0'/><rect x='259.2' y='60' width='4' height='22' fill='#e80000' stroke='none' stroke-width='0' rx='0'/><rect x='262.9' y='60' width='4' height='22' fill='#df0000' stroke='none' stroke-width='0' rx='0'/><rect x='266.5' y='60' width='4' height='22' fill='#d60000' stroke='none' stroke-width='0' rx='0'/><rect x='270.1' y='60' width='4' height='22' fill='#cd0000' stroke='none' stroke-width='0' rx='0'/><rect x='273.8' y='60' width='4' height='22' fill='#c30000' stroke='none' stroke-width='0' rx='0'/><rect x='277.4' y='60' width='4' height='22' fill='#ba0000' stroke='none' stroke-width='0' rx='0'/><rect x='281' y='60' width='4' height='22' fill='#b00000' stroke='none' stroke-width='0' rx='0'/><rect x='284.6' y='60' width='4' height='22' fill='#a60000' stroke='none' stroke-width='0' rx='0'/><rect x='288.2' y='60' width='4' height='22' fill='#9c0000' stroke='none' stroke-width='0' rx='0'/><rect x='291.9' y='60' width='4' height='22' fill='#920000' stroke='none' stroke-width='0' rx='0'/><rect x='295.5' y='60' width='4' height='22' fill='#870000' stroke='none' stroke-width='0' rx='0'/><rect x='299.1' y='60' width='4' height='22' fill='#7d0000' stroke='none' stroke-width='0' rx='0'/><rect x='302.8' y='60' width='4' height='22' fill='#720000' stroke='none' stroke-width='0' rx='0'/><rect x='306.4' y='60' width='4' height='22' fill='#670000' stroke='none' stroke-width='0' rx='0'/><text x='20' y='94' font-size='8' fill='#333' text-anchor='middle'>380</text><text x='70.8' y='94' font-size='8' fill='#333' text-anchor='middle'>450</text><text x='107' y='94' font-size='8' fill='#333' text-anchor='middle'>500</text><text x='143.2' y='94' font-size='8' fill='#333' text-anchor='middle'>550</text><text x='179.5' y='94' font-size='8' fill='#333' text-anchor='middle'>600</text><text x='215.8' y='94' font-size='8' fill='#333' text-anchor='middle'>650</text><text x='252' y='94' font-size='8' fill='#333' text-anchor='middle'>700</text><text x='310' y='94' font-size='8' fill='#333' text-anchor='middle'>780</text><text x='165' y='108' font-size='9' fill='#333' text-anchor='middle'>波長 [nm]</text></svg>",
+    "caption": "電磁波のうち380〜780nmだけが光として見える"
+   },
+   {
+    "type": "table",
+    "head": [
+     "色の感じ",
+     "波長[nm]（目安）"
+    ],
+    "rows": [
+     [
+      "紫",
+      "380〜430"
+     ],
+     [
+      "青",
+      "430〜490"
+     ],
+     [
+      "緑",
+      "490〜550"
+     ],
+     [
+      "黄",
+      "550〜590"
+     ],
+     [
+      "橙",
+      "590〜640"
+     ],
+     [
+      "赤",
+      "640〜780"
+     ]
+    ],
+    "caption": "単色光の波長と見える色の対応"
+   }
+  ],
+  "code": "import numpy as np\ndef wavelength_to_color(nm):\n    table = [(380, \"紫\"), (430, \"青\"), (490, \"緑\"), (550, \"黄\"), (590, \"橙\"), (640, \"赤\"), (781, None)]\n    if nm < 380: return \"紫外線（見えない）\"\n    if nm > 780: return \"赤外線（見えない）\"\n    for (lo, name), (hi, _) in zip(table, table[1:]):\n        if lo <= nm < hi:\n            return name\nfor nm in [350, 400, 470, 520, 570, 610, 700, 900]:\n    f = 3e8 / (nm * 1e-9)\n    print(f\"{nm}nm: {wavelength_to_color(nm)}  周波数 {f:.2e} Hz\")"
+ },
+ {
+  "id": "color-eye-structure",
+  "steps": [
+   "① 入力: 外界からの光",
+   "② 角膜（屈折力の約2/3）と水晶体で屈折し、網膜上に倒立像を作る。近くを見るときは毛様体筋で水晶体を厚くしてピントを合わせる",
+   "③ 虹彩が瞳孔の大きさ（約2〜8mm）を変えて光量を調節（面積で約16倍の範囲）",
+   "④ 網膜の視細胞（錐体約600万・桿体約1億2000万）が光を電気信号に変換し、双極細胞・神経節細胞を経て視神経で脳へ",
+   "⑤ 出力: 視覚野で処理され、色・形・動きとして知覚される"
+  ],
+  "example": "眼の焦点距離は約17mm。1m先の高さ10cmの物体の網膜像は 17×100/1000 = 1.7mm。瞳孔2mm→8mmで光量は (8/2)² = 16倍",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 135' width='320' height='135' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='150' cy='75' r='60' fill='#fafafa' stroke='#555' stroke-width='1.5'/><path d='M93,55 Q85,75 93,95' fill='none' stroke='#1565c0' stroke-width='2.5'/><text x='80' y='40' font-size='9' fill='#1565c0' text-anchor='middle'>角膜</text><path d='M110,58 Q100,75 110,92 Q120,75 110,58 Z' fill='#d7ccc8' stroke='#6d4c41' stroke-width='1.2'/><text x='110' y='118' font-size='9' fill='#6d4c41' text-anchor='middle'>水晶体</text><line x1='100' y1='55' x2='100' y2='63' stroke='#333' stroke-width='3'/><line x1='100' y1='87' x2='100' y2='95' stroke='#333' stroke-width='3'/><text x='100' y='50' font-size='8' fill='#333' text-anchor='middle'>虹彩</text><path d='M180,22 A60,60 0 0 1 180,128' fill='none' stroke='#c62828' stroke-width='3'/><text x='230' y='30' font-size='9' fill='#c62828' text-anchor='start'>網膜</text><circle cx='209' cy='75' r='3' fill='#ef6c00' stroke='none' stroke-width='1'/><text x='222' y='72' font-size='9' fill='#ef6c00' text-anchor='start'>中心窩</text><line x1='205' y1='95' x2='240' y2='105' stroke='#ff9800' stroke-width='4'/><text x='245' y='110' font-size='9' fill='#e65100' text-anchor='start'>視神経(盲点)</text><line x1='20' y1='60' x2='93' y2='62' stroke='#fdd835' stroke-width='1.2'/><line x1='20' y1='90' x2='93' y2='88' stroke='#fdd835' stroke-width='1.2'/><line x1='110' y1='62' x2='209' y2='76' stroke='#fdd835' stroke-width='1.2'/><line x1='110' y1='88' x2='209' y2='74' stroke='#fdd835' stroke-width='1.2'/><text x='150' y='75' font-size='9' fill='#888' text-anchor='middle'>硝子体</text></svg>",
+    "caption": "眼球の断面: 角膜と水晶体で網膜上に倒立像を結ぶ（カメラのレンズとセンサに相当）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "眼",
+     "カメラ",
+     "はたらき"
+    ],
+    "rows": [
+     [
+      "角膜・水晶体",
+      "レンズ",
+      "結像（水晶体の厚みでピント調節）"
+     ],
+     [
+      "虹彩・瞳孔",
+      "絞り",
+      "瞳孔径 約2〜8mmで光量調節"
+     ],
+     [
+      "網膜",
+      "撮像素子",
+      "視細胞で光→神経信号"
+     ],
+     [
+      "錐体/桿体",
+      "画素",
+      "明所・色 / 暗所・高感度"
+     ],
+     [
+      "視神経",
+      "信号線",
+      "脳（視覚野）へ伝える"
+     ]
+    ],
+    "caption": "眼とカメラの対応"
+   }
+  ]
+ },
+ {
+  "id": "color-fovea",
+  "steps": [
+   "① 入力: 視線を向けた（注視した）点からの光",
+   "② その像は網膜の中心窩（直径約1.5mm、視角約5°のくぼみ）に結ばれる",
+   "③ 中心窩には錐体が最も密に（約15万個/mm²）並び、桿体がない。上を覆う神経層も押しのけられている",
+   "④ 錐体1個に神経節細胞が1対1でつながり、細かい情報がそのまま伝わる → 最も高い視力と色の識別",
+   "⑤ 出力: 注視点だけがくっきり見え、周辺視は解像度が低い。暗い星は中心窩に桿体がないので、少し視線を外すと見える"
+  ],
+  "example": "視力1.0は視角1分（1/60°）を分解。中心窩の錐体間隔約2.5µmは、眼の焦点距離17mmで 2.5/17000 rad ≒ 0.5分 に相当（2個で1サイクル→約1分）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='30' y1='107' x2='310' y2='107' stroke='#333' stroke-width='1'/><line x1='30' y1='12' x2='30' y2='107' stroke='#333' stroke-width='1'/><text x='310' y='129' font-size='9' fill='#333' text-anchor='end'>中心窩からの角度[°]</text><text x='32' y='8' font-size='9' fill='#333' text-anchor='start'>密度(千個/mm²)</text><line x1='50' y1='107' x2='50' y2='110' stroke='#333' stroke-width='1.2'/><text x='50' y='119' font-size='8' fill='#555' text-anchor='middle'>-60</text><line x1='130' y1='107' x2='130' y2='110' stroke='#333' stroke-width='1.2'/><text x='130' y='119' font-size='8' fill='#555' text-anchor='middle'>-20</text><line x1='170' y1='107' x2='170' y2='110' stroke='#333' stroke-width='1.2'/><text x='170' y='119' font-size='8' fill='#555' text-anchor='middle'>0</text><line x1='210' y1='107' x2='210' y2='110' stroke='#333' stroke-width='1.2'/><text x='210' y='119' font-size='8' fill='#555' text-anchor='middle'>20</text><line x1='290' y1='107' x2='290' y2='110' stroke='#333' stroke-width='1.2'/><text x='290' y='119' font-size='8' fill='#555' text-anchor='middle'>60</text><line x1='27' y1='107' x2='30' y2='107' stroke='#333' stroke-width='1.2'/><text x='25' y='110' font-size='8' fill='#555' text-anchor='end'>0</text><line x1='27' y1='62.3' x2='30' y2='62.3' stroke='#333' stroke-width='1.2'/><text x='25' y='65.3' font-size='8' fill='#555' text-anchor='end'>80</text><line x1='27' y1='17.6' x2='30' y2='17.6' stroke='#333' stroke-width='1.2'/><text x='25' y='20.6' font-size='8' fill='#555' text-anchor='end'>160</text><polyline points='30,103.6 32,103.6 34,103.6 36,103.6 38,103.6 40,103.6 42,103.6 44,103.6 46,103.6 48,103.6 50,103.6 52,103.6 54,103.6 56,103.6 58,103.6 60,103.6 62,103.6 64,103.6 66,103.6 68,103.6 70,103.6 72,103.6 74,103.6 76,103.6 78,103.6 80,103.6 82,103.6 84,103.6 86,103.6 88,103.6 90,103.6 92,103.6 94,103.6 96,103.6 98,103.6 100,103.6 102,103.6 104,103.6 106,103.6 108,103.6 110,103.6 112,103.6 114,103.6 116,103.6 118,103.6 120,103.6 122,103.6 124,103.6 126,103.6 128,103.6 130,103.6 132,103.6 134,103.6 136,103.6 138,103.6 140,103.6 142,103.6 144,103.5 146,103.4 148,103.3 150,103.1 152,102.7 154,102.1 156,101.1 158,99.5 160,96.8 162,92.3 164,84.9 166,72.8 168,52.8 170,19.8 172,52.8 174,72.8 176,84.9 178,92.3 180,96.8 182,99.5 184,101.1 186,102.1 188,102.7 190,103.1 192,103.3 194,103.4 196,103.5 198,103.6 200,103.6 202,103.6 204,103.6 206,103.6 208,103.6 210,103.6 212,103.6 214,103.6 216,103.6 218,103.6 220,103.6 222,103.6 224,103.6 226,103.6 228,103.6 230,103.6 232,103.6 234,103.6 236,103.6 238,103.6 240,103.6 242,103.6 244,103.6 246,103.6 248,103.6 250,103.6 252,103.6 254,103.6 256,103.6 258,103.6 260,103.6 262,103.6 264,103.6 266,103.6 268,103.6 270,103.6 272,103.6 274,103.6 276,103.6 278,103.6 280,103.6 282,103.6 284,103.6 286,103.6 288,103.6 290,103.6 292,103.6 294,103.6 296,103.6 298,103.6 300,103.6 302,103.6 304,103.6 306,103.6 308,103.6 310,103.6' fill='none' stroke='#ef6c00' stroke-width='1.8'/><polyline points='30,106.7 32,106.6 34,106.5 36,106.4 38,106.2 40,106.1 42,105.9 44,105.6 46,105.4 48,105 50,104.7 52,104.2 54,103.7 56,103.1 58,102.5 60,101.7 62,100.9 64,99.9 66,98.8 68,97.6 70,96.2 72,94.7 74,93.1 76,91.3 78,89.3 80,87.2 82,84.9 84,82.4 86,79.8 88,77 90,74.1 92,71.1 94,67.9 96,64.6 98,61.2 100,57.8 102,54.3 104,50.8 106,47.4 108,43.9 110,40.6 112,37.4 114,34.3 116,31.4 118,28.7 120,26.2 122,24 124,22.1 126,20.5 128,19.2 130,18.3 132,17.8 134,17.6 136,17.8 138,18.3 140,19.2 142,20.5 144,22.1 146,24 148,26.2 150,28.7 152,31.4 154,34.3 156,37.4 158,40.6 160,43.9 162,47.4 164,50.8 166,54.3 168,107 170,107 172,107 174,54.3 176,50.8 178,47.4 180,43.9 182,40.6 184,37.4 186,34.3 188,31.4 190,28.7 192,26.2 194,24 196,22.1 198,107 200,107 202,107 204,107 206,17.6 208,17.8 210,18.3 212,19.2 214,20.5 216,22.1 218,24 220,26.2 222,28.7 224,31.4 226,34.3 228,37.4 230,40.6 232,43.9 234,47.4 236,50.8 238,54.3 240,57.8 242,61.2 244,64.6 246,67.9 248,71.1 250,74.1 252,77 254,79.8 256,82.4 258,84.9 260,87.2 262,89.3 264,91.3 266,93.1 268,94.7 270,96.2 272,97.6 274,98.8 276,99.9 278,100.9 280,101.7 282,102.5 284,103.1 286,103.7 288,104.2 290,104.7 292,105 294,105.4 296,105.6 298,105.9 300,106.1 302,106.2 304,106.4 306,106.5 308,106.6 310,106.7' fill='none' stroke='#1565c0' stroke-width='1.8'/><text x='180' y='30' font-size='9' fill='#ef6c00' text-anchor='start'>錐体</text><text x='240' y='40' font-size='9' fill='#1565c0' text-anchor='start'>桿体</text><text x='200' y='118' font-size='8' fill='#555' text-anchor='middle'>盲点</text></svg>",
+    "caption": "網膜上の視細胞の密度（概形）。中心窩は錐体が密集し桿体がない"
+   }
+  ],
+  "code": "import numpy as np\nf_eye = 17e-3                          # 眼の焦点距離 [m]\ncone_pitch = 2.5e-6                    # 中心窩の錐体間隔 [m]\nangle_min = np.degrees(cone_pitch / f_eye) * 60\nprint(f\"錐体1個の視角: {angle_min:.2f} 分\")\nprint(f\"ナイキスト限界（2個で1サイクル）の分離角: {2*angle_min:.2f} 分 -> 視力 {1/(2*angle_min):.2f}\")\n# 中心窩の大きさ（直径1.5mm）を視角に\nprint(\"中心窩の視角:\", round(np.degrees(1.5e-3 / f_eye), 1), \"°\")"
+ },
+ {
+  "id": "color-blind-spot",
+  "steps": [
+   "① 入力: 視野内の注視点から耳側に約15°の位置にある物体",
+   "② その像は網膜上で中心窩から鼻側約15°の視神経乳頭（直径約1.5mm）に落ちる",
+   "③ 視神経乳頭は神経線維と血管が束になって眼球を出る場所で、視細胞がない → 光を感じない",
+   "④ 普段は両眼で互いの盲点を補い、さらに脳が周囲の模様で穴を埋める（充填）ので気づかない",
+   "⑤ 出力: 片眼で見ると、特定の位置の物体が消えて周囲の背景で埋められる"
+  ],
+  "example": "盲点の大きさ: 直径1.5mm ÷ 眼の焦点距離17mm ≒ 0.088rad ≒ 5°。50cm先なら直径約4.4cmの円が見えない",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 120' width='330' height='120' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><text x='60' y='60' font-size='30' fill='#222' text-anchor='middle'>＋</text><circle cx='250' cy='50' r='12' fill='#222' stroke='none' stroke-width='1'/><text x='165' y='100' font-size='9' fill='#333' text-anchor='middle'>左目を閉じ、右目で＋を見つめながら画面に近づける</text><text x='165' y='114' font-size='9' fill='#c62828' text-anchor='middle'>→ ある距離で黒丸が消える（盲点に入る）</text></svg>",
+    "caption": "盲点の体験: 右目で＋を注視すると、約15°右の黒丸が見えなくなる位置がある"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 125' width='330' height='125' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='90' cy='65' r='55' fill='#fafafa' stroke='#555' stroke-width='1.2'/><path d='M120,15 A55,55 0 0 1 120,115' fill='none' stroke='#c62828' stroke-width='3'/><circle cx='144' cy='62' r='3' fill='#ef6c00' stroke='none' stroke-width='1'/><text x='150' y='50' font-size='8' fill='#ef6c00' text-anchor='start'>中心窩</text><line x1='140' y1='80' x2='190' y2='95' stroke='#ff9800' stroke-width='6'/><text x='195' y='99' font-size='9' fill='#e65100' text-anchor='start'>視神経乳頭＝盲点</text><text x='195' y='112' font-size='8' fill='#e65100' text-anchor='start'>（視細胞がない）</text><text x='195' y='62' font-size='9' fill='#333' text-anchor='start'>中心窩から鼻側に約15°</text></svg>",
+    "caption": "視神経が眼球を出ていく所には視細胞がない（右目の上から見た模式図）"
+   }
+  ],
+  "code": "import numpy as np\nf_eye = 17.0                                   # 眼の焦点距離 [mm]\nd_disc = 1.5                                   # 視神経乳頭の直径 [mm]\nang = np.degrees(d_disc / f_eye)               # 盲点の視角\nprint(f\"盲点の視角: {ang:.1f}°\")\nfor dist in [300, 500, 1000]:                  # 見ている距離 [mm]\n    print(f\"{dist}mm 先で見えない円の直径: {dist * d_disc / f_eye:.0f} mm,\"\n          f\" 注視点から {dist * np.tan(np.radians(15)):.0f} mm 横\")"
+ },
+ {
+  "id": "color-cone",
+  "steps": [
+   "① 入力: 網膜に届いた光の分光分布",
+   "② L（長波長・ピーク約564nm）、M（中波長・約534nm）、S（短波長・約420nm）の3種の錐体が、それぞれ自分の感度曲線で重み付けして光を吸収",
+   "③ 各錐体の応答 = Σ 光の強さ(λ) × 感度(λ)。1種類の錐体は「どの波長か」は区別できず、応答の大きさだけを出す",
+   "④ 3つの応答の比（L:M:S）で色が、合計でおおよその明るさが決まる",
+   "⑤ 出力: 明所での色覚。数は L:M:S ≒ 10:5:1 程度でS錐体は少なく、中心窩の最中心にはS錐体がほとんどない"
+  ],
+  "example": "600nmの単色光: L=0.69, M=0.22, S=0.00（近似）→ L>M でオレンジ色に見える。530nm: L=0.72, M=0.99 → M優位で緑",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='35' y1='107' x2='305' y2='107' stroke='#333' stroke-width='1'/><line x1='35' y1='12' x2='35' y2='107' stroke='#333' stroke-width='1'/><text x='305' y='129' font-size='9' fill='#333' text-anchor='end'>波長[nm]</text><text x='37' y='8' font-size='9' fill='#333' text-anchor='start'>相対感度</text><line x1='48.5' y1='107' x2='48.5' y2='110' stroke='#333' stroke-width='1.2'/><text x='48.5' y='119' font-size='8' fill='#555' text-anchor='middle'>400</text><line x1='116' y1='107' x2='116' y2='110' stroke='#333' stroke-width='1.2'/><text x='116' y='119' font-size='8' fill='#555' text-anchor='middle'>500</text><line x1='183.5' y1='107' x2='183.5' y2='110' stroke='#333' stroke-width='1.2'/><text x='183.5' y='119' font-size='8' fill='#555' text-anchor='middle'>600</text><line x1='251' y1='107' x2='251' y2='110' stroke='#333' stroke-width='1.2'/><text x='251' y='119' font-size='8' fill='#555' text-anchor='middle'>700</text><line x1='32' y1='107' x2='35' y2='107' stroke='#333' stroke-width='1.2'/><text x='30' y='110' font-size='8' fill='#555' text-anchor='end'>0</text><line x1='32' y1='61.8' x2='35' y2='61.8' stroke='#333' stroke-width='1.2'/><text x='30' y='64.8' font-size='8' fill='#555' text-anchor='end'>0.5</text><line x1='32' y1='16.5' x2='35' y2='16.5' stroke='#333' stroke-width='1.2'/><text x='30' y='19.5' font-size='8' fill='#555' text-anchor='end'>1</text><polyline points='35,79.3 38.4,70.4 41.8,60.5 45.1,50 48.5,39.7 51.9,30.4 55.2,23 58.6,18.2 62,16.5 65.4,18.2 68.8,23 72.1,30.4 75.5,39.7 78.9,50 82.2,60.5 85.6,70.4 89,79.3 92.4,86.8 95.8,92.8 99.1,97.3 102.5,100.7 105.9,103 109.2,104.6 112.6,105.6 116,106.2 119.4,106.6 122.8,106.8 126.1,106.9 129.5,106.9 132.9,107 136.2,107 139.6,107 143,107 146.4,107 149.8,107 153.1,107 156.5,107 159.9,107 163.2,107 166.6,107 170,107 173.4,107 176.8,107 180.1,107 183.5,107 186.9,107 190.2,107 193.6,107 197,107 200.4,107 203.8,107 207.1,107 210.5,107 213.9,107 217.2,107 220.6,107 224,107 227.4,107 230.8,107 234.1,107 237.5,107 240.9,107 244.2,107 247.6,107 251,107 254.4,107 257.8,107 261.1,107 264.5,107 267.9,107 271.2,107 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#1565c0' stroke-width='2'/><polyline points='35,107 38.4,107 41.8,106.9 45.1,106.9 48.5,106.8 51.9,106.7 55.2,106.6 58.6,106.3 62,106 65.4,105.5 68.8,104.9 72.1,104 75.5,102.8 78.9,101.2 82.2,99.1 85.6,96.6 89,93.4 92.4,89.6 95.8,85.1 99.1,79.9 102.5,74 105.9,67.6 109.2,60.7 112.6,53.6 116,46.4 119.4,39.4 122.8,32.9 126.1,27.2 129.5,22.5 132.9,19 136.2,17 139.6,16.6 143,17.6 146.4,20.2 149.8,24.2 153.1,29.3 156.5,35.4 159.9,42.1 163.2,49.2 166.6,56.4 170,63.5 173.4,70.2 176.8,76.5 180.1,82.1 183.5,87 186.9,91.2 190.2,94.8 193.6,97.7 197,100 200.4,101.9 203.8,103.3 207.1,104.4 210.5,105.2 213.9,105.7 217.2,106.1 220.6,106.4 224,106.6 227.4,106.8 230.8,106.9 234.1,106.9 237.5,106.9 240.9,107 244.2,107 247.6,107 251,107 254.4,107 257.8,107 261.1,107 264.5,107 267.9,107 271.2,107 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#2e7d32' stroke-width='2'/><polyline points='35,107 38.4,107 41.8,107 45.1,107 48.5,107 51.9,106.9 55.2,106.9 58.6,106.8 62,106.7 65.4,106.6 68.8,106.4 72.1,106.2 75.5,105.8 78.9,105.4 82.2,104.7 85.6,103.9 89,102.8 92.4,101.4 95.8,99.6 99.1,97.4 102.5,94.8 105.9,91.6 109.2,87.8 112.6,83.5 116,78.7 119.4,73.3 122.8,67.4 126.1,61.2 129.5,54.7 132.9,48.2 136.2,41.8 139.6,35.7 143,30.2 146.4,25.3 149.8,21.4 153.1,18.6 156.5,16.9 159.9,16.5 163.2,17.4 166.6,19.6 170,22.9 173.4,27.2 176.8,32.3 180.1,38.1 183.5,44.3 186.9,50.8 190.2,57.3 193.6,63.7 197,69.8 200.4,75.5 203.8,80.7 207.1,85.3 210.5,89.4 213.9,92.9 217.2,95.9 220.6,98.3 224,100.4 227.4,102 230.8,103.3 234.1,104.2 237.5,105 240.9,105.6 244.2,106 247.6,106.3 251,106.5 254.4,106.7 257.8,106.8 261.1,106.9 264.5,106.9 267.9,106.9 271.2,107 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#c62828' stroke-width='2'/><text x='62' y='9' font-size='9' fill='#1565c0' text-anchor='middle'>S(420)</text><text x='129.5' y='9' font-size='9' fill='#2e7d32' text-anchor='middle'>M(534)</text><text x='183.5' y='9' font-size='9' fill='#c62828' text-anchor='middle'>L(564)</text></svg>",
+    "caption": "3種類の錐体の分光感度（ピーク波長付近をガウス近似した概形）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "単色光",
+     "L応答",
+     "M応答",
+     "S応答"
+    ],
+    "rows": [
+     [
+      "450nm",
+      "0.03",
+      "0.09",
+      "0.51"
+     ],
+     [
+      "530nm",
+      "0.72",
+      "0.99",
+      "0.00"
+     ],
+     [
+      "600nm",
+      "0.69",
+      "0.22",
+      "0.00"
+     ]
+    ],
+    "caption": "色は3つの応答の比で決まる（600nm→LがMよりかなり大きい→橙〜赤）"
+   }
+  ],
+  "code": "import numpy as np\nlam = np.arange(380, 781, 5)\ndef sens(peak, width):                        # 錐体の感度（ガウス近似）\n    return np.exp(-0.5 * ((lam - peak) / width) ** 2)\nL, M, S = sens(564, 42), sens(534, 38), sens(420, 26)\ndef cone_response(spectrum):\n    return [float(np.sum(spectrum * c)) for c in (L, M, S)]   # Σ 光×感度\nmono600 = (lam == 600).astype(float)          # 600nmの単色光\nwhite = np.ones_like(lam, float)              # 等エネルギー白色\nfor name, sp in [(\"600nm\", mono600), (\"白色\", white)]:\n    r = np.array(cone_response(sp)); print(name, \"L:M:S =\", (r / r.max()).round(2))"
+ },
+ {
+  "id": "color-rod",
+  "steps": [
+   "① 入力: 暗い環境の弱い光（月明かり・星明かり）",
+   "② 桿体の視物質ロドプシンが光子を吸収して分解し、電気信号が生じる。1光子でも反応できるほど高感度",
+   "③ 多数の桿体の信号が1つの神経節細胞にまとめられる（加算）ので感度は高いが、解像度は低い",
+   "④ 桿体は1種類しかないので、波長の違いを比べられず色の区別ができない",
+   "⑤ 出力: 暗所での白黒の視覚（暗所視）。明るい所ではロドプシンが分解しきって働かない（飽和）"
+  ],
+  "example": "桿体の感度ピーク507nm。650nmの赤い光への感度はピークの約1/1000以下 → 暗室の赤色灯は暗順応（桿体）を妨げにくい",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "項目",
+     "錐体",
+     "桿体"
+    ],
+    "rows": [
+     [
+      "数",
+      "約600万",
+      "約1億2000万"
+     ],
+     [
+      "分布",
+      "中心窩に密集",
+      "周辺に多い（中心窩にはない）"
+     ],
+     [
+      "感度",
+      "低い（明所）",
+      "高い（錐体の約100〜1000倍）"
+     ],
+     [
+      "色の区別",
+      "できる（3種類）",
+      "できない（1種類）"
+     ],
+     [
+      "ピーク波長",
+      "555nm（明所視全体）",
+      "507nm"
+     ],
+     [
+      "視物質",
+      "フォトプシン",
+      "ロドプシン"
+     ]
+    ],
+    "caption": "錐体と桿体の比較"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='35' y1='107' x2='305' y2='107' stroke='#333' stroke-width='1'/><line x1='35' y1='12' x2='35' y2='107' stroke='#333' stroke-width='1'/><text x='305' y='129' font-size='9' fill='#333' text-anchor='end'>波長[nm]</text><text x='37' y='8' font-size='9' fill='#333' text-anchor='start'>相対感度</text><line x1='48.5' y1='107' x2='48.5' y2='110' stroke='#333' stroke-width='1.2'/><text x='48.5' y='119' font-size='8' fill='#555' text-anchor='middle'>400</text><line x1='116' y1='107' x2='116' y2='110' stroke='#333' stroke-width='1.2'/><text x='116' y='119' font-size='8' fill='#555' text-anchor='middle'>500</text><line x1='183.5' y1='107' x2='183.5' y2='110' stroke='#333' stroke-width='1.2'/><text x='183.5' y='119' font-size='8' fill='#555' text-anchor='middle'>600</text><line x1='251' y1='107' x2='251' y2='110' stroke='#333' stroke-width='1.2'/><text x='251' y='119' font-size='8' fill='#555' text-anchor='middle'>700</text><line x1='32' y1='107' x2='35' y2='107' stroke='#333' stroke-width='1.2'/><text x='30' y='110' font-size='8' fill='#555' text-anchor='end'>0</text><line x1='32' y1='16.5' x2='35' y2='16.5' stroke='#333' stroke-width='1.2'/><text x='30' y='19.5' font-size='8' fill='#555' text-anchor='end'>1</text><polyline points='35,106.5 38.4,106.2 41.8,105.9 45.1,105.4 48.5,104.7 51.9,103.8 55.2,102.6 58.6,101.1 62,99.1 65.4,96.6 68.8,93.6 72.1,89.9 75.5,85.7 78.9,80.7 82.2,75.2 85.6,69.1 89,62.6 92.4,55.7 95.8,48.8 99.1,41.9 102.5,35.4 105.9,29.6 109.2,24.6 112.6,20.6 116,17.9 119.4,16.6 122.8,16.8 126.1,18.4 129.5,21.3 132.9,25.5 136.2,30.7 139.6,36.7 143,43.3 146.4,50.2 149.8,57.1 153.1,63.9 156.5,70.4 159.9,76.4 163.2,81.8 166.6,86.6 170,90.7 173.4,94.2 176.8,97.1 180.1,99.5 183.5,101.4 186.9,102.9 190.2,104 193.6,104.9 197,105.5 200.4,106 203.8,106.3 207.1,106.5 210.5,106.7 213.9,106.8 217.2,106.9 220.6,106.9 224,107 227.4,107 230.8,107 234.1,107 237.5,107 240.9,107 244.2,107 247.6,107 251,107 254.4,107 257.8,107 261.1,107 264.5,107 267.9,107 271.2,107 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#1565c0' stroke-width='2'/><polyline points='35,107 38.4,107 41.8,107 45.1,107 48.5,107 51.9,106.9 55.2,106.8 58.6,106.7 62,106.6 65.4,106.2 68.8,105.8 72.1,105.3 75.5,104.9 78.9,104.1 82.2,103.2 85.6,102.4 89,101.6 92.4,99.8 95.8,98 99.1,96.2 102.5,94.4 105.9,90.3 109.2,86.1 112.6,81.9 116,77.8 119.4,69 122.8,60.3 126.1,51.5 129.5,42.8 132.9,37.2 136.2,31.7 139.6,26.2 143,20.7 146.4,19.8 149.8,18.8 153.1,17.9 156.5,17 159.9,19.8 163.2,22.6 166.6,25.5 170,28.3 173.4,33.7 176.8,39.1 180.1,44.5 183.5,49.9 186.9,55.6 190.2,61.2 193.6,66.9 197,72.5 200.4,77.2 203.8,81.8 207.1,86.5 210.5,91.2 213.9,93.7 217.2,96.3 220.6,98.9 224,101.5 227.4,102.5 230.8,103.5 234.1,104.5 237.5,105.5 240.9,105.8 244.2,106 247.6,106.3 251,106.6 254.4,106.7 257.8,106.8 261.1,106.8 264.5,106.9 267.9,106.9 271.2,106.9 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#ef6c00' stroke-width='2' stroke-dasharray='4 2'/><text x='135' y='25' font-size='9' fill='#1565c0' text-anchor='end'>桿体(暗所視)507nm</text><text x='205' y='25' font-size='9' fill='#ef6c00' text-anchor='start'>明所視555nm</text></svg>",
+    "caption": "桿体の感度は短波長寄り（青緑）。赤（650nm以上）にはほとんど反応しない"
+   }
+  ],
+  "code": "import numpy as np\nlam = np.arange(400, 701, 50)\nV_scotopic = np.exp(-321.9 * (lam / 1000 - 0.507) ** 2)   # 桿体（暗所視）感度の近似\nV_photopic = np.exp(-285.4 * (lam / 1000 - 0.555) ** 2)   # 明所視感度の近似\nfor l, s, p in zip(lam, V_scotopic, V_photopic):\n    print(f\"{l}nm: 桿体{s:.3f}  明所視{p:.3f}\")\n# 桿体は1種類 → 異なる波長でも強さを調整すれば同じ応答（色の区別不可）\nprint(\"500nm光と強さ\", round(V_scotopic[2] / V_scotopic[1], 2), \"倍の450nm光は桿体には同じ\")"
+ },
+ {
+  "id": "color-photopic-scotopic",
+  "steps": [
+   "① 入力: 環境の明るさ（輝度）",
+   "② 約3cd/m²以上（室内・屋外）: 錐体が働く明所視。色が分かり解像度が高い、感度ピーク555nm",
+   "③ 約0.001cd/m²以下（星明かり）: 桿体だけが働く暗所視。色が分からず解像度も低い、感度ピーク507nm",
+   "④ その中間（夕暮れ・月夜）: 錐体と桿体が両方働く薄明視。色はぼんやり分かる",
+   "⑤ 出力: 明るさに応じて切り替わる視覚特性。夕暮れの運転は薄明視で色・距離の判断が不確かになりやすい"
+  ],
+  "example": "同じ放射量の 500nm と 600nm の光: 明所視では V(500)≒0.32、V(600)≒0.63 で赤の方が約2倍明るい。暗所視では V'(500)≒0.98、V'(600)≒0.05 で青緑が圧倒的に明るい",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 108' width='330' height='108' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='20' y='30' width='72.5' height='24' fill='#1565c0' stroke='none' stroke-width='0' rx='0' fill-opacity='0.25'/><text x='56.2' y='46' font-size='10' fill='#1565c0' text-anchor='middle' font-weight='bold'>暗所視</text><rect x='92.5' y='30' width='84' height='24' fill='#6a1b9a' stroke='none' stroke-width='0' rx='0' fill-opacity='0.25'/><text x='134.5' y='46' font-size='10' fill='#6a1b9a' text-anchor='middle' font-weight='bold'>薄明視</text><rect x='176.5' y='30' width='133.5' height='24' fill='#ef6c00' stroke='none' stroke-width='0' rx='0' fill-opacity='0.25'/><text x='243.3' y='46' font-size='10' fill='#ef6c00' text-anchor='middle' font-weight='bold'>明所視</text><line x1='20' y1='54' x2='20' y2='60' stroke='#333' stroke-width='1.2'/><text x='20' y='70' font-size='8' fill='#333' text-anchor='middle'>10⁻⁶</text><line x1='92.5' y1='54' x2='92.5' y2='60' stroke='#333' stroke-width='1.2'/><text x='92.5' y='70' font-size='8' fill='#333' text-anchor='middle'>10⁻³</text><line x1='165' y1='54' x2='165' y2='60' stroke='#333' stroke-width='1.2'/><text x='165' y='70' font-size='8' fill='#333' text-anchor='middle'>1</text><line x1='237.5' y1='54' x2='237.5' y2='60' stroke='#333' stroke-width='1.2'/><text x='237.5' y='70' font-size='8' fill='#333' text-anchor='middle'>10³</text><line x1='310' y1='54' x2='310' y2='60' stroke='#333' stroke-width='1.2'/><text x='310' y='70' font-size='8' fill='#333' text-anchor='middle'>10⁶</text><text x='165' y='84' font-size='9' fill='#333' text-anchor='middle'>輝度 [cd/m²]</text><text x='68.3' y='22' font-size='8' fill='#555' text-anchor='middle'>星空</text><text x='140.8' y='22' font-size='8' fill='#555' text-anchor='middle'>月夜・夕暮れ</text><text x='213.3' y='22' font-size='8' fill='#555' text-anchor='middle'>室内</text><text x='285.8' y='22' font-size='8' fill='#555' text-anchor='middle'>晴天屋外</text><text x='20' y='100' font-size='9' fill='#333' text-anchor='start'>暗所視=桿体のみ(色なし)、薄明視=両方、明所視=錐体(色あり・高解像)</text></svg>",
+    "caption": "明るさの範囲と働く視細胞"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='35' y1='107' x2='305' y2='107' stroke='#333' stroke-width='1'/><line x1='35' y1='12' x2='35' y2='107' stroke='#333' stroke-width='1'/><text x='305' y='129' font-size='9' fill='#333' text-anchor='end'>波長[nm]</text><text x='37' y='8' font-size='9' fill='#333' text-anchor='start'>比視感度</text><line x1='48.5' y1='107' x2='48.5' y2='110' stroke='#333' stroke-width='1.2'/><text x='48.5' y='119' font-size='8' fill='#555' text-anchor='middle'>400</text><line x1='120.7' y1='107' x2='120.7' y2='110' stroke='#333' stroke-width='1.2'/><text x='120.7' y='119' font-size='8' fill='#555' text-anchor='middle'>507</text><line x1='153.1' y1='107' x2='153.1' y2='110' stroke='#333' stroke-width='1.2'/><text x='153.1' y='119' font-size='8' fill='#555' text-anchor='middle'>555</text><line x1='251' y1='107' x2='251' y2='110' stroke='#333' stroke-width='1.2'/><text x='251' y='119' font-size='8' fill='#555' text-anchor='middle'>700</text><line x1='32' y1='107' x2='35' y2='107' stroke='#333' stroke-width='1.2'/><text x='30' y='110' font-size='8' fill='#555' text-anchor='end'>0</text><line x1='32' y1='16.5' x2='35' y2='16.5' stroke='#333' stroke-width='1.2'/><text x='30' y='19.5' font-size='8' fill='#555' text-anchor='end'>1</text><polyline points='35,107 38.4,107 41.8,107 45.1,107 48.5,107 51.9,106.9 55.2,106.8 58.6,106.7 62,106.6 65.4,106.2 68.8,105.8 72.1,105.3 75.5,104.9 78.9,104.1 82.2,103.2 85.6,102.4 89,101.6 92.4,99.8 95.8,98 99.1,96.2 102.5,94.4 105.9,90.3 109.2,86.1 112.6,81.9 116,77.8 119.4,69 122.8,60.3 126.1,51.5 129.5,42.8 132.9,37.2 136.2,31.7 139.6,26.2 143,20.7 146.4,19.8 149.8,18.8 153.1,17.9 156.5,17 159.9,19.8 163.2,22.6 166.6,25.5 170,28.3 173.4,33.7 176.8,39.1 180.1,44.5 183.5,49.9 186.9,55.6 190.2,61.2 193.6,66.9 197,72.5 200.4,77.2 203.8,81.8 207.1,86.5 210.5,91.2 213.9,93.7 217.2,96.3 220.6,98.9 224,101.5 227.4,102.5 230.8,103.5 234.1,104.5 237.5,105.5 240.9,105.8 244.2,106 247.6,106.3 251,106.6 254.4,106.7 257.8,106.8 261.1,106.8 264.5,106.9 267.9,106.9 271.2,106.9 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#ef6c00' stroke-width='2'/><polyline points='35,106.5 38.4,106.2 41.8,105.9 45.1,105.4 48.5,104.7 51.9,103.8 55.2,102.6 58.6,101.1 62,99.1 65.4,96.6 68.8,93.6 72.1,89.9 75.5,85.7 78.9,80.7 82.2,75.2 85.6,69.1 89,62.6 92.4,55.7 95.8,48.8 99.1,41.9 102.5,35.4 105.9,29.6 109.2,24.6 112.6,20.6 116,17.9 119.4,16.6 122.8,16.8 126.1,18.4 129.5,21.3 132.9,25.5 136.2,30.7 139.6,36.7 143,43.3 146.4,50.2 149.8,57.1 153.1,63.9 156.5,70.4 159.9,76.4 163.2,81.8 166.6,86.6 170,90.7 173.4,94.2 176.8,97.1 180.1,99.5 183.5,101.4 186.9,102.9 190.2,104 193.6,104.9 197,105.5 200.4,106 203.8,106.3 207.1,106.5 210.5,106.7 213.9,106.8 217.2,106.9 220.6,106.9 224,107 227.4,107 230.8,107 234.1,107 237.5,107 240.9,107 244.2,107 247.6,107 251,107 254.4,107 257.8,107 261.1,107 264.5,107 267.9,107 271.2,107 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#1565c0' stroke-width='2'/><text x='80' y='30' font-size='9' fill='#1565c0' text-anchor='start'>暗所視V'(λ)</text><text x='220' y='30' font-size='9' fill='#ef6c00' text-anchor='start'>明所視V(λ)</text></svg>",
+    "caption": "暗所視では感度のピークが555nm→507nmへ短波長側に移る（プルキンエ現象の原因）"
+   }
+  ],
+  "code": "import numpy as np\ndef V_photopic(l):  return np.exp(-285.4 * (l / 1000 - 0.555) ** 2)\ndef V_scotopic(l):  return np.exp(-321.9 * (l / 1000 - 0.507) ** 2)\ndef vision_mode(cd_m2):\n    if cd_m2 >= 3:     return \"明所視（錐体）\"\n    if cd_m2 <= 1e-3:  return \"暗所視（桿体）\"\n    return \"薄明視（両方）\"\nfor L in [1e5, 100, 0.1, 1e-4]:\n    print(f\"{L:g} cd/m2 -> {vision_mode(L)}\")\nfor l in [500, 600]:\n    print(f\"{l}nm: 明所 {V_photopic(l):.2f} / 暗所 {V_scotopic(l):.2f}\")"
+ },
+ {
+  "id": "color-luminous-efficiency",
+  "steps": [
+   "① 入力: 光の分光放射束 Φe(λ)（物理的なエネルギー[W]）",
+   "② 波長ごとに比視感度 V(λ)（555nmで1）を掛ける＝人の目の感じやすさで重み付け",
+   "③ 全波長で積分し、最大視感効果度 Km=683 lm/W を掛けると光束 Φv[lm]（人が感じる明るさの量）",
+   "④ 暗所視では V'(λ)（ピーク507nm、Km'=1700 lm/W）を使う",
+   "⑤ 出力: 測光量（光束・照度・輝度）。カメラの輝度計算 Y=0.2126R+0.7152G+0.0722B でGの重みが大きいのも同じ理由"
+  ],
+  "example": "放射束1Wの単色光: 555nm → 683×1.0 = 683 lm、650nm → 683×0.118 ≒ 81 lm、450nm → 683×0.041 ≒ 28 lm",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='35' y1='107' x2='305' y2='107' stroke='#333' stroke-width='1'/><line x1='35' y1='12' x2='35' y2='107' stroke='#333' stroke-width='1'/><text x='305' y='129' font-size='9' fill='#333' text-anchor='end'>波長[nm]</text><text x='37' y='8' font-size='9' fill='#333' text-anchor='start'>V(λ)</text><line x1='48.5' y1='107' x2='48.5' y2='110' stroke='#333' stroke-width='1.2'/><text x='48.5' y='119' font-size='8' fill='#555' text-anchor='middle'>400</text><line x1='116' y1='107' x2='116' y2='110' stroke='#333' stroke-width='1.2'/><text x='116' y='119' font-size='8' fill='#555' text-anchor='middle'>500</text><line x1='153.1' y1='107' x2='153.1' y2='110' stroke='#333' stroke-width='1.2'/><text x='153.1' y='119' font-size='8' fill='#555' text-anchor='middle'>555</text><line x1='217.2' y1='107' x2='217.2' y2='110' stroke='#333' stroke-width='1.2'/><text x='217.2' y='119' font-size='8' fill='#555' text-anchor='middle'>650</text><line x1='284.8' y1='107' x2='284.8' y2='110' stroke='#333' stroke-width='1.2'/><text x='284.8' y='119' font-size='8' fill='#555' text-anchor='middle'>750</text><line x1='32' y1='107' x2='35' y2='107' stroke='#333' stroke-width='1.2'/><text x='30' y='110' font-size='8' fill='#555' text-anchor='end'>0</text><line x1='32' y1='61.8' x2='35' y2='61.8' stroke='#333' stroke-width='1.2'/><text x='30' y='64.8' font-size='8' fill='#555' text-anchor='end'>0.5</text><line x1='32' y1='16.5' x2='35' y2='16.5' stroke='#333' stroke-width='1.2'/><text x='30' y='19.5' font-size='8' fill='#555' text-anchor='end'>1</text><polyline points='35,107 38.4,107 41.8,107 45.1,107 48.5,107 51.9,106.9 55.2,106.8 58.6,106.7 62,106.6 65.4,106.2 68.8,105.8 72.1,105.3 75.5,104.9 78.9,104.1 82.2,103.2 85.6,102.4 89,101.6 92.4,99.8 95.8,98 99.1,96.2 102.5,94.4 105.9,90.3 109.2,86.1 112.6,81.9 116,77.8 119.4,69 122.8,60.3 126.1,51.5 129.5,42.8 132.9,37.2 136.2,31.7 139.6,26.2 143,20.7 146.4,19.8 149.8,18.8 153.1,17.9 156.5,17 159.9,19.8 163.2,22.6 166.6,25.5 170,28.3 173.4,33.7 176.8,39.1 180.1,44.5 183.5,49.9 186.9,55.6 190.2,61.2 193.6,66.9 197,72.5 200.4,77.2 203.8,81.8 207.1,86.5 210.5,91.2 213.9,93.7 217.2,96.3 220.6,98.9 224,101.5 227.4,102.5 230.8,103.5 234.1,104.5 237.5,105.5 240.9,105.8 244.2,106 247.6,106.3 251,106.6 254.4,106.7 257.8,106.8 261.1,106.8 264.5,106.9 267.9,106.9 271.2,106.9 274.6,107 278,107 281.4,107 284.8,107 288.1,107 291.5,107 294.9,107 298.2,107 301.6,107 305,107' fill='none' stroke='#ef6c00' stroke-width='2.2'/><circle cx='82.2' cy='103.2' r='3' fill='#c62828' stroke='none' stroke-width='1'/><text x='86.2' y='99.2' font-size='8' fill='#c62828' text-anchor='start'>0.04</text><circle cx='153.1' cy='17.9' r='3' fill='#c62828' stroke='none' stroke-width='1'/><text x='157.1' y='13.9' font-size='8' fill='#c62828' text-anchor='start'>0.98</text><circle cx='217.2' cy='96.3' r='3' fill='#c62828' stroke='none' stroke-width='1'/><text x='221.2' y='92.3' font-size='8' fill='#c62828' text-anchor='start'>0.12</text></svg>",
+    "caption": "明所視の標準比視感度 V(λ)（CIE。等色関数ȳ(λ)と同じ）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "波長",
+     "V(λ)",
+     "1Wあたりの光束[lm]"
+    ],
+    "rows": [
+     [
+      "450nm",
+      "0.041",
+      "28"
+     ],
+     [
+      "500nm",
+      "0.323",
+      "221"
+     ],
+     [
+      "555nm",
+      "0.985",
+      "673"
+     ],
+     [
+      "600nm",
+      "0.631",
+      "431"
+     ],
+     [
+      "650nm",
+      "0.118",
+      "81"
+     ]
+    ],
+    "caption": "光束 = 683 × V(λ) × 放射束[W]。同じ1Wでも555nmが最も明るい"
+   }
+  ],
+  "code": "import numpy as np\n# CIE V(λ) の代表値（20nm刻み）\nlam = np.array([400, 420, 440, 460, 480, 500, 520, 540, 560, 580, 600, 620, 640, 660, 680, 700])\nV = np.array([.0004, .004, .023, .06, .139, .323, .71, .954, .995, .87, .631, .381, .175, .061, .017, .0041])\nKm = 683.0                                     # 最大視感効果度 [lm/W]\nfor l in [460, 560, 660]:\n    print(f\"{l}nm の1W -> {Km * np.interp(l, lam, V):.0f} lm\")\n# 白色光（400〜700nmに1Wを一様に分配）の光束 = Km ∫ Φe(λ) V(λ) dλ\nfine = np.arange(400, 701)\nphi_e = np.full(fine.shape, 1.0 / len(fine))   # 1nmあたりの放射束[W]\nprint(\"一様白色1Wの光束:\", round(Km * np.sum(phi_e * np.interp(fine, lam, V))), \"lm\")"
+ },
+ {
+  "id": "color-purkinje",
+  "steps": [
+   "① 入力: 昼間に同じ明るさに見えていた赤い物体と青い物体",
+   "② 周囲が暗くなると、働く視細胞が錐体（ピーク555nm）から桿体（ピーク507nm）に移る（薄明視→暗所視）",
+   "③ 桿体は長波長（赤）にほとんど感度がなく、短波長（青緑）に高感度",
+   "④ そのため赤は急に暗く、青は相対的に明るく見える",
+   "⑤ 出力: 夕暮れに赤い花が黒っぽく、青い花や葉が浮き上がって見える現象。非常口誘導灯の緑や、夜間の標識設計に関係"
+  ],
+  "example": "650nm: 明所 V≒0.11 → 暗所 V'≒0.00、450nm: 明所 0.04 → 暗所 0.49。昼は赤が青より2〜3倍明るいのに、夜は青の方がずっと明るくなる",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='20' y='15' width='70' height='40' fill='#c81e1e' stroke='#999' stroke-width='1' rx='0'/><rect x='20' y='75' width='70' height='40' fill='#1e0606' stroke='#999' stroke-width='1' rx='0'/><text x='55' y='132' font-size='9' fill='#333' text-anchor='middle'>赤い花</text><rect x='120' y='15' width='70' height='40' fill='#283cc8' stroke='#999' stroke-width='1' rx='0'/><rect x='120' y='75' width='70' height='40' fill='#374678' stroke='#999' stroke-width='1' rx='0'/><text x='155' y='132' font-size='9' fill='#333' text-anchor='middle'>青い花</text><rect x='220' y='15' width='70' height='40' fill='#28963c' stroke='#999' stroke-width='1' rx='0'/><rect x='220' y='75' width='70' height='40' fill='#1e3728' stroke='#999' stroke-width='1' rx='0'/><text x='255' y='132' font-size='9' fill='#333' text-anchor='middle'>葉(緑)</text><text x='5' y='38' font-size='10' fill='#333' text-anchor='start'>昼</text><text x='5' y='98' font-size='10' fill='#333' text-anchor='start'>夕</text></svg>",
+    "caption": "夕暮れになると赤は真っ暗に沈み、青が相対的に明るく残る（模式）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "波長",
+     "明所視 V",
+     "暗所視 V'"
+    ],
+    "rows": [
+     [
+      "450nm",
+      "0.04",
+      "0.35"
+     ],
+     [
+      "500nm",
+      "0.32",
+      "0.98"
+     ],
+     [
+      "550nm",
+      "0.97",
+      "0.55"
+     ],
+     [
+      "600nm",
+      "0.63",
+      "0.06"
+     ],
+     [
+      "650nm",
+      "0.12",
+      "0.00"
+     ]
+    ],
+    "caption": "感度ピークが短波長側へ移るため、赤の相対的な明るさが大きく下がる"
+   }
+  ]
+ },
+ {
+  "id": "color-light-dark-adaptation",
+  "steps": [
+   "① 入力: 明るさの急な変化（トンネルに入る／出る、映画館に入る）",
+   "② 暗順応: 瞳孔が開き、桿体のロドプシンが再合成されて感度が上がる。最初の約7〜10分は錐体、その後約30分かけて桿体の感度が上がる（折れ曲がった曲線）",
+   "③ 明順応: 瞳孔が縮み、ロドプシンが一気に分解されて感度が下がる。数十秒〜1分程度と速い",
+   "④ 全体として約10桁（10¹⁰倍）の明るさ範囲に対応できる",
+   "⑤ 出力: 時間とともに見えるものが変わる。トンネル入口の照明を明るくする（入口照明）のは暗順応の遅れを補うため"
+  ],
+  "example": "暗順応で感度は最終的に約10⁴〜10⁵倍（しきい値が4〜5桁下がる）。映画館に入った直後見えなかった通路が、5分後にぼんやり、20〜30分後にはっきり見える",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 140' width='330' height='140' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><line x1='40' y1='112' x2='300' y2='112' stroke='#333' stroke-width='1'/><line x1='40' y1='12' x2='40' y2='112' stroke='#333' stroke-width='1'/><text x='300' y='134' font-size='9' fill='#333' text-anchor='end'>暗室に入ってからの時間[分]</text><text x='42' y='8' font-size='9' fill='#333' text-anchor='start'>しきい値(log, 高いほど鈍感)</text><line x1='40' y1='112' x2='40' y2='115' stroke='#333' stroke-width='1.2'/><text x='40' y='124' font-size='8' fill='#555' text-anchor='middle'>0</text><line x1='114.3' y1='112' x2='114.3' y2='115' stroke='#333' stroke-width='1.2'/><text x='114.3' y='124' font-size='8' fill='#555' text-anchor='middle'>10</text><line x1='188.6' y1='112' x2='188.6' y2='115' stroke='#333' stroke-width='1.2'/><text x='188.6' y='124' font-size='8' fill='#555' text-anchor='middle'>20</text><line x1='262.9' y1='112' x2='262.9' y2='115' stroke='#333' stroke-width='1.2'/><text x='262.9' y='124' font-size='8' fill='#555' text-anchor='middle'>30</text><line x1='37' y1='112' x2='40' y2='112' stroke='#333' stroke-width='1.2'/><text x='35' y='115' font-size='8' fill='#555' text-anchor='end'>低</text><line x1='37' y1='12' x2='40' y2='12' stroke='#333' stroke-width='1.2'/><text x='35' y='15' font-size='8' fill='#555' text-anchor='end'>高</text><polyline points='40,23.1 41.9,28.9 43.7,33.9 45.6,38.4 47.4,42.3 49.3,45.8 51.1,48.9 53,51.6 54.9,54 56.7,56.1 58.6,58 60.4,59.6 62.3,61.1 64.1,62.4 66,63.5 67.9,64.5 69.7,65.4 71.6,66.2 73.4,66.8 75.3,67.5 77.1,68 79,68.5 80.9,68.9 82.7,69.2 84.6,69.6 86.4,69.9 88.3,70.1 90.1,70.3 92,70.5 93.9,70.7 95.7,71.2 97.6,72.7 99.4,74.1 101.3,75.4 103.1,76.7 105,78 106.9,79.2 108.7,80.3 110.6,81.4 112.4,82.5 114.3,83.5 116.1,84.5 118,85.5 119.9,86.4 121.7,87.3 123.6,88.1 125.4,88.9 127.3,89.7 129.1,90.5 131,91.2 132.9,91.9 134.7,92.6 136.6,93.2 138.4,93.9 140.3,94.5 142.1,95 144,95.6 145.9,96.1 147.7,96.6 149.6,97.1 151.4,97.6 153.3,98.1 155.1,98.5 157,98.9 158.9,99.4 160.7,99.7 162.6,100.1 164.4,100.5 166.3,100.8 168.1,101.2 170,101.5 171.9,101.8 173.7,102.1 175.6,102.4 177.4,102.7 179.3,102.9 181.1,103.2 183,103.5 184.9,103.7 186.7,103.9 188.6,104.1 190.4,104.4 192.3,104.6 194.1,104.8 196,104.9 197.9,105.1 199.7,105.3 201.6,105.5 203.4,105.6 205.3,105.8 207.1,105.9 209,106.1 210.9,106.2 212.7,106.4 214.6,106.5 216.4,106.6 218.3,106.7 220.1,106.8 222,107 223.9,107.1 225.7,107.2 227.6,107.3 229.4,107.4 231.3,107.5 233.1,107.5 235,107.6 236.9,107.7 238.7,107.8 240.6,107.9 242.4,107.9 244.3,108 246.1,108.1 248,108.1 249.9,108.2 251.7,108.3 253.6,108.3 255.4,108.4 257.3,108.4 259.1,108.5 261,108.5 262.9,108.6 264.7,108.6 266.6,108.7 268.4,108.7 270.3,108.7 272.1,108.8 274,108.8 275.9,108.9 277.7,108.9 279.6,108.9 281.4,109 283.3,109 285.1,109 287,109 288.9,109.1 290.7,109.1 292.6,109.1 294.4,109.1 296.3,109.2 298.1,109.2 300,109.2' fill='none' stroke='#1565c0' stroke-width='2'/><text x='85' y='40' font-size='9' fill='#ef6c00' text-anchor='start'>錐体の順応</text><text x='180' y='85' font-size='9' fill='#1565c0' text-anchor='start'>桿体の順応</text><text x='118' y='62' font-size='8' fill='#c62828' text-anchor='start'>折れ点(約7〜10分)</text></svg>",
+    "caption": "暗順応曲線: 最初の数分は錐体、その後30分ほどかけて桿体の感度が上がる（概形）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "順応",
+     "かかる時間",
+     "しくみ"
+    ],
+    "rows": [
+     [
+      "明順応（暗→明）",
+      "数秒〜1分程度",
+      "瞳孔縮小・ロドプシン分解・錐体へ切替"
+     ],
+     [
+      "暗順応（明→暗）",
+      "約30分（完全には40分）",
+      "瞳孔拡大・ロドプシン再合成（遅い）"
+     ]
+    ],
+    "caption": "暗順応のほうがはるかに時間がかかる"
+   }
+  ]
+ },
+ {
+  "id": "color-chromatic-adaptation",
+  "steps": [
+   "① 入力: 照明の色に偏った光（白熱電球の下では全体が橙色寄り）",
+   "② 視覚系は照明下の白（最も明るい面や平均）に対して、L・M・S各錐体の感度を独立に調整する",
+   "③ フォン・クリースの式: 順応後の応答 = 各錐体応答 ÷ 白の各錐体応答",
+   "④ 照明の色の影響が打ち消され、物体の色がほぼ一定に見える（色の恒常性）",
+   "⑤ 出力: カメラにはそのまま橙色に写るが人には白く見える → カメラではホワイトバランス処理で同じことを行う"
+  ],
+  "example": "白い紙が電球下で (255,200,140) → 各チャネルを (255/255, 255/200, 255/140) 倍 → (255,255,255)。赤い物体(200,90,50)は (200,115,91) と、昼光下に近い色に見える",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 88' width='330' height='88' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='20' y='10' width='30.3' height='30.3' fill='#ffc88c'/><rect x='50' y='10' width='30.3' height='30.3' fill='#c85a32'/><rect x='80' y='10' width='30.3' height='30.3' fill='#788c5a'/><rect x='110' y='10' width='30.3' height='30.3' fill='#505a78'/><rect x='20' y='10' width='120' height='30' fill='none' stroke='#888' stroke-width='0.8' rx='0'/><text x='80' y='55' font-size='9' fill='#333' text-anchor='middle'>電球の下の網膜像</text><line x1='145' y1='25' x2='166' y2='25' stroke='#333' stroke-width='1.2'/><polygon points='170,25 165.5,27.2 165.5,22.8' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='180' y='10' width='30.3' height='30.3' fill='#ffffff'/><rect x='210' y='10' width='30.3' height='30.3' fill='#c8735b'/><rect x='240' y='10' width='30.3' height='30.3' fill='#78b2a4'/><rect x='270' y='10' width='30.3' height='30.3' fill='#5073db'/><rect x='180' y='10' width='120' height='30' fill='none' stroke='#888' stroke-width='0.8' rx='0'/><text x='240' y='55' font-size='9' fill='#333' text-anchor='middle'>順応後の見え（フォン・クリース）</text><text x='165' y='80' font-size='9' fill='#c62828' text-anchor='middle'>各錐体の感度を白の応答で割って調整 → 白い紙は白に戻る</text></svg>",
+    "caption": "色順応: 照明が黄色っぽくても、しばらくすると白い紙は白く見える"
+   }
+  ],
+  "code": "import numpy as np\n# フォン・クリースの色順応（ここではRGBで近似。本来はLMS錐体空間で行う）\nwhite_under_lamp = np.array([255, 200, 140], float)   # 電球下での白\nobjects = np.array([[255, 200, 140],                   # 白い紙\n                    [200,  90,  50],                   # 赤い物\n                    [120, 140,  90]], float)           # 緑の物\ngain = 255 / white_under_lamp                          # 各チャネルの感度調整\nadapted = np.clip(objects * gain, 0, 255)\nprint(\"ゲイン:\", gain.round(3))\nprint(adapted.round().astype(int))"
+ },
+ {
+  "id": "color-trichromatic-theory",
+  "steps": [
+   "① 入力: 任意の色の光",
+   "② 網膜には赤・緑・青によく反応する3種類の受容器（現在のL・M・S錐体）がある、とヤング（1802）とヘルムホルツ（1850年代）が提唱",
+   "③ 色は3つの受容器の興奮の比で決まる。例: 赤と緑が同程度に興奮すると黄に見える",
+   "④ したがって3原色の光を適切に混ぜればほとんどの色を再現できる（加法混色・等色の根拠）",
+   "⑤ 出力: カラーテレビ・カメラ・RGB表色系の基礎。ただし「赤と緑の混色に見えない黄」や補色残像はうまく説明できず、反対色説が補う"
+  ],
+  "example": "単色光580nmの黄 と、赤(650nm)＋緑(530nm)の混合光 は、L・M錐体の応答比が同じになるよう調整すれば区別できない（メタメリズム）。ディスプレイが3原色だけで黄を表示できる理由",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 110' width='330' height='110' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><circle cx='40' cy='25' r='12' fill='#c62828' stroke='none' stroke-width='1'/><text x='60' y='29' font-size='9' fill='#c62828' text-anchor='start'>赤の受容器</text><circle cx='40' cy='60' r='12' fill='#2e7d32' stroke='none' stroke-width='1'/><text x='60' y='64' font-size='9' fill='#2e7d32' text-anchor='start'>緑の受容器</text><circle cx='40' cy='95' r='12' fill='#1565c0' stroke='none' stroke-width='1'/><text x='60' y='99' font-size='9' fill='#1565c0' text-anchor='start'>青の受容器</text><line x1='130' y1='60' x2='156' y2='60' stroke='#333' stroke-width='1.2'/><polygon points='160,60 155.5,62.2 155.5,57.8' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='175' y='40' width='30' height='30' fill='#ffff00' stroke='#999' stroke-width='1' rx='0'/><text x='190' y='82' font-size='8' fill='#333' text-anchor='middle'>黄</text><text x='190' y='96' font-size='7' fill='#555' text-anchor='middle'>1:1:0</text><rect x='213' y='40' width='30' height='30' fill='#ff00ff' stroke='#999' stroke-width='1' rx='0'/><text x='228' y='82' font-size='8' fill='#333' text-anchor='middle'>マゼンタ</text><text x='228' y='96' font-size='7' fill='#555' text-anchor='middle'>1:0:1</text><rect x='251' y='40' width='30' height='30' fill='#ffffff' stroke='#999' stroke-width='1' rx='0'/><text x='266' y='82' font-size='8' fill='#333' text-anchor='middle'>白</text><text x='266' y='96' font-size='7' fill='#555' text-anchor='middle'>1:1:1</text><rect x='289' y='40' width='30' height='30' fill='#ff8000' stroke='#999' stroke-width='1' rx='0'/><text x='304' y='82' font-size='8' fill='#333' text-anchor='middle'>橙</text><text x='304' y='96' font-size='7' fill='#555' text-anchor='middle'>1:0.5:0</text></svg>",
+    "caption": "三色説: 3種の受容器の興奮の比（R:G:B）ですべての色が決まる"
+   }
+  ]
+ },
+ {
+  "id": "color-opponent-theory",
+  "steps": [
+   "① 入力: 3種の受容器からの信号",
+   "② ヘリング（1878）は、色の知覚は 赤−緑、黄−青、白−黒 の3組の対立する過程で生じると考えた",
+   "③ 各過程は一方の色で興奮、他方で抑制されるので、「赤みの緑」「黄みの青」は同時に感じられない",
+   "④ 長く赤を見て赤側が疲労すると、白を見たとき緑側が優勢になり緑の残像が見える",
+   "⑤ 出力: 補色残像・色の対比・色名の構造の説明。現在の神経節細胞の反対色応答に対応し、L*a*b*（a*=赤緑、b*=黄青）の発想の元になった"
+  ],
+  "example": "反対色信号の簡単なモデル: 赤−緑 = L−M、黄−青 = (L+M)−S、白−黒 = L+M。黄色光で L=0.9, M=0.8, S=0.05 → 赤緑=0.1（ほぼ0）、黄青=1.65（黄側に大）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 124' width='330' height='124' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='30' y='12' width='60' height='26' fill='#dc2828' stroke='#999' stroke-width='1' rx='0'/><text x='60' y='29' font-size='10' fill='#fff' text-anchor='middle'>赤</text><text x='118' y='30' font-size='14' fill='#333' text-anchor='middle'>⇔</text><rect x='146' y='12' width='60' height='26' fill='#28aa3c' stroke='#999' stroke-width='1' rx='0'/><text x='176' y='29' font-size='10' fill='#fff' text-anchor='middle'>緑</text><rect x='30' y='48' width='60' height='26' fill='#f0dc28' stroke='#999' stroke-width='1' rx='0'/><text x='60' y='65' font-size='10' fill='#000' text-anchor='middle'>黄</text><text x='118' y='66' font-size='14' fill='#333' text-anchor='middle'>⇔</text><rect x='146' y='48' width='60' height='26' fill='#2850dc' stroke='#999' stroke-width='1' rx='0'/><text x='176' y='65' font-size='10' fill='#fff' text-anchor='middle'>青</text><rect x='30' y='84' width='60' height='26' fill='#ffffff' stroke='#999' stroke-width='1' rx='0'/><text x='60' y='101' font-size='10' fill='#000' text-anchor='middle'>白</text><text x='118' y='102' font-size='14' fill='#333' text-anchor='middle'>⇔</text><rect x='146' y='84' width='60' height='26' fill='#000000' stroke='#999' stroke-width='1' rx='0'/><text x='176' y='101' font-size='10' fill='#fff' text-anchor='middle'>黒</text><text x='220' y='30' font-size='9' fill='#333' text-anchor='start'>同時には感じない</text><text x='220' y='44' font-size='9' fill='#333' text-anchor='start'>（赤みがかった緑は</text><text x='220' y='58' font-size='9' fill='#333' text-anchor='start'>　存在しない）</text><text x='220' y='86' font-size='9' fill='#c62828' text-anchor='start'>補色残像:</text><text x='220' y='100' font-size='9' fill='#c62828' text-anchor='start'>赤を見つめた後</text><text x='220' y='114' font-size='9' fill='#c62828' text-anchor='start'>白を見ると緑</text></svg>",
+    "caption": "ヘリングの反対色説: 3組の拮抗する過程"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 260 100' width='260' height='100' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='40' y='15' width='60' height='60' fill='#e53935' stroke='none' stroke-width='1' rx='0'/><circle cx='70' cy='45' r='2' fill='#000' stroke='none' stroke-width='1'/><line x1='110' y1='45' x2='146' y2='45' stroke='#333' stroke-width='1.2'/><polygon points='150,45 145.5,47.2 145.5,42.8' fill='#333' stroke='#333' stroke-width='0.5'/><text x='130' y='38' font-size='8' fill='#333' text-anchor='middle'>30秒注視</text><rect x='160' y='15' width='60' height='60' fill='#fff' stroke='#999' stroke-width='1' rx='0'/><rect x='170' y='25' width='40' height='40' fill='#7fd8c0' stroke='none' stroke-width='1' rx='0'/><circle cx='190' cy='45' r='2' fill='#000' stroke='none' stroke-width='1'/><text x='190' y='92' font-size='9' fill='#333' text-anchor='middle'>白い面に緑(シアン)の残像</text></svg>",
+    "caption": "補色残像（反対色説で説明できる現象）"
+   }
+  ],
+  "code": "import numpy as np\ndef opponent(L, M, S):\n    rg = L - M              # 正: 赤み / 負: 緑み\n    yb = (L + M) / 2 - S    # 正: 黄み / 負: 青み\n    lum = L + M             # 明るさ（白-黒）\n    return rg, yb, lum\nfor name, lms in [(\"赤\", (0.9, 0.3, 0.05)), (\"緑\", (0.4, 0.8, 0.1)),\n                  (\"黄\", (0.9, 0.8, 0.05)), (\"青\", (0.1, 0.2, 0.9)), (\"白\", (1, 1, 1))]:\n    rg, yb, lum = opponent(*lms)\n    print(f\"{name}: 赤緑{rg:+.2f} 黄青{yb:+.2f} 明るさ{lum:.2f}\")"
+ },
+ {
+  "id": "color-zone-theory",
+  "steps": [
+   "① 入力: 網膜に届く光",
+   "② 第1段階（受容器）: L・M・Sの3種類の錐体が光を吸収 → 三色説が成り立つ",
+   "③ 第2段階（神経節細胞・外側膝状体）: 錐体信号の差と和をとり、赤−緑・黄−青・明−暗の3つの反対色信号に変換 → 反対色説が成り立つ",
+   "④ 第3段階（大脳視覚野）: 反対色信号から色相・彩度・明るさを知覚",
+   "⑤ 出力: 三色説と反対色説の両方の現象（等色・混色と、補色残像・色対比）を統一的に説明。YCbCrなど輝度・色差の表現も同じ発想"
+  ],
+  "example": "LMS=(0.9, 0.8, 0.05) の黄色光 → 第2段階で 赤緑 L−M=+0.1、黄青 (L+M)/2−S=+0.80、明暗 L+M=1.7 → 「黄・明るい」と知覚",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 330 112' width='330' height='112' xmlns='http://www.w3.org/2000/svg' font-family='sans-serif'><rect x='10' y='15' width='70' height='90' fill='#e3f2fd' stroke='#1565c0' stroke-width='1' rx='4'/><text x='45' y='46.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>受容器段階</text><text x='45' y='57.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>(三色説)</text><text x='45' y='68.7' font-size='9' fill='#0d2a5c' text-anchor='middle'>L・M・S</text><text x='45' y='79.7' font-size='9' fill='#0d2a5c' text-anchor='middle'>錐体</text><line x1='80' y1='60' x2='106' y2='60' stroke='#333' stroke-width='1.2'/><polygon points='110,60 105.5,62.2 105.5,57.8' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='110' y='15' width='110' height='90' fill='#fff3e0' stroke='#ef6c00' stroke-width='1' rx='4'/><text x='165' y='41.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>神経段階</text><text x='165' y='52.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>(反対色説)</text><text x='165' y='63.1' font-size='9' fill='#0d2a5c' text-anchor='middle'>L−M（赤緑）</text><text x='165' y='74.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>(L+M)−S（黄青）</text><text x='165' y='85.2' font-size='9' fill='#0d2a5c' text-anchor='middle'>L+M（明暗）</text><line x1='220' y1='60' x2='246' y2='60' stroke='#333' stroke-width='1.2'/><polygon points='250,60 245.5,62.2 245.5,57.8' fill='#333' stroke='#333' stroke-width='0.5'/><rect x='250' y='30' width='70' height='60' fill='#e8f5e9' stroke='#2e7d32' stroke-width='1' rx='4'/><text x='285' y='57.6' font-size='9' fill='#0d2a5c' text-anchor='middle'>大脳</text><text x='285' y='68.7' font-size='9' fill='#0d2a5c' text-anchor='middle'>色の知覚</text></svg>",
+    "caption": "段階説: 網膜の入口は三色、その後の神経回路は反対色で符号化"
+   }
+  ],
+  "code": "import numpy as np\n# 段階説の模式: 光 → LMS（三色）→ 反対色（差と和）\nM_rgb2lms = np.array([[0.31, 0.62, 0.05],\n                      [0.16, 0.72, 0.09],\n                      [0.02, 0.13, 0.94]])     # 簡易な RGB->LMS 行列\nM_lms2opp = np.array([[1, -1, 0],               # 赤-緑 = L - M\n                      [0.5, 0.5, -1],           # 黄-青 = (L+M)/2 - S\n                      [1, 1, 0]])               # 明-暗 = L + M\nfor name, rgb in [(\"黄\", (1, 1, 0)), (\"青\", (0, 0, 1)), (\"赤\", (1, 0, 0)), (\"白\", (1, 1, 1))]:\n    lms = M_rgb2lms @ np.array(rgb, float)      # 第1段階\n    opp = M_lms2opp @ lms                       # 第2段階\n    print(f\"{name}: LMS={lms.round(2)} -> 赤緑{opp[0]:+.2f} 黄青{opp[1]:+.2f} 明{opp[2]:.2f}\")"
+ }
+]

@@ -1,0 +1,425 @@
+[
+ {
+  "id": "code-information",
+  "steps": [
+   "① 入力：ある事象の起こる確率 p",
+   "② 情報量 I = −log₂ p [bit]：起こりにくい（p が小さい）事象ほど、起きたと知ったときの驚き＝情報が大きい",
+   "③ p=1/2 → 1 bit、p=1/4 → 2 bit、確実な事象 p=1 → 0 bit",
+   "④ 独立な事象が同時に起きた情報量は和になる（I(p·q) = I(p) + I(q)）。符号化では「その記号に何ビット割り当てるのが理想か」の目安"
+  ],
+  "example": "公平なサイコロで「3が出た」：−log₂(1/6) = 2.585 bit。8ビット画素が一様ランダムなら1画素 −log₂(1/256) = 8 bit。白黒画像で白が 90% なら 白=0.152 bit、黒=3.32 bit",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "確率 p",
+     "1/2",
+     "1/4",
+     "1/8",
+     "1/64",
+     "1/1024"
+    ],
+    "rows": [
+     [
+      "情報量 −log₂p",
+      "1 bit",
+      "2 bit",
+      "3 bit",
+      "6 bit",
+      "10 bit"
+     ]
+    ],
+    "caption": "確率と情報量"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 120' width='300' height='120' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='120' fill='#fff'/><line x1='34' y1='94' x2='290' y2='94' stroke='#666'/><line x1='34' y1='10' x2='34' y2='94' stroke='#666'/><line x1='32.7' y1='94' x2='32.7' y2='97' stroke='#666'/><text x='32.7' y='106.0' font-size='9' text-anchor='middle' fill='#222'>0</text><line x1='97.0' y1='94' x2='97.0' y2='97' stroke='#666'/><text x='97.0' y='106.0' font-size='9' text-anchor='middle' fill='#222'>¼</text><line x1='161.4' y1='94' x2='161.4' y2='97' stroke='#666'/><text x='161.4' y='106.0' font-size='9' text-anchor='middle' fill='#222'>½</text><line x1='290.0' y1='94' x2='290.0' y2='97' stroke='#666'/><text x='290.0' y='106.0' font-size='9' text-anchor='middle' fill='#222'>1</text><line x1='31' y1='83.5' x2='34' y2='83.5' stroke='#666'/><text x='29.0' y='86.5' font-size='9' text-anchor='end' fill='#222'>1</text><line x1='31' y1='73.0' x2='34' y2='73.0' stroke='#666'/><text x='29.0' y='76.0' font-size='9' text-anchor='end' fill='#222'>2</text><line x1='31' y1='52.0' x2='34' y2='52.0' stroke='#666'/><text x='29.0' y='55.0' font-size='9' text-anchor='end' fill='#222'>4</text><line x1='31' y1='20.5' x2='34' y2='20.5' stroke='#666'/><text x='29.0' y='23.5' font-size='9' text-anchor='end' fill='#222'>7</text><text x='162.0' y='117.0' font-size='9.5' text-anchor='middle' fill='#222'>確率 p</text><text x='10.0' y='52.0' font-size='9.5' text-anchor='middle' fill='#222' transform='rotate(-90 10 52.0)'>I [bit]</text><polyline points='34.0,13.7 34.9,21.5 35.7,26.6 36.6,30.4 37.4,33.4 38.3,35.9 39.1,38.1 40.0,40.0 40.8,41.7 41.7,43.2 42.6,44.6 43.4,45.8 44.3,47.0 45.1,48.1 46.0,49.1 46.8,50.0 47.7,50.9 48.6,51.8 49.4,52.6 50.3,53.3 51.1,54.0 52.0,54.7 52.8,55.4 53.7,56.0 54.5,56.6 55.4,57.2 56.3,57.8 57.1,58.3 58.0,58.8 58.8,59.3 59.7,59.8 60.5,60.3 61.4,60.8 62.3,61.2 63.1,61.6 64.0,62.1 64.8,62.5 65.7,62.9 66.5,63.3 67.4,63.6 68.2,64.0 69.1,64.4 70.0,64.7 70.8,65.1 71.7,65.4 72.5,65.7 73.4,66.1 74.2,66.4 75.1,66.7 76.0,67.0 76.8,67.3 77.7,67.6 78.5,67.9 79.4,68.1 80.2,68.4 81.1,68.7 81.9,69.0 82.8,69.2 83.7,69.5 84.5,69.7 85.4,70.0 86.2,70.2 87.1,70.5 87.9,70.7 88.8,70.9 89.7,71.2 90.5,71.4 91.4,71.6 92.2,71.8 93.1,72.0 93.9,72.3 94.8,72.5 95.6,72.7 96.5,72.9 97.4,73.1 98.2,73.3 99.1,73.5 99.9,73.7 100.8,73.9 101.6,74.0 102.5,74.2 103.4,74.4 104.2,74.6 105.1,74.8 105.9,75.0 106.8,75.1 107.6,75.3 108.5,75.5 109.3,75.7 110.2,75.8 111.1,76.0 111.9,76.2 112.8,76.3 113.6,76.5 114.5,76.6 115.3,76.8 116.2,76.9 117.1,77.1 117.9,77.3 118.8,77.4 119.6,77.6 120.5,77.7 121.3,77.9 122.2,78.0 123.0,78.1 123.9,78.3 124.8,78.4 125.6,78.6 126.5,78.7 127.3,78.8 128.2,79.0 129.0,79.1 129.9,79.3 130.7,79.4 131.6,79.5 132.5,79.6 133.3,79.8 134.2,79.9 135.0,80.0 135.9,80.2 136.7,80.3 137.6,80.4 138.5,80.5 139.3,80.7 140.2,80.8 141.0,80.9 141.9,81.0 142.7,81.1 143.6,81.2 144.4,81.4 145.3,81.5 146.2,81.6 147.0,81.7 147.9,81.8 148.7,81.9 149.6,82.0 150.4,82.2 151.3,82.3 152.2,82.4 153.0,82.5 153.9,82.6 154.7,82.7 155.6,82.8 156.4,82.9 157.3,83.0 158.1,83.1 159.0,83.2 159.9,83.3 160.7,83.4 161.6,83.5 162.4,83.6 163.3,83.7 164.1,83.8 165.0,83.9 165.9,84.0 166.7,84.1 167.6,84.2 168.4,84.3 169.3,84.4 170.1,84.5 171.0,84.6 171.8,84.7 172.7,84.8 173.6,84.9 174.4,85.0 175.3,85.1 176.1,85.1 177.0,85.2 177.8,85.3 178.7,85.4 179.6,85.5 180.4,85.6 181.3,85.7 182.1,85.8 183.0,85.9 183.8,85.9 184.7,86.0 185.5,86.1 186.4,86.2 187.3,86.3 188.1,86.4 189.0,86.4 189.8,86.5 190.7,86.6 191.5,86.7 192.4,86.8 193.3,86.9 194.1,86.9 195.0,87.0 195.8,87.1 196.7,87.2 197.5,87.3 198.4,87.3 199.2,87.4 200.1,87.5 201.0,87.6 201.8,87.6 202.7,87.7 203.5,87.8 204.4,87.9 205.2,87.9 206.1,88.0 206.9,88.1 207.8,88.2 208.7,88.2 209.5,88.3 210.4,88.4 211.2,88.5 212.1,88.5 212.9,88.6 213.8,88.7 214.7,88.8 215.5,88.8 216.4,88.9 217.2,89.0 218.1,89.0 218.9,89.1 219.8,89.2 220.6,89.2 221.5,89.3 222.4,89.4 223.2,89.4 224.1,89.5 224.9,89.6 225.8,89.7 226.6,89.7 227.5,89.8 228.4,89.9 229.2,89.9 230.1,90.0 230.9,90.0 231.8,90.1 232.6,90.2 233.5,90.2 234.3,90.3 235.2,90.4 236.1,90.4 236.9,90.5 237.8,90.6 238.6,90.6 239.5,90.7 240.3,90.8 241.2,90.8 242.1,90.9 242.9,90.9 243.8,91.0 244.6,91.1 245.5,91.1 246.3,91.2 247.2,91.2 248.0,91.3 248.9,91.4 249.8,91.4 250.6,91.5 251.5,91.5 252.3,91.6 253.2,91.7 254.0,91.7 254.9,91.8 255.8,91.8 256.6,91.9 257.5,92.0 258.3,92.0 259.2,92.1 260.0,92.1 260.9,92.2 261.7,92.2 262.6,92.3 263.5,92.4 264.3,92.4 265.2,92.5 266.0,92.5 266.9,92.6 267.7,92.6 268.6,92.7 269.5,92.7 270.3,92.8 271.2,92.8 272.0,92.9 272.9,93.0 273.7,93.0 274.6,93.1 275.4,93.1 276.3,93.2 277.2,93.2 278.0,93.3 278.9,93.3 279.7,93.4 280.6,93.4 281.4,93.5 282.3,93.5 283.2,93.6 284.0,93.6 284.9,93.7 285.7,93.7 286.6,93.8 287.4,93.8 288.3,93.9 289.1,93.9 290.0,94.0' fill='none' stroke='#3563e9' stroke-width='1.7'/></svg>",
+    "caption": "I = −log₂ p：確率が小さいほど大きい"
+   }
+  ],
+  "code": "import math\ndef info(p):\n    return -math.log2(p)                 # 自己情報量 [bit]\nfor p in (1 / 2, 1 / 4, 1 / 6, 1 / 256, 0.9, 0.1):\n    print(f\"p={p:.4f}: {info(p):.3f} bit\")\n# 独立事象の加法性：サイコロ2個で (3,5) が出る\nprint(info(1 / 36), \"=\", info(1 / 6) + info(1 / 6))"
+ },
+ {
+  "id": "code-entropy",
+  "steps": [
+   "① 入力：情報源の記号と出現確率（例：画素値のヒストグラムを総画素数で割ったもの）",
+   "② 各記号の情報量 −log₂pᵢ を確率で重み付け平均：H = −Σ pᵢ log₂ pᵢ [bit/記号]",
+   "③ 全記号が等確率のとき最大（n 種類なら log₂n）、1つの記号しか出ないとき 0",
+   "④ 意味：可逆符号化の平均符号長はこれより短くできない（シャノンの情報源符号化定理）。H が小さい画像ほど圧縮しやすい"
+  ],
+  "example": "4記号 A:0.5, B:0.25, C:0.125, D:0.125 → H = 0.5·1 + 0.25·2 + 0.125·3·2 = 1.75 bit（固定長なら2 bit）。64×64 試験画像の画素値エントロピー = 2.24 bit/画素（8 bit 中）",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "記号",
+     "A",
+     "B",
+     "C",
+     "D",
+     "H"
+    ],
+    "rows": [
+     [
+      "確率",
+      "0.5",
+      "0.25",
+      "0.125",
+      "0.125",
+      ""
+     ],
+     [
+      "−log₂p",
+      "1",
+      "2",
+      "3",
+      "3",
+      ""
+     ],
+     [
+      "p·(−log₂p)",
+      "0.5",
+      "0.5",
+      "0.375",
+      "0.375",
+      "1.75 bit"
+     ]
+    ],
+    "caption": "エントロピーの計算"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 115' width='300' height='115' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='115' fill='#fff'/><line x1='34' y1='89' x2='290' y2='89' stroke='#666'/><line x1='34' y1='10' x2='34' y2='89' stroke='#666'/><line x1='33.7' y1='89' x2='33.7' y2='92' stroke='#666'/><text x='33.7' y='101.0' font-size='9' text-anchor='middle' fill='#222'>0</text><line x1='162.0' y1='89' x2='162.0' y2='92' stroke='#666'/><text x='162.0' y='101.0' font-size='9' text-anchor='middle' fill='#222'>0.5</text><line x1='264.6' y1='89' x2='264.6' y2='92' stroke='#666'/><text x='264.6' y='101.0' font-size='9' text-anchor='middle' fill='#222'>0.9</text><line x1='290.3' y1='89' x2='290.3' y2='92' stroke='#666'/><text x='290.3' y='101.0' font-size='9' text-anchor='middle' fill='#222'>1</text><line x1='31' y1='55.3' x2='34' y2='55.3' stroke='#666'/><text x='29.0' y='58.3' font-size='9' text-anchor='end' fill='#222'>.47</text><line x1='31' y1='17.2' x2='34' y2='17.2' stroke='#666'/><text x='29.0' y='20.2' font-size='9' text-anchor='end' fill='#222'>1</text><text x='162.0' y='112.0' font-size='9.5' text-anchor='middle' fill='#222'>白の確率 p（2値画像）</text><text x='10.0' y='49.5' font-size='9.5' text-anchor='middle' fill='#222' transform='rotate(-90 10 49.5)'>H [bit]</text><polyline points='34.0,88.2 34.9,86.1 35.7,84.3 36.6,82.7 37.4,81.2 38.3,79.8 39.1,78.4 40.0,77.1 40.8,75.9 41.7,74.7 42.6,73.5 43.4,72.4 44.3,71.3 45.1,70.2 46.0,69.1 46.8,68.1 47.7,67.1 48.6,66.1 49.4,65.2 50.3,64.2 51.1,63.3 52.0,62.4 52.8,61.5 53.7,60.7 54.5,59.8 55.4,59.0 56.3,58.2 57.1,57.4 58.0,56.6 58.8,55.8 59.7,55.1 60.5,54.3 61.4,53.6 62.3,52.8 63.1,52.1 64.0,51.4 64.8,50.7 65.7,50.1 66.5,49.4 67.4,48.7 68.2,48.1 69.1,47.4 70.0,46.8 70.8,46.2 71.7,45.6 72.5,45.0 73.4,44.4 74.2,43.8 75.1,43.2 76.0,42.7 76.8,42.1 77.7,41.6 78.5,41.0 79.4,40.5 80.2,40.0 81.1,39.4 81.9,38.9 82.8,38.4 83.7,37.9 84.5,37.5 85.4,37.0 86.2,36.5 87.1,36.0 87.9,35.6 88.8,35.1 89.7,34.7 90.5,34.2 91.4,33.8 92.2,33.4 93.1,33.0 93.9,32.5 94.8,32.1 95.6,31.7 96.5,31.4 97.4,31.0 98.2,30.6 99.1,30.2 99.9,29.8 100.8,29.5 101.6,29.1 102.5,28.8 103.4,28.4 104.2,28.1 105.1,27.8 105.9,27.4 106.8,27.1 107.6,26.8 108.5,26.5 109.3,26.2 110.2,25.9 111.1,25.6 111.9,25.3 112.8,25.0 113.6,24.7 114.5,24.5 115.3,24.2 116.2,23.9 117.1,23.7 117.9,23.4 118.8,23.2 119.6,22.9 120.5,22.7 121.3,22.5 122.2,22.3 123.0,22.0 123.9,21.8 124.8,21.6 125.6,21.4 126.5,21.2 127.3,21.0 128.2,20.8 129.0,20.6 129.9,20.5 130.7,20.3 131.6,20.1 132.5,20.0 133.3,19.8 134.2,19.6 135.0,19.5 135.9,19.3 136.7,19.2 137.6,19.1 138.5,18.9 139.3,18.8 140.2,18.7 141.0,18.6 141.9,18.5 142.7,18.4 143.6,18.3 144.4,18.2 145.3,18.1 146.2,18.0 147.0,17.9 147.9,17.8 148.7,17.7 149.6,17.7 150.4,17.6 151.3,17.5 152.2,17.5 153.0,17.4 153.9,17.4 154.7,17.3 155.6,17.3 156.4,17.3 157.3,17.3 158.1,17.2 159.0,17.2 159.9,17.2 160.7,17.2 161.6,17.2 162.4,17.2 163.3,17.2 164.1,17.2 165.0,17.2 165.9,17.2 166.7,17.3 167.6,17.3 168.4,17.3 169.3,17.3 170.1,17.4 171.0,17.4 171.8,17.5 172.7,17.5 173.6,17.6 174.4,17.7 175.3,17.7 176.1,17.8 177.0,17.9 177.8,18.0 178.7,18.1 179.6,18.2 180.4,18.3 181.3,18.4 182.1,18.5 183.0,18.6 183.8,18.7 184.7,18.8 185.5,18.9 186.4,19.1 187.3,19.2 188.1,19.3 189.0,19.5 189.8,19.6 190.7,19.8 191.5,20.0 192.4,20.1 193.3,20.3 194.1,20.5 195.0,20.6 195.8,20.8 196.7,21.0 197.5,21.2 198.4,21.4 199.2,21.6 200.1,21.8 201.0,22.0 201.8,22.3 202.7,22.5 203.5,22.7 204.4,22.9 205.2,23.2 206.1,23.4 206.9,23.7 207.8,23.9 208.7,24.2 209.5,24.5 210.4,24.7 211.2,25.0 212.1,25.3 212.9,25.6 213.8,25.9 214.7,26.2 215.5,26.5 216.4,26.8 217.2,27.1 218.1,27.4 218.9,27.8 219.8,28.1 220.6,28.4 221.5,28.8 222.4,29.1 223.2,29.5 224.1,29.8 224.9,30.2 225.8,30.6 226.6,31.0 227.5,31.4 228.4,31.7 229.2,32.1 230.1,32.5 230.9,33.0 231.8,33.4 232.6,33.8 233.5,34.2 234.3,34.7 235.2,35.1 236.1,35.6 236.9,36.0 237.8,36.5 238.6,37.0 239.5,37.5 240.3,37.9 241.2,38.4 242.1,38.9 242.9,39.4 243.8,40.0 244.6,40.5 245.5,41.0 246.3,41.6 247.2,42.1 248.0,42.7 248.9,43.2 249.8,43.8 250.6,44.4 251.5,45.0 252.3,45.6 253.2,46.2 254.0,46.8 254.9,47.4 255.8,48.1 256.6,48.7 257.5,49.4 258.3,50.1 259.2,50.7 260.0,51.4 260.9,52.1 261.7,52.8 262.6,53.6 263.5,54.3 264.3,55.1 265.2,55.8 266.0,56.6 266.9,57.4 267.7,58.2 268.6,59.0 269.5,59.8 270.3,60.7 271.2,61.5 272.0,62.4 272.9,63.3 273.7,64.2 274.6,65.2 275.4,66.1 276.3,67.1 277.2,68.1 278.0,69.1 278.9,70.2 279.7,71.3 280.6,72.4 281.4,73.5 282.3,74.7 283.2,75.9 284.0,77.1 284.9,78.4 285.7,79.8 286.6,81.2 287.4,82.7 288.3,84.3 289.1,86.1 290.0,88.2' fill='none' stroke='#e33' stroke-width='1.7'/></svg>",
+    "caption": "2値情報源：p=0.5 で最大1bit、p=0.9 で 0.469bit"
+   }
+  ],
+  "code": "import numpy as np, cv2\ndef entropy(probs):\n    p = np.asarray(probs, float); p = p[p > 0]\n    return -(p * np.log2(p)).sum()          # H = -Σ p log2 p\nprint(entropy([0.5, 0.25, 0.125, 0.125]))     # 1.75\nimg = cv2.imread('input.png', 0)\nhist = np.bincount(img.ravel(), minlength=256) / img.size\nprint(\"画素値のエントロピー:\", entropy(hist).round(3), \"bit/画素\")\n# 隣接画素の差分にするとエントロピーが下がる（予測符号化の効果）\ndiff = np.diff(img.astype(int), axis=1).ravel() + 255\nprint(\"差分のエントロピー:\", entropy(np.bincount(diff) / diff.size).round(3))"
+ },
+ {
+  "id": "code-redundancy",
+  "steps": [
+   "① 入力：情報源のエントロピー H と、記号の種類数 n から決まる最大エントロピー Hmax = log₂n",
+   "② 冗長度 r = 1 − H/Hmax（0〜1）。r が大きいほど「無駄」が多く、圧縮の余地がある",
+   "③ 例：4種類の記号（Hmax=2bit）で H=1.75bit → r = 1 − 1.75/2 = 0.125（12.5%）",
+   "④ 画像は隣接画素が似ている（空間的冗長性）、色差成分が鈍感（視覚的冗長性）、フレーム間が似ている（時間的冗長性）→ これらを取り除くのが圧縮"
+  ],
+  "example": "2値画像で白90%：H = 0.469 bit、Hmax=1 → r = 0.531。8ビット試験画像：H = 2.24 bit → r = 1 − 2.24/8 = 0.720",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "情報源",
+     "H",
+     "Hmax",
+     "冗長度 r"
+    ],
+    "rows": [
+     [
+      "4記号(.5,.25,.125,.125)",
+      "1.75",
+      "2",
+      "0.125"
+     ],
+     [
+      "2値（白0.9）",
+      "0.469",
+      "1",
+      "0.531"
+     ],
+     [
+      "2値（白0.5）",
+      "1",
+      "1",
+      "0"
+     ],
+     [
+      "試験画像 8bit",
+      "2.24",
+      "8",
+      "0.720"
+     ]
+    ],
+    "caption": "冗長度 r = 1 − H/Hmax"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 52' width='320' height='52' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='52' fill='#fff'/><rect x='6.0' y='6' width='93.3' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='52.7' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>空間的冗長性</text><text x='52.7' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>隣が似ている</text><line x1='100.3' y1='25.0' x2='112.3' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='113.3' y='6' width='93.3' height='38' rx='5' fill='#ffeede' stroke='#556'/><text x='160.0' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>時間的冗長性</text><text x='160.0' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>前フレームと似る</text><line x1='207.7' y1='25.0' x2='219.7' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='220.7' y='6' width='93.3' height='38' rx='5' fill='#e2f6dc' stroke='#556'/><text x='267.3' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>視覚的冗長性</text><text x='267.3' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>見えない情報</text></svg>",
+    "caption": "画像の冗長性の種類"
+   }
+  ],
+  "code": "import numpy as np, cv2\ndef entropy(p):\n    p = np.asarray(p, float); p = p[p > 0]; return -(p * np.log2(p)).sum()\ndef redundancy(p):\n    return 1 - entropy(p) / np.log2(len(p))     # r = 1 - H/Hmax\nprint(redundancy([0.5, 0.25, 0.125, 0.125]))     # 0.125\nprint(redundancy([0.9, 0.1]))                    # 0.531\nimg = cv2.imread('input.png', 0)\nh = np.bincount(img.ravel(), minlength=256) / img.size\nprint(\"画像:\", 1 - entropy(h) / 8)"
+ },
+ {
+  "id": "code-lossless",
+  "steps": [
+   "① 入力：画像データ（例：64×64×8bit = 4096 バイト）",
+   "② 統計的な偏り・繰り返し・隣接画素の相関を利用して、短い符号に置き換える（ハフマン、算術符号、LZ、予測符号化、ランレングス）",
+   "③ 復号すると1ビットも違わず元に戻る（ビット単位で完全一致）",
+   "④ 圧縮率はエントロピーで限界が決まり、自然画像では 1/2〜1/3 程度が目安。医用・文書・図面・編集途中の保存に使う（PNG、GIF、TIFF-LZW、JPEG-LS 等）"
+  ],
+  "example": "64×64 試験画像（4096 バイト）：zlib(Deflate) → 194 バイト、PNG → 863 バイト。復号して元と比較すると差は 0（完全一致）",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 52' width='320' height='52' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='52' fill='#fff'/><rect x='6.0' y='6' width='50.4' height='38' rx='5' fill='#fff' stroke='#556'/><text x='31.2' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>原画像</text><text x='31.2' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>4096B</text><line x1='57.4' y1='25.0' x2='69.4' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='70.4' y='6' width='50.4' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='95.6' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>可逆符号化</text><text x='95.6' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>(予測+Deflate)</text><line x1='121.8' y1='25.0' x2='133.8' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='134.8' y='6' width='50.4' height='38' rx='5' fill='#ffeede' stroke='#556'/><text x='160.0' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>符号</text><text x='160.0' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>863B</text><line x1='186.2' y1='25.0' x2='198.2' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='199.2' y='6' width='50.4' height='38' rx='5' fill='#eef3ff' stroke='#556'/><text x='224.4' y='29.0' font-size='9.5' text-anchor='middle' fill='#222'>復号</text><line x1='250.6' y1='25.0' x2='262.6' y2='25.0' stroke='#3563e9' stroke-width='1.6' marker-end='url(#ah)'/><rect x='263.6' y='6' width='50.4' height='38' rx='5' fill='#e2f6dc' stroke='#556'/><text x='288.8' y='23.0' font-size='9.5' text-anchor='middle' fill='#222'>完全に</text><text x='288.8' y='35.0' font-size='9.5' text-anchor='middle' fill='#222'>一致</text></svg>",
+    "caption": "可逆符号化：復号結果は元と同一"
+   }
+  ],
+  "code": "import numpy as np, cv2, zlib\nimg = cv2.imread('input.png', 0)\nraw = img.tobytes()\nz = zlib.compress(raw, 9)                          # Deflate（可逆）\nback = np.frombuffer(zlib.decompress(z), np.uint8).reshape(img.shape)\nprint(len(raw), \"→\", len(z), \"バイト  一致:\", np.array_equal(back, img))\nok, png = cv2.imencode('.png', img)                # PNG も可逆\nprint(\"PNG:\", len(png), \"一致:\", np.array_equal(cv2.imdecode(png, 0), img))"
+ },
+ {
+  "id": "code-lossy",
+  "steps": [
+   "① 入力：画像（例 64×64、4096 バイト）",
+   "② 人の視覚が鈍感な情報（細かい高周波成分、色差の細部）を、量子化で粗くする（＝捨てる）",
+   "③ 残った情報を可逆符号化（ハフマン等）で詰める",
+   "④ 出力：元より小さいが、復号しても完全には戻らない画像。圧縮率と画質（PSNR）はトレードオフ。高圧縮でブロックノイズ・モスキートノイズ"
+  ],
+  "example": "64×64 試験画像の JPEG：品質90 → 1671 バイト（PSNR 39.9 dB）、品質50 → 956 バイト（PSNR 30.2 dB）、品質10 → 598 バイト（PSNR 23.6 dB）。可逆な PNG は 863 バイト",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 120' width='320' height='120' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='120' fill='#fff'/><image x='22.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='22.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='64.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>品質90</text><text x='64.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>1671B / 39.9dB</text><image x='118.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='118.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='160.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>品質50</text><text x='160.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>956B / 30.2dB</text><image x='214.0' y='6.0' width='84.0' height='84.0' preserveAspectRatio='none' style='image-rendering:pixelated' href='data:image/png;base64,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'/><rect x='214.0' y='6.0' width='84.0' height='84.0' fill='none' stroke='#888' stroke-width='0.8'/><text x='256.0' y='102.0' font-size='9.5' text-anchor='middle' fill='#222'>品質10</text><text x='256.0' y='113.0' font-size='9.5' text-anchor='middle' fill='#222'>598B / 23.6dB</text></svg>",
+    "caption": "JPEG の品質とデータ量・画質"
+   },
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 110' width='300' height='110' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='110' fill='#fff'/><line x1='34' y1='84' x2='290' y2='84' stroke='#666'/><line x1='34' y1='10' x2='34' y2='84' stroke='#666'/><line x1='269.9' y1='84' x2='269.9' y2='87' stroke='#666'/><text x='269.9' y='96.0' font-size='9' text-anchor='middle' fill='#222'>1671</text><line x1='126.1' y1='84' x2='126.1' y2='87' stroke='#666'/><text x='126.1' y='96.0' font-size='9' text-anchor='middle' fill='#222'>956</text><line x1='54.1' y1='84' x2='54.1' y2='87' stroke='#666'/><text x='54.1' y='96.0' font-size='9' text-anchor='middle' fill='#222'>598</text><line x1='31' y1='69.2' x2='34' y2='69.2' stroke='#666'/><text x='29.0' y='72.2' font-size='9' text-anchor='end' fill='#222'>25</text><line x1='31' y1='39.6' x2='34' y2='39.6' stroke='#666'/><text x='29.0' y='42.6' font-size='9' text-anchor='end' fill='#222'>35</text><text x='162.0' y='107.0' font-size='9.5' text-anchor='middle' fill='#222'>データ量 [バイト]</text><text x='10.0' y='47.0' font-size='9.5' text-anchor='middle' fill='#222' transform='rotate(-90 10 47.0)'>PSNR</text><circle cx='269.9' cy='25.0' r='2.4' fill='#e33'/><circle cx='126.1' cy='53.7' r='2.4' fill='#e33'/><circle cx='54.1' cy='73.4' r='2.4' fill='#e33'/><polyline points='269.9,25.0 126.1,53.7 54.1,73.4' fill='none' stroke='#e33' stroke-width='1.7'/></svg>",
+    "caption": "レート（データ量）と歪みのトレードオフ"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0)\nfor q in (90, 50, 10):\n    ok, buf = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, q])\n    dec = cv2.imdecode(buf, 0)\n    print(f\"品質{q}: {len(buf)} バイト, PSNR {cv2.PSNR(img, dec):.1f} dB,\"\n          f\" 最大誤差 {np.abs(dec.astype(int) - img).max()}\")   # 0 にはならない\n# 非可逆の本質＝量子化：q で割って丸めると情報が失われる\nx = np.array([13, 14, 15, 16, 17]); step = 8\nprint(np.round(x / step) * step)        # [16 16 16 16 16] 元に戻らない"
+ },
+ {
+  "id": "code-compression-ratio",
+  "steps": [
+   "① 圧縮前のデータ量 A と圧縮後のデータ量 B を求める（ヘッダ等も含めるかに注意）",
+   "② 定義1：圧縮率 = B/A（小さいほど高圧縮。例 0.1 = 10%）。定義2：圧縮比 = A/B（大きいほど高圧縮。例 10:1）",
+   "③ 試験では「圧縮率 1/10」「10分の1に圧縮」のように、どちらの定義かを文脈で確認する",
+   "④ bit/画素（bpp）で表すことも多い：B[bit]/画素数。8bit 画像を 1bpp にすれば 1/8"
+  ],
+  "example": "1920×1080×24bit = 6,220,800 バイト（約 6.2 MB）が 622,080 バイトになった → 圧縮率 10%（=0.1）、圧縮比 10:1、2.4 bpp。64×64 試験画像の JPEG 品質50：4096 → 956 バイト = 圧縮率 23.3%、圧縮比 4.3:1、1.87 bpp",
+  "figures": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "値",
+     "意味"
+    ],
+    "rows": [
+     [
+      "圧縮前 A",
+      "6,220,800 B",
+      "1920×1080×3B"
+     ],
+     [
+      "圧縮後 B",
+      "622,080 B",
+      ""
+     ],
+     [
+      "B/A",
+      "0.1（10%）",
+      "小さいほど高圧縮"
+     ],
+     [
+      "A/B",
+      "10（10:1）",
+      "大きいほど高圧縮"
+     ],
+     [
+      "bpp",
+      "2.4",
+      "B×8/画素数"
+     ]
+    ],
+    "caption": "圧縮率の2つの定義"
+   }
+  ],
+  "code": "import numpy as np, cv2\nimg = cv2.imread('input.png', 0)\nA = img.size * 1                                   # 圧縮前 [バイト]（8bit=1バイト/画素）\nok, buf = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 50])\nB = len(buf)                                       # 圧縮後 [バイト]\nprint(f\"圧縮率 B/A = {B / A:.3f} ({B / A * 100:.1f}%)\")\nprint(f\"圧縮比 A/B = {A / B:.1f} : 1\")\nprint(f\"ビットレート = {B * 8 / img.size:.2f} bpp\")\n# フルHD 24bit の例\nA2 = 1920 * 1080 * 3\nprint(A2, \"バイト →\", A2 // 10, \"バイトなら 圧縮率 0.1\")"
+ },
+ {
+  "id": "code-rle",
+  "steps": [
+   "① 入力：画素を1行ずつ並べた列（例：2値画像の1行 16画素）",
+   "② 同じ値が続く区間（ラン）を見つけ、「値, 長さ」の組に置き換える（2値なら白黒が交互なので長さだけでよい）",
+   "③ 出力：(値,長さ) の列。長いランが多い画像（文書・図面・アニメ）ほど短くなる",
+   "④ 写真のように隣と値が少しずつ違うとランが1ばかりになり、かえって増える。ファクシミリ（MH符号）では長さをさらにハフマン符号化"
+  ],
+  "example": "1行 0000111000000110（16画素）→ (0,4), (1,3), (0,6), (1,2), (0,1)（5組）。2値で「白から始まる長さだけ」を4ビットずつ送ると 5×4 = 20 ビット（元 16 ビット）。値が交互に変わる 0101… だと16組に増える",
+  "figures": [
+   {
+    "type": "grid",
+    "data": [
+     [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "max": 1,
+    "values": true,
+    "caption": "入力の1行（1=黒）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "ラン",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5"
+    ],
+    "rows": [
+     [
+      "値",
+      "0",
+      "1",
+      "0",
+      "1",
+      "0"
+     ],
+     [
+      "長さ",
+      "4",
+      "3",
+      "6",
+      "2",
+      "1"
+     ]
+    ],
+    "caption": "ランレングス表現"
+   }
+  ],
+  "code": "import numpy as np\ndef rle_encode(row):\n    runs, cur, n = [], row[0], 0\n    for v in row:\n        if v == cur:\n            n += 1\n        else:\n            runs.append((int(cur), n)); cur, n = v, 1\n    runs.append((int(cur), n))\n    return runs\ndef rle_decode(runs):\n    return [v for v, n in runs for _ in range(n)]\nrow = [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0]\nr = rle_encode(row)\nprint(r)                                   # [(0,4),(1,3),(0,6),(1,2),(0,1)]\nprint(rle_decode(r) == row)\nimg = (np.random.default_rng(0).random((8, 32)) > 0.9).astype(int)   # 疎な2値画像\nprint(sum(len(rle_encode(list(x))) for x in img), \"組 / 画素数\", img.size)"
+ },
+ {
+  "id": "code-prefix-code",
+  "steps": [
+   "① 入力：記号と符号語の対応表（例 A=0, B=10, C=110, D=111）",
+   "② 語頭条件の確認：どの符号語も他の符号語の先頭部分になっていないか（0 は 10,110,111 の先頭でない…）",
+   "③ 満たせば、区切り記号なしで左から読んで符号語が完成した瞬間に確定できる（瞬時復号）。符号の木で符号語が全て「葉」にある状態",
+   "④ 長さ lᵢ の瞬時符号が作れる条件：クラフトの不等式 Σ2^(−lᵢ) ≤ 1"
+  ],
+  "example": "符号 {A=0, B=10, C=110, D=111}：ビット列 0101100111 → 0|10|110|0|111 = A B C A D。悪い例 {A=0, B=01, C=11}：0 が 01 の語頭 → 「01…」で A か B か次を読まないと決まらない。クラフト：2⁻¹+2⁻²+2⁻³+2⁻³ = 1 ≤ 1",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 300 130' width='300' height='130' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='300' height='130' fill='#fff'/><circle cx='60' cy='18' r='5' fill='#333'/><line x1='60' y1='18' x2='30' y2='55' stroke='#333'/><line x1='60' y1='18' x2='100' y2='55' stroke='#333'/><text x='38.0' y='36.0' font-size='10' text-anchor='middle' fill='#e33'>0</text><text x='86.0' y='36.0' font-size='10' text-anchor='middle' fill='#e33'>1</text><circle cx='30' cy='55' r='9' fill='#ffd6d6' stroke='#333'/><text x='30.0' y='59.0' font-size='10' text-anchor='middle' fill='#222'>A</text><circle cx='100' cy='55' r='5' fill='#333'/><line x1='100' y1='55' x2='75' y2='90' stroke='#333'/><line x1='100' y1='55' x2='135' y2='90' stroke='#333'/><text x='80.0' y='72.0' font-size='10' text-anchor='middle' fill='#e33'>0</text><text x='122.0' y='72.0' font-size='10' text-anchor='middle' fill='#e33'>1</text><circle cx='75' cy='90' r='9' fill='#d6e4ff' stroke='#333'/><text x='75.0' y='94.0' font-size='10' text-anchor='middle' fill='#222'>B</text><circle cx='135' cy='90' r='5' fill='#333'/><line x1='135' y1='90' x2='112' y2='118' stroke='#333'/><line x1='135' y1='90' x2='158' y2='118' stroke='#333'/><text x='118.0' y='106.0' font-size='10' text-anchor='middle' fill='#e33'>0</text><text x='152.0' y='106.0' font-size='10' text-anchor='middle' fill='#e33'>1</text><circle cx='112' cy='118' r='9' fill='#d8f5d0' stroke='#333'/><text x='112.0' y='122.0' font-size='10' text-anchor='middle' fill='#222'>C</text><circle cx='158' cy='118' r='9' fill='#fff0c2' stroke='#333'/><text x='158.0' y='122.0' font-size='10' text-anchor='middle' fill='#222'>D</text><text x='190.0' y='40.0' font-size='11' text-anchor='start' fill='#222'>A = 0</text><text x='190.0' y='60.0' font-size='11' text-anchor='start' fill='#222'>B = 10</text><text x='190.0' y='80.0' font-size='11' text-anchor='start' fill='#222'>C = 110</text><text x='190.0' y='100.0' font-size='11' text-anchor='start' fill='#222'>D = 111</text><text x='190.0' y='122.0' font-size='9.5' text-anchor='start' fill='#e33'>符号語は全て葉</text></svg>",
+    "caption": "瞬時符号の符号の木"
+   },
+   {
+    "type": "table",
+    "head": [
+     "ビット列",
+     "0",
+     "10",
+     "110",
+     "0",
+     "111"
+    ],
+    "rows": [
+     [
+      "復号",
+      "A",
+      "B",
+      "C",
+      "A",
+      "D"
+     ]
+    ],
+    "caption": "0101100111 の瞬時復号"
+   }
+  ],
+  "code": "def is_prefix_free(codes):\n    words = list(codes.values())\n    return not any(a != b and b.startswith(a) for a in words for b in words)\ndef decode(bits, codes):\n    inv = {v: k for k, v in codes.items()}\n    out, buf = [], \"\"\n    for b in bits:\n        buf += b\n        if buf in inv:                  # 符号語が完成した瞬間に確定\n            out.append(inv[buf]); buf = \"\"\n    return \"\".join(out)\ngood = {\"A\": \"0\", \"B\": \"10\", \"C\": \"110\", \"D\": \"111\"}\nbad = {\"A\": \"0\", \"B\": \"01\", \"C\": \"11\"}\nprint(is_prefix_free(good), is_prefix_free(bad))     # True False\nprint(decode(\"0101100111\", good))                    # ABCAD\nprint(\"クラフト和:\", sum(2 ** -len(c) for c in good.values()))   # 1.0"
+ },
+ {
+  "id": "code-huffman",
+  "steps": [
+   "① 入力：記号と出現確率（A:0.4, B:0.2, C:0.2, D:0.1, E:0.1）",
+   "② 確率の最も小さい2つを選んで1つの節にまとめ（確率は和）、片方に0、もう片方に1を付ける",
+   "③ ②を節が1つ（根）になるまで繰り返す → ハフマン木",
+   "④ 根から葉までの 0/1 をたどったものが符号語。出力：よく出る記号ほど短い瞬時符号で、平均符号長が最小（エントロピー以上・エントロピー＋1未満）"
+  ],
+  "example": "符号：A=11、B=00、C=01、D=100、E=101。平均符号長 = Σ p·l = 2.20 bit/記号、エントロピー 2.122 bit、固定長なら 3 bit。統合順：D(0.1)+E(0.1) → B(0.2)+C(0.2) → DE(0.2)+A(0.4) → BC(0.4)+ADE(0.6)",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 280 140' width='280' height='140' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='280' height='140' fill='#fff'/><line x1='149.0' y1='72' x2='124.0' y2='100' stroke='#555'/><text x='130.5' y='86.0' font-size='10' text-anchor='middle' fill='#e33'>0</text><line x1='149.0' y1='72' x2='174.0' y2='100' stroke='#555'/><text x='167.5' y='86.0' font-size='10' text-anchor='middle' fill='#e33'>1</text><line x1='49.0' y1='44' x2='24.0' y2='72' stroke='#555'/><text x='30.5' y='58.0' font-size='10' text-anchor='middle' fill='#e33'>0</text><line x1='49.0' y1='44' x2='74.0' y2='72' stroke='#555'/><text x='67.5' y='58.0' font-size='10' text-anchor='middle' fill='#e33'>1</text><line x1='186.5' y1='44' x2='149.0' y2='72' stroke='#555'/><text x='161.8' y='58.0' font-size='10' text-anchor='middle' fill='#e33'>0</text><line x1='186.5' y1='44' x2='224.0' y2='72' stroke='#555'/><text x='211.2' y='58.0' font-size='10' text-anchor='middle' fill='#e33'>1</text><line x1='117.8' y1='16' x2='49.0' y2='44' stroke='#555'/><text x='77.4' y='30.0' font-size='10' text-anchor='middle' fill='#e33'>0</text><line x1='117.8' y1='16' x2='186.5' y2='44' stroke='#555'/><text x='158.1' y='30.0' font-size='10' text-anchor='middle' fill='#e33'>1</text><circle cx='124.0' cy='100' r='10' fill='#dfe8ff' stroke='#333'/><text x='124.0' y='104.0' font-size='10' text-anchor='middle' fill='#222'>D</text><text x='124.0' y='122.0' font-size='9.5' text-anchor='middle' fill='#222'>0.1</text><text x='124.0' y='133.0' font-size='9.5' text-anchor='middle' fill='#e33'>100</text><circle cx='174.0' cy='100' r='10' fill='#dfe8ff' stroke='#333'/><text x='174.0' y='104.0' font-size='10' text-anchor='middle' fill='#222'>E</text><text x='174.0' y='122.0' font-size='9.5' text-anchor='middle' fill='#222'>0.1</text><text x='174.0' y='133.0' font-size='9.5' text-anchor='middle' fill='#e33'>101</text><circle cx='74.0' cy='72' r='10' fill='#dfe8ff' stroke='#333'/><text x='74.0' y='76.0' font-size='10' text-anchor='middle' fill='#222'>C</text><text x='74.0' y='94.0' font-size='9.5' text-anchor='middle' fill='#222'>0.2</text><text x='74.0' y='105.0' font-size='9.5' text-anchor='middle' fill='#e33'>01</text><circle cx='24.0' cy='72' r='10' fill='#dfe8ff' stroke='#333'/><text x='24.0' y='76.0' font-size='10' text-anchor='middle' fill='#222'>B</text><text x='24.0' y='94.0' font-size='9.5' text-anchor='middle' fill='#222'>0.2</text><text x='24.0' y='105.0' font-size='9.5' text-anchor='middle' fill='#e33'>00</text><circle cx='224.0' cy='72' r='10' fill='#dfe8ff' stroke='#333'/><text x='224.0' y='76.0' font-size='10' text-anchor='middle' fill='#222'>A</text><text x='224.0' y='94.0' font-size='9.5' text-anchor='middle' fill='#222'>0.4</text><text x='224.0' y='105.0' font-size='9.5' text-anchor='middle' fill='#e33'>11</text><circle cx='149.0' cy='72' r='8' fill='#fff' stroke='#333'/><text x='149.0' y='75.0' font-size='9' text-anchor='middle' fill='#222'>0.2</text><circle cx='49.0' cy='44' r='8' fill='#fff' stroke='#333'/><text x='49.0' y='47.0' font-size='9' text-anchor='middle' fill='#222'>0.4</text><circle cx='186.5' cy='44' r='8' fill='#fff' stroke='#333'/><text x='186.5' y='47.0' font-size='9' text-anchor='middle' fill='#222'>0.6</text><circle cx='117.8' cy='16' r='8' fill='#fff' stroke='#333'/><text x='117.8' y='19.0' font-size='9' text-anchor='middle' fill='#222'>1</text></svg>",
+    "caption": "ハフマン木（葉の下：確率と符号語。計算結果から描画）"
+   },
+   {
+    "type": "table",
+    "head": [
+     "記号",
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "rows": [
+     [
+      "確率",
+      "0.4",
+      "0.2",
+      "0.2",
+      "0.1",
+      "0.1"
+     ],
+     [
+      "符号語",
+      "11",
+      "00",
+      "01",
+      "100",
+      "101"
+     ],
+     [
+      "長さ",
+      "2",
+      "2",
+      "2",
+      "3",
+      "3"
+     ]
+    ],
+    "caption": "平均符号長 2.20 bit"
+   }
+  ],
+  "code": "import heapq\ndef huffman(probs):\n    # ヒープ要素: [確率, 通し番号, {記号: 符号}]\n    heap = [[p, i, {s: \"\"}] for i, (s, p) in enumerate(probs.items())]\n    heapq.heapify(heap); n = len(heap)\n    while len(heap) > 1:\n        p1, _, c1 = heapq.heappop(heap)          # 最小\n        p2, _, c2 = heapq.heappop(heap)          # 2番目に小さい\n        merged = {s: \"0\" + c for s, c in c1.items()}\n        merged.update({s: \"1\" + c for s, c in c2.items()})\n        heapq.heappush(heap, [p1 + p2, n, merged]); n += 1\n    return heap[0][2]\nprobs = {\"A\": 0.4, \"B\": 0.2, \"C\": 0.2, \"D\": 0.1, \"E\": 0.1}\ncode = huffman(probs)\nprint(code)\nL = sum(probs[s] * len(c) for s, c in code.items())\nprint(\"平均符号長:\", L)                           # 2.2 bit\nbits = \"\".join(code[s] for s in \"ABADE\")\nprint(\"ABADE →\", bits)"
+ },
+ {
+  "id": "code-arithmetic",
+  "steps": [
+   "① 入力：記号列（例 \"aab\"）と確率 a:0.6, b:0.3, c:0.1。区間 [0,1) を確率の比で a:[0,0.6) b:[0.6,0.9) c:[0.9,1) に分ける",
+   "② 1文字目 a → 区間を [0,0.6) に絞る。その区間をまた 0.6:0.3:0.1 に分割",
+   "③ 2文字目 a → [0,0.36)、3文字目 b → [0.216, 0.324)。区間の幅 = 各記号の確率の積",
+   "④ 出力：最終区間に入る2進小数の中で最も短いもの（の小数部のビット）。1記号あたり小数ビットも割り当てられるので、ハフマンよりエントロピーに近づく（JPEG・H.264 の CABAC 等）"
+  ],
+  "example": "\"aab\"：幅 = 0.6×0.6×0.3 = 0.108 → 必要ビット数 ≈ −log₂0.108 = 3.21 → 約 5 ビット（例 0.25 = 2進 0.01 は区間 [0.216,0.324) に入る）。ハフマンなら a=0, b=10, c=11 で 1+1+2 = 4 ビット",
+  "figures": [
+   {
+    "type": "svg",
+    "svg": "<svg viewBox='0 0 320 130' width='320' height='130' xmlns='http://www.w3.org/2000/svg'><defs><marker id='ah' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0L10,5L0,10z' fill='#3563e9'/></marker></defs><rect width='320' height='130' fill='#fff'/><rect x='50' y='14' width='240' height='14' fill='#fff' stroke='#556'/><text x='46.0' y='25.0' font-size='9' text-anchor='end' fill='#222'>0.000</text><text x='292.0' y='25.0' font-size='9' text-anchor='middle' fill='#222'></text><rect x='50.0' y='14' width='144.0' height='14' fill='#ffd6a0' stroke='#556'/><text x='122.0' y='25.0' font-size='9.5' text-anchor='middle' fill='#222'>a</text><rect x='194.0' y='14' width='72.0' height='14' fill='#eef3ff' stroke='#556'/><text x='230.0' y='25.0' font-size='9.5' text-anchor='middle' fill='#222'>b</text><rect x='266.0' y='14' width='24.0' height='14' fill='#eef3ff' stroke='#556'/><text x='278.0' y='25.0' font-size='9.5' text-anchor='middle' fill='#222'>c</text><text x='294.0' y='25.0' font-size='9.5' text-anchor='start' fill='#e33'>→a</text><rect x='50' y='48' width='240' height='14' fill='#fff' stroke='#556'/><text x='46.0' y='59.0' font-size='9' text-anchor='end' fill='#222'>0.000</text><text x='292.0' y='59.0' font-size='9' text-anchor='middle' fill='#222'></text><rect x='50.0' y='48' width='144.0' height='14' fill='#ffd6a0' stroke='#556'/><text x='122.0' y='59.0' font-size='9.5' text-anchor='middle' fill='#222'>a</text><rect x='194.0' y='48' width='72.0' height='14' fill='#eef3ff' stroke='#556'/><text x='230.0' y='59.0' font-size='9.5' text-anchor='middle' fill='#222'>b</text><rect x='266.0' y='48' width='24.0' height='14' fill='#eef3ff' stroke='#556'/><text x='278.0' y='59.0' font-size='9.5' text-anchor='middle' fill='#222'>c</text><text x='294.0' y='59.0' font-size='9.5' text-anchor='start' fill='#e33'>→a</text><rect x='50' y='82' width='240' height='14' fill='#fff' stroke='#556'/><text x='46.0' y='93.0' font-size='9' text-anchor='end' fill='#222'>0.000</text><text x='292.0' y='93.0' font-size='9' text-anchor='middle' fill='#222'></text><rect x='50.0' y='82' width='144.0' height='14' fill='#eef3ff' stroke='#556'/><text x='122.0' y='93.0' font-size='9.5' text-anchor='middle' fill='#222'>a</text><rect x='194.0' y='82' width='72.0' height='14' fill='#ffd6a0' stroke='#556'/><text x='230.0' y='93.0' font-size='9.5' text-anchor='middle' fill='#222'>b</text><rect x='266.0' y='82' width='24.0' height='14' fill='#eef3ff' stroke='#556'/><text x='278.0' y='93.0' font-size='9.5' text-anchor='middle' fill='#222'>c</text><text x='294.0' y='93.0' font-size='9.5' text-anchor='start' fill='#e33'>→b</text><text x='170.0' y='122.0' font-size='10' text-anchor='middle' fill='#e33'>最終区間 [0.216, 0.324)  幅 0.108</text></svg>",
+    "caption": "区間の絞り込み（橙＝選ばれた部分区間）"
+   }
+  ],
+  "code": "from fractions import Fraction as Fr\nprobs = {\"a\": Fr(6, 10), \"b\": Fr(3, 10), \"c\": Fr(1, 10)}\ncum, c = {}, Fr(0)\nfor s, p in probs.items():\n    cum[s] = (c, c + p); c += p                   # a:[0,.6) b:[.6,.9) c:[.9,1)\ndef encode(seq):\n    lo, hi = Fr(0), Fr(1)\n    for s in seq:\n        w = hi - lo\n        lo, hi = lo + w * cum[s][0], lo + w * cum[s][1]   # 区間を絞る\n        print(s, float(lo), float(hi))\n    # 区間内で最短の2進小数を探す\n    k = 1\n    while True:\n        v = Fr(-(-lo.numerator * 2 ** k // lo.denominator), 2 ** k)   # ceil(lo*2^k)/2^k\n        if v < hi:\n            return format(int(v * 2 ** k), f\"0{k}b\")\n        k += 1\nprint(\"符号:\", encode(\"aab\"))                     # 2進小数 0.01 → \"01\""
+ }
+]
